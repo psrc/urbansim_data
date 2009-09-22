@@ -3,12 +3,18 @@
   <general>
     <description type="string">Configuration for the San Antonio zone project</description>
     <project_name hidden="True" type="string">san_antonio_zone</project_name>
-    <parent type="file" followers="expression_library">urbansim_zone/configs/urbansim_zone.xml</parent>
-    <dataset_pool_configuration type="class" followers="expression_library">
+    <parent type="file">urbansim_zone/configs/urbansim_zone.xml</parent>
+    <dataset_pool_configuration type="class">
       <argument name="package_order" type="list">['urbansim_zone', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
     </dataset_pool_configuration>
     <available_datasets type="list">['job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="model variable" source="primary attribute" name="building.unit_price" type="variable_definition">building.average_value_per_unit</variable>
+      <variable use="both" source="expression" name="building.is_office" type="variable_definition">building.building_type_id==5</variable>
+      <variable use="both" source="expression" name="building.is_warehouse" type="variable_definition">building.building_type_id==10</variable>
+      <variable use="both" source="expression" name="building.is_school" type="variable_definition">building.building_type_id==8</variable>
+      <variable use="both" source="expression" name="building.is_retail" type="variable_definition">building.building_type_id==7</variable>
+      <variable use="both" source="expression" name="building.is_government" type="variable_definition">building.building_type_id==1</variable>
       <variable use="both" source="expression" name="building.ln_land_per_unit" type="variable_definition">ln(building.land_area/building.residential_units)</variable>
       <variable use="both" source="expression" name="None.price_income_ratio_l1" type="variable_definition">(building.average_value_per_unit/10000)/(household.income/10000)&lt;1</variable>
       <variable use="both" source="expression" name="None.price_income_ratio_g5" type="variable_definition">(building.average_value_per_unit/10000)/(household.income/10000)&gt;5</variable>
@@ -64,22 +70,51 @@
             </submodel>
           </submodel_group>
           <submodel_group name="non_home_based" type="submodel_group">
-            <submodel hidden="Children" name="Retail" submodel_id="5" type="submodel">
+            <submodel hidden="Children" name="Education" submodel_id="2" type="submodel">
+              <description type="string">No submodel</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.is_school"/>
+                <variable_spec name="building.ln_jobs"/>
+                <variable_spec name="building.schl_dist1"/>
+                <variable_spec name="building.unit_price"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="Footloose" submodel_id="3" type="submodel">
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
                 <variable_spec name="building.ln_jobs"/>
+                <variable_spec name="building.ln_jobs_within_30_min"/>
+                <variable_spec name="building.unit_price"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="Retail" submodel_id="5" type="submodel">
+              <description type="string">No submodel</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_retail"/>
+                <variable_spec name="building.ln_jobs"/>
+                <variable_spec name="building.unit_price"/>
               </variable_list>
             </submodel>
             <submodel hidden="Children" name="Services" submodel_id="6" type="submodel">
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
+                <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_office"/>
                 <variable_spec name="building.ln_jobs"/>
+                <variable_spec name="building.ln_jobs_within_30_min"/>
+                <variable_spec name="building.schl_dist1"/>
+                <variable_spec name="building.unit_price"/>
               </variable_list>
             </submodel>
             <submodel hidden="Children" name="Basic" submodel_id="1" type="submodel">
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
+                <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_warehouse"/>
                 <variable_spec name="building.ln_jobs"/>
+                <variable_spec name="building.rd_density"/>
+                <variable_spec name="building.unit_price"/>
               </variable_list>
             </submodel>
           </submodel_group>
@@ -387,7 +422,7 @@
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
       <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
         <scenario_name type="string"/>
         <cache_directory type="string">/Users/pwaddell/opus/data/san_antonio_zone/base_year_data</cache_directory>
