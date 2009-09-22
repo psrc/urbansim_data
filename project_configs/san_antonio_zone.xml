@@ -9,6 +9,9 @@
     </dataset_pool_configuration>
     <available_datasets type="list">['job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building.ln_inv_far" type="variable_definition">ln(building.land_area/building.non_residential_sqft)</variable>
+      <variable use="both" source="expression" name="building.ln_pop_zone" type="variable_definition">ln(building.disaggregate(zone.aggregate(household.persons)))</variable>
+      <variable use="both" source="expression" name="building.ln_non_residential_sqft" type="variable_definition">ln(building.non_residential_sqft)</variable>
       <variable use="model variable" source="primary attribute" name="building.unit_price" type="variable_definition">building.average_value_per_unit</variable>
       <variable use="both" source="expression" name="building.is_office" type="variable_definition">building.building_type_id==5</variable>
       <variable use="both" source="expression" name="building.is_warehouse" type="variable_definition">building.building_type_id==10</variable>
@@ -60,6 +63,11 @@
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string">building.non_residential_sqft&gt;0</argument>
+          </init>
+        </structure>
         <specification type="dictionary">
           <submodel_group name="home_based" type="submodel_group">
             <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
@@ -70,11 +78,29 @@
             </submodel>
           </submodel_group>
           <submodel_group name="non_home_based" type="submodel_group">
+            <submodel hidden="Children" name="Basic" submodel_id="1" type="submodel">
+              <description type="string">No submodel</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.is_government"/>
+                <variable_spec name="building.is_office"/>
+                <variable_spec name="building.is_retail"/>
+                <variable_spec name="building.is_warehouse"/>
+                <variable_spec name="building.ln_job_density_zone"/>
+                <variable_spec name="building.ln_non_residential_sqft"/>
+                <variable_spec name="building.unit_price"/>
+              </variable_list>
+            </submodel>
             <submodel hidden="Children" name="Education" submodel_id="2" type="submodel">
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
+                <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_government"/>
+                <variable_spec name="building.is_retail"/>
                 <variable_spec name="building.is_school"/>
-                <variable_spec name="building.ln_jobs"/>
+                <variable_spec name="building.is_warehouse"/>
+                <variable_spec name="building.ln_jobs_in_zone"/>
+                <variable_spec name="building.ln_non_residential_sqft"/>
+                <variable_spec name="building.ln_pop_zone"/>
                 <variable_spec name="building.schl_dist1"/>
                 <variable_spec name="building.unit_price"/>
               </variable_list>
@@ -82,8 +108,14 @@
             <submodel hidden="Children" name="Footloose" submodel_id="3" type="submodel">
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
+                <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_government"/>
+                <variable_spec name="building.is_office"/>
+                <variable_spec name="building.is_retail"/>
+                <variable_spec name="building.is_warehouse"/>
                 <variable_spec name="building.ln_jobs"/>
                 <variable_spec name="building.ln_jobs_within_30_min"/>
+                <variable_spec name="building.ln_pop_zone"/>
                 <variable_spec name="building.unit_price"/>
               </variable_list>
             </submodel>
@@ -91,7 +123,10 @@
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
                 <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_government"/>
+                <variable_spec name="building.is_office"/>
                 <variable_spec name="building.is_retail"/>
+                <variable_spec name="building.is_warehouse"/>
                 <variable_spec name="building.ln_jobs"/>
                 <variable_spec name="building.unit_price"/>
               </variable_list>
@@ -100,20 +135,13 @@
               <description type="string">No submodel</description>
               <variable_list type="variable_list">
                 <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_government"/>
                 <variable_spec name="building.is_office"/>
-                <variable_spec name="building.ln_jobs"/>
-                <variable_spec name="building.ln_jobs_within_30_min"/>
-                <variable_spec name="building.schl_dist1"/>
-                <variable_spec name="building.unit_price"/>
-              </variable_list>
-            </submodel>
-            <submodel hidden="Children" name="Basic" submodel_id="1" type="submodel">
-              <description type="string">No submodel</description>
-              <variable_list type="variable_list">
-                <variable_spec name="building.avg_hh_income_zonal"/>
+                <variable_spec name="building.is_retail"/>
                 <variable_spec name="building.is_warehouse"/>
                 <variable_spec name="building.ln_jobs"/>
-                <variable_spec name="building.rd_density"/>
+                <variable_spec name="building.ln_jobs_within_30_min"/>
+                <variable_spec name="building.ln_pop_zone"/>
                 <variable_spec name="building.unit_price"/>
               </variable_list>
             </submodel>
@@ -154,52 +182,107 @@
           </submodel>
         </specification>
       </model>
-      <model name="real_estate_price_model" type="model">
+      <model name="residential_development_project_location_choice_model" type="model">
         <specification type="dictionary">
-          <submodel hidden="Children" name="commercial" submodel_id="1" type="submodel">
-            <description type="string">Commercial</description>
+          <submodel hidden="Children" name="mf_residential" submodel_id="3" type="submodel">
+            <description type="string">mf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income_zonal"/>
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_pop_density_zone"/>
+              <variable_spec name="zone.ln_Rd_density"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
-            <description type="string">Commercial</description>
+          <submodel hidden="Children" name="sf_residential" submodel_id="9" type="submodel">
+            <description type="string">sf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income_zonal"/>
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_number_jobs_retail"/>
+              <variable_spec name="zone.ln_Rd_density"/>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
+      <model name="non_residential_development_project_location_choice_model" type="model">
+        <specification type="dictionary">
+          <submodel hidden="Children" name="government" submodel_id="1" type="submodel">
+            <description type="string">government</description>
+            <variable_list type="variable_list">
+              <variable_spec name="zone.ln_Rd_density"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
-            <description type="string">Commercial</description>
+            <description type="string">office</description>
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_cbd_time"/>
-              <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_pop_density_zone"/>
-              <variable_spec name="building.rd_density"/>
+              <variable_spec name="zone.ln_Rd_density"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="governmental" submodel_id="1" type="submodel">
-            <description type="string">Governmental</description>
+          <submodel hidden="Children" name="other" submodel_id="6" type="submodel">
+            <description type="string">Other Use</description>
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.cbd_time"/>
-              <variable_spec name="building.rd_density"/>
+              <variable_spec name="zone.ln_Rd_density"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
+            <description type="string">retail</description>
+            <variable_list type="variable_list">
+              <variable_spec name="zone.ln_Rd_density"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="school" submodel_id="8" type="submodel">
+            <description type="string">office</description>
+            <variable_list type="variable_list">
+              <variable_spec name="zone.ln_Rd_density"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="warehouse" submodel_id="10" type="submodel">
-            <description type="string">Industrial</description>
+            <description type="string">warehouse</description>
             <variable_list type="variable_list">
+              <variable_spec name="zone.ln_Rd_density"/>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
+      <model name="real_estate_price_model" type="model">
+        <specification type="dictionary">
+          <submodel hidden="Children" name="mf residential" submodel_id="3" type="submodel">
+            <description type="string">MF Residential</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.avg_hh_income"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.cbd_time"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_land_per_unit"/>
+              <variable_spec name="building.schl_dist1"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
+            <description type="string">Office</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.avg_hh_income_zonal"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_inv_far"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_jobs_within_30_min"/>
+              <variable_spec name="building.schl_dist1"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="other" submodel_id="6" type="submodel">
+            <description type="string">Other</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.avg_hh_income_zonal"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_inv_far"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
+            <description type="string">Retail</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.avg_hh_income_zonal"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_inv_far"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_jobs_within_30_min"/>
+              <variable_spec name="building.schl_dist1"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="sf residential" submodel_id="9" type="submodel">
-            <description type="string">Residential</description>
+            <description type="string">SF Residential</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
               <variable_spec name="building.ln_avg_hh_income"/>
@@ -208,12 +291,14 @@
               <variable_spec name="building.schl_dist1"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="mf residential" submodel_id="3" type="submodel">
-            <description type="string">Residential</description>
+          <submodel hidden="Children" name="warehouse" submodel_id="10" type="submodel">
+            <description type="string">Warehouse</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.ln_jobs_in_zone"/>
+              <variable_spec name="building.ln_avg_hh_income_zonal"/>
+              <variable_spec name="building.ln_inv_far"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_jobs_within_30_min"/>
               <variable_spec name="building.schl_dist1"/>
             </variable_list>
           </submodel>
@@ -231,7 +316,7 @@
         </selectable>
         <selectable name="job" type="selectable">True</selectable>
       </datasets_to_preload>
-      <save_estimation_results type="boolean">False</save_estimation_results>
+      <save_estimation_results type="boolean">True</save_estimation_results>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">san_antonio_zone/base_year_data</cache_directory>
       <estimation_database_configuration type="class">
         <class_name hidden="True" type="string">EstimationDatabaseConfiguration</class_name>
