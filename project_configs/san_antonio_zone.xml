@@ -387,7 +387,7 @@
         </selectable>
         <selectable name="job" type="selectable">True</selectable>
       </datasets_to_preload>
-      <save_estimation_results type="boolean">False</save_estimation_results>
+      <save_estimation_results type="boolean">True</save_estimation_results>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">san_antonio_zone/base_year_data</cache_directory>
       <estimation_database_configuration type="class">
         <class_name hidden="True" type="string">EstimationDatabaseConfiguration</class_name>
