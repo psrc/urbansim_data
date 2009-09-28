@@ -412,10 +412,10 @@
     <scenario copyable="True" executable="True" name="san_antonio_baseline" type="scenario">
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="development_project_transition_model" type="selectable">False</selectable>
-        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="development_project_transition_model" type="selectable">True</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">True</selectable>
         <selectable name="household_transition_model" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
@@ -493,7 +493,7 @@
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
-          <argument name="package_order" type="list">['psrc_zone', 'urbansim_zone', 'urbansim', 'opus_core']</argument>
+          <argument name="package_order" type="list">['urbansim_zone', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <flush_dataset_to_cache_after_each_model type="boolean">False</flush_dataset_to_cache_after_each_model>
         <flush_variables type="boolean">False</flush_variables>
@@ -514,6 +514,8 @@
           <selectable name="building_type" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
           <selectable name="home_based_status" type="selectable">True</selectable>
         </datasets_to_preload>
       </advanced>
