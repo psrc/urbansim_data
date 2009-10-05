@@ -309,7 +309,7 @@
       </model>
       <model name="residential_development_project_location_choice_model" type="model">
         <specification type="dictionary">
-          <submodel hidden="Children" name="mf_residential" submodel_id="3" type="submodel">
+          <submodel hidden="Children" name="mf_residential" submodel_id="2" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
               <variable_spec name="None.ln_res_units_x_zone_dev_acre"/>
@@ -320,7 +320,7 @@
               <variable_spec name="zone.zone_ln_mf_units"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="sf_residential" submodel_id="9" type="submodel">
+          <submodel hidden="Children" name="sf_residential" submodel_id="1" type="submodel">
             <description type="string">sf residential</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_job_density"/>
@@ -336,7 +336,7 @@
       </model>
       <model name="non_residential_development_project_location_choice_model" type="model">
         <specification type="dictionary">
-          <submodel hidden="Children" name="government" submodel_id="1" type="submodel">
+          <submodel hidden="Children" name="government" submodel_id="7" type="submodel">
             <description type="string">government</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_dev_acre"/>
@@ -344,7 +344,7 @@
               <variable_spec name="zone.zone_ln_pop"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
+          <submodel hidden="Children" name="office" submodel_id="3" type="submodel">
             <description type="string">office</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_avg_income"/>
@@ -354,7 +354,7 @@
               <variable_spec name="zone.zone_pop_density"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="other" submodel_id="6" type="submodel">
+          <submodel hidden="Children" name="other" submodel_id="8" type="submodel">
             <description type="string">Other Use</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_average_value_per_sqft"/>
@@ -363,8 +363,8 @@
               <variable_spec name="zone.zone_ln_emp_30_min"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
-            <description type="string">retail</description>
+          <submodel hidden="Children" name="commercial" submodel_id="4" type="submodel">
+            <description type="string">commercial</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_avg_income"/>
               <variable_spec name="zone.zone_ln_avg_value_per_sqft_retail"/>
@@ -373,8 +373,8 @@
               <variable_spec name="zone.zone_retail_emp_15_min"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="school" submodel_id="8" type="submodel">
-            <description type="string">office</description>
+          <submodel hidden="Children" name="mixed use" submodel_id="6" type="submodel">
+            <description type="string">mixed use</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_average_value_per_sqft"/>
               <variable_spec name="zone.zone_ln_avg_income"/>
@@ -382,8 +382,8 @@
               <variable_spec name="zone.zone_ln_emp_30_min"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="warehouse" submodel_id="10" type="submodel">
-            <description type="string">warehouse</description>
+          <submodel hidden="Children" name="industrial" submodel_id="5" type="submodel">
+            <description type="string">industrial</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_avg_income"/>
               <variable_spec name="zone.zone_ln_avg_value_per_sqft_whse"/>
