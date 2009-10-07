@@ -2,49 +2,49 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">Configuration for the PSRC zone project</description>
-    <project_name hidden="True" type="string">san_antonio_zone</project_name>
+    <project_name hidden="True" type="string">psrc_zone</project_name>
     <parent type="file">urbansim_zone/configs/urbansim_zone.xml</parent>
     <dataset_pool_configuration type="class">
       <argument name="package_order" type="list">['urbansim_zone', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
     </dataset_pool_configuration>
     <available_datasets type="list">['job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
-      <variable use="indicator" source="expression" name="alldata.total_vacant_mf_residential_units_1" type="variable_definition">alldata.aggregate_all(urbansim_zone.building.vacant_residential_units*(building.building_type_id==3))</variable>
-      <variable use="indicator" source="expression" name="alldata.total_vacant_sf_residential_units" type="variable_definition">alldata.aggregate_all(urbansim_zone.building.vacant_residential_units*(building.building_type_id==9))</variable>
-      <variable use="model variable" source="expression" name="zone.zone_avg_value_per_sqft_whse" type="variable_definition">zone.aggregate(where(building.building_type_id==10,building.average_value_per_unit,0), function=mean)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_avg_value_per_sqft_retail" type="variable_definition">zone.aggregate(where(building.building_type_id==7,building.average_value_per_unit,0), function=mean)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_avg_value_per_sqft_office" type="variable_definition">zone.aggregate(where(building.building_type_id==5,building.average_value_per_unit,0), function=mean)</variable>
+      <variable use="indicator" source="expression" name="alldata.total_vacant_mf_residential_units_1" type="variable_definition">alldata.aggregate_all(urbansim_zone.building.vacant_residential_units*(building.building_type_id==2))</variable>
+      <variable use="indicator" source="expression" name="alldata.total_vacant_sf_residential_units" type="variable_definition">alldata.aggregate_all(urbansim_zone.building.vacant_residential_units*(building.building_type_id==1))</variable>
+      <variable use="model variable" source="expression" name="zone.zone_avg_value_per_sqft_industrial" type="variable_definition">zone.aggregate(where(building.building_type_id==5,building.average_value_per_unit,0), function=mean)</variable>
+      <variable use="model variable" source="expression" name="zone.zone_avg_value_per_sqft_commercial" type="variable_definition">zone.aggregate(where(building.building_type_id==4,building.average_value_per_unit,0), function=mean)</variable>
+      <variable use="model variable" source="expression" name="zone.zone_avg_value_per_sqft_office" type="variable_definition">zone.aggregate(where(building.building_type_id==3,building.average_value_per_unit,0), function=mean)</variable>
       <variable use="both" source="expression" name="None.ln_res_units_x_emp_30_min" type="variable_definition">development_project.residential_units*ln(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone)</variable>
-      <variable use="both" source="expression" name="zone.zone_ln_sf_unit_price" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==9,building.average_value_per_unit,0), function=mean))</variable>
-      <variable use="both" source="expression" name="zone.zone_ln_mf_unit_price" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==3,building.average_value_per_unit,0), function=mean))</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_whse" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==10,building.average_value_per_unit,0), function=mean))</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_retail" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==7,building.average_value_per_unit,0), function=mean))</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_office" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==5,building.average_value_per_unit,0), function=mean))</variable>
+      <variable use="both" source="expression" name="zone.zone_ln_sf_unit_price" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==1,building.average_value_per_unit,0), function=mean))</variable>
+      <variable use="both" source="expression" name="zone.zone_ln_mf_unit_price" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==2,building.average_value_per_unit,0), function=mean))</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_industrial" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==5,building.average_value_per_unit,0), function=mean))</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_commercial" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==4,building.average_value_per_unit,0), function=mean))</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_office" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==3,building.average_value_per_unit,0), function=mean))</variable>
       <variable use="both" source="expression" name="zone.zone_ln_emp_10_min" type="variable_definition">ln(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_drive_alone)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_pop_density" type="variable_definition">zone.aggregate(household.persons)/zone.totacres</variable>
+      <variable use="model variable" source="expression" name="zone.zone_pop_density" type="variable_definition">zone.aggregate(household.persons, intermediates=[building])/zone.totacres</variable>
       <variable use="model variable" source="expression" name="zone.zone_job_density" type="variable_definition">zone.number_of_agents(job)/zone.totacres</variable>
       <variable use="both" source="expression" name="zone.zone_ln_time_cbd" type="variable_definition">ln(zone.travel_time_to_cbd)</variable>
       <variable use="both" source="expression" name="zone.zone_ln_res_units" type="variable_definition">ln(zone.aggregate(building.residential_units))</variable>
       <variable use="both" source="expression" name="zone.zone_ln_emp_15_min" type="variable_definition">ln(urbansim_parcel.zone.employment_within_15_minutes_travel_time_hbw_am_drive_alone)</variable>
       <variable use="both" source="expression" name="None.ln_res_units_x_zone_dev_acre" type="variable_definition">development_project.residential_units*ln(zone.dev_acre)</variable>
       <variable use="both" source="primary attribute" name="zone.zone_time_cbd" type="variable_definition">zone.travel_time_to_cbd</variable>
-      <variable use="both" source="expression" name="zone.zone_mf_unit_price" type="variable_definition">zone.aggregate(where(building.building_type_id==3,building.average_value_per_unit,0), function=mean)</variable>
-      <variable use="both" source="expression" name="zone.zone_sf_unit_price" type="variable_definition">zone.aggregate(where(building.building_type_id==9,building.average_value_per_unit,0), function=mean)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_mf_units" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==3,building.residential_units,0)))</variable>
-      <variable use="indicator" source="expression" name="zone.zone_avg_cars" type="variable_definition">zone.aggregate(household.cars)/zone.number_of_agents(household)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_avg_income" type="variable_definition">ln_bounded(zone.aggregate(household.income, function=mean))</variable>
+      <variable use="both" source="expression" name="zone.zone_mf_unit_price" type="variable_definition">zone.aggregate(where(building.building_type_id==2,building.average_value_per_unit,0), function=mean)</variable>
+      <variable use="both" source="expression" name="zone.zone_sf_unit_price" type="variable_definition">zone.aggregate(where(building.building_type_id==1,building.average_value_per_unit,0), function=mean)</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_mf_units" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==2,building.residential_units,0)))</variable>
+      <variable use="indicator" source="expression" name="zone.zone_avg_cars" type="variable_definition">zone.aggregate(household.cars, intermediates=[building])/zone.number_of_agents(household)</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_avg_income" type="variable_definition">ln_bounded(zone.aggregate(household.income, function=mean, intermediates=[building]))</variable>
       <variable use="both" source="expression" name="zone.zone_ln_emp_30_min" type="variable_definition">ln(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone)</variable>
       <variable use="both" source="expression" name="zone.zone_ln_dev_acre" type="variable_definition">ln(zone.dev_acre)</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_totacres" type="variable_definition">ln(zone.totacres)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_pop" type="variable_definition">ln(zone.aggregate(household.persons))</variable>
-      <variable use="indicator" source="expression" name="zone.zone_tot_cars" type="variable_definition">zone.aggregate(household.cars)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_tot_income" type="variable_definition">zone.aggregate(household.income)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_tot_pop" type="variable_definition">zone.aggregate(household.persons)</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_pop" type="variable_definition">ln(zone.aggregate(household.persons, intermediates=[building]))</variable>
+      <variable use="indicator" source="expression" name="zone.zone_tot_cars" type="variable_definition">zone.aggregate(household.cars, intermediates=[building])</variable>
+      <variable use="model variable" source="expression" name="zone.zone_tot_income" type="variable_definition">zone.aggregate(household.income, intermediates=[building])</variable>
+      <variable use="model variable" source="expression" name="zone.zone_tot_pop" type="variable_definition">zone.aggregate(household.persons, intermediates=[building],)</variable>
       <variable use="both" source="Python class" name="zone.zone_retail_emp_45_min" type="variable_definition">urbansim_parcel.zone.sector_5_employment_within_45_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="both" source="Python class" name="zone.zone_retail_emp_30_min" type="variable_definition">urbansim_parcel.zone.sector_5_employment_within_30_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="both" source="Python class" name="zone.zone_retail_emp_15_min" type="variable_definition">urbansim_parcel.zone.sector_5_employment_within_15_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_retail_emp_30_min" type="variable_definition">ln(urbansim_parcel.zone.sector_5_employment_within_30_minutes_travel_time_hbw_am_drive_alone)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_sf_units" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==9,building.residential_units,0)))</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_sf_units" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==1,building.residential_units,0)))</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_average_value_per_res_unit" type="variable_definition">ln(zone.aggregate(building.average_value_per_unit*building.disaggregate(building_type.is_residential==1), function=mean))</variable>
       <variable use="model variable" source="Python class" name="zone.zone_retail_emp_30_min" type="variable_definition">urbansim_parcel.zone.sector_5_employment_within_30_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_Rd_density" type="variable_definition">ln(zone.rd_density)</variable>
@@ -78,8 +78,8 @@
       <variable use="both" source="expression" name="None.persons_sqft_per_unit" type="variable_definition">household.persons*building.sqft_per_unit</variable>
       <variable use="both" source="expression" name="None.income_sqft_per_unit" type="variable_definition">household.income/10000*building.sqft_per_unit</variable>
       <variable use="both" source="expression" name="None.price_income_ratio" type="variable_definition">safe_array_divide(building.average_value_per_unit,household.income)</variable>
-      <variable use="both" source="expression" name="None.income_single_family" type="variable_definition">household.income/10000*building.building_type_id==9</variable>
-      <variable use="both" source="expression" name="None.persons_x_single_family" type="variable_definition">household.persons*building.building_type_id==9</variable>
+      <variable use="both" source="expression" name="None.income_single_family" type="variable_definition">household.income/10000*building.building_type_id==1</variable>
+      <variable use="both" source="expression" name="None.persons_x_single_family" type="variable_definition">household.persons*building.building_type_id==1</variable>
       <variable use="both" source="expression" name="building.ln_number_jobs_retail" type="variable_definition">ln(building.disaggregate(urbansim.zone.number_of_jobs_of_sector_5))</variable>
       <variable use="model variable" source="expression" name="building.ln_jobs_within_15_min" type="variable_definition">ln(building.disaggregate(urbansim_parcel.zone.employment_within_15_minutes_travel_time_hbw_am_drive_alone))</variable>
       <variable use="both" source="expression" name="building.ln_pop_density_zone" type="variable_definition">ln(building.aggregate(household.persons)/building.disaggregate(zone.aggregate(building.land_area)))</variable>
@@ -312,10 +312,7 @@
           <submodel hidden="Children" name="mf_residential" submodel_id="2" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="None.ln_res_units_x_zone_dev_acre"/>
-              <variable_spec name="zone.zone_job_density"/>
               <variable_spec name="zone.zone_ln_avg_income"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
               <variable_spec name="zone.zone_ln_mf_unit_price"/>
               <variable_spec name="zone.zone_ln_mf_units"/>
             </variable_list>
@@ -323,11 +320,6 @@
           <submodel hidden="Children" name="sf_residential" submodel_id="1" type="submodel">
             <description type="string">sf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="zone.zone_job_density"/>
-              <variable_spec name="zone.zone_ln_avg_income"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
-              <variable_spec name="zone.zone_ln_emp_30_min"/>
-              <variable_spec name="zone.zone_ln_mf_units"/>
               <variable_spec name="zone.zone_ln_sf_unit_price"/>
               <variable_spec name="zone.zone_ln_sf_units"/>
             </variable_list>
@@ -339,46 +331,35 @@
           <submodel hidden="Children" name="government" submodel_id="7" type="submodel">
             <description type="string">government</description>
             <variable_list type="variable_list">
-              <variable_spec name="zone.zone_ln_dev_acre"/>
               <variable_spec name="zone.zone_ln_jobs"/>
               <variable_spec name="zone.zone_ln_pop"/>
+              <variable_spec name="zone.zone_pop_density"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="office" submodel_id="3" type="submodel">
             <description type="string">office</description>
             <variable_list type="variable_list">
-              <variable_spec name="zone.zone_ln_avg_income"/>
               <variable_spec name="zone.zone_ln_avg_value_per_sqft_office"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
               <variable_spec name="zone.zone_ln_emp_30_min"/>
-              <variable_spec name="zone.zone_pop_density"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="other" submodel_id="8" type="submodel">
             <description type="string">Other Use</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_average_value_per_sqft"/>
-              <variable_spec name="zone.zone_ln_avg_income"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
               <variable_spec name="zone.zone_ln_emp_30_min"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="commercial" submodel_id="4" type="submodel">
             <description type="string">commercial</description>
             <variable_list type="variable_list">
-              <variable_spec name="zone.zone_ln_avg_income"/>
-              <variable_spec name="zone.zone_ln_avg_value_per_sqft_retail"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
+              <variable_spec name="zone.zone_ln_avg_value_per_sqft_commercial"/>
               <variable_spec name="zone.zone_ln_emp_30_min"/>
-              <variable_spec name="zone.zone_retail_emp_15_min"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="mixed use" submodel_id="6" type="submodel">
             <description type="string">mixed use</description>
             <variable_list type="variable_list">
-              <variable_spec name="zone.zone_ln_average_value_per_sqft"/>
-              <variable_spec name="zone.zone_ln_avg_income"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
               <variable_spec name="zone.zone_ln_emp_30_min"/>
             </variable_list>
           </submodel>
@@ -386,12 +367,18 @@
             <description type="string">industrial</description>
             <variable_list type="variable_list">
               <variable_spec name="zone.zone_ln_avg_income"/>
-              <variable_spec name="zone.zone_ln_avg_value_per_sqft_whse"/>
-              <variable_spec name="zone.zone_ln_dev_acre"/>
+              <variable_spec name="zone.zone_ln_avg_value_per_sqft_industrial"/>
               <variable_spec name="zone.zone_ln_emp_30_min"/>
             </variable_list>
           </submodel>
         </specification>
+      </model>
+      <model name="development_project_transition_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">target_vacancy_rate</argument>
+          </run>
+        </structure>
       </model>
       <model name="real_estate_price_model" type="model">
         <specification type="dictionary">
@@ -491,7 +478,7 @@
         </selectable>
         <selectable name="job" type="selectable">True</selectable>
       </datasets_to_preload>
-      <save_estimation_results type="boolean">False</save_estimation_results>
+      <save_estimation_results type="boolean">True</save_estimation_results>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_zone/base_year_data</cache_directory>
       <estimation_database_configuration type="class">
         <class_name hidden="True" type="string">EstimationDatabaseConfiguration</class_name>
@@ -526,25 +513,25 @@
         <selectable name="household_location_choice_model" type="selectable">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="employment_location_choice_model" type="selectable">True
-          <group_members type="string">_all_</group_members>
+          <group_members type="string">non_home_based</group_members>
         </selectable>
         <selectable name="distribute_unplaced_jobs_model" type="selectable">True</selectable>
       </models_to_run>
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2006</firstyear>
-        <lastyear type="integer">2035</lastyear>
+        <firstyear type="integer">2000</firstyear>
+        <lastyear type="integer">2001</lastyear>
       </years_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_zone/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">san_antonio_zone/runs</argument>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_zone/runs</argument>
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">san_antonio_zone/base_year_data</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_zone/base_year_data</argument>
         </argument>
         <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
         <argument name="advanced" type="category">
@@ -665,6 +652,48 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
+      <run hidden="Children" type="source_data" name="run_2009_10_06_17_19" run_id="None">
+        <scenario_name type="string">psrc_zone_baseline</scenario_name>
+        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_8.run_2009_10_06_17_19</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2009_10_06_17_17" run_id="None">
+        <scenario_name type="string">psrc_zone_baseline</scenario_name>
+        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_7.run_2009_10_06_17_17</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2009_10_06_15_11" run_id="None">
+        <scenario_name type="string">psrc_zone_baseline</scenario_name>
+        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_6.run_2009_10_06_15_11</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2009_10_06_14_54" run_id="None">
+        <scenario_name type="string">psrc_zone_baseline</scenario_name>
+        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_4.run_2009_10_06_14_54</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2009_10_06_14_46" run_id="None">
+        <scenario_name type="string">psrc_zone_baseline</scenario_name>
+        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_3.run_2009_10_06_14_46</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2009_10_06_14_45" run_id="None">
+        <scenario_name type="string">psrc_zone_baseline</scenario_name>
+        <cache_directory type="string">/Users/hana/opus/data/san_antonio_zone/runs/run_2.run_2009_10_06_14_45</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+        <scenario_name type="string"/>
+        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/base_year_data</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2000</end_year>
+      </run>
     </simulation_runs>
   </results_manager>
 </opus_project>
