@@ -384,7 +384,6 @@
             <argument name="coefficients" type="string">coefficients</argument>
           </run>
           <init type="dictionary">
-            <argument name="nested_structure" type="dictionary"></argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim_zone</argument>
             <argument convert_blank_to_none="True" name="location_id_string" type="string"/>
             <argument convert_blank_to_none="True" name="submodel_string" type="string"/>
@@ -394,9 +393,11 @@
             <argument name="run_config" type="string">Resources({'lottery_max_iterations': 3, 
                 'capacity_string': 'urbansim_zone.building.vacant_residential_units'})</argument>
             <argument name="location_set" type="string">building</argument>
-            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.stratified_sampler</argument>
+            <argument convert_blank_to_none="True" name="sampler" parser_action="quote_string" type="string">opus_core.samplers.stratified_sampler</argument>
+            <argument name="sampler_size" type="integer">50</argument>
             <argument name="estimate_config" type="string">Resources({})</argument>
             <name name="name" type="string">AgentHierarchicalLocationChoiceModel</name>
+            <argument convert_blank_to_none="True" name="stratum" parser_action="quote_string" type="string">building.building_type_id*building.disaggregate(building_type.is_residential)*(building.residential_units&gt;0)</argument>
           </init>
           <import name="import" type="dictionary">
             <class_module>urbansim.models.agent_hierarchical_location_choice_model</class_module>
@@ -446,14 +447,21 @@
               <variable_spec name="None.price_income_ratio_l1"/>
               <variable_spec name="None.wkrs_hhs_ln_jobs_30_min"/>
             </variable_list>
-            <nest nest_id="1" name="single_family">
+            <nest nest_id="1" name="single_family" number_of_samples="30">
               <equation equation_id="-2" name="buildings">
-                <variable_list type="variable_list"/>
+                <variable_list type="variable_list">
+                  <variable_spec name="building.avg_hh_income"/>
+                  <variable_spec name="building.cbd_time"/>
+                  <variable_spec name="__logsum_1" keep_fixed="True" starting_value="0.9"/>
+                </variable_list>
               </equation>
             </nest>
-            <nest nest_id="2" name="multi_family">
+            <nest nest_id="2" name="multi_family" number_of_samples="30">
               <equation equation_id="-2" name="buildings">
-                <variable_list type="variable_list"/>
+                <variable_list type="variable_list">
+                  <variable_spec name="building.avg_hh_income"/>
+                  <variable_spec name="building.cbd_time"/>
+                </variable_list>
               </equation>
             </nest>
           </submodel>
