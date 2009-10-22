@@ -118,8 +118,8 @@
             <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="number_of_units_string" type="string"/>
             <argument name="compute_capacity_flag" type="boolean">True</argument>
-            <argument name="capacity_string" parser_action="quote_string" type="string">urbansim_zone.building.vacant_residential_units</argument>
-            <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string">building.residential_units&gt;0</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">urbansim_zone.building.vacant_SSS_job_spaces</argument>
+            <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string">urbansim_zone.building.total_SSS_job_spaces</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="filter" type="string"/>
@@ -198,8 +198,8 @@
         </estimation_config>
         <structure type="dictionary">
           <init type="dictionary">
-            <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string">building.non_residential_sqft&gt;0</argument>
-            <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string">urbansim_zone.building.total_job_spaces&gt;0</argument>
+            <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string">urbansim_zone.building.total_SSS_job_spaces</argument>
+            <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string"></argument>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="join_datasets" type="boolean">True</argument>
@@ -383,7 +383,8 @@
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="filter" type="string"/>
             <argument name="run_config" type="string">Resources({'lottery_max_iterations': 3, 
-                'capacity_string': 'urbansim_zone.building.vacant_residential_units'})</argument>
+                'capacity_string': 'urbansim_zone.building.vacant_residential_units',
+                'compute_capacity_flag': True})</argument>
             <argument name="location_set" type="string">building</argument>
             <argument convert_blank_to_none="True" name="sampler" parser_action="quote_string" type="string">opus_core.samplers.stratified_sampler</argument>
             <argument name="sampler_size" type="integer">30</argument>
@@ -860,48 +861,6 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="run_2009_10_21_13_45" run_id="None">
-        <scenario_name type="string">psrc_zone_baseline</scenario_name>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_21.run_2009_10_21_13_45</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2003</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2009_10_14_16_15" run_id="20">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_20.run_2009_10_14_16_15</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2008</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2009_10_14_15_35" run_id="19">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_19.run_2009_10_14_15_35</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2003</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2009_10_14_15_21" run_id="None">
-        <scenario_name type="string">psrc_zone_baseline</scenario_name>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_18.run_2009_10_14_15_21</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2003</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2009_10_14_15_18" run_id="None">
-        <scenario_name type="string">psrc_zone_baseline</scenario_name>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_18.run_2009_10_14_15_18</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2003</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2009_10_14_15_06" run_id="None">
-        <scenario_name type="string">psrc_zone_baseline</scenario_name>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/runs/run_17.run_2009_10_14_15_06</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2005</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
-        <scenario_name type="string"/>
-        <cache_directory type="string">/Users/hana/opus/data/psrc_zone/base_year_data</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2000</end_year>
-      </run>
     </simulation_runs>
   </results_manager>
 </opus_project>
