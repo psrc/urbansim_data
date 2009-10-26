@@ -28,6 +28,7 @@
       <variable use="both" source="expression" name="building.ln_zonal_emp_30_min" type="variable_definition">ln_bounded(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))</variable>
       <variable use="both" source="Python class" name="building.zonal_retail_emp_15_min" type="variable_definition">building.disaggregate(urbansim_parcel.zone.sector_3_employment_within_15_minutes_travel_time_hbw_am_drive_alone)</variable>
       <variable use="model variable" source="expression" name="building.ln_mf_units" type="variable_definition">ln_bounded((building.building_type_id==2)*building.residential_units)</variable>
+      <variable use="model variable" source="expression" name="building.ln_residential_units" type="variable_definition">ln_bounded(building.residential_units)</variable>
       <variable use="indicator" source="expression" name="zone.zone_avg_cars" type="variable_definition">zone.aggregate(household.cars)/zone.number_of_agents(household)</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_avg_income" type="variable_definition">ln_bounded(zone.aggregate(household.income, function=mean))</variable>
       <variable use="model variable" source="expression" name="building.ln_zonal_avg_income" type="variable_definition">ln_bounded(building.disaggregate(zone.aggregate(household.income, function=mean)))</variable>
@@ -233,7 +234,7 @@
             <argument name="portion_to_unplace" type="float">0.333333333333</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
             <argument name="agent_set" type="string">household</argument>
-            <argument name="index_to_unplace" type="string">hrm_index</argument>
+            <argument name="index_to_unplace" type="string">None</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument convert_blank_to_none="True" name="filter" type="string"/>
             <argument name="join_datasets" type="boolean">True</argument>
@@ -259,7 +260,7 @@
           <run type="dictionary">
             <argument name="chunk_specification" type="string">{'nchunks':3}</argument>
             <argument name="agent_set" type="string">businesses</argument>
-            <argument name="agents_filter" parser_action="quote_string" type="string" />
+            <argument name="agents_filter" convert_blank_to_none="True" parser_action="quote_string" type="string" />
             <argument name="specification" type="string">specification</argument>
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
@@ -271,7 +272,7 @@
             <argument name="model_name" parser_action="quote_string" type="string">Business Location Choice Model</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim_zone</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
-	    	<argument name="filter" parser_action="quote_string" type="string" />
+	    	<argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string" />
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
 	      	  <key convert_blank_to_none="True" name="agent_units_string" type="string">employees</key>
