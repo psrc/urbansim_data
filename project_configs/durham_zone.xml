@@ -282,7 +282,7 @@
               <key name="capacity_string" type="string">capacity=building.job_spaces-building.aggregate(business.employees)</key>
 	      	  <key convert_blank_to_none="True" name="weights_for_simulation_string" type="string" />
               <key name="compute_capacity_flag" type="string">True</key>
-              <key name="sample_alternatives_by_submodel" type="string">True</key>
+              <!-- <key name="sample_alternatives_by_submodel" type="string">True</key> -->
               <key name="sample_size_locations" type="integer">30</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
@@ -295,7 +295,7 @@
               <key name="capacity_string" type="string">capacity=building.job_spaces-building.aggregate(business.employees)</key>
 	      	  <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string" />
               <key name="compute_capacity_flag" type="string">True</key>
-              <key name="sample_alternatives_by_submodel" type="string">True</key>
+              <!-- <key name="sample_alternatives_by_submodel" type="string">True</key> -->
               <key name="sample_size_locations" type="integer">30</key>
             </argument>
             <name name="name" type="string">AgentLocationChoiceModel</name>
