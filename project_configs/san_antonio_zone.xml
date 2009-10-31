@@ -258,11 +258,10 @@
           <submodel hidden="Children" name="sf_residential" submodel_id="9" type="submodel">
             <description type="string">sf residential</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.ln_zonal_dev_acre"/>
               <variable_spec name="building.ln_job_density_zone"/>
               <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_zonal_dev_acre"/>
               <variable_spec name="building.ln_zonal_emp_30_min"/>
-              <variable_spec name="building.ln_mf_units"/>
               <variable_spec name="building.ln_sf_unit_price"/>
               <variable_spec name="building.ln_sf_units"/>
             </variable_list>
@@ -276,7 +275,9 @@
             <variable_list type="variable_list">
               <variable_spec name="building.ln_zonal_dev_acre"/>
               <variable_spec name="building.ln_jobs_in_zone"/>
-              <variable_spec name="building.ln_pop_zone"/>
+	      <!--
+	      <variable_spec name="building.ln_pop_zone"/>
+	      -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
