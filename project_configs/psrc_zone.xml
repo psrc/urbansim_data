@@ -9,6 +9,9 @@
     </dataset_pool_configuration>
     <available_datasets type="list">['job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="primary attribute" name="building.avg_year_built" type="variable_definition">building.year_built</variable>
+      <variable use="both" source="expression" name="building.ln_developable_residential_units_capacity_units" type="variable_definition">ln(urbansim_zone.building.developable_residential_units_capacity*building.residential_units)</variable>
+      <variable use="both" source="expression" name="building.ln_developable_residential_units_capacity" type="variable_definition">ln(urbansim_zone.building.developable_residential_units_capacity)</variable>
       <variable use="model variable" source="expression" name="building.ln_zonal_avg_income" type="variable_definition">ln(building.disaggregate(zone.aggregate(household.income, function=mean, intermediates=[building])))</variable>
       <variable use="both" source="expression" name="building.sector_14_job_fraction" type="variable_definition">building.disaggregate(zone.aggregate(job.sector_id==14)/zone.number_of_agents(job))</variable>
       <variable use="both" source="expression" name="building.sector_13_job_fraction" type="variable_definition">building.disaggregate(zone.aggregate(job.sector_id==13)/zone.number_of_agents(job))</variable>
@@ -552,32 +555,31 @@
         </specification>
       </model>
       <model name="residential_development_project_location_choice_model" type="model">
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">['real_estate_price_model']</config_override>
+        </estimation_config>
         <structure type="dictionary">
           <run type="dictionary">
             <argument name="chunk_specification" type="string">{'records_per_chunk':5000}</argument>
           </run>
           <init type="dictionary">
             <argument name="filter" parser_action="quote_string" type="string">(building.building_type_id==SUBMODEL)*(urbansim_zone.building.residential_units_capacity&gt;0)</argument>
-	    <!--
-            <argument name="filter" parser_action="quote_string" type="string">(building.building_type_id==SUBMODEL)*(urbansim_zone.building.developable_residential_units_capacity&gt;0)</argument>
-	    -->
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
             <argument name="run_config" type="dictionary">
               <key name="compute_capacity_flag" type="boolean">True</key>
             </argument>
           </init>
           <prepare_for_estimate type="dictionary">
-	    <argument name="agents_filter" parser_action="quote_string" type="string">numpy.logical_and(development_project.disaggregate(building_type.is_residential), development_project.scheduled_year&lt;=2000)</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">numpy.logical_and(development_project.disaggregate(building_type.is_residential), development_project.scheduled_year&lt;=2000)</argument>
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary">
           <submodel hidden="Children" name="sf_residential" submodel_id="1" type="submodel">
             <description type="string">sf residential</description>
             <variable_list type="variable_list">
-	      <!-- <variable_spec name="building.ln_zonal_dev_acre"/> -->
-              <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_zonal_emp_30_min"/>
+              <variable_spec name="building.avg_hh_income_zonal"/>
+              <variable_spec name="building.avg_year_built"/>
+              <variable_spec name="building.ln_developable_residential_units_capacity"/>
               <variable_spec name="building.ln_sf_unit_price"/>
               <variable_spec name="building.ln_sf_units"/>
             </variable_list>
@@ -585,17 +587,13 @@
           <submodel hidden="Children" name="mf_residential" submodel_id="2" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
-	      <!-- 
-	      <variable_spec name="None.res_units_x_ln_zonal_dev_acre"/> 
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-	      -->
-              <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.avg_year_built"/>
+              <variable_spec name="building.ln_developable_residential_units_capacity_units"/>
               <variable_spec name="building.ln_mf_unit_price"/>
               <variable_spec name="building.ln_mf_units"/>
             </variable_list>
           </submodel>
-       </specification>
+        </specification>
       </model>
       <model name="non_residential_development_project_location_choice_model" type="model">
         <structure type="dictionary">
@@ -604,16 +602,13 @@
           </run>
           <init type="dictionary">
             <argument name="filter" parser_action="quote_string" type="string">(building.building_type_id==SUBMODEL)*(urbansim_zone.building.non_residential_sqft_capacity&gt;0)</argument>
-	    <!--
-	    <argument name="filter" parser_action="quote_string" type="string">(building.building_type_id==SUBMODEL)*(urbansim_zone.building.developable_non_residential_sqft_capacity&gt;0)</argument>
-	    -->
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
             <argument name="run_config" type="dictionary">
               <key name="compute_capacity_flag" type="boolean">True</key>
             </argument>
           </init>
           <prepare_for_estimate type="dictionary">
-	    <argument name="agents_filter" parser_action="quote_string" type="string">numpy.logical_and(development_project.disaggregate(building_type.is_residential==0), development_project.scheduled_year&lt;=2000)</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">numpy.logical_and(development_project.disaggregate(building_type.is_residential==0), development_project.scheduled_year&lt;=2000)</argument>
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary">
