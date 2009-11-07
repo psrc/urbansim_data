@@ -29,7 +29,6 @@
             <description type="string">Apartments</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
-              <variable_spec name="building.ln_residential_units"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="Condo" submodel_id="2" type="submodel">
