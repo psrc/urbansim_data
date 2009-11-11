@@ -10,47 +10,45 @@
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="zone_indicator_batch" type="indicator_batch">
-        <batch_visualization name="Zone_visualization" type="batch_visualization">
-          <settings><setting name="bucket_labels">range_labels</setting>
-          <setting name="bucket_ranges">linear_scale</setting>
-          <setting name="bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-          </settings><visualization_type>mapnik_map</visualization_type>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Population per Acre">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
           <indicators>['population_per_acre']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>zone</dataset_name>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="untitled_indicator_batch" type="indicator_batch">
-        <batch_visualization name="New_visualization" type="batch_visualization">
-          <settings><setting name="bucket_labels">range_labels</setting>
-          <setting name="bucket_ranges">linear_scale</setting>
-          <setting name="bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
-          </settings><visualization_type>mapnik_map</visualization_type>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Log Residential Units">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
           <indicators>['lnunits']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>parcel</dataset_name>
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs followers="Results" name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" name="Run_2008_08_23_22_29" run_id="4" type="source_data">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/Users/pwaddell/opus/data/seattle_parcel/runs/run_4.2008_08_23_22_29</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2002</end_year>
-      </run>
-      <run hidden="Children" name="Run_2008_08_17_22_39" run_id="3" type="source_data">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/Users/pwaddell/opus/data/seattle_parcel/runs/run_3.2008_08_17_22_39</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2002</end_year>
-      </run>
-      <run hidden="Children" name="Run_2008_08_17_21_24" run_id="2" type="source_data">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/Users/pwaddell/opus/data/seattle_parcel/runs/run_2.2008_08_17_21_24</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2002</end_year>
-      </run>
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
       <run hidden="Children" name="base_year_data" run_id="1" type="source_data">
         <scenario_name type="string"/>
         <cache_directory type="string">/Users/pwaddell/opus/data/seattle_parcel/base_year_data</cache_directory>
@@ -60,3 +58,4 @@
     </simulation_runs>
   </results_manager>
 </opus_project>
+
