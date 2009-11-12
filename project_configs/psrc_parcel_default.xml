@@ -18,6 +18,12 @@
       <variable dataset="person_trip" name="time_1" source="Python class" type="variable_definition" use="model variable">urbansim.person_trip.travel_data_am_single_vehicle_to_work_travel_time</variable>
       <variable dataset="person_trip" name="time_2" source="Python class" type="variable_definition" use="model variable">urbansim.person_trip.travel_data_am_double_vehicle_to_work_travel_time</variable>
       <variable dataset="person_trip" name="travel_data_retail" source="Python class" type="variable_definition" use="model variable">urbansim.person_trip.destination_zone_number_of_jobs</variable>
+      <variable use="model variable" source="expression" name="building.Kitsap" type="variable_definition">building.disaggregate(faz.fazdistrict_id) == 6</variable>
+      <variable use="model variable" source="expression" name="household_x_building.renter_x_is_mfr" type="variable_definition">household.tenure == 3 * urbansim.building.is_multi_family_residential</variable>
+       <variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(household.workers==0) * ( ((psrc.household.logsum_income_break==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc.household.logsum_income_break==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc.household.logsum_income_break==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc.household.logsum_income_break==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)) )</variable>
+      <variable use="model variable" source="expression" name="household_x_building.neigh_shopping" type="variable_definition">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+   <variable use="model variable" source="expression" name="household_x_building.max_logsum_hbw_am_from_home_to_work" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work</variable>
+   <variable use="model variable" source="expression" name="household_x_building.max_network_distance_from_home_to_work" type="variable_definition">psrc_parcel.household_x_building.worker1_network_distance_from_home_to_work</variable>
     </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone']</available_datasets>
   </general>
@@ -404,25 +410,8 @@
   </model_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="untitled_indicator_batch">
-        <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
-          <indicators>['destination_zone_avg_bike_travel_time']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>zone</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" name="base_year_data" run_id="1" type="source_data">
-        <scenario_name type="string"/>
-        <cache_directory type="string">c:/opus/data/psrc_parcel/base_year_data</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2000</end_year>
-      </run>
     </simulation_runs>
   </results_manager>
 </opus_project>
