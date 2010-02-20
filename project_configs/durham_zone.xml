@@ -443,7 +443,6 @@
         <selectable name="household" type="selectable">True</selectable>
         <selectable name="zone" type="selectable">True</selectable>
         <selectable name="building" type="selectable">True</selectable>
-        <selectable name="business" type="selectable">True</selectable>
         <selectable name="job" type="selectable">True</selectable>
       </datasets_to_preload>
       <save_estimation_results type="boolean">True</save_estimation_results>
@@ -519,13 +518,14 @@
             <selectable name="employment_sectors" type="selectable">True</selectable>
             <selectable name="home_based_employment_location_choice_model_coefficients" type="selectable">True</selectable>
             <selectable name="home_based_employment_location_choice_model_specification" type="selectable">True</selectable>
-            <selectable name="household_characteristics_for_ht" type="selectable">True</selectable>
+            <selectable name="home_based_status" type="selectable">True</selectable>
+            <selectable name="household_characteristics_for_ht" type="selectable">False</selectable>
             <selectable name="household_location_choice_model_coefficients" type="selectable">True</selectable>
             <selectable name="household_location_choice_model_specification" type="selectable">True</selectable>
             <selectable name="households" type="selectable">True</selectable>
             <selectable name="households_for_estimation" type="selectable">True</selectable>
             <selectable name="jobs" type="selectable">True</selectable>
-            <selectable name="jobs_for_estimation" type="selectable">False</selectable>
+            <selectable name="jobs_for_estimation" type="selectable">True</selectable>
             <selectable name="non_home_based_employment_location_choice_model_coefficients" type="selectable">True</selectable>
             <selectable name="non_home_based_employment_location_choice_model_specification" type="selectable">True</selectable>
             <selectable name="race_names" type="selectable">True</selectable>
