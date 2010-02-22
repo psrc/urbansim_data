@@ -647,7 +647,7 @@
              <col_index_name type="string">ZoneID</col_index_name>
              <matrix name="AMHwySkims" type="dictionary">
                      <variable name="Miles" type="string">highway_distance</variable>
-                     <variable name="Trav_Time type="string">highway_travel_time</variable>
+                     <variable name="Trav_Time" type="string">highway_travel_time</variable>
              </matrix>
              <matrix name="AMTransitSkim" type="dictionary">
                      <variable name="Generalized Cost" type="string">generalized_cost</variable>
