@@ -651,7 +651,6 @@
              </matrix>
              <matrix name="AMTransitSkim" type="dictionary">
                      <variable name="Generalized Cost" type="string">generalized_cost</variable>
-                     <variable name="Fare type="string">am_transit_fare</variable>
              </matrix>             
        </tm_to_urbansim_variable_mapping>
        <!--
@@ -670,11 +669,11 @@
             ]
        </tm_to_urbansim_variable_mapping>
        -->
-       <macro type=dictionary>
+       <macro type="dictionary">
            <get_cache_data_into_transcad type="string">SEMCOGImportTabFile</get_cache_data_into_transcad>
-	   <get_transcad_data_into_cache type="string">SEMCOGExportMatrices</get_transcad_data_into_cache>
-	   <run_semcog_travel_model type="string">SEMCOG Run Loops</run_semcog_travel_model>
-	   <get_file_location type="string">SEMCOGGetFileLocation</get_file_location>
+	   	   <get_transcad_data_into_cache type="string">SEMCOGExportMatrices</get_transcad_data_into_cache>
+	       <run_semcog_travel_model type="string">SEMCOG Run Loops</run_semcog_travel_model>
+	       <get_file_location type="string">SEMCOGGetFileLocation</get_file_location>
        </macro>
       <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
       <models type="selectable_list">
