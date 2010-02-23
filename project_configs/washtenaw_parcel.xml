@@ -2,7 +2,8 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">Minimal user configuration for the washtenaw parcel project</description>
-    <parent type="file">washtenaw_parcel/configs/washtenaw_parcel.xml</parent>
+    <project_name hidden="True" type="string">washtenaw_parcel</project_name>
+    <parent type="file">seattle_parcel/configs/seattle_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="building.is_government_building" type="variable_definition">building.disaggregate(building_type.building_type_name=='government')</variable>
       <variable use="both" source="expression" name="building.ln_parcel_landval" type="variable_definition">ln(building.disaggregate(parcel.land_value))</variable>
@@ -608,7 +609,6 @@
         <lastyear type="integer">2008</lastyear>
       </years>
     </estimation_config>
-  </model_manager>
   <travel_model_configuration type="dictionary">
       <transcad_binary type="string">C:\\Program Files\\TransCAD\\tcw.exe</transcad_binary>
       <project_ini type="string">C:\\Program Files\\TransCAD\\semcog.ini</project_ini>
@@ -719,6 +719,7 @@
         </run_description>
       </years_to_run>
   </travel_model_configuration>
+  </model_manager>
   <scenario_manager>
     <scenario type="scenario" name="urbansim_parcel_baseline">
       <parent_old_format type="dictionary">
@@ -861,4 +862,3 @@
     </simulation_runs>
   </results_manager>
 </opus_project>
-
