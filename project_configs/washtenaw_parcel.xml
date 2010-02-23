@@ -619,13 +619,13 @@
            <JoinField type="string">ZoneID</JoinField>
            <variable_mapping type="dictionary">
              <variable name="zone.zone_id" type="string">ZoneID</variable>
-             <variable name="urbansim.zone.population" type="string">Population</variable>
-             <variable name="urbansim.zone.number_of_households" type="string">Households</variable>
-             <variable name="urbansim.zone.number_of_jobs" type="string">Total_Emp</variable>
-             <variable name="zone.aggregate(urbansim.gridcell.number_of_jobs_of_group_basic)" type="string">Basic</variable>
-             <variable name="zone.aggregate(urbansim.gridcell.number_of_jobs_of_group_nonbasic)" type="string">NonBasic</variable>
-             <variable name="urbansim.zone.number_of_jobs_of_sector_4" type="string">WholeSale</variable>
-             <variable name="urbansim.zone.number_of_jobs_of_sector_5" type="string">Retail</variable>
+             <variable name="urbansim_parcel.zone.population" type="string">Population</variable>
+             <variable name="urbansim_parcel.zone.number_of_households" type="string">Households</variable>
+             <variable name="urbansim_parcel.zone.number_of_jobs" type="string">Total_Emp</variable>
+             <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_basic)" type="string">Basic</variable>
+             <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_nonbasic)" type="string">NonBasic</variable>
+             <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_4" type="string">WholeSale</variable>
+             <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_5" type="string">Retail</variable>
 	   </variable_mapping>
            <!--
            <variable_mapping type="list">[
@@ -753,9 +753,7 @@
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-       <!--
-        <argument config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory" name="scenario_runs_directory">d:/urbansim_runs/washtenaw_parcel</argument>
-       -->
+        <argument config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory" name="scenario_runs_directory">washtenaw_parcel/runs</argument>
         <argument type="class" name="baseyear_cache">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
@@ -855,6 +853,50 @@
         </datasets_to_preload>
       </advanced>
     </scenario>
+    <scenario executable="True" name="washtenaw_baseline_with_travel_model" type="scenario">
+      <parent type="scenario_name">washtenaw_baseline</parent>
+      <travel_model_configuration type="dictionary">
+		  <travel_model_base_directory type="string">D:\transcad_e5</travel_model_base_directory>
+		  <ui_file type="string">D:\transcad_e5\semcog_e5_ui</ui_file>
+		  <years_to_run key_name="year" type="category_with_special_keys">
+			<run_description type="dictionary">
+			  <year type="integer">2000</year>
+			  <data_dir type="string"></data_dir>  <!-- relative to <directory> -->
+		  <data_exchange_dir type="string">urbansim\\2001</data_exchange_dir>  <!-- relative to <directory> -->
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2002</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2002</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2005</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2005</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2009</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2010</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2015</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2015</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2020</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2020</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2025</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2025</data_exchange_dir>
+			</run_description>
+		  </years_to_run>		
+      </travel_model_configuration>
+    </scenario>    
   </scenario_manager>
   <results_manager>
     <indicator_batches setexpanded="True" type="group" name="Indicator Batches"/>
