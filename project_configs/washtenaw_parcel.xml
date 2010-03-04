@@ -64,6 +64,8 @@
       <variable source="expression" type="variable_definition" use="model variable" name="None.N29">urbansim.household.is_high_income * ln(psrc_parcel.building.sqft_per_unit)</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="None.N31">urbansim.household.is_young * building.disaggregate(psrc_parcel.parcel.percent_young_households_within_walking_distance)</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="building.N26">ln_bounded(building.residential_units)</variable>
+      <variable source="expression" type="variable_definition" use="both" name="zone.employment_of_basic_group">zone.aggregate(urbansim.job.is_in_employment_sector_group_basic)</variable>
+      <variable source="expression" type="variable_definition" use="both" name="zone.employment_of_nonbasic_group">zone.aggregate(urbansim.job.is_in_employment_sector_group_nonbasic)</variable>
     </expression_library>
     <available_datasets type="list">['parcel','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <spatial_datasets type="list">['zone','large_area','city','county']</spatial_datasets>
@@ -513,7 +515,7 @@
           </import>
           <init type="dictionary">
             <name hidden="True" type="string" name="name">DevelopmentProjectProposalRegressionModel</name>
-            <argument type="string" parser_action="quote_string" name="submodel_string">land_use_type_id=development_project_proposal.disaggregate(parcel.land_use_type_id)</argument>
+            <argument type="string" parser_action="quote_string" name="submodel_string">land_use_type_id=development_project_proposal.disaggregate(development_template.land_use_type_id)</argument>
             <argument type="string" parser_action="quote_string" name="filter_attribute">urbansim_parcel.development_project_proposal.is_size_fit</argument>
             <argument type="string" parser_action="quote_string" name="outcome_attribute_name">ln_unit_price_expected</argument>
             <argument hidden="True" type="string" name="dataset_pool">dataset_pool</argument>
@@ -899,7 +901,16 @@
     </scenario>    
   </scenario_manager>
   <results_manager>
-    <indicator_batches setexpanded="True" type="group" name="Indicator Batches"/>
+    <indicator_batches setexpanded="True" type="group" name="Indicator Batches">
+      <indicator_batch name="zone_indicator_batch" type="indicator_batch">
+        <batch_visualization hidden="Children" type="batch_visualization" name="employment_by_group">
+          <visualization_type>tab</visualization_type>
+          <indicators>['employment_of_basic_group', 'employment_of_nonbasic_group']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+    </indicator_batches>
     <simulation_runs setexpanded="True" type="all_source_data" name="Simulation Runs">
     </simulation_runs>
   </results_manager>
