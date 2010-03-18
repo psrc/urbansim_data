@@ -150,7 +150,7 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="building_type_choice_model" type="model">
+      <model name="new_agent_location_choice_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
