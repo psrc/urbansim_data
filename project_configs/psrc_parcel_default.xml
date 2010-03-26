@@ -29,6 +29,20 @@
       <variable use="model variable" source="expression" name="person.parttime" type="variable_definition">person.employment_status==2</variable>
       <variable use="model variable" source="primary attribute" name="person.age" type="variable_definition">person.age</variable>
       <variable use="model variable" source="primary attribute" name="person.edu" type="variable_definition">person.edu</variable>
+      <variable use="model variable" source="expression" name="person_x_job.hh_income_x_job_is_in_employment_sector_group_fires" type="variable_definition">person.disaggregate(household.income) * urbansim.job.is_in_employment_sector_group_fires</variable>
+      <variable use="model variable" source="expression" name="person_x_job.edu_x_job_is_in_employment_sector_group_basic" type="variable_definition">person.edu * urbansim.job.is_in_employment_sector_group_basic</variable>
+      <variable use="model variable" source="expression" name="person_x_job.edu_x_job_is_in_employment_sector_group_fires" type="variable_definition">person.edu * urbansim.job.is_in_employment_sector_group_fires</variable>
+      <variable use="model variable" source="expression" name="person_x_job.edu_x_job_is_in_employment_sector_group_retail" type="variable_definition">person.edu * urbansim.job.is_in_employment_sector_group_retail</variable>
+      <variable use="model variable" source="expression" name="person_x_job.edu_x_job_is_in_employment_sector_group_services" type="variable_definition">person.edu * urbansim.job.is_in_employment_sector_group_services</variable>
+      <variable use="model variable" source="expression" name="person_x_job.edu_x_job_is_in_employment_sector_group_edu" type="variable_definition">person.edu * urbansim.job.is_in_employment_sector_group_edu</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.logsum_hbw_am_from_home_to_work" type="variable_definition">psrc_parcel.person_x_job.logsum_hbw_am_from_home_to_work</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.network_distance_from_home_to_work" type="variable_definition">psrc_parcel.person_x_job.network_distance_from_home_to_work</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.network_distance_from_home_to_work" type="variable_definition">psrc_parcel.person_x_job.network_distance_from_home_to_work</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.home_district_is_same_as_workplace_district" type="variable_definition">psrc_parcel.person_x_job.home_district_is_same_as_workplace_district</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.home_area_type_1_workplace_area_type_2" type="variable_definition">psrc_parcel.person_x_job.home_area_type_1_workplace_area_type_2</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.home_area_type_4_workplace_area_type_2" type="variable_definition">psrc_parcel.person_x_job.home_area_type_4_workplace_area_type_2</variable>
+      <variable use="model variable" source="expression" name="person_x_job.home_dist_19_workplace_dist_19" type="variable_definition">(person.disaggregate(zone.district_id)==19) * (job.disaggregate(zone.district_id)==19)</variable>
+
     </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone']</available_datasets>
   </general>
@@ -57,6 +71,25 @@
           </submodel>
         </specification>
       </model>
+      <model copyable="True" hidden="False" name="workplace_choice_model_for_resident" type="model">
+        <specification type="dictionary">
+          <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">No submodel</description>
+             <variable_list type="variable_list">
+               <variable_spec name="person_x_job.logsum_hbw_am_from_home_to_work"/>
+               <variable_spec name="person_x_job.network_distance_from_home_to_work"/>
+               <variable_spec name="person_x_job.home_district_is_same_as_workplace_district"/>
+               <variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/>
+               <variable_spec name="person_x_job.home_area_type_1_workplace_area_type_2"/>
+               <variable_spec name="person_x_job.home_area_type_4_workplace_area_type_2"/>
+               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_basic"/>
+               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_retail"/>
+               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_fires"/>
+	       <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_edu"/>
+             </variable_list>            	
+          </submodel>
+        </specification>
+      </model>      
       <model copyable="True" hidden="False" name="shopping_destination_choice" type="model">
         <specification type="dictionary">
           <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
