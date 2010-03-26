@@ -24,12 +24,40 @@
       <variable use="model variable" source="expression" name="household_x_building.neigh_shopping" type="variable_definition">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
       <variable use="model variable" source="expression" name="household_x_building.max_logsum_hbw_am_from_home_to_work" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work</variable>
       <variable use="model variable" source="expression" name="household_x_building.max_network_distance_from_home_to_work" type="variable_definition">psrc_parcel.household_x_building.worker1_network_distance_from_home_to_work</variable>
+      <variable use="model variable" source="expression" name="person.kemp30m" type="variable_definition">person.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone, intermediates=[household])/1000</variable>
+      <variable use="model variable" source="expression" name="person.age13" type="variable_definition">person.disaggregate(urbansim_parcel.household.persons_with_age_le_13>0)</variable>
+      <variable use="model variable" source="expression" name="person.parttime" type="variable_definition">person.employment_status==2</variable>
+      <variable use="model variable" source="primary attribute" name="person.age" type="variable_definition">person.age</variable>
+      <variable use="model variable" source="primary attribute" name="person.edu" type="variable_definition">person.edu</variable>
     </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone']</available_datasets>
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model copyable="True" hidden="True" name="shopping_destination_choice" type="model">
+      <model copyable="True" hidden="False" name="work_at_home_choice_model" type="model">
+        <specification type="dictionary">
+          <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">No submodel</description>
+            <equation equation_id="0" name="Choice 0" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="person.kemp30m"/>
+              </variable_list>            	
+            </equation>
+            <equation equation_id="1"  name="Choice 1" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant"/>
+                <!--
+                <variable_spec name="person.age13"/>
+                <variable_spec name="person.age"/>
+                <variable_spec name="person.edu"/>
+                <variable_spec name="person.parttime"/>
+                -->
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+      </model>
+      <model copyable="True" hidden="False" name="shopping_destination_choice" type="model">
         <specification type="dictionary">
           <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">No submodel</description>
@@ -513,7 +541,8 @@
         <selectable copyable="True" type="selectable" name="person_trip">False</selectable>
         <selectable copyable="True" type="selectable" name="zone">True</selectable>
         <selectable copyable="True" type="selectable" name="mode">False</selectable>
-        <selectable copyable="True" type="selectable" name="building">True</selectable>
+        <selectable copyable="True" type="selectable" name="building" followers="my_dataset">True</selectable>
+        <selectable copyable="True" type="selectable" name="person">True</selectable>
       </datasets_to_preload>
     </estimation_config>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
