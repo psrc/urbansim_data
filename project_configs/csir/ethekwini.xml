@@ -1,0 +1,659 @@
+<opus_project>
+  <xml_version parser_action="skip">1.0</xml_version>
+  <general>
+    <description type="string">eThekwini project configuration</description>
+    <project_name hidden="True" type="string">ethekwini</project_name>
+    <parent type="file">udl_parcel/configs/udl_simulation.xml</parent>
+    <expression_library type="dictionary">
+      <constant dataset="parcel" source="built-in" type="variable_definition" use="model variable">constant</constant>
+      <lnemp30da dataset="parcel" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</lnemp30da>
+      <lnemp20da dataset="parcel" source="expression" type="variable_definition" use="both">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</lnemp20da>
+      <ln_distance_to_highway_parcel dataset="parcel" source="expression" type="variable_definition" use="model variable">ln(parcel.distance_to_highway)</ln_distance_to_highway_parcel>
+      <lnemp90da dataset="parcel" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_90_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</lnemp90da>
+      <lnavginc_building dataset="building" source="expression" type="variable_definition" use="both">(ln(building.disaggregate(urbansim_parcel.zone.average_income))).astype(float32)</lnavginc_building>
+      <lnemp90da_building dataset="building" source="expression" type="variable_definition" use="both">(ln(building.disaggregate(urbansim_parcel.zone.employment_within_90_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</lnemp90da_building>
+      <ln_income_x_avg_unit_price dataset="household_x_building" source="expression" type="variable_definition" use="both">ln(household.income*building.disaggregate(urbansim_parcel.parcel.unit_price))</ln_income_x_avg_unit_price>
+      <ln_jobs_per_acre_building dataset="building" source="expression" type="variable_definition" use="both">ln(building.disaggregate(zone.number_of_agents(job)/zone.aggregate(parcel.parcel_sqft)*43560))</ln_jobs_per_acre_building>
+      <ln_income_x_avg_income dataset="household_x_building" source="expression" type="variable_definition" use="both">ln(household.income*building.disaggregate(parcel.aggregate(household.income,function=mean)))</ln_income_x_avg_income>
+      <ln_avg_income_parcel dataset="parcel" source="expression" type="variable_definition" use="model variable">ln(parcel.aggregate(household.income, function=mean))</ln_avg_income_parcel>
+      <ln_jobs_per_acre dataset="parcel" source="expression" type="variable_definition" use="both">ln(parcel.disaggregate(zone.number_of_agents(job)/zone.aggregate(parcel.parcel_sqft)*43560))</ln_jobs_per_acre>
+      <jobs_per_acre dataset="parcel" source="expression" type="variable_definition" use="model variable">parcel.disaggregate(zone.number_of_agents(job)/zone.aggregate(parcel.parcel_sqft)*43560)</jobs_per_acre>
+      <lngcdacbd dataset="parcel" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(udl_parcel.zone.generalized_cost_hbw_am_drive_alone_to_cbd))).astype(float32)</lngcdacbd>
+      <blngcdacbd dataset="building" source="expression" type="variable_definition" use="model variable">(ln(building.disaggregate(udl_parcel.zone.generalized_cost_hbw_am_drive_alone_to_cbd))).astype(float32)</blngcdacbd>
+      <hh_inc dataset="household" source="expression" type="variable_definition" use="both">household.income</hh_inc>
+      <unit_price_bld dataset="building" source="expression" type="variable_definition" use="both">building.disaggregate(urbansim_parcel.parcel.unit_price)</unit_price_bld>
+    </expression_library>
+    <advanced type="category">
+      <dataset_pool_configuration hidden="True" type="class">
+        <Class_name hidden="True" type="string">DatasetPoolConfiguration</Class_name>
+        <Class_path hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</Class_path>
+        <package_order type="list">['udl_parcel','urbansim_parcel','urbansim','opus_core']</package_order>
+      </dataset_pool_configuration>
+    </advanced>
+    <available_datasets type="list">['building','parcel','zone','faz','large_area','gridcell','city','county','alldata', 'household']</available_datasets>
+    <spatial_datasets type="list">[]</spatial_datasets>
+  </general>
+  <data_manager>
+    <Tool_Library setexpanded="True" type="tool_library">
+      <opus_data_import_export_tools setexpanded="True" type="tool_group">
+        <sql_data_to_opus_tool type="tool_file">
+          <name type="tool_name">sql_data_to_opus</name>
+          <params type="param_template">
+            <database_server_connection>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type type="db_connection_hook">db_connection_hook</type>
+              <default>scenario_database_server</default>
+            </database_server_connection>
+            <database_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">eth_baseyear</default>
+            </database_name>
+            <table_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">ALL</default>
+            </table_name>
+            <opus_data_directory>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="dir_path" type="string">dir_path</type>
+              <default type="dir_path">D:/opus/data/ethekwini/base_year_data</default>
+            </opus_data_directory>
+            <opus_data_year>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">2001</default>
+            </opus_data_year>
+          </params>
+        </sql_data_to_opus_tool>
+        <opus_data_to_sql_tool type="tool_file">
+          <acts_on hidden="True" type="acts_on">database,dataset</acts_on>
+          <exports_to hidden="True" type="exports_to">SQL</exports_to>
+          <name type="tool_name">opus_data_to_sql</name>
+          <params type="param_template">
+            <database_server_connection>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type type="db_connection_hook">db_connection_hook</type>
+              <default>scenario_database_server</default>
+            </database_server_connection>
+            <database_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">eth_baseyear</default>
+            </database_name>
+            <opus_data_directory>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="dir_path" type="string">dir_path</type>
+              <default type="dir_path">D:/opus/data/ethekwini/base_year_data</default>
+            </opus_data_directory>
+            <opus_data_year>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">2001</default>
+            </opus_data_year>
+            <opus_table_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">parcels</default>
+            </opus_table_name>
+          </params>
+        </opus_data_to_sql_tool>
+      </opus_data_import_export_tools>
+    </Tool_Library>
+  </data_manager>
+  <model_manager>
+    <model_system setexpanded="True" type="model_system">
+      <informal_settlement_choice_model copyable="True" followers="simple_model_template,choice_model_template,regression_model_template,allocation_model_template,agent_location_choice_model_template,refinement_model,employment_transition_model,employment_relocation_model,distribute_unplaced_jobs_model,governmental_employment_location_choice_model,household_relocation_model,process_pipeline_events,development_proposal_choice_model,building_construction_model" hidden="True" type="model">
+        <structure type="dictionary">
+          <import type="dictionary">
+            <module type="string">opus_core.choice_model</module>
+            <classname type="string">ChoiceModel</classname>
+          </import>
+          <init type="dictionary">
+            <name type="string">ChoiceModel</name>
+            <choice_set type="string">0,1</choice_set>
+            <utilities type="quoted_string">opus_core.linear_utilities</utilities>
+            <probabilities type="quoted_string">opus_core.mnl_probabilities</probabilities>
+            <choices type="quoted_string">opus_core.random_choices</choices>
+            <submodel_string parser_action="blank_to_None" type="string" />
+            <choice_attribute_name type="quoted_string" />
+            <interaction_pkg type="quoted_string">opus_core</interaction_pkg>
+            <run_config parser_action="blank_to_None" type="string" />
+            <estimate_config type="dictionary">
+              <estimation_size_agents type="float">.1</estimation_size_agents>
+            </estimate_config>
+            <debuglevel type="integer">0</debuglevel>
+            <dataset_pool type="string">dataset_pool</dataset_pool>
+          </init>
+          <run type="dictionary">
+            <specification type="string">specification</specification>
+            <coefficients type="string">coefficients</coefficients>
+            <agent_set type="string">parcel</agent_set>
+            <agents_index type="string">cm_index</agents_index>
+            <chunk_specification parser_action="blank_to_None" type="string" />
+            <data_objects type="string">datasets</data_objects>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name type="string">prepare_for_run</name>
+            <agent_set parser_action="blank_to_None" type="string">parcel</agent_set>
+            <agent_filter parser_action="blank_to_None" type="quoted_string" />
+            <specification_storage type="string">base_cache_storage</specification_storage>
+            <specification_table type="quoted_string">informal_settlement_choice_model_specification</specification_table>
+            <coefficients_storage type="string">base_cache_storage</coefficients_storage>
+            <coefficients_table type="quoted_string">informal_settlement_choice_model_coefficients_table</coefficients_table>
+            <cache_storage type="string">base_cache_storage</cache_storage>
+            <sample_coefficients type="boolean">False</sample_coefficients>
+            <distribution type="quoted_string">normal</distribution>
+            <multiplicator type="integer">1</multiplicator>
+            <output type="string">(specification, coefficients, cm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <specification type="string">specification</specification>
+            <agent_set type="string">parcel</agent_set>
+            <agents_index type="string">cm_index</agents_index>
+            <procedure type="quoted_string">opus_core.bhhh_mnl_estimation</procedure>
+            <data_objects type="string">datasets</data_objects>
+            <output type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name type="string">prepare_for_estimate</name>
+            <agent_set parser_action="blank_to_None" type="string">parcel</agent_set>
+            <agent_filter parser_action="blank_to_None" type="quoted_string" />
+            <specification_storage type="string">base_cache_storage</specification_storage>
+            <specification_table type="quoted_string">choice_model_template_specification</specification_table>
+            <output type="string">(specification, cm_index)</output>
+            <models_to_run parser_action="skip" type="list">[]</models_to_run>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel copyable="True" type="submodel">
+            <description type="string">No submodel</description>
+            <submodel_id type="integer">-2</submodel_id>
+            <choice_1 copyable="True" type="submodel_equation">
+              <equation_id type="integer">0</equation_id>
+              <variables type="variable_list">constant</variables>
+            </choice_1>
+            <choice_2 copyable="True" type="submodel_equation">
+              <equation_id type="integer">1</equation_id>
+              <variables type="variable_list" />
+            </choice_2>
+          </submodel>
+        </specification>
+      </informal_settlement_choice_model>
+      <estimation_config type="configuration">
+        <save_estimation_results choices="True|False" type="boolean">False</save_estimation_results>
+        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">ethekwini\base_year_data</cache_directory>
+        <estimation_database_configuration type="class">
+          <Class_name hidden="True" type="string">EstimationDatabaseConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.database_management.configurations.estimation_database_configuration</Class_path>
+          <database_name type="string">eth_baseyear</database_name>
+        </estimation_database_configuration>
+        <dataset_pool_configuration type="class">
+          <Class_name hidden="True" type="string">DatasetPoolConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</Class_path>
+          <package_order type="list">['udl_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</package_order>
+        </dataset_pool_configuration>
+        <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
+        <low_memory_mode type="boolean">False</low_memory_mode>
+        <base_year type="integer">2001</base_year>
+        <years type="tuple">
+          <firstyear type="integer">2001</firstyear>
+          <lastyear type="integer">2001</lastyear>
+        </years>
+      </estimation_config>
+      <real_estate_price_model copyable="True" type="model">
+        <structure type="dictionary">
+          <import hidden="True" type="dictionary">
+            <module type="string">urbansim.models.real_estate_price_model</module>
+            <classname>RealEstatePriceModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">RealEstatePriceModel</name>
+            <submodel_string type="quoted_string">land_use_type_id</submodel_string>
+            <dependent_variable config_name="outcome_attribute" type="quoted_string">ln_unit_price=ln(urbansim_parcel.parcel.unit_price)</dependent_variable>
+            <filter_attribute type="quoted_string">urbansim_parcel.parcel.unit_price</filter_attribute>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+            <estimate_config type="string">Resources({'save_predicted_values_and_errors': False})</estimate_config>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" type="string">prepare_for_run</name>
+            <specification_storage type="string">base_cache_storage</specification_storage>
+            <specification_table type="quoted_string">real_estate_price_model_specification</specification_table>
+            <coefficients_storage type="string">base_cache_storage</coefficients_storage>
+            <coefficients_table type="quoted_string">real_estate_price_model_coefficients</coefficients_table>
+            <output hidden="True" type="string">(specification, coefficients)</output>
+          </prepare_for_run>
+          <run type="dictionary">
+            <specification hidden="True" type="string">specification</specification>
+            <coefficients hidden="True" type="string">coefficients</coefficients>
+            <dataset type="string">parcel</dataset>
+            <data_objects hidden="True" type="string">datasets</data_objects>
+            <run_config type="string">Resources()</run_config>
+          </run>
+          <prepare_for_estimate type="dictionary">
+            <name hidden="True" type="string">prepare_for_estimate</name>
+            <specification_storage type="string">base_cache_storage</specification_storage>
+            <specification_table type="quoted_string">real_estate_price_model_specification</specification_table>
+            <filter_variable type="quoted_string">numpy.logical_and(parcel.val_roll_bld_id &gt; 0, parcel.val_roll_bld_id &lt;16937)</filter_variable>
+            <dataset type="string">parcel</dataset>
+            <threshold type="integer">0</threshold>
+            <output hidden="True" type="string">(specification, index)</output>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <specification hidden="True" type="string">specification</specification>
+            <dependent_variable config_name="outcome_attribute" type="quoted_string">ln_unit_price=ln(urbansim_parcel.parcel.unit_price)</dependent_variable>
+            <dataset type="string">parcel</dataset>
+            <index hidden="True" type="string">index</index>
+            <data_objects hidden="True" type="string">datasets</data_objects>
+            <debuglevel hidden="True" type="string">debuglevel</debuglevel>
+            <procedure type="quoted_string">opus_core.estimate_linear_regression</procedure>
+            <output hidden="True" type="string">(coefficients, dummy)</output>
+          </estimate>
+        </structure>
+        <specification>
+          <commercial type="submodel">
+            <description type="string">Commercial, retail and offices</description>
+            <submodel_id type="integer">1</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </commercial>
+          <community type="submodel">
+            <description type="string">Place of worship, museums, community halls, etc]</description>
+            <submodel_id type="integer">2</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </community>
+          <education type="submodel">
+            <description type="string">Schools, colleges, university, etc</description>
+            <submodel_id type="integer">3</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </education>
+          <government type="submodel">
+            <description type="string">Government</description>
+            <submodel_id type="integer">4</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </government>
+          <industrial type="submodel">
+            <description type="string">Manufacturing and storage</description>
+            <submodel_id type="integer">5</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </industrial>
+          <mining type="submodel">
+            <description type="string">Mining</description>
+            <submodel_id type="integer">6</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </mining>
+          <vacant_developable type="submodel">
+            <description type="string">Vacant land available for development</description>
+            <submodel_id type="integer">7</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </vacant_developable>
+          <parks_and_recreation type="submodel">
+            <description type="string">Parks, recreation and conservation areas</description>
+            <submodel_id type="integer">8</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </parks_and_recreation>
+          <residential_cluster type="submodel">
+            <description type="string">Cluster housing (multiple dwellings per stand)</description>
+            <submodel_id type="integer">10</submodel_id>
+            <variables type="variable_list">ln_distance_to_highway_parcel, constant, ln_jobs_per_acre, ln_avg_income_parcel, lnlotsqftunit, lnemp90da, lnsqftunit</variables>
+          </residential_cluster>
+          <residential_formal type="submodel">
+            <description type="string">Formal housing (one dwelling per stand)</description>
+            <submodel_id type="integer">11</submodel_id>
+            <variables type="variable_list">ln_distance_to_highway_parcel, constant, ln_jobs_per_acre, ln_avg_income_parcel, lnlotsqftunit, lnemp90da, lnsqftunit</variables>
+          </residential_formal>
+          <residential_high_rise type="submodel">
+            <description type="string">Multi-storey residential</description>
+            <submodel_id type="integer">12</submodel_id>
+            <variables type="variable_list">ln_distance_to_highway_parcel, constant, ln_jobs_per_acre, ln_avg_income_parcel, lnlotsqftunit, lnemp90da, lnsqftunit</variables>
+          </residential_high_rise>
+          <residential_informal type="submodel">
+            <description type="string">Informal housing</description>
+            <submodel_id type="integer">13</submodel_id>
+            <variables type="variable_list">ln_distance_to_highway_parcel, constant, ln_jobs_per_acre, ln_avg_income_parcel, lnlotsqftunit, lnemp90da, lnsqftunit</variables>
+          </residential_informal>
+          <services type="submodel">
+            <description type="string">Health, cemetery, waste disposal, substations, reservoirs, sewage works</description>
+            <submodel_id type="integer">14</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </services>
+          <smallholding type="submodel">
+            <description type="string">Agricultural and residential smallholding</description>
+            <submodel_id type="integer">15</submodel_id>
+            <variables type="variable_list">ln_distance_to_highway_parcel, constant, ln_jobs_per_acre, ln_avg_income_parcel, lnlotsqftunit, lnemp90da, lnsqftunit</variables>
+          </smallholding>
+          <transportation type="submodel">
+            <description type="string">Transportation (Airports, airfields, railway stations, taxi ranks, etc)</description>
+            <submodel_id type="integer">16</submodel_id>
+            <variables type="variable_list">constant, lnemp20da, lnpopden, ln_invfar, lnavginc, lnsqft</variables>
+          </transportation>
+        </specification>
+      </real_estate_price_model>
+      <employment_location_choice_model copyable="True" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <estimation_weight_string type="quoted_string" />
+            <estimation_size_agents type="float">.1</estimation_size_agents>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <agents_for_estimation_table type="quoted_string" />
+          </prepare_for_estimate>
+        </structure>
+        <specification>
+          <home_based type="dictionary">
+            <submodel copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">-2</submodel_id>
+              <variables type="variable_list">blngcdacbd</variables>
+            </submodel>
+          </home_based>
+          <non_home_based type="dictionary">
+            <sector_1 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">1</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_1>
+            <sector_2 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">2</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_2>
+            <sector_3 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">3</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_3>
+            <sector_4 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">4</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_4>
+            <sector_5 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">5</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_5>
+            <sector_6 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">6</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_6>
+            <sector_7 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">7</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_7>
+            <sector_8 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">8</submodel_id>
+              <variables type="variable_list">lnavginc_building, avg_unit_price, lnemp90da_building, lnmp30da, ln_jobs_per_acre_building</variables>
+            </sector_8>
+            <sector_9 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">9</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_9>
+            <sector_10 copyable="True" type="submodel">
+              <description type="string">No submodel</description>
+              <submodel_id type="integer">10</submodel_id>
+              <variables type="variable_list">lnemp90da_building</variables>
+            </sector_10>
+          </non_home_based>
+        </specification>
+      </employment_location_choice_model>
+      <household_location_choice_model copyable="True" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <submodel_string type="quoted_string">udl_parcel.household.income_group</submodel_string>
+            <estimation_size_agents type="float">0.1</estimation_size_agents>
+            <filter type="quoted_string">numpy.logical_and(urbansim_parcel.building.is_residential, numpy.logical_and(numpy.logical_and(building.residential_units, building.sqft_per_unit), building.disaggregate(parcel.land_use_type_id==11)))</filter>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <agents_for_estimation_table type="quoted_string" />
+            <filter type="quoted_string">household.building_id&gt;0</filter>
+          </prepare_for_estimate>
+        </structure>
+        <specification>
+          <income_1 copyable="True" type="submodel">
+            <description type="string">income &lt; 100000</description>
+            <submodel_id type="integer">1</submodel_id>
+            <variables type="variable_list">lnavginc_building, lnemp90da_building, ln_income_x_avg_income, ln_income_x_avg_unit_price, ln_jobs_per_acre_building</variables>
+          </income_1>
+          <income_2 copyable="True" type="submodel">
+            <description type="string">income between 100000 and 300000</description>
+            <submodel_id type="integer">2</submodel_id>
+            <variables type="variable_list">lnavginc_building, lnemp90da_building, ln_income_x_avg_income, ln_income_x_avg_unit_price, ln_jobs_per_acre_building</variables>
+          </income_2>
+          <income_3 copyable="True" type="submodel">
+            <description type="string">income 300000 - 500000</description>
+            <submodel_id type="integer">3</submodel_id>
+            <variables type="variable_list">lnavginc_building, lnemp90da_building, ln_income_x_avg_income, ln_income_x_avg_unit_price, ln_jobs_per_acre_building</variables>
+          </income_3>
+          <income_4 copyable="True" type="submodel">
+            <description type="string">income over 500000</description>
+            <submodel_id type="integer">4</submodel_id>
+            <variables type="variable_list">lnavginc_building, lnemp90da_building, ln_income_x_avg_income, ln_income_x_avg_unit_price, ln_jobs_per_acre_building</variables>
+          </income_4>
+        </specification>
+      </household_location_choice_model>
+      <expected_sale_price_model copyable="True" type="model">
+        <structure type="dictionary">
+          <import hidden="True" type="dictionary">
+            <module type="string">urbansim_parcel.models.development_project_proposal_regression_model</module>
+            <classname>DevelopmentProjectProposalRegressionModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">DevelopmentProjectProposalRegressionModel</name>
+            <submodel_string type="quoted_string">land_use_type_id=development_project_proposal.disaggregate(parcel.land_use_type_id)</submodel_string>
+            <filter_attribute type="quoted_string">urbansim_parcel.development_project_proposal.is_size_fit</filter_attribute>
+            <outcome_attribute_name type="quoted_string">ln_unit_price_expected</outcome_attribute_name>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" type="string">prepare_for_run</name>
+            <parcel_filter_for_new_development type="quoted_string">has_vacant_land=urbansim_parcel.parcel.is_land_use_type_vacant_developable</parcel_filter_for_new_development>
+            <parcel_filter_for_redevelopment type="quoted_string">low_improvement_ratio=urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.1</parcel_filter_for_redevelopment>
+            <specification_storage hidden="True" type="string">base_cache_storage</specification_storage>
+            <specification_table type="quoted_string">real_estate_price_model_specification</specification_table>
+            <coefficients_storage hidden="True" type="string">base_cache_storage</coefficients_storage>
+            <coefficients_table type="quoted_string">real_estate_price_model_coefficients</coefficients_table>
+            <spec_replace_module_variable_pair hidden="True" type="string">('psrc_parcel.estimation.repm_specification', 'variables_for_development_project_proposal')</spec_replace_module_variable_pair>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+            <output hidden="True" type="string">(development_project_proposal, specification, coefficients)</output>
+          </prepare_for_run>
+          <run type="dictionary">
+            <specification hidden="True" type="string">specification</specification>
+            <coefficients hidden="True" type="string">coefficients</coefficients>
+            <dataset type="string">development_project_proposal</dataset>
+            <data_objects hidden="True" type="string">datasets</data_objects>
+            <output hidden="True" type="string">development_project_proposal</output>
+          </run>
+        </structure>
+      </expected_sale_price_model>
+      <household_transition_model type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <characteristics type="string">characteristics</characteristics>
+          </run>
+        </structure>
+      </household_transition_model>
+    </model_system>
+  </model_manager>
+  <scenario_manager>
+    <urbansim_parcel_baseline type="scenario">
+      <parent_old_format type="dictionary">
+        <Class_name type="string">UrbansimParcelConfiguration</Class_name>
+        <Class_path type="string">urbansim_parcel.configs.controller_config</Class_path>
+      </parent_old_format>
+    </urbansim_parcel_baseline>
+    <ethekwini_baseline copyable="True" executable="True" setexpanded="True" type="scenario">
+      <parent type="scenario_name">urbansim_parcel_baseline</parent>
+      <base_year type="integer">2001</base_year>
+      <years_to_run config_name="years" setexpanded="True" type="tuple">
+        <firstyear type="integer">2002</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" setexpanded="True" type="selectable_list">
+        <real_estate_price_model choices="Run|Skip" type="model_choice">Run</real_estate_price_model>
+        <expected_sale_price_model choices="Run|Skip" type="model_choice">Run</expected_sale_price_model>
+        <development_proposal_choice_model choices="Run|Skip" type="model_choice">Run</development_proposal_choice_model>
+        <building_construction_model choices="Run|Skip" type="model_choice">Run</building_construction_model>
+        <household_transition_model choices="Run|Skip" type="model_choice">Run</household_transition_model>
+        <employment_transition_model choices="Run|Skip" type="model_choice">Run</employment_transition_model>
+        <household_relocation_model choices="Run|Skip" type="model_choice">Run</household_relocation_model>
+        <household_location_choice_model choices="Run|Skip" type="model_choice">Run</household_location_choice_model>
+        <employment_relocation_model choices="Run|Skip" type="model_choice">Run</employment_relocation_model>
+        <employment_location_choice_model choices="Run|Skip" type="model_choice">Run<group_members type="string">non_home_based</group_members>
+        </employment_location_choice_model>
+        <distribute_unplaced_jobs_model choices="Run|Skip" type="model_choice">Run</distribute_unplaced_jobs_model>
+      </models_to_run>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">ethekwini/base_year_data</cache_directory>
+      <scenario_database_configuration config_name="scenario_database_configuration" type="class">
+        <Class_name hidden="True" type="string">ScenarioDatabaseConfiguration</Class_name>
+        <Class_path hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</Class_path>
+        <database_name type="string">eth_baseyear</database_name>
+      </scenario_database_configuration>
+      <creating_baseyear_cache_configuration setexpanded="True" type="class">
+        <Class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</Class_name>
+        <Class_path hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</Class_path>
+        <cache_from_database choices="True|False" type="boolean">False</cache_from_database>
+        <tables_to_cache type="selectable_list">
+          <annual_employment_control_totals choices="Cache|Skip" type="table">Skip</annual_employment_control_totals>
+          <annual_household_control_totals choices="Cache|Skip" type="table">Skip</annual_household_control_totals>
+          <annual_relocation_rates_for_jobs choices="Cache|Skip" type="table">Skip</annual_relocation_rates_for_jobs>
+          <annual_relocation_rates_for_households choices="Cache|Skip" type="table">Skip</annual_relocation_rates_for_households>
+          <buildings choices="Cache|Skip" type="table">Skip</buildings>
+          <building_types choices="Cache|Skip" type="table">Skip</building_types>
+          <building_sqft_per_job choices="Cache|Skip" type="table">Skip</building_sqft_per_job>
+          <cities choices="Cache|Skip" type="table">Skip</cities>
+          <demolition_cost_per_sqft choices="Cache|Skip" type="table">Skip</demolition_cost_per_sqft>
+          <development_constraints choices="Cache|Skip" type="table">Skip</development_constraints>
+          <development_projects choices="Cache|Skip" type="table">Skip</development_projects>
+          <development_project_components choices="Cache|Skip" type="table">Skip</development_project_components>
+          <development_templates choices="Cache|Skip" type="table">Skip</development_templates>
+          <development_template_components choices="Cache|Skip" type="table">Skip</development_template_components>
+          <employment_adhoc_sector_groups choices="Cache|Skip" type="table">Skip</employment_adhoc_sector_groups>
+          <employment_adhoc_sector_group_definitions choices="Cache|Skip" type="table">Skip</employment_adhoc_sector_group_definitions>
+          <employment_sectors choices="Cache|Skip" type="table">Skip</employment_sectors>
+          <generic_building_types choices="Cache|Skip" type="table">Skip</generic_building_types>
+          <generic_land_use_types choices="Cache|Skip" type="table">Skip</generic_land_use_types>
+          <households choices="Cache|Skip" type="table">Skip</households>
+          <home_based_employment_location_choice_model_coefficients choices="Cache|Skip" type="table">Skip</home_based_employment_location_choice_model_coefficients>
+          <home_based_employment_location_choice_model_specification choices="Cache|Skip" type="table">Skip</home_based_employment_location_choice_model_specification>
+          <household_characteristics_for_ht choices="Cache|Skip" type="table">Skip</household_characteristics_for_ht>
+          <household_location_choice_model_coefficients choices="Cache|Skip" type="table">Skip</household_location_choice_model_coefficients>
+          <household_location_choice_model_specification choices="Cache|Skip" type="table">Skip</household_location_choice_model_specification>
+          <jobs choices="Cache|Skip" type="table">Skip</jobs>
+          <job_building_types choices="Cache|Skip" type="table">Skip</job_building_types>
+          <land_use_types choices="Cache|Skip" type="table">Skip</land_use_types>
+          <large_areas choices="Cache|Skip" type="table">Skip</large_areas>
+          <non_home_based_employment_location_choice_model_coefficients choices="Cache|Skip" type="table">Skip</non_home_based_employment_location_choice_model_coefficients>
+          <non_home_based_employment_location_choice_model_specification choices="Cache|Skip" type="table">Skip</non_home_based_employment_location_choice_model_specification>
+          <parcels choices="Cache|Skip" type="table">Cache</parcels>
+          <persons choices="Cache|Skip" type="table">Skip</persons>
+          <real_estate_price_model_coefficients choices="Cache|Skip" type="table">Skip</real_estate_price_model_coefficients>
+          <real_estate_price_model_specification choices="Cache|Skip" type="table">Skip</real_estate_price_model_specification>
+          <sub_places choices="Cache|Skip" type="table">Skip</sub_places>
+          <target_vacancies choices="Cache|Skip" type="table">Skip</target_vacancies>
+          <travel_data choices="Cache|Skip" type="table">Skip</travel_data>
+          <urbansim_constants choices="Cache|Skip" type="table">Skip</urbansim_constants>
+          <zones choices="Cache|Skip" type="table">Skip</zones>
+        </tables_to_cache>
+        <scenario_runs_directory config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">ethekwini/runs (simulation)</scenario_runs_directory>
+        <baseyear_cache type="class">
+          <Class_name hidden="True" type="string">BaseyearCacheConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</Class_path>
+          <existing_cache_to_copy parser_action="prefix_with_opus_data_path" type="directory">ethekwini/base_year_data</existing_cache_to_copy>
+        </baseyear_cache>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <advanced type="category">
+          <cache_scenario_database type="string">udl_parcel.model_coordinators.cache_scenario_database</cache_scenario_database>
+          <tables_to_cache_nchunks type="dictionary">
+            <parcels type="integer">1</parcels>
+          </tables_to_cache_nchunks>
+        </advanced>
+      </creating_baseyear_cache_configuration>
+      <advanced type="category">
+        <dataset_pool_configuration type="class">
+          <Class_name hidden="True" type="string">DatasetPoolConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</Class_path>
+          <package_order type="list">['udl_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</package_order>
+        </dataset_pool_configuration>
+        <flush_dataset_to_cache_after_each_model type="boolean">False</flush_dataset_to_cache_after_each_model>
+        <flush_variables type="boolean">False</flush_variables>
+        <low_memory_run type="boolean">False</low_memory_run>
+        <datasets_to_cache_after_each_model type="list">['parcel', 'building', 'household', 'job', 'development_project_proposal_component', 'development_project_proposal', 'travel_data']</datasets_to_cache_after_each_model>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <zone choices="Load|Skip" type="dataset">Load</zone>
+          <household choices="Load|Skip" type="dataset">Load</household>
+          <building choices="Load|Skip" type="dataset">Load</building>
+          <parcel choices="Load|Skip" type="dataset">Load
+             <package_name type="string">urbansim_parcel</package_name>
+          </parcel>
+          <person choices="Load|Skip" type="dataset">Load
+             <package_name type="string">urbansim_parcel</package_name>
+          </person>
+          <development_template choices="Load|Skip" type="dataset">Load
+             <package_name type="string">urbansim_parcel</package_name>
+          </development_template>
+          <development_template_component choices="Load|Skip" type="dataset">Load
+             <package_name type="string">urbansim_parcel</package_name>
+          </development_template_component>
+          <job choices="Load|Skip" type="dataset">Load</job>
+          <building_type choices="Load|Skip" type="dataset">Load
+             <package_name type="string">urbansim_parcel</package_name>
+          </building_type>
+          <travel_data choices="Load|Skip" type="dataset">Load</travel_data>
+          <job_building_type choices="Load|Skip" type="dataset">Load</job_building_type>
+        </datasets_to_preload>
+      </advanced>
+    </ethekwini_baseline>
+  </scenario_manager>
+  <results_manager>
+    <Indicator_batches setexpanded="True" type="group">
+      <diasgnostic_indicators type="indicator_batch">
+        <QC type="batch_visualization">
+          <indicators hidden="True" type="string">['ln_income_x_avg_unit_price', 'ln_income_x_avg_income']</indicators>
+          <output_type hidden="True" type="string">tab</output_type>
+          <output_style hidden="True" type="string">1</output_style>
+          <dataset_name hidden="True" type="string">household_x_building</dataset_name>
+          <visualization_type hidden="True" type="string">tab</visualization_type>
+        </QC>
+      </diasgnostic_indicators>
+    </Indicator_batches>
+    <Simulation_runs setexpanded="True" type="all_source_data">
+      <run_2010_02_17_16_13 type="source_data">
+        <run_id hidden="True" type="integer">7</run_id>
+        <scenario_name hidden="True" type="string">?</scenario_name>
+        <run_name hidden="True" type="string">run_2010_02_17_16_13</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\runs (preparation)\run_7.run_2010_02_17_16_13</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </run_2010_02_17_16_13>
+      <run_2010_02_17_13_00 type="source_data">
+        <run_id hidden="True" type="integer">6</run_id>
+        <scenario_name hidden="True" type="string">?</scenario_name>
+        <run_name hidden="True" type="string">run_2010_02_17_13_00</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\runs (preparation)\run_6.run_2010_02_17_13_00</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </run_2010_02_17_13_00>
+      <run_2010_02_17_12_15 type="source_data">
+        <run_id hidden="True" type="integer">5</run_id>
+        <scenario_name hidden="True" type="string">?</scenario_name>
+        <run_name hidden="True" type="string">run_2010_02_17_12_15</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\runs (preparation)\run_5.run_2010_02_17_12_15</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </run_2010_02_17_12_15>
+      <base_year_data type="source_data">
+        <run_id hidden="True" type="integer">1</run_id>
+        <scenario_name hidden="True" type="string" />
+        <run_name hidden="True" type="string">base_year_data</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\base_year_data</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </base_year_data>
+    </Simulation_runs>
+  </results_manager>
+</opus_project>

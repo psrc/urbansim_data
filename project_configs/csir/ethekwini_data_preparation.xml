@@ -1,0 +1,344 @@
+<opus_project>
+  <xml_version parser_action="skip">1.0</xml_version>
+  <general>
+    <description type="string">eThekwini project configuration</description>
+    <project_name hidden="True" type="string">ethekwini</project_name>
+    <parent type="file">udl_parcel/configs/udl_preparation.xml</parent>
+    <expression_library type="dictionary">
+      </expression_library>
+    <advanced type="category">
+      <dataset_pool_configuration hidden="True" type="class">
+        <Class_name hidden="True" type="string">DatasetPoolConfiguration</Class_name>
+        <Class_path hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</Class_path>
+        <package_order type="list">['udl_parcel','urbansim_parcel','urbansim','opus_core']</package_order>
+      </dataset_pool_configuration>
+    </advanced>
+    <available_datasets type="list">['building','parcel']</available_datasets>
+    <spatial_datasets type="list">[]</spatial_datasets>
+  </general>
+  <data_manager>
+    <Tool_Library setexpanded="True" type="tool_library">
+      <opus_data_import_export_tools setexpanded="True" type="tool_group">
+        <sql_data_to_opus_tool type="tool_file">
+          <name type="tool_name">sql_data_to_opus</name>
+          <params type="param_template">
+            <database_server_connection>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type type="db_connection_hook">db_connection_hook</type>
+              <default>scenario_database_server</default>
+            </database_server_connection>
+            <database_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">eth_baseyear</default>
+            </database_name>
+            <table_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">parcels</default>
+            </table_name>
+            <opus_data_directory>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="dir_path" type="string">dir_path</type>
+              <default type="dir_path">D:/opus/data/ethekwini/base_year_data</default>
+            </opus_data_directory>
+            <opus_data_year>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">2001</default>
+            </opus_data_year>
+          </params>
+        </sql_data_to_opus_tool>
+        <opus_data_to_sql_tool type="tool_file">
+          <acts_on hidden="True" type="acts_on">database,dataset</acts_on>
+          <exports_to hidden="True" type="exports_to">SQL</exports_to>
+          <name type="tool_name">opus_data_to_sql</name>
+          <params type="param_template">
+            <database_server_connection>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type type="db_connection_hook">db_connection_hook</type>
+              <default>scenario_database_server</default>
+            </database_server_connection>
+            <database_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">eth_data_prep</default>
+            </database_name>
+            <opus_data_directory>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="dir_path" type="string">dir_path</type>
+              <default type="dir_path">D:/opus/data/ethekwini/runs (preparation)/run_2.run_2009_06_10_17_48</default>
+            </opus_data_directory>
+            <opus_data_year>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string">2001</default>
+            </opus_data_year>
+            <opus_table_name>
+              <required choices="Required|Optional" type="string">Required</required>
+              <type choices="string" type="string">string</type>
+              <default type="string" />
+            </opus_table_name>
+          </params>
+        </opus_data_to_sql_tool>
+      </opus_data_import_export_tools>
+    </Tool_Library>
+  </data_manager>
+  <model_manager>
+    <model_system setexpanded="True" type="model_system">
+      <estimation_config type="configuration">
+        <save_estimation_results choices="True|False" type="boolean">True</save_estimation_results>
+        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">ethekwini\base_year_data</cache_directory>
+        <estimation_database_configuration type="class">
+          <Class_name hidden="True" type="string">EstimationDatabaseConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.database_management.configurations.estimation_database_configuration</Class_path>
+          <database_name type="string">eth_baseyear</database_name>
+        </estimation_database_configuration>
+        <dataset_pool_configuration type="class">
+          <Class_name hidden="True" type="string">DatasetPoolConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</Class_path>
+          <package_order type="list">['udl_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</package_order>
+        </dataset_pool_configuration>
+        <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
+        <low_memory_mode type="boolean">False</low_memory_mode>
+        <base_year type="integer">2001</base_year>
+        <years type="tuple">
+          <firstyear type="integer">2001</firstyear>
+          <lastyear type="integer">2001</lastyear>
+        </years>
+      </estimation_config>
+      <data_prep_households_model copyable="True" type="model">
+        <structure>
+          <import type="dictionary">
+            <module type="string">udl_parcel.models.data_prep_households_model</module>
+            <classname type="string">DataPrepHouseholdsModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">DataPrepHouseholdsModel</name>
+          </init>
+          <run type="dictionary">
+            <storage hidden="True" type="string">cache_storage</storage>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+            <parcel_dataset type="string">parcel</parcel_dataset>
+            <weight_attribute type="quoted_string">parcel.parcel_sqft</weight_attribute>
+            <control_totals_dataset type="quoted_string">household</control_totals_dataset>
+            <control_totals_geography_id type="quoted_string">sub_place_id</control_totals_geography_id>
+          </run>
+        </structure>
+        <specification />
+      </data_prep_households_model>
+      <data_prep_employment_model copyable="True" type="model">
+        <structure>
+          <import type="dictionary">
+            <module type="string">udl_parcel.models.data_prep_employment_model</module>
+            <classname type="string">DataPrepEmploymentModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">DataPrepEmploymentModel</name>
+          </init>
+          <run type="dictionary">
+            <storage hidden="True" type="string">cache_storage</storage>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+            <parcel_dataset type="string">parcel</parcel_dataset>
+            <control_totals_dataset type="quoted_string">job</control_totals_dataset>
+            <control_totals_geography_id type="quoted_string">city_id</control_totals_geography_id>
+          </run>
+        </structure>
+        <specification />
+      </data_prep_employment_model>
+      <data_prep_sqft_model copyable="True" type="model">
+        <structure>
+          <import type="dictionary">
+            <module type="string">udl_parcel.models.data_prep_sqft_model</module>
+            <classname type="string">DataPrepSqftModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">DataPrepSqftModel</name>
+          </init>
+          <run type="dictionary">
+            <storage hidden="True" type="string">cache_storage</storage>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+            <parcel_dataset type="string">parcel</parcel_dataset>
+          </run>
+        </structure>
+        <specification />
+      </data_prep_sqft_model>
+      <data_prep_improvement_value_model copyable="True" type="model">
+        <structure>
+          <import type="dictionary">
+            <module type="string">udl_parcel.models.data_prep_improvement_value_model</module>
+            <classname type="string">DataPrepImprovementValueModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">DataPrepImprovementValueModel</name>
+            <regression_procedure type="quoted_string">opus_core.linear_regression</regression_procedure>
+            <submodel_string parser_action="blank_to_None" type="string">'dev_template_id'</submodel_string>
+            <run_config parser_action="blank_to_None" type="string" />
+            <estimate_config parser_action="blank_to_None" type="string" />
+            <debuglevel hidden="True" type="integer">0</debuglevel>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+          </init>
+          <run type="dictionary">
+            <storage hidden="True" type="string">cache_storage</storage>
+            <dataset_pool hidden="True" type="string">dataset_pool</dataset_pool>
+            <specification hidden="True" type="string">specification</specification>
+            <coefficients hidden="True" type="string">coefficients</coefficients>
+            <dataset type="string">parcel</dataset>
+            <index hidden="True" parser_action="blank_to_None" type="string">rm_index</index>
+            <chunk_specification parser_action="blank_to_None" type="string" />
+            <data_objects hidden="True" type="string">datasets</data_objects>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" type="string">prepare_for_run</name>
+            <dataset parser_action="blank_to_None" type="string">parcel</dataset>
+            <dataset_filter parser_action="blank_to_None" type="quoted_string">parcel.val_roll_bld_id</dataset_filter>
+            <filter_threshold_less_than type="string">0</filter_threshold_less_than>
+            <specification_storage type="string">cache_storage</specification_storage>
+            <specification_table type="quoted_string">real_estate_price_model_specification</specification_table>
+            <coefficients_storage type="string">cache_storage</coefficients_storage>
+            <coefficients_table type="quoted_string">real_estate_price_model_coefficients</coefficients_table>
+            <sample_coefficients type="boolean">False</sample_coefficients>
+            <cache_storage hidden="True" type="string">cache_storage</cache_storage>
+            <multiplicator type="integer">1</multiplicator>
+            <output hidden="True" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+        </structure>
+        <specification />
+      </data_prep_improvement_value_model>
+      <data_prep_update_base_year_and_sql_model copyable="True" type="model">
+        <structure>
+          <import type="dictionary">
+            <module type="string">udl_parcel.models.data_prep_update_base_year_and_sql_model</module>
+            <classname type="string">DataPrepUpdateBaseYearAndSqlModel</classname>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string">DataPrepUpdateBaseYearAndSqlModel</name>
+          </init>
+          <run type="dictionary">
+            <tables_to_update type="list">['households', 'buildings', 'jobs', 'parcels']</tables_to_update>
+            <year hidden="True" type="string">year</year>
+            <resources hidden="True" type="string">resources</resources>
+          </run>
+        </structure>
+        <specification />
+      </data_prep_update_base_year_and_sql_model>
+    </model_system>
+  </model_manager>
+  <scenario_manager>
+    <urbansim_parcel_baseline type="scenario">
+      <parent_old_format type="dictionary">
+        <Class_name type="string">UrbansimParcelConfiguration</Class_name>
+        <Class_path type="string">urbansim_parcel.configs.controller_config</Class_path>
+      </parent_old_format>
+    </urbansim_parcel_baseline>
+    <ethekwini_baseline copyable="True" executable="True" setexpanded="True" type="scenario">
+      <parent type="scenario_name">urbansim_parcel_baseline</parent>
+      <base_year type="integer">2001</base_year>
+      <years_to_run config_name="years" setexpanded="True" type="tuple">
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2001</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" setexpanded="True" type="selectable_list">
+        <data_prep_households_model choices="Run|Skip" type="model_choice">Skip</data_prep_households_model>
+        <data_prep_employment_model choices="Run|Skip" type="model_choice">Skip</data_prep_employment_model>
+        <data_prep_sqft_model choices="Run|Skip" type="model_choice">Run</data_prep_sqft_model>
+        <data_prep_improvement_value_model choices="Run|Skip" type="model_choice">Skip</data_prep_improvement_value_model>
+        <data_prep_update_base_year_and_sql_model choices="Run|Skip" type="model_choice">Skip</data_prep_update_base_year_and_sql_model>
+      </models_to_run>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">ethekwini/base_year_data</cache_directory>
+      <scenario_database_configuration config_name="scenario_database_configuration" type="class">
+        <Class_name hidden="True" type="string">ScenarioDatabaseConfiguration</Class_name>
+        <Class_path hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</Class_path>
+        <database_name type="string">eth_baseyear</database_name>
+      </scenario_database_configuration>
+      <creating_baseyear_cache_configuration setexpanded="True" type="class">
+        <Class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</Class_name>
+        <Class_path hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</Class_path>
+        <cache_from_database choices="True|False" type="boolean">False</cache_from_database>
+        <tables_to_cache type="selectable_list">
+          <households choices="Cache|Skip" type="table">Cache</households>
+          <buildings choices="Cache|Skip" type="table">Cache</buildings>
+          <parcels choices="Cache|Skip" type="table">Cache</parcels>
+          <jobs choices="Cache|Skip" type="table">Cache</jobs>
+          <persons choices="Cache|Skip" type="table">Skip</persons>
+          <data_prep_lu_dev_templates choices="Cache|Skip" type="table">Skip</data_prep_lu_dev_templates>
+          <real_estate_price_model_coefficients choices="Cache|Skip" type="table">Skip</real_estate_price_model_coefficients>
+          <real_estate_price_model_specification choices="Cache|Skip" type="table">Skip</real_estate_price_model_specification>
+          <data_prep_res_land_value_model_coefficients choices="Cache|Skip" type="table">Skip</data_prep_res_land_value_model_coefficients>
+          <data_prep_res_land_value_model_specification choices="Cache|Skip" type="table">Skip</data_prep_res_land_value_model_specification>
+          <data_prep_non_res_land_value_model_coefficients choices="Cache|Skip" type="table">Skip</data_prep_non_res_land_value_model_coefficients>
+          <data_prep_non_res_land_value_model_specification choices="Cache|Skip" type="table">Skip</data_prep_non_res_land_value_model_specification>
+        </tables_to_cache>
+        <scenario_runs_directory config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">ethekwini/runs (preparation)</scenario_runs_directory>
+        <baseyear_cache type="class">
+          <Class_name hidden="True" type="string">BaseyearCacheConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</Class_path>
+          <existing_cache_to_copy parser_action="prefix_with_opus_data_path" type="directory">ethekwini/base_year_data</existing_cache_to_copy>
+        </baseyear_cache>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <advanced type="category">
+          <cache_scenario_database type="string">udl_parcel.model_coordinators.cache_scenario_database</cache_scenario_database>
+          <tables_to_cache_nchunks type="dictionary">
+            <parcels type="integer">1</parcels>
+          </tables_to_cache_nchunks>
+        </advanced>
+      </creating_baseyear_cache_configuration>
+      <advanced type="category">
+        <dataset_pool_configuration type="class">
+          <Class_name hidden="True" type="string">DatasetPoolConfiguration</Class_name>
+          <Class_path hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</Class_path>
+          <package_order type="list">['udl_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</package_order>
+        </dataset_pool_configuration>
+        <flush_dataset_to_cache_after_each_model type="boolean">False</flush_dataset_to_cache_after_each_model>
+        <flush_variables type="boolean">False</flush_variables>
+        <low_memory_run type="boolean">False</low_memory_run>
+        <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <household choices="Load|Skip" type="dataset">Skip</household>
+          <building choices="Load|Skip" type="dataset">Skip</building>
+          <parcel choices="Load|Skip" type="dataset">Skip<package_name type="string">urbansim_parcel</package_name>
+          </parcel>
+          <job choices="Load|Skip" type="dataset">Skip</job>
+        </datasets_to_preload>
+      </advanced>
+    </ethekwini_baseline>
+  </scenario_manager>
+  <results_manager>
+    <Indicator_batches setexpanded="True" type="group" />
+    <Simulation_runs setexpanded="True" type="all_source_data">
+      <run_2010_02_17_16_13 type="source_data">
+        <run_id hidden="True" type="integer">7</run_id>
+        <scenario_name hidden="True" type="string">ethekwini_baseline</scenario_name>
+        <run_name hidden="True" type="string">run_2010_02_17_16_13</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\runs (preparation)\run_7.run_2010_02_17_16_13</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </run_2010_02_17_16_13>
+      <run_2010_02_17_13_00 type="source_data">
+        <run_id hidden="True" type="integer">6</run_id>
+        <scenario_name hidden="True" type="string">?</scenario_name>
+        <run_name hidden="True" type="string">run_2010_02_17_13_00</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\runs (preparation)\run_6.run_2010_02_17_13_00</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </run_2010_02_17_13_00>
+      <run_2010_02_17_12_15 type="source_data">
+        <run_id hidden="True" type="integer">5</run_id>
+        <scenario_name hidden="True" type="string">ethekwini_baseline</scenario_name>
+        <run_name hidden="True" type="string">run_2010_02_17_12_15</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\runs (preparation)\run_5.run_2010_02_17_12_15</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </run_2010_02_17_12_15>
+      <base_year_data type="source_data">
+        <run_id hidden="True" type="integer">1</run_id>
+        <scenario_name hidden="True" type="string" />
+        <run_name hidden="True" type="string">base_year_data</run_name>
+        <cache_directory hidden="True" type="string">D:\opus\data\ethekwini\base_year_data</cache_directory>
+        <start_year hidden="True" type="string">2001</start_year>
+        <end_year hidden="True" type="integer">2001</end_year>
+      </base_year_data>
+    </Simulation_runs>
+  </results_manager>
+</opus_project>
