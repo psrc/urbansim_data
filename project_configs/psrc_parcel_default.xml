@@ -4,6 +4,55 @@
     <description type="string">Configuration for the PSRC parcel project</description>
     <parent type="file">psrc_parcel/configs/psrc_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable source="expression" type="variable_definition" use="both" name="parcel.trip_weighted_average_logsum_hbw_am_from_residence">parcel.disaggregate(zone.aggregate(psrc_parcel.household.trip_weighted_average_logsum_hbw_am_from_residence, intermediates=[parcel], function=mean))</variable>
+      <variable source="Python class" type="variable_definition" use="model variable" name="building.is_tcu">urbansim.building.is_tcu</variable>
+      <variable source="Python class" type="variable_definition" use="model variable" name="building.is_warehousing">urbansim.building.is_warehousing</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_average_income">(ln(building.disaggregate(urbansim_parcel.zone.average_income))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_number_of_jobs_per_acre">(ln(building.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_employment_within_30_minutes_travel_time_hbw_am_drive_alone">(ln(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_non_residential_sqft">(ln(building.non_residential_sqft)).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.is_inside_urban_growth_boundary">building.disaggregate(parcel.is_inside_urban_growth_boundary==True)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_jobs_wwd_sector_7_14_17">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.ln_jobs_wwd_sector_7_14_17">ln_bounded(parcel.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.same_sector_employment_in_zone_per_job">(urbansim_parcel.job_x_building.same_sector_employment_in_zone)/(building.disaggregate(urbansim_parcel.zone.number_of_jobs))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.same_sector_employment_in_building_per_job">(urbansim_parcel.job_x_building.same_sector_employment_in_building)/(urbansim_parcel.building.employment)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_residential_units">ln(psrc_parcel.building.residential_units)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.is_previous_residence_area">(urbansim_parcel.household.residence_area_type_id_lag1 == building.disaggregate(zone.area_type_id))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.is_previous_residence_large_area">(urbansim_parcel.household.residence_large_area_id_lag1 == building.disaggregate(faz.large_area_id))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.is_district_id_19">building.disaggregate(zone.district_id)==19</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_population_per_acre">(ln(building.disaggregate(urbansim_parcel.zone.population_per_acre))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building_x_household.ln_income_minus_price">ln_bounded(household.income - ((urbansim_parcel.building.unit_price/10.) * urbansim_parcel.building.building_sqft_per_unit))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.ln_income_if_mfr">ln(household.income) * urbansim.building.is_multi_family_residential</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.percent_households_with_children_wwd_if_has_children">(household.children &gt; 0) * building.disaggregate(psrc_parcel.parcel.percent_households_with_children_within_walking_distance)</variable>
+      <variable source="primary attribute" type="variable_definition" use="model variable" name="building.sqft_per_unit">building.sqft_per_unit</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.trip_weighted_average_logsum_hbw_am_income_if_no_workers">(household.workers==0) * (((psrc.household.logsum_income_break==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc.household.logsum_income_break==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc.household.logsum_income_break==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc.household.logsum_income_break==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_jobs_wwd_sector_7_14_17">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.ln_income_if_condo">ln(household.income) * (building.disaggregate(building_type.building_type_name=='condo_residential'))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household.has_more_than_1_person">(household.persons &gt; 1)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.sqrt_utm">sqrt((urbansim_parcel.household.residence_x_coord_utm_lag1 - building.disaggregate(parcel.x_coord_utm))**2 + (urbansim_parcel.household.residence_y_coord_utm_lag1 - building.disaggregate(parcel.y_coord_utm))**2)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.not_sfr_if_1_person">(psrc_parcel.household.persons &lt; 2) * numpy.logical_not(building.disaggregate(building_type.building_type_name == 'single_family_residential'))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==21) * (0.167985837507508*((building.non_residential_sqft*76.7402597402598)**0.794983208848567)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==8) * (0.592432917046314*((building.non_residential_sqft*69.266667)**0.71932731516575)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==13) * (0.167985837507508*((building.non_residential_sqft*72.2694610778443)**0.852810441060376)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==13) * (0.167985837507508*((building.non_residential_sqft*71.9572192513369)**0.870670615342877)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==21) * (4.56407900829167*((building.non_residential_sqft*72.2694610778443)**0.839149462372598)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==8) * (3.26025234129649*((building.non_residential_sqft*69.266667)**0.85974584631451)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==3) * (4.56407900829167*((building.non_residential_sqft*76.7402597402598)**0.900816907407043)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==13) * (4.56407900829167*((building.non_residential_sqft*71.9572192513369)**0.918028649878677)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all(numpy.logical_or(building_type_id==4, building_type_id==12)*(1070.05610454517*(building.sqft_per_unit**0.233835573984113)*(urbansim_parcel.building.population**0.243480457884833))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==19)*(1.07005610454517*(building.sqft_per_unit**0.26777268339652)*(burbansim_parcel.building.population**0.327430889246641))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all(numpy.logical_or(building_type_id==4, building_type_id==12)*(15263.8827561569*(building.sqft_per_unit**0.175119347951687)*(urbansim_parcel.building.population**0.176685367896758))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==19)*(15263.8827561569*(building.sqft_per_unit**0.174959576764467)*(urbansim_parcel.building.population**0.174022989924159))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.unit_price">ln(urbansim_parcel.building.unit_price)</variable>
+      <variable source="Python class" type="variable_definition" use="model variable" name="building.building_sqft_per_job">urbansim_parcel.building.building_sqft_per_job</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.price_per_sqft">(parcel.aggregate(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft))/parcel.parcel_sqft</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.price">parcel.aggregate(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft)</variable>
+      <variable source="Python class" type="variable_definition" use="model variable" name="parcel.building_sqft">urbansim_parcel.parcel.building_sqft</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.jobs_per_sqft">(urbansim_parcel.parcel.employment)/parcel.parcel_sqft.astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.residential_units_per_sqft">(urbansim_parcel.parcel.residential_units)/parcel.parcel_sqft.astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.non_residential_sqft_per_sqft">(parcel.aggregate(building.non_residential_sqft))/parcel.parcel_sqft</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.area_value_if_jobs">building.disaggregate(zone.aggregate(urbansim_parcel.parcel.area_value*(urbansim_parcel.parcel.employment &gt; 0), function=mean))</variable>
+
       <variable dataset="person_trip_x_zone" use="model variable" source="Python class" name="single_vehicle_to_work_travel_time" type="variable_definition">urbansim.person_trip_x_zone.from_origin_to_destination_travel_data_am_single_vehicle_to_work_travel_time</variable>
       <variable dataset="None" use="model variable" source="expression" name="income_x_num_of_retail_jobs" type="variable_definition">person_trip.disaggregate(household.income, intermediates=[person]) * urbansim_parcel.zone.number_of_jobs_of_sector_14</variable>
       <variable dataset="person_trip_x_zone" use="model variable" source="Python class" name="single_vehicle_to_destination_travel_cost" type="variable_definition">urbansim.person_trip_x_zone.single_vehicle_to_destination_travel_cost</variable>
@@ -85,7 +134,7 @@
                <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_basic"/>
                <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_retail"/>
                <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_fires"/>
-	       <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_edu"/>
+         <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_edu"/>
              </variable_list>            	
           </submodel>
         </specification>
@@ -580,6 +629,31 @@
     </estimation_config>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
   </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="PSRC_TM_skims" type="scenario">
+      <base_year type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2040</lastyear>
+      </years_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">Version_1.0c</travel_model_base_directory>
+        <emme2_batch_file_name type="string">MODEL1-0c.BAT</emme2_batch_file_name>
+        <models type="selectable_list">
+          <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.run_export_macros" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.get_emme2_data_into_cache" type="selectable">True</selectable>
+        </models>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2001</year>
+            <bank type="list">['2006_06']</bank>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
+  </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
     </indicator_batches>

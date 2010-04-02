@@ -1,0 +1,8 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the PSRC parcel project</description>
+    <parent type="file">psrc_parcel_default.xml</parent>
+ </general>
+</opus_project>
+
