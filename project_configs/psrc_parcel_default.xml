@@ -4,54 +4,55 @@
     <description type="string">Configuration for the PSRC parcel project</description>
     <parent type="file">psrc_parcel/configs/psrc_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable source="expression" type="variable_definition" use="both" name="parcel.trip_weighted_average_logsum_hbw_am_from_residence">parcel.disaggregate(zone.aggregate(psrc_parcel.household.trip_weighted_average_logsum_hbw_am_from_residence, intermediates=[parcel], function=mean))</variable>
-      <variable source="Python class" type="variable_definition" use="model variable" name="building.is_tcu">urbansim.building.is_tcu</variable>
-      <variable source="Python class" type="variable_definition" use="model variable" name="building.is_warehousing">urbansim.building.is_warehousing</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_average_income">(ln(building.disaggregate(urbansim_parcel.zone.average_income))).astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_number_of_jobs_per_acre">(ln(building.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre))).astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_employment_within_30_minutes_travel_time_hbw_am_drive_alone">(ln(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_non_residential_sqft">(ln(building.non_residential_sqft)).astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.is_inside_urban_growth_boundary">building.disaggregate(parcel.is_inside_urban_growth_boundary==True)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_jobs_wwd_sector_7_14_17">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="parcel.ln_jobs_wwd_sector_7_14_17">ln_bounded(parcel.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.same_sector_employment_in_zone_per_job">(urbansim_parcel.job_x_building.same_sector_employment_in_zone)/(building.disaggregate(urbansim_parcel.zone.number_of_jobs))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.same_sector_employment_in_building_per_job">(urbansim_parcel.job_x_building.same_sector_employment_in_building)/(urbansim_parcel.building.employment)</variable>
+      <variable source="expression" type="variable_definition" use="both" name="parcel.wgt_logsum">parcel.disaggregate(zone.aggregate(psrc_parcel.household.trip_weighted_average_logsum_hbw_am_from_residence, intermediates=[parcel], function=mean))</variable>
+      <variable source="Python class" type="variable_definition" use="model variable" name="building.is_tcu_building">urbansim.building.is_tcu</variable>
+      <variable source="Python class" type="variable_definition" use="model variable" name="building.is_warehousing_building">urbansim.building.is_warehousing</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.lnavginc_bldg">(ln(building.disaggregate(urbansim_parcel.zone.average_income))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.lnempden_bldg">(ln(building.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.lnemp30da_bldg">(ln(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_nonresidential_sqft">(ln(building.non_residential_sqft)).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.inugb_bldg">building.disaggregate(parcel.is_inside_urban_growth_boundary==True)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.retail_food_empden">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.lnretempwa">ln_bounded(parcel.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.sector_density_in_zone">(urbansim_parcel.job_x_building.same_sector_employment_in_zone)/(building.disaggregate(urbansim_parcel.zone.number_of_jobs))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.sector_density_in_building">(urbansim_parcel.job_x_building.same_sector_employment_in_building)/(urbansim_parcel.building.employment)</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="building.ln_residential_units">ln(psrc_parcel.building.residential_units)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.is_previous_residence_area">(urbansim_parcel.household.residence_area_type_id_lag1 == building.disaggregate(zone.area_type_id))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.is_previous_residence_large_area">(urbansim_parcel.household.residence_large_area_id_lag1 == building.disaggregate(faz.large_area_id))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.is_district_id_19">building.disaggregate(zone.district_id)==19</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_population_per_acre">(ln(building.disaggregate(urbansim_parcel.zone.population_per_acre))).astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building_x_household.ln_income_minus_price">ln_bounded(household.income - ((urbansim_parcel.building.unit_price/10.) * urbansim_parcel.building.building_sqft_per_unit))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.ln_income_if_mfr">ln(household.income) * urbansim.building.is_multi_family_residential</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.percent_households_with_children_wwd_if_has_children">(household.children &gt; 0) * building.disaggregate(psrc_parcel.parcel.percent_households_with_children_within_walking_distance)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.b_same_area_type">(urbansim_parcel.household.residence_area_type_id_lag1 == building.disaggregate(zone.area_type_id))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.c_same_area">(urbansim_parcel.household.residence_large_area_id_lag1 == building.disaggregate(faz.large_area_id))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.d_kitsap_dummy">building.disaggregate(zone.district_id)==19</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.lnpopden_bldg">(ln(building.disaggregate(urbansim_parcel.zone.population_per_acre))).astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building_x_household.disposable_inc">ln_bounded(household.income - ((urbansim_parcel.building.unit_price/10.) * urbansim_parcel.building.building_sqft_per_unit))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.inc_x_mfr">ln(household.income) * urbansim.building.is_multi_family_residential</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.kids_x_kids">(household.children &gt; 0) * building.disaggregate(psrc_parcel.parcel.percent_households_with_children_within_walking_distance)</variable>
       <variable source="primary attribute" type="variable_definition" use="model variable" name="building.sqft_per_unit">building.sqft_per_unit</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.trip_weighted_average_logsum_hbw_am_income_if_no_workers">(household.workers==0) * (((psrc.household.logsum_income_break==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc.household.logsum_income_break==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc.household.logsum_income_break==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc.household.logsum_income_break==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_jobs_wwd_sector_7_14_17">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.ln_income_if_condo">ln(household.income) * (building.disaggregate(building_type.building_type_name=='condo_residential'))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household.has_more_than_1_person">(household.persons &gt; 1)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.sqrt_utm">sqrt((urbansim_parcel.household.residence_x_coord_utm_lag1 - building.disaggregate(parcel.x_coord_utm))**2 + (urbansim_parcel.household.residence_y_coord_utm_lag1 - building.disaggregate(parcel.y_coord_utm))**2)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.not_sfr_if_1_person">(psrc_parcel.household.persons &lt; 2) * numpy.logical_not(building.disaggregate(building_type.building_type_name == 'single_family_residential'))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==21) * (0.167985837507508*((building.non_residential_sqft*76.7402597402598)**0.794983208848567)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==8) * (0.592432917046314*((building.non_residential_sqft*69.266667)**0.71932731516575)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==13) * (0.167985837507508*((building.non_residential_sqft*72.2694610778443)**0.852810441060376)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==13) * (0.167985837507508*((building.non_residential_sqft*71.9572192513369)**0.870670615342877)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==21) * (4.56407900829167*((building.non_residential_sqft*72.2694610778443)**0.839149462372598)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==8) * (3.26025234129649*((building.non_residential_sqft*69.266667)**0.85974584631451)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==3) * (4.56407900829167*((building.non_residential_sqft*76.7402597402598)**0.900816907407043)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==13) * (4.56407900829167*((building.non_residential_sqft*71.9572192513369)**0.918028649878677)/1000))</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all(numpy.logical_or(building_type_id==4, building_type_id==12)*(1070.05610454517*(building.sqft_per_unit**0.233835573984113)*(urbansim_parcel.building.population**0.243480457884833))/1000)</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==19)*(1.07005610454517*(building.sqft_per_unit**0.26777268339652)*(burbansim_parcel.building.population**0.327430889246641))/1000)</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all(numpy.logical_or(building_type_id==4, building_type_id==12)*(15263.8827561569*(building.sqft_per_unit**0.175119347951687)*(urbansim_parcel.building.population**0.176685367896758))/1000)</variable>
-      <variable source="expression" type="variable_definition" use="indicator" name="alldata.None">alldata.aggregate_all((building_type_id==19)*(15263.8827561569*(building.sqft_per_unit**0.174959576764467)*(urbansim_parcel.building.population**0.174022989924159))/1000)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.unit_price">ln(urbansim_parcel.building.unit_price)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.retiree_logsum">(household.workers==0) * (((psrc.household.logsum_income_break==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc.household.logsum_income_break==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc.household.logsum_income_break==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc.household.logsum_income_break==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.neigh_shopping">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.inc_x_condo">ln(household.income) * (building.disaggregate(building_type.building_type_name=='condo_residential'))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household.HLCM_inmigrant_logsum_placeholder">(household.persons &gt; 1)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.HLCM_relocation_distance">sqrt((urbansim_parcel.household.residence_x_coord_utm_lag1 - building.disaggregate(parcel.x_coord_utm))**2 + (urbansim_parcel.household.residence_y_coord_utm_lag1 - building.disaggregate(parcel.y_coord_utm))**2)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.one_pers_not_SFR">(psrc_parcel.household.persons &lt; 2) * numpy.logical_not(building.disaggregate(building_type.building_type_name == 'single_family_residential'))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.mWh_warehouse">alldata.aggregate_all((building_type_id==21) * (0.167985837507508*((building.non_residential_sqft*76.7402597402598)**0.794983208848567)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.mWh_industrial">alldata.aggregate_all((building_type_id==8) * (0.592432917046314*((building.non_residential_sqft*69.266667)**0.71932731516575)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.mWh_commercial">alldata.aggregate_all((building_type_id==13) * (0.167985837507508*((building.non_residential_sqft*72.2694610778443)**0.852810441060376)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.mWh_office">alldata.aggregate_all((building_type_id==13) * (0.167985837507508*((building.non_residential_sqft*71.9572192513369)**0.870670615342877)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.DT_warehouse">alldata.aggregate_all((building_type_id==21) * (4.56407900829167*((building.non_residential_sqft*72.2694610778443)**0.839149462372598)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.DT_industrial">alldata.aggregate_all((building_type_id==8) * (3.26025234129649*((building.non_residential_sqft*69.266667)**0.85974584631451)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.DT_commercial">alldata.aggregate_all((building_type_id==3) * (4.56407900829167*((building.non_residential_sqft*76.7402597402598)**0.900816907407043)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.DT_office">alldata.aggregate_all((building_type_id==13) * (4.56407900829167*((building.non_residential_sqft*71.9572192513369)**0.918028649878677)/1000))</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.mWh_MFR">alldata.aggregate_all(numpy.logical_or(building_type_id==4, building_type_id==12)*(1070.05610454517*(building.sqft_per_unit**0.233835573984113)*(urbansim_parcel.building.population**0.243480457884833))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.mWh_SFR">alldata.aggregate_all((building_type_id==19)*(1.07005610454517*(building.sqft_per_unit**0.26777268339652)*(urbansim_parcel.building.population**0.327430889246641))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.DT_MFR">alldata.aggregate_all(numpy.logical_or(building_type_id==4, building_type_id==12)*(15263.8827561569*(building.sqft_per_unit**0.175119347951687)*(urbansim_parcel.building.population**0.176685367896758))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="indicator" name="alldata.DT_SFR">alldata.aggregate_all((building_type_id==19)*(15263.8827561569*(building.sqft_per_unit**0.174959576764467)*(urbansim_parcel.building.population**0.174022989924159))/1000)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_unit_price">ln(urbansim_parcel.building.unit_price)</variable>
       <variable source="Python class" type="variable_definition" use="model variable" name="building.building_sqft_per_job">urbansim_parcel.building.building_sqft_per_job</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="parcel.price_per_sqft">(parcel.aggregate(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft))/parcel.parcel_sqft</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="parcel.price">parcel.aggregate(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_building_sqft_per_job">ln(urbansim_parcel.building.building_sqft_per_job)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.area_value">(parcel.aggregate(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft))/parcel.parcel_sqft</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.parcel_value">parcel.aggregate(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft)</variable>
       <variable source="Python class" type="variable_definition" use="model variable" name="parcel.building_sqft">urbansim_parcel.parcel.building_sqft</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="parcel.jobs_per_sqft">(urbansim_parcel.parcel.employment)/parcel.parcel_sqft.astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="parcel.residential_units_per_sqft">(urbansim_parcel.parcel.residential_units)/parcel.parcel_sqft.astype(float32)</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="parcel.non_residential_sqft_per_sqft">(parcel.aggregate(building.non_residential_sqft))/parcel.parcel_sqft</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="building.area_value_if_jobs">building.disaggregate(zone.aggregate(urbansim_parcel.parcel.area_value*(urbansim_parcel.parcel.employment &gt; 0), function=mean))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.jobs_per_area">(urbansim_parcel.parcel.employment)/parcel.parcel_sqft.astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.DU_per_area">(urbansim_parcel.parcel.residential_units)/parcel.parcel_sqft.astype(float32)</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.nr_sqft_per_area">(parcel.aggregate(building.non_residential_sqft))/parcel.parcel_sqft</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="building.zavgnrval">building.disaggregate(zone.aggregate(urbansim_parcel.parcel.area_value*(urbansim_parcel.parcel.employment &gt; 0), function=mean))</variable>
 
       <variable dataset="person_trip_x_zone" use="model variable" source="Python class" name="single_vehicle_to_work_travel_time" type="variable_definition">urbansim.person_trip_x_zone.from_origin_to_destination_travel_data_am_single_vehicle_to_work_travel_time</variable>
       <variable dataset="None" use="model variable" source="expression" name="income_x_num_of_retail_jobs" type="variable_definition">person_trip.disaggregate(household.income, intermediates=[person]) * urbansim_parcel.zone.number_of_jobs_of_sector_14</variable>
@@ -71,8 +72,8 @@
       <variable use="model variable" source="expression" name="household_x_building.renter_x_is_mfr" type="variable_definition">household.tenure == 3 * urbansim.building.is_multi_family_residential</variable>
       <variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(household.workers==0) * ( ((psrc.household.logsum_income_break==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc.household.logsum_income_break==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc.household.logsum_income_break==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc.household.logsum_income_break==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)) )</variable>
       <variable use="model variable" source="expression" name="household_x_building.neigh_shopping" type="variable_definition">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>
-      <variable use="model variable" source="expression" name="household_x_building.max_logsum_hbw_am_from_home_to_work" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work</variable>
-      <variable use="model variable" source="expression" name="household_x_building.max_network_distance_from_home_to_work" type="variable_definition">psrc_parcel.household_x_building.worker1_network_distance_from_home_to_work</variable>
+      <variable use="model variable" source="expression" name="household_x_building.E_max_commute_logsum" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work</variable>
+      <variable use="model variable" source="expression" name="household_x_building.E_max_commute_distance" type="variable_definition">psrc_parcel.household_x_building.worker1_network_distance_from_home_to_work</variable>
       <variable use="model variable" source="expression" name="person.kemp30m" type="variable_definition">person.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone, intermediates=[household])/1000</variable>
       <variable use="model variable" source="expression" name="person.age13" type="variable_definition">person.disaggregate(urbansim_parcel.household.persons_with_age_le_13>0)</variable>
       <variable use="model variable" source="expression" name="person.parttime" type="variable_definition">person.employment_status==2</variable>
@@ -319,177 +320,62 @@
           -->
         </estimation_config>      
         <specification type="dictionary">
-          <submodel hidden="Children" name="civil" submodel_id="2" type="submodel">
-            <description type="string">Civil and Quasi-Public</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.lnemp10wa"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.is_pre_1940"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="agriculture" submodel_id="1">
+            <variable_list type="variable_list"><variable_spec name=".lnsqft"/><variable_spec name=".lnlotsqft"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name=".hwy2000"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="commercial" submodel_id="3" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.lnunits"/>
-              <variable_spec name="parcel.lnsqft"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="parcel.art600"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="civic" submodel_id="2">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnempden"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="government" submodel_id="7" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnsqft"/>
-              <variable_spec name="parcel.lnlotsqft"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.lnemp20tw"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="commercial" submodel_id="3">
+            <variable_list type="variable_list"><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".is_pre_1940"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="hospital" submodel_id="9" type="submodel">
-            <description type="string">Hospital, Convalescent Center</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnsqft"/>
-              <variable_spec name="parcel.lnlotsqft"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="government" submodel_id="7">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnempden"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="industrial" submodel_id="10" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnsqft"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="hospital" submodel_id="9">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnpopden"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="apartment" submodel_id="14" type="submodel">
+          <submodel type="submodel" hidden="Children" name="industrial" submodel_id="10">
+            <variable_list type="variable_list"><variable_spec name=".lnpopden"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
+          </submodel>
+          <submodel type="submodel" hidden="Children" name="mining" submodel_id="12">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnpopden"/><variable_spec name=".lnemp30da"/><variable_spec name=".lnsqft"/><variable_spec name=".lnlotsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name=".hwy2000"/><variable_spec name="constant"/></variable_list>
+          </submodel>
+          <submodel type="submodel" hidden="Children" name="mobile_home" submodel_id="13">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnpopden"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
+          </submodel>
+          <submodel type="submodel" hidden="Children" name="apartment" submodel_id="14">
             <description type="string">Multi-Family Residential (Apartment)</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.is_pre_1940"/>
-              <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.lnpopden"/>
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.lnavginc"/>
-              <variable_spec name="parcel.lnemp20wa"/>
-              <variable_spec name="parcel.lnemp10wa"/>
-              <variable_spec name="parcel.lnemp20tw"/>
-              <variable_spec name="parcel.lnemp30tw"/>
-              <variable_spec name="parcel.lnemp10da"/>
-              <variable_spec name="parcel.lnemp20da"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.lnunits"/>
-              <variable_spec name="parcel.lnsqft"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="parcel.art300"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="condominium" submodel_id="15" type="submodel">
+          <submodel type="submodel" hidden="Children" name="condominium" submodel_id="15">
             <description type="string">Condominium Residential</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnavginc"/>
-              <variable_spec name="parcel.lnemp10da"/>
-              <variable_spec name="parcel.lnemp20da"/>
-              <variable_spec name="parcel.lnemp30da"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.lnunits"/>
-              <variable_spec name="parcel.art600"/>
-              <variable_spec name="parcel.hwy2000"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="office" submodel_id="18" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.lnemp10da"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.lnunits"/>
-              <variable_spec name="parcel.lnlotsqft"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="office" submodel_id="18">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".is_pre_1940"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="park_and_open_space" submodel_id="19" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.art300"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="open_space" submodel_id="19">
+            <variable_list type="variable_list"><variable_spec name=".lnpopden"/><variable_spec name=".lnempden"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnlotsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".inugb"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="parking" submodel_id="20" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.hwy200"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="parking" submodel_id="20">
+            <variable_list type="variable_list"><variable_spec name=".lnempden"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnlotsqft"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="single_family_residential" submodel_id="24" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.is_pre_1940"/>
-              <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.lnpopden"/>
-              <variable_spec name="parcel.lnavginc"/>
-              <variable_spec name="parcel.lnemp10da"/>
-              <variable_spec name="parcel.lnemp20da"/>
-              <variable_spec name="parcel.lnemp30da"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.lnunits"/>
-              <variable_spec name="parcel.lnsqft"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="parcel.art600"/>
-              <variable_spec name="parcel.art300"/>
-              <variable_spec name="parcel.hwy2000"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="single_family_residential" submodel_id="24">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnpopden"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".is_pre_1940"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name=".hwy2000"/><variable_spec name=".art600"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="transportation" submodel_id="25" type="submodel">
+          <submodel type="submodel" hidden="Children" name="transportation" submodel_id="25">
             <description type="string">Transportation, Communication, Public Utilities</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lnemp30tw"/>
-              <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+            <variable_list type="variable_list"><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".inugb"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="vacant_developable" submodel_id="26" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.lnemp10wa"/>
-              <variable_spec name="parcel.lnemp10da"/>
-              <variable_spec name="parcel.lnavginc"/>
-              <variable_spec name="parcel.art300"/>
-              <variable_spec name="parcel.hwy2000"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="vacant_developable" submodel_id="26">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnpopden"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".lnlotsqft"/><variable_spec name=".is_pre_1940"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name=".hwy2000"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="warehousing" submodel_id="28" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.lngcdacbd"/>
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="warehousing" submodel_id="28">
+            <variable_list type="variable_list"><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".lnsqft"/><variable_spec name=".lnlotsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".is_pre_1940"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
-          <submodel hidden="Children" name="mixed_use" submodel_id="30" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.lnemp20tw"/>
-              <variable_spec name="parcel.lnunits"/>
-              <variable_spec name="parcel.ln_bldgage"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+          <submodel type="submodel" hidden="Children" name="mixed_use" submodel_id="30">
+            <variable_list type="variable_list"><variable_spec name=".lnavginc"/><variable_spec name=".lnpopden"/><variable_spec name=".lnempden"/><variable_spec name=".lnemp30da"/><variable_spec name=".ln_invfar"/><variable_spec name=".lnsqft"/><variable_spec name=".ln_bldgage"/><variable_spec name=".inugb"/><variable_spec name=".lngcdacbd"/><variable_spec name=".hbwavgtmda"/><variable_spec name="constant"/></variable_list>
           </submodel>
         </specification>
       </model>
@@ -498,6 +384,16 @@
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
+              <variable_spec name=".retiree_logsum"/>
+              <variable_spec name=".inc_x_condo"/>
+              <variable_spec name=".sqft_per_unit"/>
+              <variable_spec name=".renter_x_is_mfr"/>
+              <variable_spec name=".kids_x_kids"/>
+              <variable_spec name=".inc_x_mfr"/>
+              <variable_spec name=".lnpopden_bldg"/>
+              <variable_spec name=".E_max_commute_distance"/>
+              <variable_spec name=".E_max_commute_logsum"/>
+              <variable_spec name=".d_kitsap_dummy"/>
               <variable_spec name=".ln_residential_units"/>
             </variable_list>
           </submodel>
@@ -604,11 +500,73 @@
             </submodel>
           </submodel_group>
           <submodel_group name="non_home_based" type="submodel_group">
-            <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
-              <description type="string">No submodel</description>
-              <variable_list type="variable_list">
-                <variable_spec name=".blngcdacbd"/>
-              </variable_list>
+            <submodel hidden="Children" name="natural_resources" submodel_id="1" type="submodel">
+              <description type="string">Natural Resources</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_art"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+             </submodel>
+             <submodel hidden="Children" name="construction" submodel_id="2" type="submodel">
+              <description type="string">Construction</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="aerospace" submodel_id="3" type="submodel">
+                <description type="string">Aerospace</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".ln_nonresidential_sqft"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="durable_manufacturing" submodel_id="4" type="submodel">
+                <description type="string">Durable Manufacturing</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".ln_nonresidential_sqft"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="nondurable_manufacturing" submodel_id="5" type="submodel">
+                <description type="string">Nondurable Manufacturing</description>
+        <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="wholesale" submodel_id="6" type="submodel">
+                <description type="string">Wholesale</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".ln_nonresidential_sqft"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
+                <description type="string">Retail</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="transportation_warehousing" submodel_id="8" type="submodel">
+                <description type="string">Transportation and warehousing</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".ln_nonresidential_sqft"/><variable_spec name=".is_warehousing_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="utilities" submodel_id="9" type="submodel">
+                <description type="string">Utilities</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_art"/><variable_spec name=".ln_nonresidential_sqft"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="telecom" submodel_id="10" type="submodel">
+                <description type="string">Telecom</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_tcu_building"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="information" submodel_id="11" type="submodel">
+                <description type="string">Information</description>
+        <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="finance" submodel_id="12" type="submodel">
+                <description type="string">Finance</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="professional_services" submodel_id="13" type="submodel">
+                <description type="string">Professional services</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="food_and_drink" submodel_id="14" type="submodel">
+                <description type="string">Food and drink</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="ed_services" submodel_id="15" type="submodel">
+                <description type="string">ed_services</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="health" submodel_id="16" type="submodel">
+                <description type="string">Health</description>
+                <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
+            </submodel>
+            <submodel hidden="Children" name="other_services" submodel_id="17" type="submodel">
+            <description type="string">Other services</description>
+              <variable_list type="variable_list"><variable_spec name=".sector_density_in_zone"/><variable_spec name=".lnavginc_bldg"/><variable_spec name=".lnpopden_bldg"/><variable_spec name=".lnempden_bldg"/><variable_spec name=".lnemp30da_bldg"/><variable_spec name=".is_near_highway"/><variable_spec name=".is_near_art"/><variable_spec name=".is_office_building"/><variable_spec name=".is_mixed_use_building"/><variable_spec name=".is_industrial_building"/><variable_spec name=".is_commercial_building"/><variable_spec name=".inugb_bldg"/><variable_spec name=".ln_unit_price_trunc"/></variable_list>
             </submodel>
           </submodel_group>
         </specification>
