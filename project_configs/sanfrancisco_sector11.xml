@@ -1,0 +1,804 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the San Francisco parcel project</description>
+    <parent type="file">sanfrancisco/configs/sanfrancisco.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="both" source="expression" name="zone.zone_job_density" type="variable_definition">zone.aggregate(business.employment, intermediates=[building, parcel])/zone.aggregate(parcel.area)*43560</variable>
+      <variable use="both" source="expression" name="tract.tract_employment" type="variable_definition">tract.aggregate(business.employment, intermediates=[building, parcel, zone])</variable>
+      <variable use="both" source="expression" name="alldata.city_employment_total" type="variable_definition">alldata.aggregate_all(zone.aggregate(business.employment, intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="alldata.city_households" type="variable_definition">alldata.aggregate_all(zone.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="alldata.city_population" type="variable_definition">alldata.aggregate_all(household.persons)</variable>
+      <variable use="both" source="expression" name="zone.zone_total_jobs" type="variable_definition">zone.aggregate(business.employment, intermediates=[building, parcel]).astype(int32)</variable>
+      <variable use="both" source="expression" name="zone.zone_sector_6_jobs" type="variable_definition">sanfrancisco.zone.aggregate_employment_of_sector_6_from_building</variable>
+      <variable use="both" source="expression" name="zone.zone_sector_5_jobs" type="variable_definition">sanfrancisco.zone.aggregate_employment_of_sector_5_from_building</variable>
+      <variable use="both" source="expression" name="zone.zone_sector_4_jobs" type="variable_definition">sanfrancisco.zone.aggregate_employment_of_sector_4_from_building</variable>
+      <variable use="both" source="expression" name="zone.zone_sector_3_jobs" type="variable_definition">sanfrancisco.zone.aggregate_employment_of_sector_3_from_building</variable>
+      <variable use="both" source="expression" name="zone.zone_sector_2_jobs" type="variable_definition">sanfrancisco.zone.aggregate_employment_of_sector_2_from_building</variable>
+      <variable use="both" source="expression" name="zone.zone_sector_1_jobs" type="variable_definition">sanfrancisco.zone.aggregate_employment_of_sector_1_from_building</variable>
+      <variable use="both" source="expression" name="zone.avg_hh_size" type="variable_definition">zone.aggregate(household.persons, intermediates = [building, parcel]) / zone.number_of_agents(household)</variable>
+      <variable use="both" source="expression" name="parcel.total_building_sqft" type="variable_definition">parcel.aggregate(building.building_sqft)</variable>
+      <variable use="both" source="expression" name="parcel.residential_units" type="variable_definition">parcel.aggregate(building.residential_units)</variable>
+      <variable name="zone.population_per_acre" source="expression" type="variable_definition" use="both">(zone.aggregate(household.persons, intermediates = [building, parcel]) / zone.aggregate(parcel.area)) * 43560</variable>
+      <variable use="both" source="expression" name="zone.population" type="variable_definition">zone.aggregate(household.persons, intermediates = [building, parcel])</variable>
+      <variable name="parcel.lnsqftunit" source="expression" type="variable_definition" use="both">(ln(urbansim_parcel.parcel.building_sqft_per_unit)).astype(float32)</variable>
+      <variable name="parcel.lnunits" source="expression" type="variable_definition" use="both">ln(parcel.aggregate(building.residential_units))</variable>
+      <variable name="parcel.far" source="expression" type="variable_definition" use="both">parcel.aggregate(building.building_sqft)/parcel.area</variable>
+      <variable name="parcel.is_pre_1940" source="expression" type="variable_definition" use="both">parcel.aggregate(numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built),function=mean) &lt; 1940</variable>
+      <variable name="building.avg_unit_price" source="expression" type="variable_definition" use="both">building.disaggregate(zone.aggregate(urbansim_parcel.building.unit_price,function=mean,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.lnempden" type="variable_definition">(ln(building.disaggregate(sanfrancisco.zone.employment)/building.disaggregate(zone.aggregate(parcel.area)/43560.0)))</variable>
+      <variable use="model variable" source="expression" name="building.lnpopden" type="variable_definition">(ln(building.disaggregate(sanfrancisco.zone.population)/building.disaggregate(zone.aggregate(parcel.area)/43560.0)))</variable>
+      <variable use="model variable" source="expression" name="building.ln_hholds_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.number_of_households,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*0.0000229568411))</variable>
+      <variable use="model variable" source="expression" name="building.ln_jobs_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*0.0000229568411))</variable>
+      <variable use="model variable" source="expression" name="building.age" type="variable_definition">urbansim_parcel.building.age_masked</variable>
+      <variable use="model variable" source="expression" name="building.bfar" type="variable_definition">safe_array_divide(building.building_sqft, building.disaggregate(parcel.area))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sqft_unit" type="variable_definition">ln_bounded(safe_array_divide(building.building_sqft, building.residential_units))</variable>
+      <variable use="model variable" source="expression" name="building.ln_lot_area_unit" type="variable_definition">ln_bounded(safe_array_divide(building.disaggregate(parcel.area), building.residential_units))</variable>
+      <variable use="model variable" source="expression" name="building.ln_emp_30_min_bus" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_avg_income_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.average_income, intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_emp_20_min_hwy" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.employment_within_20_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_emp_30_lrt" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_lrt_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sqft" type="variable_definition">ln_bounded(building.building_sqft)</variable>
+      <variable use="model variable" source="expression" name="building.ln_lot_area" type="variable_definition">ln_bounded(building.disaggregate(parcel.area))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_3_employment_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_3_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.emp_20_min_bus" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_20_minutes_bus_travel_time,intermediates=[parcel])</variable>
+      <variable use="model variable" source="expression" name="building.sector_3_employment_in_zone" type="variable_definition">building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_3_from_building,intermediates=[parcel])</variable>
+      <variable use="model variable" source="expression" name="building.ln_capacity" type="variable_definition">building.disaggregate(zone.aggregate(parcel.building_sqft_capacity))</variable>
+      <variable use="model variable" source="expression" name="household_x_building.bias_correction" type="variable_definition">urbansim_parcel.household_x_building.ln_sampling_probability_for_bias_correction_mnl_vacant_residential_units</variable>
+      <variable use="model variable" source="expression" name="building.single_family" type="variable_definition">(building.building_use_id == 5)</variable>
+      <variable use="model variable" source="expression" name="household_x_building.ln_inc_minus_cost" type="variable_definition">ln_bounded((household.income*1000) - (building.unit_price/10))</variable>
+      <variable use="model variable" source="expression" name="building.ln_avg_building_sf_per_unit" type="variable_definition">ln_bounded(safe_array_divide(sanfrancisco.building.building_sqft,building.residential_units))</variable>
+      <variable use="model variable" source="expression" name="household_x_building.ln_inc_avg_inc" type="variable_definition">ln(household.income * building.disaggregate(sanfrancisco.zone.average_income, intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_unit_price" type="variable_definition">ln(building.unit_price)</variable>
+      <variable use="model variable" source="expression" name="building.lrt_weighted_access_to_population" type="variable_definition">building.disaggregate(sanfrancisco.zone.lrt_travel_time_weighted_access_by_population,intermediates=[parcel])</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_1_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_1_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_2_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_2_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_3_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_3_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_4_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_4_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_5_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_5_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="building.ln_sector_6_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_6_from_building,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="parcel._ln_hholds_per_acre_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.number_of_households)/(parcel.area*0.0000229568411))</variable>
+      <variable use="model variable" source="expression" name="parcel._ln_jobs_per_acre_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.employment)/(parcel.area*0.0000229568411))</variable>
+      <variable use="model variable" source="expression" name="parcel._ln_land_area" type="variable_definition">ln(parcel.area)</variable>
+      <variable use="model variable" source="expression" name="parcel._ln_price" type="variable_definition">ln(parcel.aggregate(building.unit_price, function=mean))</variable>
+      <variable use="model variable" source="expression" name="parcel._employment_within_30_minutes_bus_travel_time" type="variable_definition">parcel.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time,intermediates=[parcel])</variable>
+      <variable use="model variable" source="expression" name="parcel._ln_avg_income_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.average_income))</variable>
+      <variable use="model variable" source="expression" name="parcel._lrt_travel_time_weighted_access_by_population" type="variable_definition">parcel.disaggregate(sanfrancisco.zone.lrt_travel_time_weighted_access_by_population,intermediates=[parcel])</variable>
+      <variable use="model variable" source="expression" name="parcel._lrt_travel_time_weighted_access_to_employment" type="variable_definition">parcel.disaggregate(sanfrancisco.zone.lrt_travel_time_weighted_access_to_employment,intermediates=[parcel])</variable>
+    </expression_library>
+    <available_datasets type="list">['building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata']</available_datasets>
+    <spatial_datasets type="list">['parcel','zone','tract','district24','district14','city','county']</spatial_datasets>
+  </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="real_estate_price_model" type="model">
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Apts" submodel_id="1" type="submodel">
+            <description type="string">Apartments</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_sqft_unit"/>
+              <variable_spec name="building.ln_lot_area_unit"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="Condo" submodel_id="2" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_sqft_unit"/>
+              <variable_spec name="building.ln_lot_area_unit"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>Condominium</description>
+          </submodel>
+          <submodel hidden="Children" name="Flats" submodel_id="3" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_sqft_unit"/>
+              <variable_spec name="building.ln_lot_area_unit"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>Flats</description>
+          </submodel>
+          <submodel hidden="Children" name="Single" submodel_id="5" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft_unit"/>
+              <variable_spec name="building.ln_lot_area_unit"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>Single-family residential</description>
+          </submodel>
+          <submodel hidden="Children" name="CIE" submodel_id="7" type="submodel">
+            <description type="string">CIE</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MIPS" submodel_id="8" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>MIPS</description>
+          </submodel>
+          <submodel hidden="Children" name="Mixed" submodel_id="9" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>Mixed Use</description>
+          </submodel>
+          <submodel hidden="Children" name="MixRes" submodel_id="10" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>Mixed Residential</description>
+          </submodel>
+          <submodel hidden="Children" name="PDR" submodel_id="13" type="submodel">
+            <description type="string">PDR</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="RetailEnt" submodel_id="14" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="building.ln_capacity"/>
+            </variable_list>
+            <description>Retail and Entertainment</description>
+          </submodel>
+        </specification>
+      </model>
+      <model name="household_location_choice_model" type="model">
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+        <specification type="dictionary">
+          <submodel name="submodel" submodel_id="1" type="submodel" hidden="Children">
+            <description type="string">submodel1</description>
+            <variable_list type="variable_list">
+              <variable_spec name="household_x_building.bias_correction"/>
+              <variable_spec name="building.single_family"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="household_x_building.ln_inc_minus_cost"/>
+              <variable_spec name="building.ln_avg_building_sf_per_unit"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="household_x_building.ln_inc_avg_inc"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="2" type="submodel" hidden="Children">
+            <description type="string">submodel2</description>
+            <variable_list type="variable_list">
+              <variable_spec name="household_x_building.bias_correction"/>
+              <variable_spec name="building.single_family"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="household_x_building.ln_inc_minus_cost"/>
+              <variable_spec name="building.ln_avg_building_sf_per_unit"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="household_x_building.ln_inc_avg_inc"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="3" type="submodel" hidden="Children">
+            <description type="string">submodel3</description>
+            <variable_list type="variable_list">
+              <variable_spec name="household_x_building.bias_correction"/>
+              <variable_spec name="building.single_family"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+              <variable_spec name="household_x_building.ln_inc_minus_cost"/>
+              <variable_spec name="building.ln_avg_building_sf_per_unit"/>
+              <variable_spec name="household_x_building.ln_inc_avg_inc"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
+      <model name="business_location_choice_model" type="model">
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+        <specification type="dictionary">
+          <submodel name="submodel" submodel_id="1" type="submodel" hidden="Children">
+            <description type="string">submodel1</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_1_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="2" type="submodel" hidden="Children">
+            <description type="string">submodel2</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_2_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="3" type="submodel" hidden="Children">
+            <description type="string">submodel3</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_3_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="4" type="submodel" hidden="Children">
+            <description type="string">submodel4</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_4_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="5" type="submodel" hidden="Children">
+            <description type="string">submodel5</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_5_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="6" type="submodel" hidden="Children">
+            <description type="string">submodel6</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_6_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="7" type="submodel" hidden="Children">
+            <description type="string">submodel7</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_7_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="8" type="submodel" hidden="Children">
+            <description type="string">submodel8</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_8_employment_in_zone"/>
+            </variable_list>
+           </submodel>
+           <submodel name="submodel" submodel_id="9" type="submodel" hidden="Children">
+            <description type="string">submodel9</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_9_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="10" type="submodel" hidden="Children">
+            <description type="string">submodel10</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_10_employment_in_zone"/>
+            </variable_list>
+          </submodel>
+          <submodel name="submodel" submodel_id="11" type="submodel" hidden="Children">
+            <description type="string">submodel11</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.ln_unit_price"/>
+              <variable_spec name="building.bfar"></variable_spec>
+              <variable_spec name="building.ln_hholds_per_acre_in_zone"></variable_spec>
+              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ln_sector_11_employment_in_zone"/>
+            </variable_list>
+         </submodel>
+        </specification>
+      </model>
+      <model name="building_location_choice_model" type="model">
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+        <specification type="dictionary">
+          <submodel_group name="residential" type="submodel_group">
+            <submodel hidden="Children" name="submodel" submodel_id="1" type="submodel">
+              <description type="string">submodel1</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="2" type="submodel">
+              <description type="string">submodel2</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="3" type="submodel">
+              <description type="string">submodel3</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="5" type="submodel">
+              <description type="string">submodel5</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+          <submodel_group name="nonresidential" type="submodel_group">
+            <submodel hidden="Children" name="submodel" submodel_id="7" type="submodel">
+              <description type="string">submodel7</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="8" type="submodel">
+              <description type="string">submodel8</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="9" type="submodel">
+              <description type="string">submodel9</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="13" type="submodel">
+              <description type="string">submodel13</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="submodel" submodel_id="14" type="submodel">
+              <description type="string">submodel14</description>
+              <variable_list type="variable_list">
+                <variable_spec name="parcel._ln_land_area"/>
+                <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+                <variable_spec name="parcel._ln_price"/>
+                <variable_spec name="parcel._ln_avg_income_in_zone"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+                <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+        </specification>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="sanfrancisco_baseline" type="scenario">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear type="integer">2030</lastyear>
+      </years_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="Tract_employment">
+        <batch_visualization hidden="Children" type="batch_visualization" name="employment">
+          <indicators>['tract_employment']</indicators>
+          <output_type>mapnik_map</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <dataset_name>tract</dataset_name>
+          <visualization_type>mapnik_map</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="zone_employment">
+        <batch_visualization hidden="Children" type="batch_visualization" name="employment">
+          <indicators>['zone_total_jobs', 'zone_sector_1_jobs', 'zone_sector_2_jobs', 'zone_sector_3_jobs', 'zone_sector_4_jobs', 'zone_sector_5_jobs', 'zone_sector_6_jobs']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="City">
+        <batch_visualization hidden="Children" type="batch_visualization" name="population_employment">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0,0.1,1000,5000,20000,100000,999999999</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['city_employment_total', 'city_households', 'city_population']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>alldata</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="Parcels">
+        <batch_visualization hidden="Children" type="batch_visualization" name="building_sqft">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0,0.1,1000,5000,20000,100000,999999999</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['total_building_sqft']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="residential_units">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0,1,2,5,11,51,800</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['residential_units']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="TotalEmployment">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Total Employment">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#00fc00,#00d400,#00aa00,#007e00,#004800</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">1,751,2514,5940,14107,45053</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_total_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="Employment">
+        <batch_visualization hidden="Children" type="batch_visualization" name="sector6">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_sector_6_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="sector5">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_sector_5_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="sector4">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_sector_4_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="sector3">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_sector_3_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="sector2">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_sector_2_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="sector1">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['zone_sector_1_jobs']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="households_population">
+        <batch_visualization hidden="Children" type="batch_visualization" name="households">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['number_of_households']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="population">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['population']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+    </indicator_batches>
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
+      <run hidden="Children" type="source_data" name="run_2010_03_24_14_37" run_id="27">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_27.run_2010_03_24_14_37</cache_directory>
+        <start_year type="integer">2002</start_year>
+        <end_year type="integer">2005</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2010_03_17_10_54" run_id="19">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_19.run_2010_03_17_10_54</cache_directory>
+        <start_year type="integer">2002</start_year>
+        <end_year type="integer">2030</end_year>
+      </run>
+    </simulation_runs>
+  </results_manager>
+</opus_project>
+
