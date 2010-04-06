@@ -52,6 +52,13 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="employment_transition_model" type="model">
+        <structure type="dictionary">    
+          <run type="dictionary">
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_jobs</argument>
+          </run>
+        </structure>
+      </model>      
       <model name="employment_location_choice_model" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
@@ -488,11 +495,12 @@
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="selectable">False</selectable>
         <selectable name="household_transition_model" type="selectable">True</selectable>
-        <selectable name="business_transition_model" type="selectable">True</selectable>
+        <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
         <selectable name="household_location_choice_model" type="selectable">True</selectable>
-        <selectable name="business_relocation_model" type="selectable">True</selectable>
-        <selectable name="business_location_choice_model" type="selectable">True</selectable>
+        <selectable name="employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
+        </selectable>
       </models_to_run>
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
       <base_year type="integer">2000</base_year>
