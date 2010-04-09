@@ -1,0 +1,115 @@
+        Simulate year 2000: started on Mon Apr  5 23:05:37 2010
+            'agents_grouping_attribute' set to job.home_based_status.
+            Estimating Non_home_based Employment Location Choice Model (from urbansim.models.employment_location_choice_model): started on Mon Apr  5 23:05:38 2010
+                building.building_id>0...................................0.0 sec
+                Choice set size: 30
+                ln_emp_30_min = ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_30_am_lov_time_threshold))
+                    urbansim_zone.zone.SSS_within_DDD_SSS_threshold
+                        number_of_jobs = zone.number_of_agents(job)......0.2 sec
+                    urbansim_zone.zone.SSS_within_DDD_SSS_threshold: completed...2.2 sec
+                ln_emp_30_min = ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_30_am_lov_time_threshold)): completed...2.3 sec
+                ln_employees = ln_bounded(building.number_of_agents(job))....0.1 sec
+                ln_pop_density_zone = building.disaggregate(zone.aggregate(household.persons)/zone.area)/1000
+                    zone.aggregate(household.persons)/zone.area..........0.3 sec
+                ln_pop_density_zone = building.disaggregate(zone.aggregate(household.persons)/zone.area)/1000: completed...0.3 sec
+                submodel: 1
+                Convergence achieved.
+                Akaike's Information Criterion (AIC):  32333.5863565
+                Bayesian Information Criterion (BIC):  32355.2317431
+                Number of Iterations:  8
+                ***********************************************
+                Log-likelihood is:            -16163.7931782
+                Null Log-likelihood is:       -34175.2312909
+                Likelihood ratio index:       0.527031930212
+                Adj. likelihood ratio index:  0.526944147339
+                Number of observations:       10048
+                Suggested |t-value| >         3.03564307663
+                Convergence statistic is:     0.000530332775263
+                -----------------------------------------------
+                Coeff_names	estimate	std err		t-values
+                ln_emp_30_min	-0.129588	0.019066	-6.79681
+                ln_employees	 1.11436	0.0102515	 108.702
+                ln_pop_density_zone	0.0647395	0.00630536	 10.2674
+                ***********************************************
+                Elapsed time:  2.37 seconds
+                submodel: 2
+                Convergence achieved.
+                Akaike's Information Criterion (AIC):  14256.2704054
+                Bayesian Information Criterion (BIC):  14275.691383
+                Number of Iterations:  7
+                ***********************************************
+                Log-likelihood is:            -7125.1352027
+                Null Log-likelihood is:       -16281.531866
+                Likelihood ratio index:       0.562379310416
+                Adj. likelihood ratio index:  0.562195052569
+                Number of observations:       4787
+                Suggested |t-value| >         2.91095503047
+                Convergence statistic is:     0.000797293809388
+                -----------------------------------------------
+                Coeff_names	estimate	std err		t-values
+                ln_emp_30_min	-0.120735	0.0258465	-4.67124
+                ln_employees	 1.04101	0.0133043	 78.2463
+                ln_pop_density_zone	-0.194427	0.0130904	-14.8526
+                ***********************************************
+                Elapsed time:  0.96 seconds
+                submodel: 3
+                Convergence achieved.
+                Akaike's Information Criterion (AIC):  14012.8098075
+                Bayesian Information Criterion (BIC):  14031.2026344
+                Number of Iterations:  11
+                ***********************************************
+                Log-likelihood is:            -7003.40490373
+                Null Log-likelihood is:       -11557.2687029
+                Likelihood ratio index:       0.394025951652
+                Adj. likelihood ratio index:  0.393766374751
+                Number of observations:       3398
+                Suggested |t-value| >         2.851480721
+                Convergence statistic is:     0.000437771354515
+                -----------------------------------------------
+                Coeff_names	estimate	std err		t-values
+                ln_emp_30_min	0.0389258	0.0294978	 1.31962
+                ln_employees	0.861897	0.0149174	  57.778
+                ln_pop_density_zone	-0.0399423	0.0118093	-3.38229
+                ***********************************************
+                Elapsed time:  1.08 seconds
+                submodel: 4
+                Convergence achieved.
+                Akaike's Information Criterion (AIC):  11399.9259642
+                Bayesian Information Criterion (BIC):  11419.3719055
+                Number of Iterations:  9
+                ***********************************************
+                Log-likelihood is:            -5696.96298211
+                Null Log-likelihood is:       -16417.5797613
+                Likelihood ratio index:       0.652996174531
+                Adj. likelihood ratio index:  0.652813443577
+                Number of observations:       4827
+                Suggested |t-value| >         2.91238397806
+                Convergence statistic is:     0.00026179991119
+                -----------------------------------------------
+                Coeff_names	estimate	std err		t-values
+                ln_emp_30_min	0.453247	0.0379869	 11.9317
+                ln_employees	 1.14629	0.0148304	  77.293
+                ln_pop_density_zone	-0.0148086	0.0121197	-1.22186
+                ***********************************************
+                Elapsed time:  1.26 seconds
+                submodel: 5
+                Convergence achieved.
+                Akaike's Information Criterion (AIC):  8215.90077808
+                Bayesian Information Criterion (BIC):  8227.04166458
+                Number of Iterations:  14
+                ***********************************************
+                Log-likelihood is:            -4105.95038904
+                Null Log-likelihood is:       -6598.32292042
+                Likelihood ratio index:       0.377728183577
+                Adj. likelihood ratio index:  0.377425076253
+                Number of observations:       1940
+                Suggested |t-value| >         2.75144384861
+                Convergence statistic is:     0.000837444526006
+                -----------------------------------------------
+                Coeff_names	estimate	std err		t-values
+                ln_emp_30_min	0.252502	0.0458436	 5.50789
+                ln_employees	 0.82533	0.0201208	 41.0187
+                ***********************************************
+                Elapsed time:  0.76 seconds
+            Estimating Non_home_based Employment Location Choice Model (from urbansim.models.employment_location_choice_model): completed...10.6 sec
+        Simulate year 2000: completed...................................11.4 sec

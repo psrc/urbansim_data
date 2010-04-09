@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Map srs="+proj=latlong +datum=WGS84" bgcolor="rgb(255,255,255)">
+    <Style name="Map Style">
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=0) and ([EMP_15_MIN]&lt;=1.23))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(224,238,224)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=1.23) and ([EMP_15_MIN]&lt;=2.46))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(199,233,192)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=2.46) and ([EMP_15_MIN]&lt;=3.69))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(161,217,155)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=3.69) and ([EMP_15_MIN]&lt;=4.92))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(124,205,124)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=4.92) and ([EMP_15_MIN]&lt;=6.15))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(116,196,118)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=6.15) and ([EMP_15_MIN]&lt;=7.38))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(65,171,93)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=7.38) and ([EMP_15_MIN]&lt;=8.609999999999999))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(35,139,69)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=8.609999999999999) and ([EMP_15_MIN]&lt;=9.84))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(0,100,0)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=9.84) and ([EMP_15_MIN]&lt;=11.07))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(0,68,27)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&gt;=11.07) and ([EMP_15_MIN]&lt;=12.3))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(0,52,11)</CssParameter>
+            </PolygonSymbolizer>
+            <LineSymbolizer>
+                <CssParameter name="stroke-width">0.1</CssParameter>
+            </LineSymbolizer>
+        </Rule>
+        <Rule>
+            <Filter>(([EMP_15_MIN]&lt;0) or ([EMP_15_MIN]&gt;12.3))</Filter>
+            <PolygonSymbolizer>
+                <CssParameter name="fill">rgb(222,222,222)</CssParameter>
+            </PolygonSymbolizer>
+        </Rule>
+    </Style>
+    <Layer name="Map Layer" srs="+proj=latlong +datum=WGS84" status="1" clear_label_cache="0">
+        <StyleName>Map Style</StyleName>
+        <Datasource>
+            <Parameter name="file">/media/opus/data/durham_zone/shapefiles/zone</Parameter>
+            <Parameter name="type">shape</Parameter>
+        </Datasource>
+    </Layer>
+</Map>

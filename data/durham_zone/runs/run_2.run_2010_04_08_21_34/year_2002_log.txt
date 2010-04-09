@@ -1,0 +1,96 @@
+        Simulate year 2002: started on Thu Apr  8 21:34:56 2010
+            Running Household Transition Model (from urbansim.models.transition_model): started on Thu Apr  8 21:34:57 2010
+                actual	target	action
+                413651	438443.0	+24792
+
+            Running Household Transition Model (from urbansim.models.transition_model): completed...0.6 sec
+            Running Employment Transition Model (from urbansim.models.transition_model): started on Thu Apr  8 21:34:58 2010
+                sector_id	actual	target	action
+                1	303267	306166.0	+2899
+                2	100581	103480.0	+2899
+                3	82832	85731.0	+2899
+                4	103709	106608.0	+2899
+                5	34760	37659.0	+2899
+
+            Running Employment Transition Model (from urbansim.models.transition_model): completed...0.7 sec
+            Running Household Relocation Model (from urbansim.models.agent_relocation_model): started on Thu Apr  8 21:34:59 2010
+                WARNING: There are 197 households whose relocation probability is un-specified by the relocation rate dataset. Their relocation probability is set to 0.
+            Running Household Relocation Model (from urbansim.models.agent_relocation_model): completed...1.0 sec
+            Running Household Location Choice Model (from urbansim.models.household_location_choice_model): started on Thu Apr  8 21:35:00 2010
+                Total number of individuals: 35321
+                HLCM chunk 1 out of 3.: started on Thu Apr  8 21:35:00 2010
+                    Number of agents in this chunk: 11774
+                    building.max_households-building.number_of_agents(household)....0.1 sec
+                    Available capacity: 4087970.0 units.
+                    building.building_id>0...............................0.0 sec
+                    building_id>0........................................0.0 sec
+                    Choice set size: 50
+                    ln_avg_hh_income = ln(building.aggregate(household.income, function=mean))....0.0 sec
+                    ln_emp_30_min = ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_30_am_lov_time_threshold))
+                        urbansim_zone.zone.SSS_within_DDD_SSS_threshold
+                            number_of_jobs = zone.number_of_agents(job)..0.1 sec
+                        urbansim_zone.zone.SSS_within_DDD_SSS_threshold: completed...0.7 sec
+                    ln_emp_30_min = ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_30_am_lov_time_threshold)): completed...0.7 sec
+                    ln_households = ln(building.number_of_agents(household))....0.1 sec
+                    ln_job_density_zone = building.disaggregate(zone.number_of_agents(job)/zone.area)/1000
+                        zone.number_of_agents(job)/zone.area.............0.1 sec
+                    ln_job_density_zone = building.disaggregate(zone.number_of_agents(job)/zone.area)/1000: completed...0.1 sec
+                    ln_pop_density_zone = building.disaggregate(zone.aggregate(household.persons)/zone.area)/1000
+                        zone.aggregate(household.persons)/zone.area......0.0 sec
+                    ln_pop_density_zone = building.disaggregate(zone.aggregate(household.persons)/zone.area)/1000: completed...0.0 sec
+                    zone_area_bldg = building.disaggregate(zone.area)....0.0 sec
+                    Number of unplaced agents: 0 (in 2 iterations)
+                HLCM chunk 1 out of 3.: completed........................2.9 sec
+                HLCM chunk 2 out of 3.: started on Thu Apr  8 21:35:03 2010
+                    Number of agents in this chunk: 11774
+                    building.max_households-building.number_of_agents(household)....0.1 sec
+                    Available capacity: 4079753.0 units.
+                    Choice set size: 50
+                    ln_avg_hh_income = ln(building.aggregate(household.income, function=mean))....0.0 sec
+                    ln_households = ln(building.number_of_agents(household))....0.1 sec
+                    Number of unplaced agents: 0 (in 2 iterations)
+                HLCM chunk 2 out of 3.: completed........................2.0 sec
+                HLCM chunk 3 out of 3.: started on Thu Apr  8 21:35:05 2010
+                    Number of agents in this chunk: 11773
+                    building.max_households-building.number_of_agents(household)....0.1 sec
+                    Available capacity: 4071484.0 units.
+                    Choice set size: 50
+                    ln_avg_hh_income = ln(building.aggregate(household.income, function=mean))....0.0 sec
+                    ln_households = ln(building.number_of_agents(household))....0.1 sec
+                    Number of unplaced agents: 0 (in 2 iterations)
+                HLCM chunk 3 out of 3.: completed........................2.0 sec
+            Running Household Location Choice Model (from urbansim.models.household_location_choice_model): completed...6.9 sec
+            Running Employment Relocation Model (from urbansim.models.agent_relocation_model): started on Thu Apr  8 21:35:07 2010....0.4 sec
+            'agents_grouping_attribute' set to job.home_based_status.
+            Running Non_home_based Employment Location Choice Model (from urbansim.models.employment_location_choice_model): started on Thu Apr  8 21:35:07 2010
+                Total number of individuals: 14495
+                Non_home_based ELCM chunk 1 out of 1.: started on Thu Apr  8 21:35:07 2010
+                    Number of agents in this chunk: 14495
+                    building.max_jobs-building.number_of_agents(job).....0.1 sec
+                    Available capacity: 18006422.0 units.
+                    Choice set size: 30
+                    ln_employees = ln_bounded(building.number_of_agents(job))....0.1 sec
+                    Number of unplaced agents: 0 (in 2 iterations)
+                    Number of unplaced agents: 0 (in 2 iterations)
+                    Number of unplaced agents: 0 (in 2 iterations)
+                    Number of unplaced agents: 0 (in 2 iterations)
+                    Number of unplaced agents: 0 (in 2 iterations)
+                Non_home_based ELCM chunk 1 out of 1.: completed.........1.3 sec
+            Running Non_home_based Employment Location Choice Model (from urbansim.models.employment_location_choice_model): completed...1.3 sec
+            Writing datasets to cache for year 2002: started on Thu Apr  8 21:35:09 2010
+                Flushing building
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/buildings doesn't exist and is created
+                Flushing travel_data
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/travel_data doesn't exist and is created
+                Flushing home_based_status
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/home_based_status doesn't exist and is created
+                Flushing zone
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/zones doesn't exist and is created
+                Flushing household
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/households doesn't exist and is created
+                Flushing job
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/jobs doesn't exist and is created
+                Flushing building_type
+                /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34/2002/building_types doesn't exist and is created
+            Writing datasets to cache for year 2002: completed...........0.8 sec
+        Simulate year 2002: completed...................................13.3 sec

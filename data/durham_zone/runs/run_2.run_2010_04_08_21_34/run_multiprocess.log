@@ -1,0 +1,19 @@
+Running simulation for years 2001 thru 2003
+Root seed: 0
+Running UrbanSim for year 2001 in new process: started on Thu Apr  8 21:34:41 2010Cache Directory set to: /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34
+Start simulation run: started on Thu Apr  8 21:34:41 2010
+    random seed = (209652397,)
+    Starting simulation for year 2001: started on Thu Apr  8 21:34:41 2010    Starting simulation for year 2001: completed........................14.2 sec
+Start simulation run: completed.........................................14.2 sec
+Running UrbanSim for year 2001 in new process: completed................14.6 sec
+Running UrbanSim for year 2002 in new process: started on Thu Apr  8 21:34:55 2010Cache Directory set to: /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34
+Start simulation run: started on Thu Apr  8 21:34:56 2010
+    random seed = (398764592,)
+    Starting simulation for year 2002: started on Thu Apr  8 21:34:56 2010    Starting simulation for year 2002: completed........................13.3 sec
+Start simulation run: completed.........................................13.3 sec
+Running UrbanSim for year 2002 in new process: completed................14.1 sec
+Running UrbanSim for year 2003 in new process: started on Thu Apr  8 21:35:09 2010Cache Directory set to: /home/pwaddell/opus/data/durham_zone/runs/run_2.run_2010_04_08_21_34
+Start simulation run: started on Thu Apr  8 21:35:10 2010
+    random seed = (924231286,)
+    Starting simulation for year 2003: started on Thu Apr  8 21:35:10 2010    Starting simulation for year 2003: completed........................13.6 sec
+Start simulation run: completed.........................................13.6 sec
