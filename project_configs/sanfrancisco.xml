@@ -141,18 +141,15 @@
           <submodel hidden="Children" name="Apts" submodel_id="1" type="submodel">
             <description type="string">Apartments</description>
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
-              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.ln_sqft_unit"/>
-              <variable_spec name="building.ln_lot_area_unit"/>
-              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="constant"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_sqft_unit"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="Condo" submodel_id="4" type="submodel">
@@ -541,12 +538,24 @@
         </specification>
       </model>
     </models>
+    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
+      <save_estimation_results type="boolean">True</save_estimation_results>
+    </estimation_config>
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="sanfrancisco_baseline" type="scenario">
       <years_to_run config_name="years" type="tuple">
         <lastyear type="integer">2006</lastyear>
       </years_to_run>
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="building_type" type="selectable">True</selectable>
+          <selectable name="building_use" type="selectable">False<package_name type="string">sanfrancisco</package_name>
+          </selectable>
+          <selectable name="building_type_classification" type="selectable">True<package_name type="string">sanfrancisco</package_name>
+          </selectable>
+        </datasets_to_preload>
+      </advanced>
     </scenario>
   </scenario_manager>
   <results_manager>
