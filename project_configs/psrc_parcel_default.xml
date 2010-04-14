@@ -113,7 +113,7 @@
             <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
             <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"/>
-            <argument name="choice_attribute_name" parser_action="quote_string" type="string">building.building_type_id</argument>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">psrc_parcel.household.building_type_id</argument>
             <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
             <argument convert_blank_to_none="True" name="run_config" type="string"/>
             <argument name="estimate_config" type="dictionary">
@@ -147,7 +147,7 @@
           <estimate type="dictionary">
             <output name="output" type="string">(coefficients, dummy)</output>
             <argument name="specification" type="string">specification</argument>
-            <argument name="agent_set" type="string">building</argument>
+            <argument name="agent_set" type="string">household</argument>
             <argument name="agents_index" type="string">cm_index</argument>
             <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
             <argument name="data_objects" type="string">datasets</argument>
@@ -155,8 +155,8 @@
           <prepare_for_estimate type="dictionary">
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(specification, cm_index)</output>
-            <argument convert_blank_to_none="True" name="agent_set" type="string"/>
-            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">(household.household_id > 6000000)*numpy.setmember1d(psrc_parcel.household.building_type_id, (4, 11, 12, 19))</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
           </prepare_for_estimate>
@@ -195,7 +195,7 @@
           </import>
           <init type="dictionary">
             <name name="name" type="string">ChoiceModel</name>
-            <argument name="choice_set" type="string">[1,2]</argument>
+            <argument name="choice_set" type="string">[1,3]</argument>
             <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
             <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
@@ -242,8 +242,8 @@
           <prepare_for_estimate type="dictionary">
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(specification, cm_index)</output>
-            <argument convert_blank_to_none="True" name="agent_set" type="string"/>
-            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">logical_or(household.tenure==1,household.tenure==3)</argument>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">(household.household_id > 6000000)*numpy.logical_or(household.tenure==1,household.tenure==3)</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
           </prepare_for_estimate>
