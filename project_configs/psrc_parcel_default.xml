@@ -100,6 +100,169 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="residential_building_type_choice_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.choice_model</class_module>
+            <class_name type="string">ChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">ChoiceModel</name>
+            <argument name="choice_set" type="string">[4,11,12,19]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"/>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">building.building_type_id</argument>
+            <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"/>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">building</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">residential_building_type_choice_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">residential_building_type_choice_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string"/>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="4" name="Condominium" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="Condo"/>
+                <variable_spec name="household.income"/>
+              </variable_list>
+            </equation>
+            <equation equation_id="11" name="Mobile Home" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="Mobile"/>
+                <variable_spec name="household.income"/>
+              </variable_list>
+            </equation>
+            <equation equation_id="19" name="Single Family" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="Single"/>
+                <variable_spec name="household.income"/>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="tenure_choice_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.choice_model</class_module>
+            <class_name type="string">ChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">ChoiceModel</name>
+            <argument name="choice_set" type="string">[1,2]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"/>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">household.tenure</argument>
+            <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"/>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">tenure_choice_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">tenure_choice_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string"/>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">logical_or(household.tenure==1,household.tenure==3)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="1" name="Own" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant"/>
+                <variable_spec name="household.income"/>
+                <variable_spec name="household.persons"/>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
       <model copyable="True" hidden="False" name="work_at_home_choice_model" type="model">
         <specification type="dictionary">
           <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
@@ -202,7 +365,7 @@
             <equation equation_id="1" name="Choice 1" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="car1"/>
-                <variable_spec name="household.res_to_cbd_time" />
+                <variable_spec name="household.res_to_cbd_time"/>
               </variable_list>
             </equation>
             <equation equation_id="2" name="Choice 2" type="submodel_equation">
@@ -1101,11 +1264,17 @@
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="3">
         <scenario_name type="string"/>
-        <cache_directory type="string">/media/opus/data/psrc_parcel/base_year_data</cache_directory>
+        <cache_directory type="string">/Users/pwaddell/opus/data/psrc_parcel/base_year_data</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2000</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2010_02_17_23_24" run_id="2">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">/Users/pwaddell/opus/data/psrc_parcel/runs/run_2.run_2010_02_17_23_24</cache_directory>
+        <start_year type="integer">2001</start_year>
+        <end_year type="integer">2002</end_year>
       </run>
     </simulation_runs>
   </results_manager>
