@@ -365,18 +365,18 @@
             <equation equation_id="1" name="Choice 1" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="car1"/>
-                <variable_spec name="household.res_to_cbd_time"/>
+                <variable_spec name="household.res_to_cbd_time" coefficient_name="tt1"/>
               </variable_list>
             </equation>
             <equation equation_id="2" name="Choice 2" type="submodel_equation">
               <variable_list type="variable_list">
-                <variable_spec name="household.res_to_cbd_time"/>
+              <variable_spec name="household.res_to_cbd_time" coefficient_name="tt2"/>
               </variable_list>
             </equation>
             <equation equation_id="3" name="Choice 3" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="car3"/>
-                <variable_spec name="household.res_to_cbd_time"/>
+                <variable_spec name="household.res_to_cbd_time" coefficient_name="tt3"/>
               </variable_list>
             </equation>
           </submodel>
