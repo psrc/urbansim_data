@@ -59,6 +59,83 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="demolition_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.choice_model</class_module>
+            <class_name type="string">ChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">ChoiceModel</name>
+            <argument name="choice_set" type="string">[1,2]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"/>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">building.demo+1</argument>
+            <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"/>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">building</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">demolition_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">demolition_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string"/>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="2" name="Demo" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="building.age"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="building.ln_residential_units"/>
+                <variable_spec name="building.ln_unit_price"/>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
       <model name="real_estate_price_model" type="model">
         <specification type="dictionary">
           <submodel hidden="Children" name="Apts" submodel_id="1" type="submodel">
@@ -812,11 +889,17 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="No description" run_id="8">
+      <run hidden="Children" type="source_data" name="run_2010_02_21_09_08" run_id="5">
         <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_8.2010_03_19_13_04</cache_directory>
+        <cache_directory type="string">/media/opus/data/sanfrancisco/runs/run_5.run_2010_02_21_09_08</cache_directory>
         <start_year type="integer">2002</start_year>
         <end_year type="integer">2030</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2010_02_18_21_22" run_id="4">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">/media/opus/data/sanfrancisco/runs/run_4.run_2010_02_18_21_22</cache_directory>
+        <start_year type="integer">2002</start_year>
+        <end_year type="integer">2005</end_year>
       </run>
     </simulation_runs>
   </results_manager>
