@@ -166,19 +166,19 @@
             <equation equation_id="4" name="Condominium" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="Condo"/>
-                <variable_spec name="household.income"/>
+                <variable_spec name="household.income" coefficient_name="inc_condo"/>
               </variable_list>
             </equation>
             <equation equation_id="11" name="Mobile Home" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="Mobile"/>
-                <variable_spec name="household.income"/>
+                <variable_spec name="household.income" coefficient_name="inc_mobile"/>
               </variable_list>
             </equation>
             <equation equation_id="19" name="Single Family" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="Single"/>
-                <variable_spec name="household.income"/>
+                <variable_spec name="household.income" coefficient_name="inc_single"/>
               </variable_list>
             </equation>
           </submodel>
@@ -362,21 +362,28 @@
         </structure>
         <specification type="dictionary">
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
-            <equation equation_id="1" name="Choice 1" type="submodel_equation">
+            <equation equation_id="0" name="Car 0" type="submodel_equation">
               <variable_list type="variable_list">
-                <variable_spec name="constant" coefficient_name="car1"/>
-                <variable_spec name="household.res_to_cbd_time" coefficient_name="tt1"/>
+                <variable_spec name="constant" coefficient_name="car0"/>
+                <variable_spec name="household.res_to_cbd_time" coefficient_name="cbd_time_0"/>
+                <variable_spec name="household.income" coefficient_name="income_0"/>
+                <variable_spec name="household.persons" coefficient_name="persons_0"/>
               </variable_list>
             </equation>
-            <equation equation_id="2" name="Choice 2" type="submodel_equation">
+            <equation equation_id="2" name="Car 2" type="submodel_equation">
               <variable_list type="variable_list">
-              <variable_spec name="household.res_to_cbd_time" coefficient_name="tt2"/>
+                <variable_spec name="constant" coefficient_name="car2"/>
+              <variable_spec name="household.res_to_cbd_time" coefficient_name="cbd_time_2"/>
+                <variable_spec name="household.income" coefficient_name="income_2"/>
+                <variable_spec name="household.persons" coefficient_name="persons_2"/>
               </variable_list>
             </equation>
-            <equation equation_id="3" name="Choice 3" type="submodel_equation">
+            <equation equation_id="3" name="Car 3" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="car3"/>
-                <variable_spec name="household.res_to_cbd_time" coefficient_name="tt3"/>
+                <variable_spec name="household.res_to_cbd_time" coefficient_name="cbd_time_3"/>
+                <variable_spec name="household.income" coefficient_name="income_3"/>
+                <variable_spec name="household.persons" coefficient_name="persons_3"/>
               </variable_list>
             </equation>
           </submodel>
