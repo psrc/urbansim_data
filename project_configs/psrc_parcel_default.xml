@@ -1243,7 +1243,7 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
   </model_manager>
   <scenario_manager>
-    <scenario executable="True" name="PSRC_TM_skims" type="scenario">
+    <scenario executable="True" name="PSRC_full_TM" type="scenario">
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2001</firstyear>
@@ -1255,6 +1255,29 @@
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.run_export_macros" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.get_emme2_data_into_cache" type="selectable">True</selectable>
+        </models>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2001</year>
+            <bank type="list">['2006_06']</bank>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
+    <scenario executable="True" name="PSRC_TM_skims" type="scenario">
+      <base_year type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2040</lastyear>
+      </years_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">Version_1.0c</travel_model_base_directory>
+        <emme2_batch_file_name type="string">MODEL1-0c.BAT</emme2_batch_file_name>
+        <models type="selectable_list">
+          <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">False</selectable>
+          <selectable name="opus_emme2.models.run_travel_model" type="selectable">False</selectable>
           <selectable name="opus_emme2.models.run_export_macros" type="selectable">True</selectable>
           <selectable name="opus_emme2.models.get_emme2_data_into_cache" type="selectable">True</selectable>
         </models>
