@@ -4,6 +4,7 @@
     <description type="string">Configuration for the San Francisco parcel project</description>
     <parent type="file">sanfrancisco/configs/sanfrancisco.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building.pre_1930" type="variable_definition">numpy.logical_and(building.year_built&lt;1930, building.year_built&gt;1800)</variable>
       <variable use="both" source="expression" name="building.residential_units_greater_than_0" type="variable_definition">building.residential_units&gt;0</variable>
       <variable use="both" source="expression" name="building.unnamed_variable" type="variable_definition">building.residential_sqft</variable>
       <variable use="both" source="expression" name="building.building_use_id_is_18" type="variable_definition">building.building_use_id==18</variable>
@@ -137,146 +138,196 @@
         </estimation_config>
       </model>
       <model name="real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_price=ln_bounded(building.structure_value+building.disaggregate(parcel.land_value))</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <argument name="filter_variable" parser_action="quote_string" type="string">ln_bounded(building.structure_value+building.disaggregate(parcel.land_value))&gt;0</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_price=ln_bounded(building.structure_value+building.disaggregate(parcel.land_value))</argument>
+          </estimate>
+        </structure>
         <specification type="dictionary">
-          <submodel hidden="Children" name="Apts" submodel_id="1" type="submodel">
+          <submodel hidden="Children" name="res_other" submodel_id="13" type="submodel">
+            <description type="string">res_other</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.age"/>
+              <variable_spec name="building.bfar"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_lot_area_unit"/>
+              <variable_spec name="building.ln_sqft_unit"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="apartment" submodel_id="1" type="submodel">
             <description type="string">Apartments</description>
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
-              <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.ln_sqft_unit"/>
-              <variable_spec name="building.ln_lot_area_unit"/>
-              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="constant"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_residential_units"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.pre_1930"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="Condo" submodel_id="2" type="submodel">
+          <submodel hidden="Children" name="condo" submodel_id="4" type="submodel">
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.ln_sqft_unit"/>
-              <variable_spec name="building.ln_lot_area_unit"/>
-              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="constant"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_residential_units"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.pre_1930"/>
             </variable_list>
-            <description>Condominium</description>
+            <description>condo</description>
           </submodel>
-          <submodel hidden="Children" name="Flats" submodel_id="3" type="submodel">
+          <submodel hidden="Children" name="flat" submodel_id="5" type="submodel">
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.ln_sqft_unit"/>
-              <variable_spec name="building.ln_lot_area_unit"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
               <variable_spec name="building.ln_emp_30_lrt"/>
-              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_residential_units"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.pre_1930"/>
             </variable_list>
             <description>Flats</description>
           </submodel>
-          <submodel hidden="Children" name="Single" submodel_id="5" type="submodel">
+          <submodel hidden="Children" name="Single" submodel_id="14" type="submodel">
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
               <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft_unit"/>
-              <variable_spec name="building.ln_lot_area_unit"/>
-              <variable_spec name="building.ln_emp_30_min_bus"/>
-              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="constant"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_residential_units"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.pre_1930"/>
             </variable_list>
             <description>Single-family residential</description>
           </submodel>
-          <submodel hidden="Children" name="CIE" submodel_id="7" type="submodel">
-            <description type="string">CIE</description>
+          <submodel hidden="Children" name="institutional" submodel_id="8" type="submodel">
+            <description type="string">institutional</description>
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
               <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_lot_area"/>
-              <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="constant"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
-              <variable_spec name="building.lnempden"/>
-              <variable_spec name="building.lnpopden"/>
               <variable_spec name="building.ln_capacity"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="MIPS" submodel_id="8" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_lot_area"/>
-              <variable_spec name="building.ln_emp_30_lrt"/>
-              <variable_spec name="building.lnempden"/>
-              <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
-            </variable_list>
-            <description>MIPS</description>
-          </submodel>
-          <submodel hidden="Children" name="Mixed" submodel_id="9" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_lot_area"/>
-              <variable_spec name="building.ln_avg_income_in_zone"/>
-              <variable_spec name="building.lnempden"/>
-              <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
-            </variable_list>
-            <description>Mixed Use</description>
-          </submodel>
-          <submodel hidden="Children" name="MixRes" submodel_id="10" type="submodel">
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_lot_area"/>
               <variable_spec name="building.ln_emp_30_min_bus"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
             </variable_list>
-            <description>Mixed Residential</description>
           </submodel>
-          <submodel hidden="Children" name="PDR" submodel_id="13" type="submodel">
-            <description type="string">PDR</description>
+          <submodel hidden="Children" name="office" submodel_id="10" type="submodel">
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
               <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_capacity"/>
               <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
+            </variable_list>
+            <description>office</description>
+          </submodel>
+          <submodel hidden="Children" name="mixed" submodel_id="9" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="building.age"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
               <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+            </variable_list>
+            <description>mixed</description>
+          </submodel>
+          <submodel hidden="Children" name="other" submodel_id="11" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="building.age"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+            </variable_list>
+            <description>other</description>
+          </submodel>
+          <submodel hidden="Children" name="industrial" submodel_id="7" type="submodel">
+            <description type="string">industrial</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.age"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="RetailEnt" submodel_id="14" type="submodel">
+          <submodel hidden="Children" name="automotive" submodel_id="2" type="submodel">
             <variable_list type="variable_list">
-              <variable_spec name="constant"/>
               <variable_spec name="building.age"/>
-              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_capacity"/>
               <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.lnempden"/>
+            </variable_list>
+            <description>automotive</description>
+          </submodel>
+          <submodel hidden="Children" name="commercial" submodel_id="3" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="building.age"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
               <variable_spec name="building.lnempden"/>
               <variable_spec name="building.lnpopden"/>
-              <variable_spec name="building.ln_capacity"/>
             </variable_list>
-            <description>Retail and Entertainment</description>
+            <description>commercial</description>
+          </submodel>
+          <submodel hidden="Children" name="hotel" submodel_id="6" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="building.age"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_capacity"/>
+              <variable_spec name="building.ln_lot_area"/>
+              <variable_spec name="building.ln_sqft"/>
+              <variable_spec name="building.lnempden"/>
+              <variable_spec name="building.lnpopden"/>
+            </variable_list>
+            <description>hotel</description>
           </submodel>
         </specification>
       </model>
@@ -889,17 +940,11 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="run_2010_02_21_09_08" run_id="5">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/media/opus/data/sanfrancisco/runs/run_5.run_2010_02_21_09_08</cache_directory>
-        <start_year type="integer">2002</start_year>
-        <end_year type="integer">2030</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2010_02_18_21_22" run_id="4">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">/media/opus/data/sanfrancisco/runs/run_4.run_2010_02_18_21_22</cache_directory>
-        <start_year type="integer">2002</start_year>
-        <end_year type="integer">2005</end_year>
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+        <scenario_name type="string"/>
+        <cache_directory type="string">/home/pwaddell/opus/data/sanfrancisco/base_year_data</cache_directory>
+        <start_year type="integer">2001</start_year>
+        <end_year type="integer">2001</end_year>
       </run>
     </simulation_runs>
   </results_manager>
