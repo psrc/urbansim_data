@@ -4,6 +4,12 @@
     <description type="string">Configuration for the San Francisco parcel project</description>
     <parent type="file">sanfrancisco/configs/sanfrancisco.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" source="expression" name="building.emp_30_hwy_10k" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_hwy_travel_time,intermediates=[parcel])/10000</variable>
+      <variable use="model variable" source="expression" name="building.emp_30_bart_10k" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bart_travel_time,intermediates=[parcel])/10000</variable>
+      <variable use="both" source="expression" name="building.building_jobs_per_acre" type="variable_definition">building.aggregate(business.employment)/(building.disaggregate(parcel.area))</variable>
+      <variable use="model variable" source="expression" name="building.emp_30_lrt_10k" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_lrt_travel_time,intermediates=[parcel])/10000</variable>
+      <variable use="model variable" source="expression" name="building.emp_30_lrt" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_lrt_travel_time,intermediates=[parcel])</variable>
+      <variable use="model variable" source="expression" name="building.avg_income_in_zone" type="variable_definition">building.disaggregate(sanfrancisco.zone.average_income, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="building.building_jobs" type="variable_definition">building.aggregate(business.employment)</variable>
       <variable use="both" source="expression" name="building.building_jobs_per_sqft" type="variable_definition">building.aggregate(business.employment)/(building.disaggregate(parcel.area))</variable>
       <variable use="both" source="expression" name="building.population_per_acre" type="variable_definition">(ln(building.disaggregate(sanfrancisco.zone.population)/building.disaggregate(zone.aggregate(parcel.area)*43560.0)))</variable>
@@ -29,6 +35,8 @@
       <variable use="both" source="expression" name="building.building_use_id_is_1" type="variable_definition">building.building_use_id==1</variable>
       <variable use="both" source="expression" name="building.building_use_id_is_7" type="variable_definition">building.building_use_id==7</variable>
       <variable name="building.avg_unit_price" source="expression" type="variable_definition" use="both">building.disaggregate(zone.aggregate(urbansim_parcel.building.unit_price,function=mean,intermediates=[parcel]))</variable>
+      <variable name="building.is_commercial_building" source="expression" type="variable_definition" use="model variable">building.building_type_id==3</variable>
+      <variable name="building.is_office_building" source="expression" type="variable_definition" use="model variable">building.building_type_id==10</variable>
       <variable use="model variable" source="expression" name="building.ln_hholds_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.number_of_households,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*43560))</variable>
       <variable use="model variable" source="expression" name="building.ln_jobs_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*43560))</variable>
       <variable use="model variable" source="expression" name="building.age" type="variable_definition">urbansim_parcel.building.age_masked</variable>
@@ -70,7 +78,7 @@
           <init type="dictionary">
             <name name="name" type="string">RegressionModel</name>
             <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
-            <argument convert_blank_to_none="True" name="submodel_string" type="string">"building_type_id"</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" type="string"/>
             <argument convert_blank_to_none="True" name="run_config" type="string"/>
             <argument convert_blank_to_none="True" name="estimate_config" type="string"/>
             <argument name="debuglevel" type="integer">0</argument>
@@ -100,7 +108,7 @@
           <estimate type="dictionary">
             <argument name="specification" type="string">specification</argument>
             <argument name="dataset" type="string">building</argument>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_bounded(building.rent)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">building.rent</argument>
             <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
             <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
             <argument name="data_objects" type="string">datasets</argument>
@@ -116,25 +124,15 @@
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary">
-          <submodel hidden="Children" name="Commercial" submodel_id="3" type="submodel">
+          <submodel hidden="Children" name="Commercial" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.avg_income_in_zone"/>
               <variable_spec name="building.building_jobs"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.ln_avg_income_in_zone"/>
-              <variable_spec name="building.ln_emp_30_lrt"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="Industrial" submodel_id="7" type="submodel">
-            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="Office" submodel_id="10" type="submodel">
-            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
+              <variable_spec name="building.emp_30_lrt_10k"/>
+              <variable_spec name="building.is_commercial_building"/>
+              <variable_spec name="building.is_office_building"/>
             </variable_list>
           </submodel>
         </specification>
