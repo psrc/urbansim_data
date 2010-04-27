@@ -4,6 +4,9 @@
     <description type="string">Configuration for the San Francisco parcel project</description>
     <parent type="file">sanfrancisco/configs/sanfrancisco.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building.building_jobs" type="variable_definition">building.aggregate(business.employment)</variable>
+      <variable use="both" source="expression" name="building.building_jobs_per_sqft" type="variable_definition">building.aggregate(business.employment)/(building.disaggregate(parcel.area))</variable>
+      <variable use="both" source="expression" name="building.population_per_acre" type="variable_definition">(ln(building.disaggregate(sanfrancisco.zone.population)/building.disaggregate(zone.aggregate(parcel.area)*43560.0)))</variable>
       <variable use="both" source="expression" name="building.pre_1930" type="variable_definition">numpy.logical_and(building.year_built&lt;1930, building.year_built&gt;1800)</variable>
       <variable use="both" source="expression" name="building.residential_units_greater_than_0" type="variable_definition">building.residential_units&gt;0</variable>
       <variable use="both" source="expression" name="building.unnamed_variable" type="variable_definition">building.residential_sqft</variable>
@@ -26,10 +29,8 @@
       <variable use="both" source="expression" name="building.building_use_id_is_1" type="variable_definition">building.building_use_id==1</variable>
       <variable use="both" source="expression" name="building.building_use_id_is_7" type="variable_definition">building.building_use_id==7</variable>
       <variable name="building.avg_unit_price" source="expression" type="variable_definition" use="both">building.disaggregate(zone.aggregate(urbansim_parcel.building.unit_price,function=mean,intermediates=[parcel]))</variable>
-      <variable use="model variable" source="expression" name="building.lnempden" type="variable_definition">(ln(building.disaggregate(sanfrancisco.zone.employment)/building.disaggregate(zone.aggregate(parcel.area)/43560.0)))</variable>
-      <variable use="model variable" source="expression" name="building.lnpopden" type="variable_definition">(ln(building.disaggregate(sanfrancisco.zone.population)/building.disaggregate(zone.aggregate(parcel.area)/43560.0)))</variable>
-      <variable use="model variable" source="expression" name="building.ln_hholds_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.number_of_households,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*0.0000229568411))</variable>
-      <variable use="model variable" source="expression" name="building.ln_jobs_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*0.0000229568411))</variable>
+      <variable use="model variable" source="expression" name="building.ln_hholds_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.number_of_households,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*43560))</variable>
+      <variable use="model variable" source="expression" name="building.ln_jobs_per_acre_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment,intermediates=[parcel])/(building.disaggregate(sanfrancisco.parcel.area)*43560))</variable>
       <variable use="model variable" source="expression" name="building.age" type="variable_definition">urbansim_parcel.building.age_masked</variable>
       <variable use="model variable" source="expression" name="building.bfar" type="variable_definition">safe_array_divide(building.building_sqft, building.disaggregate(parcel.area))</variable>
       <variable use="model variable" source="expression" name="building.ln_sqft_unit" type="variable_definition">ln_bounded(safe_array_divide(building.building_sqft, building.residential_units))</variable>
@@ -60,6 +61,87 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="rent_regression_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" type="string">"building_type_id"</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"/>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="dataset" type="string">building</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" name="dataset" type="string"/>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">rent_regression_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">rent_regression_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="dataset" type="string">building</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_bounded(building.rent)</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" name="dataset" type="string">building</argument>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(building.rent&gt;0, building.building_sqft&gt;0)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">regression_model_template_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Commercial" submodel_id="3" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.building_jobs"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_30_lrt"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="Industrial" submodel_id="7" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="Office" submodel_id="10" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
       <model name="demolition_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -940,9 +1022,9 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="6">
         <scenario_name type="string"/>
-        <cache_directory type="string">/home/pwaddell/opus/data/sanfrancisco/base_year_data</cache_directory>
+        <cache_directory type="string">/media/opus/data/sanfrancisco/base_year_data</cache_directory>
         <start_year type="integer">2001</start_year>
         <end_year type="integer">2001</end_year>
       </run>
