@@ -65,9 +65,75 @@
       <variable use="model variable" source="expression" name="building.ln_sector_6_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_6_from_building,intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="household_x_building.ln_inc_avg_inc" type="variable_definition">ln(household.income * building.disaggregate(sanfrancisco.zone.average_income, intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="household_x_building.ln_inc_minus_cost" type="variable_definition">ln_bounded((household.income*1000) - (building.unit_price/10))</variable>
+      <variable use="indicator" source="Python class" name="zone.employment" type="variable_definition">sanfrancisco.zone.employment</variable>
+      <variable use="indicator" source="expression" name="zone.or_apartment" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_apartment),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='apartment',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_automotive" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_automotive),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='automotive',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_commercial" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_commercial),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='commercial',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_condo" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_condo),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='condo',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_flat" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_flat),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='flat',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_hotel" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_hotel),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='hotel',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_industrial" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_industrial),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='industrial',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_institutional" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_institutional),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='institutional',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_mixed" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_mixed),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='mixed',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_office" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_office),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='office',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_other" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_other),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='other',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_public" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_public),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='public',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_resother" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_resother),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='resother',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.or_single" type="variable_definition">safe_array_divide(zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_single),zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='single',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_apartment" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='apartment',building.building_sqft,0))   - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_apartment)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_automotive" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='automotive',building.building_sqft,0)) - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_automotive)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_commercial" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='commercial',building.building_sqft,0)) - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_commercial)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_condo" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='condo',building.building_sqft,0))           - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_condo)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_flat" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='flat',building.building_sqft,0))             - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_flat)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_hotel" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='hotel',building.building_sqft,0))           - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_hotel)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_industrial" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='industrial',building.building_sqft,0)) - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_industrial)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_institutional" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='institutional',building.building_sqft,0)) - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_institutional)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_mixed" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='mixed',building.building_sqft,0))           - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_mixed)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_office" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='office',building.building_sqft,0))         - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_office)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_other" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='other',building.building_sqft,0))           - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_other)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_public" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='public',building.building_sqft,0))         - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_public)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_resother" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='resother',building.building_sqft,0))     - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_resother)</variable>
+      <variable use="indicator" source="expression" name="zone.vacsqft_single" type="variable_definition">zone.aggregate(where(sanfrancisco.building.building_typeclass_name=='single',building.building_sqft,0))         - zone.aggregate(sanfrancisco.building.occupied_sqft_of_typeclass_single)</variable>
+      <variable use="indicator" source="expression" name="alldata.business_occupied_sqft" type="variable_definition">alldata.aggregate_all(where(business.building_id&gt;0,business.sqft,0))</variable>
+      <variable use="indicator" source="expression" name="alldata.building_nonres_sqft" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.non_residential_sqft)</variable>
+      <variable use="indicator" source="expression" name="alldata.total_households" type="variable_definition">alldata.aggregate_all(where(household.building_id&gt;0,1,0))</variable>
+      <variable use="indicator" source="expression" name="alldata.building_res_units" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.residential_units)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_apartment" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_apartment)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_automotive" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_automotive)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_commercial" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_commercial)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_condo" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_condo)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_flat" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_flat)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_hotel" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_hotel)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_industrial" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_industrial)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_institutional" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_institutional)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_mixed" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_mixed)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_office" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_office)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_other" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_other)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_public" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_public)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_resother" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_resother)</variable>
+      <variable use="indicator" source="expression" name="alldata.allocc_single" type="variable_definition">alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_single)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_apartment" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_apartment),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='apartment',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_automotive" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_automotive),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='automotive',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_commercial" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_commercial),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='commercial',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_condo" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_condo),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='condo',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_flat" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_flat),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='flat',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_hotel" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_hotel),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='hotel',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_industrial" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_industrial),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='industrial',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_institutional" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_institutional),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='institutional',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_mixed" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_mixed),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='mixed',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_office" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_office),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='office',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_other" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_other),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='other',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_public" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_public),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='public',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_resother" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_resother),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='resother',building.building_sqft,0)),0)</variable>
+      <variable use="indicator" source="expression" name="alldata.allor_single" type="variable_definition">safe_array_divide(alldata.aggregate_all(sanfrancisco.building.occupied_sqft_of_typeclass_single),alldata.aggregate_all(where(sanfrancisco.building.building_typeclass_name=='single',building.building_sqft,0)),0)</variable>
     </expression_library>
     <available_datasets type="list">['building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','tract','district24','district14','city','county']</spatial_datasets>
+    <dataset_pool_configuration type="class" hidden="True">
+      <class_name type="string">DatasetPoolConfiguration</class_name>
+      <class_module type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+      <argument name="package_order" type="list">['sanfrancisco','urbansim_parcel','urbansim','opus_core']</argument>
+    </dataset_pool_configuration>
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
@@ -587,6 +653,30 @@
           </submodel>
         </specification>
       </model>
+      <model name="building_transition_model" type="model">
+        <structure type="dictionary">
+          <import hidden="False" name="import" type="dictionary">
+            <class_module type="string">sanfrancisco.models.building_transition_model</class_module>
+            <class_name>BuildingTransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="False" name="name" type="string">BuildingTransitionModel</name>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+          </init>
+          <run type="dictionary">
+            <output hidden="False" name="output" type="string">new_building_index</output>
+            <argument name="building_set" type="string">building</argument>
+            <argument name="new_building_copy_attrs" type="list">["building_sqft","building_use","building_use_id","cie","land_value","med","mips","non_residential_sqft","pdr","residential_sqft","residential_units","restype","retail","stories","structure_value","total_uses","unit_price","visitor"]</argument>
+            <argument name="building_type_table" type="string">building_type</argument>
+            <argument name="building_type_classification_table" type="string">building_type_classification</argument>
+            <argument name="vacancy_table" type="string">target_vacancy</argument>
+            <argument name="history_table" type="string">development_event_history</argument>
+            <argument name="year" type="string">year</argument>
+            <argument name="location_set" type="string">parcel</argument>
+            <argument name="resources" type="string">model_resources</argument>
+          </run>
+        </structure>
+      </model>
       <model name="building_location_choice_model" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
@@ -764,16 +854,250 @@
         </specification>
       </model>
     </models>
+    <travel_model_configuration type="dictionary">
+      <urbansim_to_tm_variable_file type="string">lumodelout.csv</urbansim_to_tm_variable_file>
+      <tm_variable_order type="list">['tm.SFTAZ','tm.HHPOP','tm.HHLDS','tm.EMPRES','tm.CIE','tm.MED','tm.MIPS','tm.PDR','tm.RETAIL','tm.VISITOR','tm.TOTALEMP','tm.HHINCQ1','tm.HHINCQ2','tm.HHINCQ3','tm.HHINCQ4','tm.AVGINCQ1','tm.AVGINCQ2','tm.AVGINCQ3','tm.AVGINCQ4','tm.AVGHHINC']</tm_variable_order>
+      <urbansim_to_tm_variable_mapping type="dictionary">
+        <variable use="model" source="expression" name="tm.SFTAZ" type="variable_definition">(zone.zone_id).astype(int16)</variable>
+        <variable use="model" source="expression" name="tm.HHPOP" type="variable_definition">zone.aggregate(sanfrancisco.household.persons)</variable>
+        <variable use="model" source="expression" name="tm.HHLDS" type="variable_definition">zone.aggregate(where(sanfrancisco.household.household_id,1,0))</variable>
+        <variable use="model" source="expression" name="tm.EMPRES" type="variable_definition">zone.aggregate(sanfrancisco.household.nfulltime)+zone.aggregate(sanfrancisco.household.nparttime)</variable>
+        <variable use="model" source="expression" name="tm.CIE" type="variable_definition">zone.aggregate(where(sanfrancisco.business.activity=='CIE',sanfrancisco.business.employment,0), intermediates=[building, parcel])</variable>
+        <variable use="model" source="expression" name="tm.MED" type="variable_definition">zone.aggregate(where(sanfrancisco.business.activity=='MED',sanfrancisco.business.employment,0), intermediates=[building, parcel])</variable>
+        <variable use="model" source="expression" name="tm.MIPS" type="variable_definition">zone.aggregate(where(sanfrancisco.business.activity=='MIPS',sanfrancisco.business.employment,0), intermediates=[building, parcel])</variable>
+        <variable use="model" source="expression" name="tm.PDR" type="variable_definition">zone.aggregate(where(sanfrancisco.business.activity=='PDR',sanfrancisco.business.employment,0), intermediates=[building, parcel])</variable>
+        <variable use="model" source="expression" name="tm.RETAIL" type="variable_definition">zone.aggregate(where(sanfrancisco.business.activity=='RETAIL/ENT',sanfrancisco.business.employment,0), intermediates=[building, parcel])</variable>
+        <variable use="model" source="expression" name="tm.VISITOR" type="variable_definition">zone.aggregate(where(sanfrancisco.business.activity=='VISITOR',sanfrancisco.business.employment,0), intermediates=[building, parcel])</variable>
+        <variable use="model" source="expression" name="tm.TOTALEMP" type="variable_definition">zone.aggregate(sanfrancisco.business.employment, intermediates=[building,parcel])</variable>
+        <variable use="model" source="expression" name="tm.HHINCQ1" type="variable_definition">zone.aggregate(sanfrancisco.household.income &lt; 25*(177.1/124))</variable>
+        <variable use="model" source="expression" name="tm.HHINCQ2" type="variable_definition">zone.aggregate((sanfrancisco.household.income &gt;=25*(177.1/124))*(sanfrancisco.household.income &lt; 45*(177.1/124)))</variable>
+        <variable use="model" source="expression" name="tm.HHINCQ3" type="variable_definition">zone.aggregate((sanfrancisco.household.income &gt;=45*(177.1/124))*(sanfrancisco.household.income &lt; 75*(177.1/124)))</variable>
+        <variable use="model" source="expression" name="tm.HHINCQ4" type="variable_definition">zone.aggregate(sanfrancisco.household.income &gt;=75*(177.1/124))</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ1" type="variable_definition">1000*safe_array_divide(zone.aggregate((sanfrancisco.household.income &lt; 25*(177.1/124))*sanfrancisco.household.income),zone.aggregate((sanfrancisco.household.income &lt; 25*(177.1/124))))</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ2" type="variable_definition">1000*safe_array_divide(zone.aggregate((sanfrancisco.household.income &gt;=25*(177.1/124))*(sanfrancisco.household.income &lt; 45*(177.1/124))*sanfrancisco.household.income),zone.aggregate((sanfrancisco.household.income &gt;=25*(177.1/124))*(sanfrancisco.household.income &lt; 45*(177.1/124))))</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ3" type="variable_definition">1000*safe_array_divide(zone.aggregate((sanfrancisco.household.income &gt;=45*(177.1/124))*(sanfrancisco.household.income &lt; 75*(177.1/124))*sanfrancisco.household.income),zone.aggregate((sanfrancisco.household.income &gt;=45*(177.1/124))*(sanfrancisco.household.income &lt; 75*(177.1/124))))</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ4" type="variable_definition">1000*safe_array_divide(zone.aggregate((sanfrancisco.household.income &gt;=75*(177.1/124))*sanfrancisco.household.income),zone.aggregate((sanfrancisco.household.income &gt;=75*(177.1/124))))</variable>
+        <variable use="model" source="expression" name="tm.AVGHHINC" type="variable_definition">zone.aggregate(sanfrancisco.household.income,function=mean)</variable>
+      </urbansim_to_tm_variable_mapping>
+      <tazdataprocessor_srcdir type="string">Q:\Model Projects\Model Programs\TazDataProcessor9county</tazdataprocessor_srcdir>
+      <tazdataprocessor_datadir type="string">Q:\Model Projects\Model Programs\TazDataProcessor9county\input\p2007</tazdataprocessor_datadir>
+      <popsyn_srcdir type="string">Q:\Model Projects\Model Programs\PopSyn9county</popsyn_srcdir>
+      <model name="get_cache_data_into_travel_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>sanfrancisco.travel_model.get_cache_data_into_travel_model</class_module>
+            <class_name>GetCacheDataIntoTravelModel</class_name>
+          </import>
+          <run type="dictionary">
+            <argument name="run_config" type="string" hidden="False">scenario_dir_name</argument>
+            <argument name="year" type="string" hidden="False">year</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="run_sanfrancisco_travel_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>sanfrancisco.travel_model.run_sanfrancisco_travel_model</class_module>
+            <class_name>RunSanfranciscoTravelModel</class_name>
+          </import>
+          <run type="dictionary">
+            <argument name="run_config" type="string" hidden="False">scenario_dir_name</argument>
+            <argument name="year" type="string" hidden="False">year</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="get_travel_model_data_into_cache" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>sanfrancisco.travel_model.get_travel_model_data_into_cache</class_module>
+            <class_name>GetTravelModelDataIntoCache</class_name>
+          </import>
+          <run type="dictionary">
+            <argument name="run_config" type="string" hidden="False">scenario_dir_name</argument>
+            <argument name="year" type="string" hidden="False">year</argument>
+          </run>
+        </structure>
+      </model>
+    </travel_model_configuration>
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="sanfrancisco_baseline" type="scenario">
       <years_to_run config_name="years" type="tuple">
         <lastyear type="integer">2030</lastyear>
       </years_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">X:\Projects\LUCI\Runs\lmz_2010.03.18</travel_model_base_directory>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2005</year>
+            <year_dir type="string">2005_model</year_dir>
+          </run_description>
+        </years_to_run>
+        <models_to_run config_name="models" type="selectable_list">
+          <selectable name="sanfrancisco.travel_model.get_cache_data_into_travel_model" type="selectable">True</selectable>
+          <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="selectable">True</selectable>
+          <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="selectable">True</selectable>
+        </models_to_run>
+      </travel_model_configuration>
     </scenario>
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="Quick Check on Sqft/Units/Occupancy">
+        <batch_visualization hidden="Children" type="batch_visualization" name="OR_resnon_tab">
+          <indicators>['business_occupied_sqft', 'building_nonres_sqft', 'total_households', 'building_res_units']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Occ_bldg_type_tab">
+          <indicators>['allocc_apartment', 'allocc_automotive', 'allocc_commercial', 'allocc_condo', 'allocc_flat', 'allocc_hotel', 'allocc_industrial', 'allocc_institutional', 'allocc_mixed', 'allocc_office', 'allocc_other', 'allocc_public', 'allocc_resother', 'allocc_single']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="OR_bldg_type_tab">
+          <indicators>['allor_apartment', 'allor_automotive', 'allor_commercial', 'allor_condo', 'allor_flat', 'allor_hotel', 'allor_industrial', 'allor_institutional', 'allor_mixed', 'allor_office', 'allor_other', 'allor_public', 'allor_resother', 'allor_single']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="Occupancy">
+        <batch_visualization hidden="Children" type="batch_visualization" name="vacantsqft_buildingtype_table">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['vacsqft_apartment', 'vacsqft_automotive', 'vacsqft_commercial', 'vacsqft_condo', 'vacsqft_flat', 'vacsqft_hotel', 'vacsqft_industrial', 'vacsqft_institutional', 'vacsqft_mixed', 'vacsqft_office', 'vacsqft_other', 'vacsqft_public', 'vacsqft_resother', 'vacsqft_single']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="vacantsqft_buildingtype_anim">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['vacsqft_apartment', 'vacsqft_automotive', 'vacsqft_commercial', 'vacsqft_condo', 'vacsqft_flat', 'vacsqft_hotel', 'vacsqft_industrial', 'vacsqft_institutional', 'vacsqft_mixed', 'vacsqft_office', 'vacsqft_other', 'vacsqft_public', 'vacsqft_resother', 'vacsqft_single']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="OR_bldgtype_table">
+          <indicators>['or_apartment', 'or_automotive', 'or_commercial', 'or_condo', 'or_flat', 'or_hotel', 'or_industrial', 'or_institutional', 'or_mixed', 'or_office', 'or_other', 'or_public', 'or_resother', 'or_single']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#deebf7,#c6dbef,#b9d3ee,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b,#011561</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="OR_bldg_type_anim">
+          <indicators>['or_apartment', 'or_automotive', 'or_commercial', 'or_condo', 'or_flat', 'or_hotel', 'or_industrial', 'or_institutional', 'or_mixed', 'or_office', 'or_other', 'or_public', 'or_resother', 'or_single']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#deebf7,#c6dbef,#b9d3ee,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b,#011561</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>mapnik_animated_map</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="Zonal Animations">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Employment Animation">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['employment']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Households Animation">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0.00,300.00,600.00,900.00,1200.00,1500.00,1800.00,2100.00,2400.00,2700.00,3000.00</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['number_of_households']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Population Animation">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#deebf7,#c6dbef,#b9d3ee,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b,#011561</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0.00,400.00,800.00,1200.00,1600.00,2000.00,2400.00,2800.00,3200.00,3600.00,4000.00</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['population']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="Tract_employment">
         <batch_visualization hidden="Children" type="batch_visualization" name="employment">
           <indicators>['tract_employment']</indicators>
@@ -796,13 +1120,22 @@
       </indicator_batch>
       <indicator_batch name="zone_employment">
         <batch_visualization hidden="Children" type="batch_visualization" name="employment">
-          <indicators>['zone_total_jobs', 'zone_sector_1_jobs', 'zone_sector_2_jobs', 'zone_sector_3_jobs', 'zone_sector_4_jobs', 'zone_sector_5_jobs', 'zone_sector_6_jobs']</indicators>
-          <output_type>tab</output_type>
+          <indicators>['employment']</indicators>
+          <output_type>mapnik_animated_map</output_type>
           <settings>
             <setting name="output_style">1</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
           <dataset_name>zone</dataset_name>
-          <visualization_type>tab</visualization_type>
+          <visualization_type>mapnik_animated_map</visualization_type>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="City">
@@ -1022,7 +1355,7 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="6">
+      <run type="source_data" name="base_year_data" run_id="1">
         <scenario_name type="string"/>
         <cache_directory type="string">/media/opus/data/sanfrancisco/base_year_data</cache_directory>
         <start_year type="integer">2001</start_year>
