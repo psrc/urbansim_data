@@ -4,6 +4,21 @@
     <description type="string">Configuration for the San Francisco parcel project</description>
     <parent type="file">sanfrancisco/configs/sanfrancisco.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" source="expression" name="building.ln_emp_30_min_bus" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time,intermediates=[parcel]))</variable>
+      <variable use="both" source="expression" name="building.ln_total_price" type="variable_definition">ln_bounded(building.structure_value+building.disaggregate(parcel.land_value))</variable>
+      <variable use="model variable" source="Python class" name="building.ln_emp_activity_6_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_6_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="Python class" name="building.ln_emp_activity_5_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_5_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="Python class" name="building.ln_emp_activity_4_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_4_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="Python class" name="building.ln_emp_activity_3_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_3_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="Python class" name="building.ln_emp_activity_2_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_2_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="model variable" source="Python class" name="building.ln_emp_activity_1_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_1_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
+      <variable use="both" source="expression" name="building.visitor_possible" type="variable_definition">building.disaggregate(parcel.visitor_possible)</variable>
+      <variable use="both" source="expression" name="building.ret_possible" type="variable_definition">building.disaggregate(parcel.ret_possible)</variable>
+      <variable use="both" source="expression" name="building.mips_possible" type="variable_definition">building.disaggregate(parcel.mips_possible)</variable>
+      <variable use="both" source="expression" name="building.pdr_possible" type="variable_definition">building.disaggregate(parcel.pdr_possible)</variable>
+      <variable use="both" source="expression" name="building.med_possible" type="variable_definition">building.disaggregate(parcel.med_possible)</variable>
+      <variable use="both" source="expression" name="building.cie_possible" type="variable_definition">building.disaggregate(parcel.cie_possible)</variable>
+      <variable use="both" source="expression" name="building.ln_total_price_per_sqft" type="variable_definition">ln_bounded(building.total_price/building.building_sqft)</variable>
       <variable use="model variable" source="expression" name="building.emp_30_hwy_10k" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_hwy_travel_time,intermediates=[parcel])/10000</variable>
       <variable use="model variable" source="expression" name="building.emp_30_bart_10k" type="variable_definition">building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bart_travel_time,intermediates=[parcel])/10000</variable>
       <variable use="both" source="expression" name="building.building_jobs_per_acre" type="variable_definition">building.aggregate(business.employment)/(building.disaggregate(parcel.area))</variable>
@@ -16,24 +31,24 @@
       <variable use="both" source="expression" name="building.pre_1930" type="variable_definition">numpy.logical_and(building.year_built&lt;1930, building.year_built&gt;1800)</variable>
       <variable use="both" source="expression" name="building.residential_units_greater_than_0" type="variable_definition">building.residential_units&gt;0</variable>
       <variable use="both" source="expression" name="building.unnamed_variable" type="variable_definition">building.residential_sqft</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_18" type="variable_definition">building.building_use_id==18</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_17" type="variable_definition">building.building_use_id==17</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_16" type="variable_definition">building.building_use_id==16</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_15" type="variable_definition">building.building_use_id==15</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_14" type="variable_definition">building.building_use_id==14</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_13" type="variable_definition">building.building_use_id==13</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_12" type="variable_definition">building.building_use_id==12</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_11" type="variable_definition">building.building_use_id==11</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_10" type="variable_definition">building.building_use_id==10</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_9" type="variable_definition">building.building_use_id==9</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_8" type="variable_definition">building.building_use_id==8</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_6" type="variable_definition">building.building_use_id==6</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_5" type="variable_definition">building.building_use_id==5</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_4" type="variable_definition">building.building_use_id==4</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_3" type="variable_definition">building.building_use_id==3</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_2" type="variable_definition">building.building_use_id==2</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_1" type="variable_definition">building.building_use_id==1</variable>
-      <variable use="both" source="expression" name="building.building_use_id_is_7" type="variable_definition">building.building_use_id==7</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_18" type="variable_definition">building.building_type_id==18</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_17" type="variable_definition">building.building_type_id==17</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_16" type="variable_definition">building.building_type_id==16</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_15" type="variable_definition">building.building_type_id==15</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_14" type="variable_definition">building.building_type_id==14</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_13" type="variable_definition">building.building_type_id==13</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_12" type="variable_definition">building.building_type_id==12</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_11" type="variable_definition">building.building_type_id==11</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_10" type="variable_definition">building.building_type_id==10</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_9" type="variable_definition">building.building_type_id==9</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_8" type="variable_definition">building.building_type_id==8</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_6" type="variable_definition">building.building_type_id==6</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_5" type="variable_definition">building.building_type_id==5</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_4" type="variable_definition">building.building_type_id==4</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_3" type="variable_definition">building.building_type_id==3</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_2" type="variable_definition">building.building_type_id==2</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_1" type="variable_definition">building.building_type_id==1</variable>
+      <variable use="both" source="expression" name="building.building_type_id_is_7" type="variable_definition">building.building_type_id==7</variable>
       <variable name="building.avg_unit_price" source="expression" type="variable_definition" use="both">building.disaggregate(zone.aggregate(urbansim_parcel.building.unit_price,function=mean,intermediates=[parcel]))</variable>
       <variable name="building.is_commercial_building" source="expression" type="variable_definition" use="model variable">building.building_type_id==3</variable>
       <variable name="building.is_office_building" source="expression" type="variable_definition" use="model variable">building.building_type_id==10</variable>
@@ -43,7 +58,6 @@
       <variable use="model variable" source="expression" name="building.bfar" type="variable_definition">safe_array_divide(building.building_sqft, building.disaggregate(parcel.area))</variable>
       <variable use="model variable" source="expression" name="building.ln_sqft_unit" type="variable_definition">ln_bounded(safe_array_divide(building.building_sqft, building.residential_units))</variable>
       <variable use="model variable" source="expression" name="building.ln_lot_area_unit" type="variable_definition">ln_bounded(safe_array_divide(building.disaggregate(parcel.area), building.residential_units))</variable>
-      <variable use="model variable" source="expression" name="building.ln_emp_30_min_bus" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time,intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="building.ln_avg_income_in_zone" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.average_income, intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="building.ln_emp_20_min_hwy" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.employment_within_20_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="building.ln_emp_30_lrt" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_lrt_travel_time,intermediates=[parcel]))</variable>
@@ -487,7 +501,6 @@
           <submodel name="submodel" submodel_id="1" type="submodel" hidden="Children">
             <description type="string">submodel1</description>
             <variable_list type="variable_list">
-		    <!-- <variable_spec name="household_x_building.bias_correction"/> -->
               <variable_spec name="building.single_family"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
@@ -501,7 +514,6 @@
           <submodel name="submodel" submodel_id="2" type="submodel" hidden="Children">
             <description type="string">submodel2</description>
             <variable_list type="variable_list">
-		    <!-- <variable_spec name="household_x_building.bias_correction"/> -->
               <variable_spec name="building.single_family"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
@@ -515,7 +527,6 @@
           <submodel name="submodel" submodel_id="3" type="submodel" hidden="Children">
             <description type="string">submodel3</description>
             <variable_list type="variable_list">
-		    <!-- <variable_spec name="household_x_building.bias_correction"/> -->
               <variable_spec name="building.single_family"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
@@ -564,7 +575,7 @@
           </prepare_for_estimate>
         </structure>
         <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+          <config_override config_name="models" name="Models to run before estimation" type="list">['real_estate_price_model']</config_override>
         </estimation_config>
         <specification type="dictionary">
           <submodel name="CIE" submodel_id="1" type="submodel" hidden="Children">
@@ -572,12 +583,18 @@
             <variable_list type="variable_list">
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.building_use_id_is_7"/>
+              <variable_spec name="building.building_type_id_is_1"/>
+              <variable_spec name="building.building_type_id_is_10"/>
+              <variable_spec name="building.building_type_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_3"/>
+              <variable_spec name="building.building_type_id_is_4"/>
+              <variable_spec name="building.building_type_id_is_5"/>
+              <variable_spec name="building.building_type_id_is_7"/>
+              <variable_spec name="building.building_type_id_is_8"/>
+              <variable_spec name="building.cie_possible"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_activity_1_win_10_min_hwy"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
-              <variable_spec name="building.ln_sector_1_employment_in_zone"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_unit_price"/>
               <variable_spec name="building.lrt_weighted_access_to_population"/>
             </variable_list>
           </submodel>
@@ -585,13 +602,21 @@
             <description type="string">submodel2</description>
             <variable_list type="variable_list">
               <variable_spec name="building.bfar"/>
+              <variable_spec name="building.building_type_id_is_10"/>
+              <variable_spec name="building.building_type_id_is_13"/>
+              <variable_spec name="building.building_type_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_3"/>
+              <variable_spec name="building.building_type_id_is_5"/>
+              <variable_spec name="building.building_type_id_is_6"/>
+              <variable_spec name="building.building_type_id_is_7"/>
+              <variable_spec name="building.building_type_id_is_8"/>
+              <variable_spec name="building.building_type_id_is_9"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_activity_2_win_10_min_hwy"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="building.ln_sector_2_employment_in_zone"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_unit_price"/>
               <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.med_possible"/>
             </variable_list>
           </submodel>
           <submodel name="MIPS" submodel_id="3" type="submodel" hidden="Children">
@@ -599,27 +624,44 @@
             <variable_list type="variable_list">
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.building_use_id_is_8"/>
+              <variable_spec name="building.building_type_id_is_1"/>
+              <variable_spec name="building.building_type_id_is_10"/>
+              <variable_spec name="building.building_type_id_is_12"/>
+              <variable_spec name="building.building_type_id_is_13"/>
+              <variable_spec name="building.building_type_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_3"/>
+              <variable_spec name="building.building_type_id_is_4"/>
+              <variable_spec name="building.building_type_id_is_5"/>
+              <variable_spec name="building.building_type_id_is_6"/>
+              <variable_spec name="building.building_type_id_is_8"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_activity_3_win_10_min_hwy"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="building.ln_sector_3_employment_in_zone"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_unit_price"/>
               <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.mips_possible"/>
             </variable_list>
           </submodel>
           <submodel name="PDR" submodel_id="4" type="submodel" hidden="Children">
             <description type="string">submodel4</description>
             <variable_list type="variable_list">
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.building_use_id_is_13"/>
+              <variable_spec name="building.building_type_id_is_1"/>
+              <variable_spec name="building.building_type_id_is_13"/>
+              <variable_spec name="building.building_type_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_2"/>
+              <variable_spec name="building.building_type_id_is_3"/>
+              <variable_spec name="building.building_type_id_is_4"/>
+              <variable_spec name="building.building_type_id_is_5"/>
+              <variable_spec name="building.building_type_id_is_6"/>
+              <variable_spec name="building.building_type_id_is_7"/>
+              <variable_spec name="building.building_type_id_is_8"/>
+              <variable_spec name="building.building_type_id_is_9"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_activity_4_win_10_min_hwy"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="building.ln_sector_4_employment_in_zone"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_unit_price"/>
               <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.pdr_possible"/>
             </variable_list>
           </submodel>
           <submodel name="RETAIL/ENT" submodel_id="5" type="submodel" hidden="Children">
@@ -627,28 +669,37 @@
             <variable_list type="variable_list">
               <variable_spec name="building.age"/>
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.building_use_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_1"/>
+              <variable_spec name="building.building_type_id_is_10"/>
+              <variable_spec name="building.building_type_id_is_13"/>
+              <variable_spec name="building.building_type_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_2"/>
+              <variable_spec name="building.building_type_id_is_3"/>
+              <variable_spec name="building.building_type_id_is_4"/>
+              <variable_spec name="building.building_type_id_is_6"/>
+              <variable_spec name="building.building_type_id_is_7"/>
+              <variable_spec name="building.building_type_id_is_8"/>
+              <variable_spec name="building.building_type_id_is_9"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_activity_5_win_10_min_hwy"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="building.ln_sector_5_employment_in_zone"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_unit_price"/>
               <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.ret_possible"/>
             </variable_list>
           </submodel>
           <submodel name="VISITOR" submodel_id="6" type="submodel" hidden="Children">
             <description type="string">submodel6</description>
             <variable_list type="variable_list">
               <variable_spec name="building.bfar"/>
-              <variable_spec name="building.building_use_id_is_17"/>
+              <variable_spec name="building.building_type_id_is_14"/>
+              <variable_spec name="building.building_type_id_is_6"/>
               <variable_spec name="building.ln_avg_income_in_zone"/>
+              <variable_spec name="building.ln_emp_activity_6_win_10_min_hwy"/>
               <variable_spec name="building.ln_hholds_per_acre_in_zone"/>
               <variable_spec name="building.ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="building.ln_sector_6_employment_in_zone"/>
-              <variable_spec name="building.ln_sqft"/>
-              <variable_spec name="building.ln_unit_price"/>
               <variable_spec name="building.lrt_weighted_access_to_population"/>
+              <variable_spec name="building.visitor_possible"/>
             </variable_list>
           </submodel>
         </specification>
@@ -854,6 +905,9 @@
         </specification>
       </model>
     </models>
+    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
+      <save_estimation_results type="boolean">True</save_estimation_results>
+    </estimation_config>
     <travel_model_configuration type="dictionary">
       <urbansim_to_tm_variable_file type="string">lumodelout.csv</urbansim_to_tm_variable_file>
       <tm_variable_order type="list">['tm.SFTAZ','tm.HHPOP','tm.HHLDS','tm.EMPRES','tm.CIE','tm.MED','tm.MIPS','tm.PDR','tm.RETAIL','tm.VISITOR','tm.TOTALEMP','tm.HHINCQ1','tm.HHINCQ2','tm.HHINCQ3','tm.HHINCQ4','tm.AVGINCQ1','tm.AVGINCQ2','tm.AVGINCQ3','tm.AVGINCQ4','tm.AVGHHINC']</tm_variable_order>
@@ -923,8 +977,10 @@
   <scenario_manager>
     <scenario executable="True" name="sanfrancisco_baseline" type="scenario">
       <years_to_run config_name="years" type="tuple">
-        <lastyear type="integer">2030</lastyear>
+        <lastyear type="integer">2005</lastyear>
       </years_to_run>
+      <advanced type="category">
+        </advanced>
       <travel_model_configuration type="dictionary">
         <travel_model_base_directory type="string">X:\Projects\LUCI\Runs\lmz_2010.03.18</travel_model_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
@@ -935,8 +991,8 @@
         </years_to_run>
         <models_to_run config_name="models" type="selectable_list">
           <selectable name="sanfrancisco.travel_model.get_cache_data_into_travel_model" type="selectable">True</selectable>
-          <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="selectable">True</selectable>
-          <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="selectable">True</selectable>
+          <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="selectable">False</selectable>
+          <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="selectable">False</selectable>
         </models_to_run>
       </travel_model_configuration>
     </scenario>
@@ -1354,12 +1410,30 @@
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run type="source_data" name="base_year_data" run_id="1">
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="52">
         <scenario_name type="string"/>
-        <cache_directory type="string">/media/opus/data/sanfrancisco/base_year_data</cache_directory>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\base_year_data</cache_directory>
         <start_year type="integer">2001</start_year>
         <end_year type="integer">2001</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2010_04_23_12_09" run_id="51">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_51.run_2010_04_23_12_09</cache_directory>
+        <start_year type="integer">2002</start_year>
+        <end_year type="integer">2005</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2010_04_19_12_39" run_id="47">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_47.run_2010_04_19_12_39</cache_directory>
+        <start_year type="integer">2002</start_year>
+        <end_year type="integer">2005</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="No description" run_id="8">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_8.2010_03_19_13_04</cache_directory>
+        <start_year type="integer">2002</start_year>
+        <end_year type="integer">2030</end_year>
       </run>
     </simulation_runs>
   </results_manager>
