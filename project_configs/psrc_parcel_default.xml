@@ -271,12 +271,12 @@
         <specification type="dictionary">
           <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">No submodel</description>
-            <equation equation_id="1" name="Work at home" type="submodel_equation">
+            <equation equation_id="0" name="Choice 0" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="person.kemp30m"/>
               </variable_list>
             </equation>
-            <equation equation_id="2" name="Work not at home" type="submodel_equation">
+            <equation equation_id="1" name="Choice 1" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant"/>
               </variable_list>
