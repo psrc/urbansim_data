@@ -400,7 +400,10 @@
         <specification type="dictionary">
           <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">No submodel</description>
-            <variables type="variable_list">single_vehicle_to_work_travel_cost,travel_data_retail</variables>
+            <variable_list type="variable_list">
+            <variable_spec name="person_trip_x_zone.single_vehicle_to_work_travel_cost" coefficient_name="single_vehicle_to_work_travel_cost"/>
+            <variable_spec name="person_trip.travel_data_retail" coefficient_name="travel_data_retail"/>
+            </variable_list>
           </submodel>
         </specification>
         <structure type="dictionary">
@@ -827,7 +830,7 @@
               <variable_spec name=".kids_x_kids"/>
               <variable_spec name=".inc_x_mfr"/>
               <variable_spec name=".lnpopden_bldg"/>
-              <variable_spec name=".E_max_commute_distance"/>
+              <!--<variable_spec name=".E_max_commute_distance"/>!-->
               <variable_spec name=".E_max_commute_logsum"/>
               <variable_spec name=".d_kitsap_dummy"/>
               <variable_spec name=".ln_residential_units"/>
