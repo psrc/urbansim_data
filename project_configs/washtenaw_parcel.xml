@@ -1042,6 +1042,13 @@
         <Class_path type="string">urbansim_parcel.configs.controller_config</Class_path>
       </parent_old_format>
     </scenario>
+    <scenario type="scenario" name="washtenaw_baseline_test">
+    <parent type="scenario_name">washtenaw_baseline</parent>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2009</firstyear>
+        <lastyear type="integer">2010</lastyear>
+      </years_to_run>    
+    </scenario>
     <scenario executable="True" type="scenario" name="washtenaw_baseline">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2008</base_year>
