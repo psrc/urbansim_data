@@ -207,7 +207,7 @@
         </estimation_config>
         <structure type="dictionary">
           <init type="dictionary">
-            <argument name="estimation_weight_string" parser_action="quote_string" type="string">zone_id&gt;0</argument>
+            <argument name="estimation_weight_string" parser_action="quote_string" type="string">building.residential_units&gt;0</argument>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="index_to_unplace" type="string">None</argument>
