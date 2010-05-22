@@ -926,9 +926,9 @@
           </run_description>
         </years_to_run>
         <models_to_run config_name="models" type="selectable_list">
-          <selectable name="sanfrancisco.travel_model.get_cache_data_into_travel_model" type="selectable">False</selectable>
-          <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="selectable">False</selectable>
-          <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="selectable">False</selectable>
+          <selectable name="sanfrancisco.travel_model.get_cache_data_into_travel_model" type="model_choice">False</selectable>
+          <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="model_choice">False</selectable>
+          <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="model_choice">False</selectable>
         </models_to_run>
       </travel_model_configuration>
     </scenario>
