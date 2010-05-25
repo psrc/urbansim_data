@@ -753,7 +753,7 @@
           <init type="dictionary">
             <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation</argument>
             <argument name="sample_size_locations" type="integer">50</argument>
-            <argument name="estimation_weight_string" parser_action="quote_string" type="string">residential_units&gt;0</argument>
+            <argument name="estimation_weight_string" parser_action="quote_string" type="string">building.residential_units&gt;0</argument>
           </init>
           <run type="dictionary">
             <argument hidden="True" convert_blank_to_none="True" name="agents_index" type="string" />
@@ -1200,6 +1200,13 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
   </model_manager>
   <scenario_manager>
+    <scenario type="scenario" name="psrc_baseline_test">
+    <parent type="scenario_name">PSRC_baseline</parent>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2002</lastyear>
+      </years_to_run>    
+    </scenario>  
     <scenario executable="True" name="PSRC_baseline" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2000</base_year>
