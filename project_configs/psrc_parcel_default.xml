@@ -96,8 +96,12 @@
       <variable use="model variable" source="Python class" name="person_x_job.home_area_type_3_workplace_area_type_1" type="variable_definition">psrc_parcel.person_x_job.home_area_type_3_workplace_area_type_1</variable>
 	  <variable use="model variable" source="Python class" name="person_x_job.home_area_type_4_workplace_area_type_2" type="variable_definition">psrc_parcel.person_x_job.home_area_type_4_workplace_area_type_2</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_19_workplace_dist_19" type="variable_definition">(person.disaggregate(zone.district_id)==19) * (job.disaggregate(zone.district_id)==19)</variable>
-	  <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
-	  <variable use="model variable" source="expression" name="person_x_job.home_dist_6_workplace_dist_6" type="variable_definition">(person.disaggregate(zone.district_id)==6) * (job.disaggregate(zone.district_id)==6)</variable>
+      <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
+      <variable use="model variable" source="expression" name="person_x_job.home_dist_6_workplace_dist_6" type="variable_definition">(person.disaggregate(zone.district_id)==6) * (job.disaggregate(zone.district_id)==6)</variable>
+      <variable use="model variable" source="expression" name="building.iv_price_residual" type="variable_definition">urbansim_parcel.building.price_residual</variable>
+      <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
+      <variable use="model variable" source="Python class" name="person_x_job.home_area_type_3_workplace_area_type_1" type="variable_definition">psrc_parcel.person_x_job.home_area_type_3_workplace_area_type_1</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="parcel.lnretempwa">ln(parcel.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_7 + urbansim_parcel.zone.number_of_jobs_of_sector_14))</variable>
     </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone']</available_datasets>
   </general>
