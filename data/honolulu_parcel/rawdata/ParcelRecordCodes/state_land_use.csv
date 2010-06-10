@@ -1,4 +1,4 @@
-District, Code
-Urban, 1
-Agriculture, 2
-Conservation, 4
+code, district
+1, Urban
+2, Agriculture
+4, Conservation
