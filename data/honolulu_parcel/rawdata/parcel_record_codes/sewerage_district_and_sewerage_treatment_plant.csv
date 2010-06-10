@@ -1,0 +1,20 @@
+sewerage_district, sewerage_treatment_plant, code
+Honolulu, None, 10
+Honolulu, Sand Island, 11
+Honoliuli, None, 20
+Honoliuli, Honoliuli, 21
+Honoliuli, Nanakai, 22
+Central Oahu, None, 30
+Central Oahu, Wahiawa, 32
+Central Oahu, Whitmore Village, 33
+Hawaii Kai, None, 40
+Hawaii Kai, Hawaii Kai, 41
+Kaneohe-Kailua, None, 50
+Kaneohe-Kailua, Kailua, 51
+Kaneohe-Kailua, Waimanalo, 52
+North Oahu, None, 60
+North Oahu, Kahuku, 61
+Waialua-Haleiwa, None, 70
+Waialua-Haleiwa, Kahuku, 71
+Waianae, None, 80
+Waianae, Waianae, 81

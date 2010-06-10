@@ -1,0 +1,14 @@
+land_use, code
+Residential, 00
+Low Density Apartment, 11
+Medium Density Apartment, 12
+High Density Apartment, 13
+Resort, 20
+Commercial, 30
+Industrial, 40
+Agricultural, 50
+Preservation, 60
+Public, 70
+Military, 80
+Park, 90
+No designation, 99
