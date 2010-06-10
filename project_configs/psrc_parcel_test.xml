@@ -493,10 +493,10 @@
       <model copyable="True" name="real_estate_price_model" type="model">
         <structure type="dictionary">
           <init type="dictionary">
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_price=ln(parcel.land_value+parcel.aggregate(building.improvement_value)).astype(int32)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_price=ln(parcel.land_value+parcel.aggregate(building.improvement_value))</argument>
           </init>
           <estimate type="dictionary">
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_price=ln(parcel.land_value+parcel.aggregate(building.improvement_value)).astype(int32)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_price=ln(parcel.land_value+parcel.aggregate(building.improvement_value))</argument>
           </estimate>
         </structure>
         <estimation_config name="Estimation Configuration" parser_action="skip">
