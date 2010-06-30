@@ -1,0 +1,25 @@
+building_type_id; building_type_description
+01; Single-Family Dwelling
+02; Building with 2 Dwellings (Duplex)
+03; Townhouse
+04; Apartment
+05; Ancillary Dwelling
+06; Group Quarter
+11; Hotel
+21; Office
+31; Retail
+32; Services
+41; Production, Storage, Distribution, Repair 
+42; Utilities
+51; Educational, Cultural
+52; Public Safety
+53; Community
+54; Hospital
+55; Transit Terminal
+61; Exhibition
+62; Sports
+63; Worship
+64; Stadium
+71; Open Recreation
+79; Other Open Facility
+99; Unknown
