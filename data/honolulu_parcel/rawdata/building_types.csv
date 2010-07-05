@@ -1,25 +1,64 @@
 building_type_id; building_type_description
-01; Single-Family Dwelling
-02; Building with 2 Dwellings (Duplex)
-03; Townhouse
-04; Apartment
-05; Ancillary Dwelling
-06; Group Quarter
-11; Hotel
-21; Office
-31; Retail
-32; Services
-41; Production, Storage, Distribution, Repair 
-42; Utilities
-51; Educational, Cultural
-52; Public Safety
-53; Community
-54; Hospital
-55; Transit Terminal
-61; Exhibition
-62; Sports
-63; Worship
-64; Stadium
-71; Open Recreation
-79; Other Open Facility
+01; Detached Dwelling (structure contains up to 2 units and is detached from property line on all sides)
+02; Duplex Dwelling (structure contains 1 unit and is attached on a property line with another dwelling)
+03; Zero-Lot-Line Dwelling (structure contains 1 unit and is attached to a property line but is separated from other dwellings)
+04; Apartment (structure contains more than 2 units and any 2 units share a common access to street)
+05; Townhouse (structure contains more than 2 units and every unit has its own direct access to street)
+06; Group Quarter (rooming house, rectory, dorm)
+07; Lodging Facility (50% or more of units in structure are without kitchen) (Hotel/Motel)
+08; Guest Quarter (without kitchen and ancillary to main dwelling)
+09; Other Residential (mobile home, commercial care home, converted garage)
+11; Repair Yard and Related Facility
+12; Manufacturing and Processing Plant (sugar mill, saw mill, recycling plant, linen supplier)
+13; Light Manufacturing, Processing and Fabrication Facility (photo processing, publishing, electronics assembly)
+14; Research and Development Facility (laboratory, greenhouse, plant nursery)
+15; Movie and Television Studio
+17; Power, Sanitary and Refuse Plant
+18; Utility Substation (pumping station, transformer vault, gas tank, telephone sub-station)
+19; Other Industrial
+21; Street and Right-of-Way (medial strip, traffic islet)
+22; Passenger Terminal
+23; Freight Terminal (moving van)
+26; Warehouse
+27; Storage Yard
+28; Storage Tank and Silo
+29; Other Transportation and Storage (taxi stand)
+31; Commercial Space1 (Homeworld, Maunakea Marketplace, store portion of 7-11)
+32; Retail Complex1 (Kahala Mall, Waikiki Shopping Plaza)
+33; Office (Federal Building)
+39; Other Retail and Office (ATM)
+41; Limited Repair and Maintenance Facility Repairshop (portion of service station, car wash)
+42; Building Material Retail Outlet (home improvement center)
+43; Vehicle and Equipment Sale and Service
+44; Animal Care Facility (commercial kennel)
+45; Fuel Dispensing Facility (gas pump, portion of 7-11, Gaspro)
+49; Other Commercial/Industrial
+51; Park (large and passive, primarily trees and grass; e.g., Kualoa, Ala Moana, Manoa)
+52; Playground, Tot Lot (small and active, e.g., with baseball field, gym, etc.)
+53; Sports Court (tennis)
+54; Golf Course
+55; Marina, Boating Area
+56; Camp and Campground
+57; Drive-in
+58; Amusement Park
+59; Other Outdoor Leisure (riding academy)
+61; Community Center (YMCA, subdivision recreation area)
+62; Zoo, Arboretum, Aquarium
+63; Classroom
+64; Library, Museum, Historic Site
+65; Fire Station
+66; Police Station
+67; Prison, Reformatory, Detention Home
+68; Hospital Complex
+69; Other Community (Cemetery, mortuary)
+71; Theater
+72; Sports Arena, Gymnasium
+73; Church, Shrine
+74; Concert Hall
+75; Bowling Alley, Skating Rink
+76; Auditorium, Cafetorium
+77; Stadium
+79; Other Assembly (Convention Center)
+91; Parking Structure or Lot2
+92; Passive Structure (triangulation station, antenna)
 99; Unknown
