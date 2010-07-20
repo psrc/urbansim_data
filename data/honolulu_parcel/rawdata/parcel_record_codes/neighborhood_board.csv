@@ -1,4 +1,4 @@
-area, code
+area, neighborhood_board_id
 Hawaii Kai, 1
 Kuliouou-Kalani Iki, 2
 Waialae-Kahala, 3
@@ -32,3 +32,5 @@ Kaneche, 30
 Kailua, 31
 Waimanalo, 32
 Mokapu, 33
+Other, 34
+Other, 35

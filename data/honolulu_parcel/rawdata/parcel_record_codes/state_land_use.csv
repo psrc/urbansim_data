@@ -1,4 +1,4 @@
-code, district
+state_land_use_id, district
 1, Urban
-2, Agriculture
+3, Agriculture
 4, Conservation
