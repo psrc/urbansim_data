@@ -1530,9 +1530,6 @@
             </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-      <dataset_pool_configuration type="class">
-        <argument name="package_order" type="list">['psrc_parcel', 'psrc', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
-      </dataset_pool_configuration>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</cache_directory>
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
         <selectable copyable="True" type="selectable" name="person_trip">False</selectable>
