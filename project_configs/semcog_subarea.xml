@@ -925,7 +925,7 @@
       <base_year type="integer">2008</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2010</lastyear>
+        <lastyear type="integer">2020</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable type="selectable" name="real_estate_price_model">True</selectable>
@@ -1015,7 +1015,7 @@
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
-          <argument type="list" name="package_order">['psrc_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
+          <argument type="list" name="package_order">['washtenaw', 'psrc_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <flush_dataset_to_cache_after_each_model type="boolean">False</flush_dataset_to_cache_after_each_model>
         <flush_variables type="boolean">False</flush_variables>
