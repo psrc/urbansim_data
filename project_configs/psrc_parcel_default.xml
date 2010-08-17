@@ -103,11 +103,24 @@
       <variable use="model variable" source="expression" name="person_x_job.home_dist_19_workplace_dist_19" type="variable_definition">(person.disaggregate(zone.district_id)==19) * (job.disaggregate(zone.district_id)==19)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_6_workplace_dist_6" type="variable_definition">(person.disaggregate(zone.district_id)==6) * (job.disaggregate(zone.district_id)==6)</variable>
-      <variable use="model variable" source="expression" name="building.iv_price_residual" type="variable_definition">urbansim_parcel.building.price_residual</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
       <variable use="model variable" source="Python class" name="person_x_job.home_area_type_3_workplace_area_type_1" type="variable_definition">psrc_parcel.person_x_job.home_area_type_3_workplace_area_type_1</variable>
       <variable use="model variable" source="expression" name="parcel.lnretempwa" type="variable_definition">ln(parcel.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_7 + urbansim_parcel.zone.number_of_jobs_of_sector_14))</variable>
-    </expression_library>
+      <variable use="model variable" source="expression" name="building.iv_price_residual" type="variable_definition">urbansim_parcel.building.price_residual</variable>
+	  <variable use="model variable" source="expression" name="building.iv_ln_price_residual" type="variable_definition">urbansim_parcel.building.ln_price_residual</variable>
+	  <variable use="both" source="expression" name="building.bdiff_demand_supply" type="variable_definition">building.residential_demand - building.residential_supply</variable>
+      <variable use="both" source="primary attribute" name="building.bresidential_demand" type="variable_definition">building.residential_demand</variable>
+      <variable use="both" source="expression" name="building.blndemand" type="variable_definition">ln(building.residential_demand)</variable>
+      <variable use="both" source="expression" name="building.bsupply" type="variable_definition">building.residential_supply</variable>
+      <variable use="both" source="expression" name="building.blnsupply" type="variable_definition">ln(building.residential_supply)</variable>
+      <variable use="both" source="expression" name="building.bsdratio" type="variable_definition">safe_array_divide(building.residential_supply, building.residential_demand)</variable>
+      <variable use="both" source="expression" name="parcel.diff_demand_supply" type="variable_definition">parcel.aggregate(building.residential_demand - building.residential_supply)</variable>
+      <variable use="both" source="primary attribute" name="parcel.residential_demand" type="variable_definition">parcel.aggregate(building.residential_demand)</variable>
+      <variable use="both" source="expression" name="parcel.lndemand" type="variable_definition">ln(parcel.aggregate(building.residential_demand))</variable>
+      <variable use="both" source="expression" name="parcel.supply" type="variable_definition">parcel.aggregate(building.residential_supply)</variable>
+      <variable use="both" source="expression" name="parcel.lnsupply" type="variable_definition">ln(parcel.aggregate(building.residential_supply))</variable>
+      <variable use="both" source="expression" name="parcel.sdratio" type="variable_definition">safe_array_divide(parcel.aggregate(building.residential_supply), parcel.aggregate(building.residential_demand))</variable>	  
+	</expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone']</available_datasets>
   </general>
   <model_manager>
@@ -635,7 +648,7 @@
                 <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
               </estimation_config>
               <specification type="dictionary">
-                <submodel type="submodel" hidden="Children" name="agriculture" submodel_id="1">
+                <!--<submodel type="submodel" hidden="Children" name="agriculture" submodel_id="1">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
                     <variable_spec name="parcel.inugb"/>
@@ -815,8 +828,8 @@
                 <submodel type="submodel" hidden="Children" name="single_family_residential" submodel_id="24">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art300"/>
-					<variable_spec name="parcel.art600"/>
+	         <variable_spec name="parcel.art300"/>
+	         <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.hbwavgtmda"/>
                     <variable_spec name="parcel.hwy2000"/>
                     <variable_spec name="parcel.inugb"/>
@@ -885,7 +898,7 @@
                     <variable_spec name="parcel.lnlotsqft"/>
                     <variable_spec name="parcel.lnunits"/>
                   </variable_list>
-                </submodel>
+                </submodel>!-->
               </specification>
             </model>
       <model name="household_location_choice_model" type="model">
@@ -974,6 +987,8 @@
               <variable_spec name="household_x_building.renter_x_is_mfr"/>
               <variable_spec name="building.sqft_per_unit"/>
               <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>
+			  <variable_spec name="building.iv_price_residual"/>
+			  <!--<variable_spec name="building.iv_ln_price_residual"/>!-->
             </variable_list>
           </submodel>
         </specification>
@@ -1461,6 +1476,9 @@
             </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
+      <dataset_pool_configuration type="class">
+        <argument name="package_order" type="list">['psrc_parcel', 'psrc', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
+      </dataset_pool_configuration>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</cache_directory>
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
         <selectable copyable="True" type="selectable" name="person_trip">False</selectable>
