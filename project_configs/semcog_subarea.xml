@@ -937,7 +937,7 @@
         <selectable type="selectable" name="household_relocation_model">True</selectable>
         <selectable type="selectable" name="household_location_choice_model">True</selectable>
         <selectable type="selectable" name="employment_relocation_model">True</selectable>
-        <selectable type="selectable" name="employment_location_choice_model">True<group_members type="string">non_home_based</group_members>
+        <selectable type="selectable" name="employment_location_choice_model">True<group_members type="string">_all_</group_members>
         </selectable>
         <selectable type="selectable" name="governmental_employment_location_choice_model">True</selectable>
       </models_to_run>
