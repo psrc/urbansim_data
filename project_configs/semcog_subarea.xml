@@ -222,7 +222,9 @@
           <run type="dictionary">
             <output hidden="True" type="string" name="output">erm_index</output>
             <argument name="agent_set" type="string">job</argument>
+            <!--
             <argument name="reset_attribute_value" type="string">{'large_area_id':-1}</argument>
+            -->
           </run>
         </structure>
       </model>
@@ -644,7 +646,9 @@
           <run type="dictionary">
             <output hidden="True" type="string" name="output">hrm_index</output>
             <argument name="agent_set" type="string">household</argument>
+            <!--
             <argument name="reset_attribute_value" type="string">{'large_area_id':-1}</argument>
+            -->
           </run>
         </structure>
       </model>
