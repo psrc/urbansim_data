@@ -5,6 +5,20 @@
     <parent type="file">sanfrancisco/configs/sanfrancisco.xml</parent>
     <expression_library type="dictionary">
       <variable use="model variable" source="expression" name="building.ln_emp_30_min_bus" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time,intermediates=[parcel]))</variable>
+      <variable use="both" source="expression" name="parcel.parcel.ln_hholds_per_acre_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.number_of_households)/(parcel.area*0.0000229568411))</variable>
+      <variable use="both" source="expression" name="parcel.ln_jobs_per_acre_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.employment)/(parcel.area*0.0000229568411))</variable>
+      <variable use="both" source="expression" name="parcel.ln_land_area" type="variable_definition">ln(parcel.area)</variable>
+      <variable use="both" source="expression" name="parcel.ln_price" type="variable_definition">ln(parcel.aggregate(building.unit_price, function=mean))</variable>
+      <variable use="both" source="expression" name="parcel.employment_within_30_minutes_bus_travel_time" type="variable_definition">parcel.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="parcel.ln_average_income_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.average_income))</variable>
+      <variable use="both" source="expression" name="parcel._ln_land_area" type="variable_definition">ln(parcel.area)</variable>
+      <variable use="both" source="expression" name="parcel._ln_hholds_per_acre_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.number_of_households)/(parcel.area*0.0000229568411))</variable>
+      <variable use="both" source="expression" name="parcel._ln_jobs_per_acre_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.employment)/(parcel.area*0.0000229568411))</variable>
+      <variable use="both" source="expression" name="parcel._ln_price" type="variable_definition">ln(parcel.aggregate(building.unit_price, function=mean))</variable>
+      <variable use="both" source="expression" name="parcel._ln_avg_income_in_zone" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.average_income))</variable>
+      <variable use="both" source="expression" name="parcel._lrt_travel_time_weighted_access_by_population" type="variable_definition">parcel.disaggregate(sanfrancisco.zone.lrt_travel_time_weighted_access_by_population,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="parcel._lrt_travel_time_weighted_access_to_employment" type="variable_definition">parcel.disaggregate(sanfrancisco.zone.lrt_travel_time_weighted_access_to_employment,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="parcel._employment_within_30_minutes_bus_travel_time" type="variable_definition">ln(parcel.disaggregate(sanfrancisco.zone.employment_within_30_minutes_bus_travel_time))</variable>
       <variable use="both" source="expression" name="building.ln_total_price" type="variable_definition">ln_bounded(building.structure_value+building.disaggregate(parcel.land_value))</variable>
       <variable use="model variable" source="Python class" name="building.ln_emp_activity_6_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_6_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
       <variable use="model variable" source="Python class" name="building.ln_emp_activity_5_win_10_min_hwy" type="variable_definition">ln_bounded(building.disaggregate(sanfrancisco.zone.employment_of_activity_id_5_within_10_minutes_hwy_travel_time,intermediates=[parcel]))</variable>
@@ -78,7 +92,7 @@
       <variable use="model variable" source="expression" name="building.ln_sector_5_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_5_from_building,intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="building.ln_sector_6_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_6_from_building,intermediates=[parcel]))</variable>
     </expression_library>
-    <available_datasets type="list">['building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','development_event_history']</available_datasets>
+    <available_datasets type="list">['building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','development_event_history']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','tract','district24','district14','city','county']</spatial_datasets>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name type="string">DatasetPoolConfiguration</class_name>
@@ -631,7 +645,7 @@
             <argument name="reset_attribute_value" type="string">{'parcel_id':-1}</argument>.
             <argument name="append_to_realestate_dataset" type="string">True</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
-            <argument name="sample_filter" type="string">"development_event_history.non_residential_sqft &lt;= 50000"</argument>
+            <argument name="sample_filter" type="string">"development_event_history.non_residential_sqft &lt;= 25000"</argument>
             <argument name="resources" type="string">model_resources</argument>
           </run>
         </structure>
@@ -682,8 +696,18 @@
               <variable_spec name="parcel._ln_price"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="hotel" submodel_id="3" type="submodel" inherit_parent_values="False">
+          <submodel hidden="Children" name="hotel" submodel_id="6" type="submodel" inherit_parent_values="False">
             <description type="string">submodel6</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
+              <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_price"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="office" submodel_id="10" type="submodel" inherit_parent_values="False">
+            <description type="string">submodel3</description>
             <variable_list type="variable_list">
               <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
               <variable_spec name="parcel._ln_avg_income_in_zone"/>
@@ -714,6 +738,18 @@
           </submodel>
           <submodel hidden="Children" name="industrial" submodel_id="7" type="submodel">
             <description type="string">submodel7</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_land_area"/>
+              <variable_spec name="parcel._ln_price"/>
+              <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+              <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="public" submodel_id="12" type="submodel" inherit_parent_values="False">
+            <description type="string">submodel8</description>
             <variable_list type="variable_list">
               <variable_spec name="parcel._ln_avg_income_in_zone"/>
               <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
@@ -922,9 +958,9 @@
             <selectable name="household_location_choice_model_coefficients" type="selectable">True</selectable>
             <selectable name="household_location_choice_model_specification" type="selectable">True</selectable>
             <selectable name="nonresidential_building_location_choice_model_coefficients" type="selectable">True</selectable>
-            <selectable name="nonresidential_building_location_choice_model_specification" type="selectable">True</selectable>
+            <selectable name="building_location_choice_model_specification" type="selectable">True</selectable>
             <selectable name="parcels" type="selectable">True</selectable>
-            <selectable name="planning_districts" type="selectable">True</selectable>
+            <selectable name="pdists" type="selectable">True</selectable>
             <selectable name="persons" type="selectable">True</selectable>
             <selectable name="real_estate_price_model_coefficients" type="selectable">True</selectable>
             <selectable name="real_estate_price_model_specification" type="selectable">True</selectable>
@@ -1457,15 +1493,15 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Aug05Thu_1352_Sim2010to2035" run_id="None">
+      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Sep07Tue_1412_Sim2010to2035" run_id="None">
         <scenario_name type="string">sanfrancisco_baseline2009</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_184.SFBaseyr2009_2010Aug05Thu_1352_Sim2010to2035</cache_directory>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_208.SFBaseyr2009_2010Sep07Tue_1412_Sim2010to2035</cache_directory>
         <start_year type="integer">2009</start_year>
         <end_year type="integer">2035</end_year>
       </run>
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Jul02Fri_1115_Sim2010to2035" run_id="182">
+      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Sep03Fri_1220_Sim2010to2035" run_id="199">
         <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_182.SFBaseyr2009_2010Jul02Fri_1115_Sim2010to2035</cache_directory>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_199.SFBaseyr2009_2010Sep03Fri_1220_Sim2010to2035</cache_directory>
         <start_year type="integer">2010</start_year>
         <end_year type="integer">2035</end_year>
       </run>
@@ -1474,18 +1510,6 @@
         <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_183.SFBaseyr2009_2010Jul02Fri_1257_Sim2010to2035</cache_directory>
         <start_year type="integer">2009</start_year>
         <end_year type="integer">2035</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Jul01Thu_2328_Sim2010to2035" run_id="None">
-        <scenario_name type="string">sanfrancisco_baseline2009</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_165.SFBaseyr2009_2010Jul01Thu_2328_Sim2010to2035</cache_directory>
-        <start_year type="integer">2009</start_year>
-        <end_year type="integer">2035</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Jun30Wed_1811_Sim2010to2030_highofficevac" run_id="None">
-        <scenario_name type="string">sanfrancisco_baseline2009</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_149.SFBaseyr2009_2010Jun30Wed_1811_Sim2010to2030_highofficevac</cache_directory>
-        <start_year type="integer">2009</start_year>
-        <end_year type="integer">2030</end_year>
       </run>
       <run hidden="Children" type="source_data" name="base_year_data" run_id="10">
         <scenario_name type="string"/>
