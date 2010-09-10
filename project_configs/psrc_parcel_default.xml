@@ -99,7 +99,7 @@
       <variable use="model variable" source="Python class" name="person_x_job.home_district_is_same_as_workplace_district" type="variable_definition">psrc_parcel.person_x_job.home_district_is_same_as_workplace_district</variable>
       <variable use="model variable" source="Python class" name="person_x_job.home_area_type_1_workplace_area_type_2" type="variable_definition">psrc_parcel.person_x_job.home_area_type_1_workplace_area_type_2</variable>
       <variable use="model variable" source="Python class" name="person_x_job.home_area_type_3_workplace_area_type_1" type="variable_definition">psrc_parcel.person_x_job.home_area_type_3_workplace_area_type_1</variable>
-	  <variable use="model variable" source="Python class" name="person_x_job.home_area_type_4_workplace_area_type_2" type="variable_definition">psrc_parcel.person_x_job.home_area_type_4_workplace_area_type_2</variable>
+    <variable use="model variable" source="Python class" name="person_x_job.home_area_type_4_workplace_area_type_2" type="variable_definition">psrc_parcel.person_x_job.home_area_type_4_workplace_area_type_2</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_19_workplace_dist_19" type="variable_definition">(person.disaggregate(zone.district_id)==19) * (job.disaggregate(zone.district_id)==19)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_6_workplace_dist_6" type="variable_definition">(person.disaggregate(zone.district_id)==6) * (job.disaggregate(zone.district_id)==6)</variable>
@@ -107,8 +107,8 @@
       <variable use="model variable" source="Python class" name="person_x_job.home_area_type_3_workplace_area_type_1" type="variable_definition">psrc_parcel.person_x_job.home_area_type_3_workplace_area_type_1</variable>
       <variable use="model variable" source="expression" name="parcel.lnretempwa" type="variable_definition">ln(parcel.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_7 + urbansim_parcel.zone.number_of_jobs_of_sector_14))</variable>
       <variable use="model variable" source="expression" name="building.iv_price_residual" type="variable_definition">urbansim_parcel.building.price_residual</variable>
-	  <variable use="model variable" source="expression" name="building.iv_ln_price_residual" type="variable_definition">urbansim_parcel.building.ln_price_residual</variable>
-	  <variable use="both" source="expression" name="building.bdiff_demand_supply" type="variable_definition">building.residential_demand - building.residential_supply</variable>
+    <variable use="model variable" source="expression" name="building.iv_ln_price_residual" type="variable_definition">urbansim_parcel.building.ln_price_residual</variable>
+    <variable use="both" source="expression" name="building.bdiff_demand_supply" type="variable_definition">building.residential_demand - building.residential_supply</variable>
       <variable use="both" source="primary attribute" name="building.bresidential_demand" type="variable_definition">building.residential_demand</variable>
       <variable use="both" source="expression" name="building.blndemand" type="variable_definition">ln(building.residential_demand)</variable>
       <variable use="both" source="expression" name="building.bsupply" type="variable_definition">building.residential_supply</variable>
@@ -120,7 +120,7 @@
       <variable use="both" source="expression" name="parcel.supply" type="variable_definition">parcel.aggregate(building.residential_supply)</variable>
       <variable use="both" source="expression" name="parcel.lnsupply" type="variable_definition">ln(parcel.aggregate(building.residential_supply))</variable>
       <variable use="both" source="expression" name="parcel.sdratio" type="variable_definition">safe_array_divide(parcel.aggregate(building.residential_supply), parcel.aggregate(building.residential_demand))</variable>	  
-	</expression_library>
+  </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone']</available_datasets>
   </general>
   <model_manager>
@@ -320,8 +320,8 @@
               <variable_spec name="person_x_job.home_district_is_same_as_workplace_district"/>
               <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/>!-->
               <variable_spec name="person_x_job.home_dist_1_workplace_dist_1"/>
-			  <variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/>
-			  <variable_spec name="person_x_job.home_area_type_3_workplace_area_type_1"/>
+        <variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/>
+        <variable_spec name="person_x_job.home_area_type_3_workplace_area_type_1"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_basic"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_retail"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_fires"/>
@@ -672,8 +672,8 @@
                 <submodel type="submodel" hidden="Children" name="commercial" submodel_id="3">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art300"/>
-					<variable_spec name="parcel.art600"/>
+          <variable_spec name="parcel.art300"/>
+          <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.hbwavgtmda"/>
                     <variable_spec name="parcel.inugb"/>
                     <variable_spec name="parcel.ln_bldgage"/>
@@ -690,7 +690,7 @@
                 <submodel type="submodel" hidden="Children" name="government" submodel_id="7">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art600"/>
+          <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.inugb"/>
                     <variable_spec name="parcel.ln_bldgage"/>
                     <variable_spec name="parcel.lngcdacbd"/>
@@ -732,7 +732,7 @@
                 <submodel type="submodel" hidden="Children" name="mobile_home" submodel_id="13">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art600"/>
+          <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.inugb"/>
                     <variable_spec name="parcel.is_pre_1940"/>
                     <variable_spec name="parcel.ln_bldgage"/>
@@ -775,7 +775,7 @@
                   <description type="string">Condominium Residential</description>
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art600"/>
+          <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.hwy200"/>
                     <variable_spec name="parcel.ln_invfar"/>
                     <variable_spec name="parcel.lnavginc"/>
@@ -794,7 +794,7 @@
                 <submodel type="submodel" hidden="Children" name="office" submodel_id="18">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art600"/>
+          <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.hbwavgtmda"/>
                     <variable_spec name="parcel.inugb"/>
                     <variable_spec name="parcel.ln_bldgage"/>
@@ -812,7 +812,7 @@
                 <submodel type="submodel" hidden="Children" name="open_space" submodel_id="19">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art300"/>
+          <variable_spec name="parcel.art300"/>
                     <variable_spec name="parcel.ln_invfar"/>
                   </variable_list>
                 </submodel>
@@ -828,8 +828,8 @@
                 <submodel type="submodel" hidden="Children" name="single_family_residential" submodel_id="24">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-	         <variable_spec name="parcel.art300"/>
-	         <variable_spec name="parcel.art600"/>
+           <variable_spec name="parcel.art300"/>
+           <variable_spec name="parcel.art600"/>
                     <variable_spec name="parcel.hbwavgtmda"/>
                     <variable_spec name="parcel.hwy2000"/>
                     <variable_spec name="parcel.inugb"/>
@@ -861,7 +861,7 @@
                 <submodel type="submodel" hidden="Children" name="vacant_developable" submodel_id="26">
                   <variable_list type="variable_list">
                     <variable_spec name="constant"/>
-					<variable_spec name="parcel.art300"/>
+          <variable_spec name="parcel.art300"/>
                     <variable_spec name="parcel.hwy2000"/>
                     <variable_spec name="parcel.lnavginc"/>
                     <variable_spec name="parcel.lnemp10da"/>
@@ -987,8 +987,8 @@
               <variable_spec name="household_x_building.renter_x_is_mfr"/>
               <variable_spec name="building.sqft_per_unit"/>
               <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>
-			  <variable_spec name="building.iv_price_residual"/>
-			  <!--<variable_spec name="building.iv_ln_price_residual"/>!-->
+        <variable_spec name="building.iv_price_residual"/>
+        <!--<variable_spec name="building.iv_ln_price_residual"/>!-->
             </variable_list>
           </submodel>
         </specification>
@@ -1474,6 +1474,25 @@
                 </submodel_group>
               </specification>
             </model>
+       <model name="expected_sale_price_model" type="model">
+        <structure type="dictionary">
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=urbansim_parcel.parcel.vacant_land_area &gt; 0</argument>
+            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio=urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.1</argument>
+            <argument name="template_filter" convert_blank_to_none="True" parser_action="quote_string" type="string"/>
+            <argument hidden="True" name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">real_estate_price_model_specification</argument>
+            <argument hidden="True" name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">real_estate_price_model_coefficients</argument>
+            <argument hidden="True" name="spec_replace_module_variable_pair" type="string">('psrc_parcel.estimation.repm_specification', 'variables_for_development_project_proposal')</argument>
+            <argument hidden="False" name="proposed_units_variable" type="string" parser_action="quote_string">psrc_parcel.development_project_proposal.minimum_1DU_per_legal_lot_yield</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <output hidden="True" name="output" type="string">(development_project_proposal, specification, coefficients)</output>
+          </prepare_for_run>
+        </structure>
+      </model>    
+    </models>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <dataset_pool_configuration type="class">
@@ -1486,8 +1505,8 @@
         <selectable copyable="True" type="selectable" name="mode">False</selectable>
         <selectable copyable="True" type="selectable" name="building" followers="my_dataset">True</selectable>
         <selectable copyable="True" type="selectable" name="person">True</selectable>
-		<selectable copyable="True" type="selectable" name="building_type">True</selectable>
-		<selectable copyable="True" type="selectable" name="travel_data">True</selectable>
+    <selectable copyable="True" type="selectable" name="building_type">True</selectable>
+    <selectable copyable="True" type="selectable" name="travel_data">True</selectable>
       </datasets_to_preload>
     </estimation_config>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
