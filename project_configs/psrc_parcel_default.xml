@@ -1491,8 +1491,7 @@
             <output hidden="True" name="output" type="string">(development_project_proposal, specification, coefficients)</output>
           </prepare_for_run>
         </structure>
-      </model>    
-    </models>
+      </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <dataset_pool_configuration type="class">
