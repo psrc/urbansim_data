@@ -439,7 +439,7 @@
             <argument name="chunk_specification" type="string">{'records_per_chunk':20000}</argument>
           </run>
         </structure>
-        <specification type="dictionary">
+        <specification inherit_parent_values="False" type="dictionary">
           <submodel name="submodel" submodel_id="-2" type="submodel" hidden="Children">
             <description type="string">submodel</description>
             <variable_list type="variable_list">
@@ -453,12 +453,12 @@
               <variable_spec name="household_x_building.has_children_x_percent_households_with_children_within_walking_distance"/>
               <variable_spec name="household_x_building.one_pers_x_not_sfr"/>
               <variable_spec name="household_x_building.renter_x_is_mfr"/>
-              <variable_spec name="household_x_building.max_logsum_hbw_am_from_home_to_work"/>
-              <variable_spec name="household_x_building.max_network_distance_from_home_to_work"/>
+              <variable_spec name="household_x_building.E_max_commute_logsum"/>
+              <variable_spec name="household_x_building.E_max_network_distance"/>
               <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>
               <variable_spec name="household_x_building.neigh_shopping"/>
               <variable_spec name="household_x_building.income_x_size"/>
-              <variable_spec name="household_x_building.person_x_size"/>
+              <variable_spec name="household_x_building.persons_x_size"/>
               <variable_spec name="household_x_building.is_young_x_percent_young_households_within_walking_distance"/>
             </variable_list>
           </submodel>
