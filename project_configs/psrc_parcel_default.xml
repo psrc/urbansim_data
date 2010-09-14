@@ -14,6 +14,7 @@
       <variable use="both" source="primary attribute" name="household.children" type="variable_definition">household.children</variable>
       <variable use="both" source="primary attribute" name="household.income" type="variable_definition">household.income</variable>
       <variable use="both" source="Python class" name="household.max_commute_from_home_to_work" type="variable_definition">psrc_parcel.household.max_drive_alone_hbw_am_travel_time_from_home_to_work</variable>
+      <variable use="both" source="Python class" name="household.max_distance_from_home_to_work" type="variable_definition">psrc_parcel.household.max_network_distance_from_home_to_work</variable>
       <variable source="expression" type="variable_definition" use="both" name="parcel.wgt_logsum">parcel.disaggregate(zone.aggregate(psrc_parcel.household.trip_weighted_average_logsum_hbw_am_from_residence, intermediates=[parcel], function=mean))</variable>
       <variable source="Python class" type="variable_definition" use="model variable" name="building.is_tcu_building">urbansim.building.is_tcu</variable>
       <variable source="Python class" type="variable_definition" use="model variable" name="building.is_warehousing_building">urbansim.building.is_warehousing</variable>
