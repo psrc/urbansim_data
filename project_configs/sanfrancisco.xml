@@ -91,6 +91,31 @@
       <variable use="model variable" source="expression" name="building.ln_sector_4_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_4_from_building,intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="building.ln_sector_5_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_5_from_building,intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="building.ln_sector_6_employment_in_zone" type="variable_definition">ln(building.disaggregate(sanfrancisco.zone.aggregate_employment_of_sector_6_from_building,intermediates=[parcel]))</variable>
+      <variable use="indicator" source="expression" name="zone.pop_waccess_bus" type="variable_definition">sanfrancisco.zone.bus_travel_time_weighted_access_by_population</variable>
+      <variable use="indicator" source="expression" name="zone.pop_waccess_exp" type="variable_definition">sanfrancisco.zone.exp_travel_time_weighted_access_by_population</variable>
+      <variable use="indicator" source="expression" name="zone.pop_waccess_lrt" type="variable_definition">sanfrancisco.zone.lrt_travel_time_weighted_access_by_population</variable>
+      <variable use="indicator" source="expression" name="zone.pop_waccess_bart" type="variable_definition">sanfrancisco.zone.bart_travel_time_weighted_access_by_population</variable>
+      <variable use="indicator" source="expression" name="zone.pop_waccess_hwy" type="variable_definition">sanfrancisco.zone.hwy_travel_time_weighted_access_by_population</variable>
+      <variable use="indicator" source="expression" name="zone.emp_waccess_bus" type="variable_definition">sanfrancisco.zone.bus_travel_time_weighted_access_to_employment</variable>
+      <variable use="indicator" source="expression" name="zone.emp_waccess_exp" type="variable_definition">sanfrancisco.zone.exp_travel_time_weighted_access_to_employment</variable>
+      <variable use="indicator" source="expression" name="zone.emp_waccess_lrt" type="variable_definition">sanfrancisco.zone.lrt_travel_time_weighted_access_to_employment</variable>
+      <variable use="indicator" source="expression" name="zone.emp_waccess_bart" type="variable_definition">sanfrancisco.zone.bart_travel_time_weighted_access_to_employment</variable>
+      <variable use="indicator" source="expression" name="zone.emp_waccess_hwy" type="variable_definition">sanfrancisco.zone.hwy_travel_time_weighted_access_to_employment</variable>
+      <variable use="indicator" source="expression" name="zone.tt_to_powell_bus" type="variable_definition">sanfrancisco.zone.bus_travel_time_to_751</variable>
+      <variable use="indicator" source="expression" name="zone.tt_to_powell_exp" type="variable_definition">sanfrancisco.zone.exp_travel_time_to_751</variable>
+      <variable use="indicator" source="expression" name="zone.tt_to_powell_lrt" type="variable_definition">sanfrancisco.zone.lrt_travel_time_to_751</variable>
+      <variable use="indicator" source="expression" name="zone.tt_to_powell_bart" type="variable_definition">sanfrancisco.zone.bart_travel_time_to_751</variable>
+      <variable use="indicator" source="expression" name="zone.tt_to_powell_hwy" type="variable_definition">sanfrancisco.zone.hwy_travel_time_to_751</variable>
+      <variable use="indicator" source="expression" name="zone.dist_to_powell" type="variable_definition">sanfrancisco.zone.dist_travel_time_to_751</variable>
+      <variable use="indicator" source="expression" name="zone.empgrowthP" type="variable_definition">sanfrancisco.zone.percent_employment_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.hhgrowthP" type="variable_definition">sanfrancisco.zone.percent_number_of_households_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.popgrowthP" type="variable_definition">sanfrancisco.zone.percent_population_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.empgrowth" type="variable_definition">sanfrancisco.zone.absolute_employment_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.hhgrowth" type="variable_definition">sanfrancisco.zone.absolute_number_of_households_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.popgrowth" type="variable_definition">sanfrancisco.zone.absolute_population_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.emp" type="variable_definition">sanfrancisco.zone.employment</variable>
+      <variable use="indicator" source="expression" name="zone.hh" type="variable_definition">sanfrancisco.zone.number_of_households</variable>
+      <variable use="indicator" source="expression" name="zone.pop" type="variable_definition">sanfrancisco.zone.population</variable>
     </expression_library>
     <available_datasets type="list">['building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','development_event_history']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','tract','district24','district14','city','county']</spatial_datasets>
@@ -696,26 +721,6 @@
               <variable_spec name="parcel._ln_price"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="hotel" submodel_id="6" type="submodel" inherit_parent_values="False">
-            <description type="string">submodel6</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
-              <variable_spec name="parcel._ln_avg_income_in_zone"/>
-              <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
-              <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="parcel._ln_price"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="office" submodel_id="10" type="submodel" inherit_parent_values="False">
-            <description type="string">submodel3</description>
-            <variable_list type="variable_list">
-              <variable_spec name="parcel._employment_within_30_minutes_bus_travel_time"/>
-              <variable_spec name="parcel._ln_avg_income_in_zone"/>
-              <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
-              <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
-              <variable_spec name="parcel._ln_price"/>
-            </variable_list>
-          </submodel>
           <submodel hidden="Children" name="commercial" submodel_id="3" type="submodel">
             <description type="string">submodel3</description>
             <variable_list type="variable_list">
@@ -734,6 +739,16 @@
               <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
               <variable_spec name="parcel._ln_land_area"/>
               <variable_spec name="parcel._ln_price"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="hotel" submodel_id="6" type="submodel">
+            <description type="string">submodel6</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_land_area"/>
+              <variable_spec name="parcel._ln_price"/>
+              <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+              <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="industrial" submodel_id="7" type="submodel">
@@ -784,6 +799,16 @@
               <variable_spec name="parcel._lrt_travel_time_weighted_access_to_employment"/>
             </variable_list>
           </submodel>
+          <submodel hidden="Children" name="office" submodel_id="10" type="submodel">
+            <description type="string">submodel10</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel._ln_avg_income_in_zone"/>
+              <variable_spec name="parcel._ln_hholds_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_jobs_per_acre_in_zone"/>
+              <variable_spec name="parcel._ln_land_area"/>
+              <variable_spec name="parcel._lrt_travel_time_weighted_access_by_population"/>
+            </variable_list>
+          </submodel>
           <submodel hidden="Children" name="res_other" submodel_id="13" type="submodel">
             <description type="string">submodel13</description>
             <variable_list type="variable_list">
@@ -810,18 +835,63 @@
           </submodel>
         </specification>
       </model>
+      <model name="get_cache_data_into_travel_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>sanfrancisco.travel_model.get_cache_data_into_travel_model</class_module>
+            <class_name>GetCacheDataIntoTravelModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">GetCacheDataIntoTravelModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="myconfig" type="string">resources</argument>
+            <argument name="year" type="string">year</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="run_sanfrancisco_travel_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>sanfrancisco.travel_model.run_sanfrancisco_travel_model</class_module>
+            <class_name>RunSanfranciscoTravelModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RunSanfranciscoTravelModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="myconfig" type="string">resources</argument>
+            <argument name="year" type="string">year</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="get_travel_model_data_into_cache" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>sanfrancisco.travel_model.get_travel_model_data_into_cache</class_module>
+            <class_name>GetTravelModelDataIntoCache</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">GetTravelModelDataIntoCache</name>
+          </init>
+          <run type="dictionary">
+            <argument name="myconfig" type="string">resources</argument>
+            <argument name="year" type="string">year</argument>
+          </run>
+        </structure>
+      </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <save_estimation_results type="boolean">True</save_estimation_results>
-      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">sanfrancisco/baseyear_2009_scenario_baseline</cache_directory>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">sanfrancisco/baseyear_2009_scenario_baseline</cache_directory>
       <estimation_database_configuration type="class">
         <argument name="database_name" type="string">baseyear_2009_scenario_baseline</argument>
       </estimation_database_configuration>
       <low_memory_mode type="boolean">True</low_memory_mode>
-      <base_year type="integer">2009</base_year>
+      <base_year type="integer" field_identifier="Base Year">2009</base_year>
       <years type="tuple">
-        <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2009</lastyear>
+        <firstyear type="integer" field_identifier="Base Year">2009</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2009</lastyear>
       </years>
     </estimation_config>
     <travel_model_configuration type="dictionary">
@@ -852,53 +922,27 @@
       <tazdataprocessor_srcdir type="string">Q:\Model Projects\Model Programs\TazDataProcessor9county</tazdataprocessor_srcdir>
       <tazdataprocessor_datadir type="string">Q:\Model Projects\Model Programs\TazDataProcessor9county\input\p2007</tazdataprocessor_datadir>
       <popsyn_srcdir type="string">Q:\Model Projects\Model Programs\PopSyn9county</popsyn_srcdir>
-      <model name="get_cache_data_into_travel_model" type="model">
-        <structure type="dictionary">
-          <import name="import" type="dictionary">
-            <class_module>sanfrancisco.travel_model.get_cache_data_into_travel_model</class_module>
-            <class_name>GetCacheDataIntoTravelModel</class_name>
-          </import>
-          <run type="dictionary">
-            <argument name="run_config" type="string" hidden="TRUE">scenario_dir_name</argument>
-            <argument name="year" type="string" hidden="TRUE">year</argument>
-          </run>
-        </structure>
-      </model>
-      <model name="run_sanfrancisco_travel_model" type="model">
-        <structure type="dictionary">
-          <import name="import" type="dictionary">
-            <class_module>sanfrancisco.travel_model.run_sanfrancisco_travel_model</class_module>
-            <class_name>RunSanfranciscoTravelModel</class_name>
-          </import>
-          <run type="dictionary">
-            <argument name="run_config" type="string" hidden="TRUE">scenario_dir_name</argument>
-            <argument name="year" type="string" hidden="TRUE">year</argument>
-          </run>
-        </structure>
-      </model>
-      <model name="get_travel_model_data_into_cache" type="model">
-        <structure type="dictionary">
-          <import name="import" type="dictionary">
-            <class_module>sanfrancisco.travel_model.get_travel_model_data_into_cache</class_module>
-            <class_name>GetTravelModelDataIntoCache</class_name>
-          </import>
-          <run type="dictionary">
-            <argument name="run_config" type="string" hidden="TRUE">scenario_dir_name</argument>
-            <argument name="year" type="string" hidden="FALSE">year</argument>
-          </run>
-        </structure>
-      </model>
     </travel_model_configuration>
   </model_manager>
   <scenario_manager>
-    <scenario type="scenario" name="sanfrancisco_baseline_test">
-      <parent type="scenario_name">sanfrancisco_baseline</parent>
+    <scenario type="scenario" name="sanfrancisco_baseline_1yeartest">
+      <description type="string">Single year test</description>
+      <parent type="scenario_name">sanfrancisco_baseline2009</parent>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2002</firstyear>
-        <lastyear type="integer">2004</lastyear>
+        <firstyear type="integer">2010</firstyear>
+        <lastyear type="integer">2010</lastyear>
+      </years_to_run>
+    </scenario>
+    <scenario type="scenario" name="sanfrancisco_baseline_10yeartest">
+      <description type="string">Ten year test</description>
+      <parent type="scenario_name">sanfrancisco_baseline2009</parent>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2010</firstyear>
+        <lastyear type="integer">2020</lastyear>
       </years_to_run>
     </scenario>
     <scenario executable="True" name="sanfrancisco_baseline2009" type="scenario">
+      <description type="string">sanfrancisco_baseline2009 run</description>
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
       <base_year type="integer">2009</base_year>
       <years_to_run config_name="years" type="tuple">
@@ -1009,36 +1053,31 @@
         </datasets_to_preload>
       </advanced>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">X:\Projects\LUCI\Runs\lmz_2010.03.18</travel_model_base_directory>
+        <travel_model_base_directory type="string">X:\Projects\LUCI\Runs\lmz_2010.09.13</travel_model_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2005</year>
-            <year_dir type="string">2005_model</year_dir>
+            <year type="integer">2010</year>
+            <year_dir type="string">2010_model</year_dir>
           </run_description>
-        </years_to_run>
-        <models_to_run config_name="models" type="selectable_list">
-          <selectable name="sanfrancisco.travel_model.get_cache_data_into_travel_model" type="selectable">False</selectable>
-          <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="selectable">False</selectable>
-          <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="selectable">False</selectable>
-        </models_to_run>
-      </travel_model_configuration>
-    </scenario>
-    <scenario executable="True" name="sanfrancisco_baseline" type="scenario">
-      <years_to_run config_name="years" type="tuple">
-        <lastyear type="integer">2030</lastyear>
-      </years_to_run>
-      <creating_baseyear_cache_configuration type="class">
-        <argument name="advanced" type="category">
-          </argument>
-      </creating_baseyear_cache_configuration>
-      <advanced type="category">
-        </advanced>
-      <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">X:\Projects\LUCI\Runs\lmz_2010.03.18</travel_model_base_directory>
-        <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2005</year>
-            <year_dir type="string">2005_model</year_dir>
+            <year type="integer">2015</year>
+            <year_dir type="string">2015_model</year_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2020</year>
+            <year_dir type="string">2020_model</year_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <year_dir type="string">2025_model</year_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2030</year>
+            <year_dir type="string">2030_model</year_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2035</year>
+            <year_dir type="string">2035_model</year_dir>
           </run_description>
         </years_to_run>
         <models_to_run config_name="models" type="selectable_list">
@@ -1051,22 +1090,73 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="untitled_indicator_batch">
-        <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
+      <indicator_batch name="TravelData Zonal Animations">
+        <batch_visualization hidden="Children" type="batch_visualization" name="TTWeightedByEmp">
           <settings>
             <setting name="mapnik_bucket_labels">range_labels</setting>
             <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
             <setting name="mapnik_map_lower_left">0.5,0.5</setting>
             <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#d0d6d4,#c0bec8,#b0a6bc,#a08eb0,#9076a4,#805e98,#70468c,#602e80,#460271</setting>
             <setting name="mapnik_map_upper_right">6.0,5.0</setting>
             <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_bucket_ranges">0.00,1500.00,3000.00,4500.00,6000.00,7500.00,9000.00,10500.00,12000.00,13500.00,15000.00</setting>
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
-          <visualization_type>mapnik_map</visualization_type>
-          <indicators>['number_of_households']</indicators>
-          <output_type>mapnik_map</output_type>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['emp_waccess_bus', 'emp_waccess_exp', 'emp_waccess_lrt', 'emp_waccess_bart', 'emp_waccess_hwy']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="TTWeightedByPop">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c9d0d2,#b2b2c4,#9b94b6,#8476a8,#6d589a,#563a8c,#2f0273</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0,500,1000,1500,2000,2500,3000,3500,4000</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['pop_waccess_bus', 'pop_waccess_exp', 'pop_waccess_lrt', 'pop_waccess_bart', 'pop_waccess_hwy']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="TravelDist">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#941909</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0,1.5,3,4.5,6,7.5,9,10.5,12,13.5,999</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['dist_to_powell']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="TravelTime">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#941909</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">0,10,20,30,40,50,60,70,80,90,9999</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['tt_to_powell_bus', 'tt_to_powell_exp', 'tt_to_powell_lrt', 'tt_to_powell_bart', 'tt_to_powell_hwy']</indicators>
+          <output_type>mapnik_animated_map</output_type>
           <dataset_name>zone</dataset_name>
         </batch_visualization>
       </indicator_batch>
@@ -1079,108 +1169,6 @@
           </settings>
           <dataset_name>pdist</dataset_name>
           <visualization_type>tab</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="Quick Check on Sqft/Units/Occupancy">
-        <batch_visualization hidden="Children" type="batch_visualization" name="OR_resnon_tab">
-          <indicators>['business_occupied_sqft', 'building_nonres_sqft', 'total_households', 'building_res_units']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>alldata</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="Occ_bldg_type_tab">
-          <indicators>['allocc_apartment', 'allocc_automotive', 'allocc_commercial', 'allocc_condo', 'allocc_flat', 'allocc_hotel', 'allocc_industrial', 'allocc_institutional', 'allocc_mixed', 'allocc_office', 'allocc_other', 'allocc_public', 'allocc_resother', 'allocc_single']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>alldata</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="OR_bldg_type_tab">
-          <indicators>['allor_apartment', 'allor_automotive', 'allor_commercial', 'allor_condo', 'allor_flat', 'allor_hotel', 'allor_industrial', 'allor_institutional', 'allor_mixed', 'allor_office', 'allor_other', 'allor_public', 'allor_resother', 'allor_single']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>alldata</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="Occupancy">
-        <batch_visualization hidden="Children" type="batch_visualization" name="vacantsqft_buildingtype_table">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-            <setting name="output_style">1</setting>
-          </settings>
-          <visualization_type>tab</visualization_type>
-          <indicators>['vacsqft_apartment', 'vacsqft_automotive', 'vacsqft_commercial', 'vacsqft_condo', 'vacsqft_flat', 'vacsqft_hotel', 'vacsqft_industrial', 'vacsqft_institutional', 'vacsqft_mixed', 'vacsqft_office', 'vacsqft_other', 'vacsqft_public', 'vacsqft_resother', 'vacsqft_single']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="vacantsqft_buildingtype_anim">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['vacsqft_apartment', 'vacsqft_automotive', 'vacsqft_commercial', 'vacsqft_condo', 'vacsqft_flat', 'vacsqft_hotel', 'vacsqft_industrial', 'vacsqft_institutional', 'vacsqft_mixed', 'vacsqft_office', 'vacsqft_other', 'vacsqft_public', 'vacsqft_resother', 'vacsqft_single']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="OR_bldgtype_table">
-          <indicators>['or_apartment', 'or_automotive', 'or_commercial', 'or_condo', 'or_flat', 'or_hotel', 'or_industrial', 'or_institutional', 'or_mixed', 'or_office', 'or_other', 'or_public', 'or_resother', 'or_single']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#deebf7,#c6dbef,#b9d3ee,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b,#011561</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <dataset_name>zone</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="OR_bldg_type_anim">
-          <indicators>['or_apartment', 'or_automotive', 'or_commercial', 'or_condo', 'or_flat', 'or_hotel', 'or_industrial', 'or_institutional', 'or_mixed', 'or_office', 'or_other', 'or_public', 'or_resother', 'or_single']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#deebf7,#c6dbef,#b9d3ee,#9ecae1,#6baed6,#4292c6,#2171b5,#08519c,#08306b,#011561</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <dataset_name>zone</dataset_name>
-          <visualization_type>mapnik_animated_map</visualization_type>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="Zonal Animations">
@@ -1256,44 +1244,50 @@
           <visualization_type>mapnik_map</visualization_type>
         </batch_visualization>
       </indicator_batch>
-      <indicator_batch name="zone_employment">
-        <batch_visualization hidden="Children" type="batch_visualization" name="employment">
-          <indicators>['employment']</indicators>
-          <output_type>mapnik_animated_map</output_type>
+      <indicator_batch name="Growth Maps">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone Growth Absolutes">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#a7067c,#bd449c,#d382bc,#ffffff,#e2fcdf,#c5f9bf,#a8f69f,#8bf37f,#6ef05f,#38eb24</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">MIN,-1000,-500,-50,50,500,1000,1500,2000,2500,MAX</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['empgrowth', 'hhgrowth', 'popgrowth']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone Tables">
+          <indicators>['empgrowthP', 'hhgrowthP', 'popgrowthP', 'empgrowth', 'hhgrowth', 'popgrowth', 'emp', 'hh', 'pop']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone Percentages">
+          <indicators>['empgrowthP', 'hhgrowthP', 'popgrowthP']</indicators>
+          <output_type>mapnik_map</output_type>
           <settings>
             <setting name="output_style">1</setting>
             <setting name="mapnik_bucket_labels">range_labels</setting>
             <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
             <setting name="mapnik_map_lower_left">0.5,0.5</setting>
             <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_bucket_colors">#ef1501,#f34f40,#f7897f,#ffffff,#dcebdb,#b9d7b7,#96c393,#73af6f,#509b4b,#0a7303</setting>
             <setting name="mapnik_map_upper_right">6.0,5.0</setting>
             <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_bucket_ranges">-100,-50,-25,-5,5,25,50,100,200,300,9999</setting>
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
           <dataset_name>zone</dataset_name>
-          <visualization_type>mapnik_animated_map</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="City">
-        <batch_visualization hidden="Children" type="batch_visualization" name="population_employment">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">0,0.1,1000,5000,20000,100000,999999999</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-            <setting name="output_style">3</setting>
-          </settings>
-          <visualization_type>tab</visualization_type>
-          <indicators>['city_employment_total', 'city_households', 'city_population']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>alldata</dataset_name>
+          <visualization_type>mapnik_map</visualization_type>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="Parcels">
@@ -1330,129 +1324,6 @@
           <indicators>['residential_units']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>parcel</dataset_name>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="TotalEmployment">
-        <batch_visualization hidden="Children" type="batch_visualization" name="Total Employment">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#00fc00,#00d400,#00aa00,#007e00,#004800</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">1,751,2514,5940,14107,45053</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_total_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="Employment">
-        <batch_visualization hidden="Children" type="batch_visualization" name="sector6">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_sector_6_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="sector5">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_sector_5_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="sector4">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_sector_4_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="sector3">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_sector_3_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="sector2">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_sector_2_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="sector1">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
-          <indicators>['zone_sector_1_jobs']</indicators>
-          <output_type>mapnik_animated_map</output_type>
-          <dataset_name>zone</dataset_name>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="households_population">
@@ -1492,30 +1363,36 @@
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Sep07Tue_1412_Sim2010to2035" run_id="None">
-        <scenario_name type="string">sanfrancisco_baseline2009</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_208.SFBaseyr2009_2010Sep07Tue_1412_Sim2010to2035</cache_directory>
-        <start_year type="integer">2009</start_year>
-        <end_year type="integer">2035</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Sep03Fri_1220_Sim2010to2035" run_id="199">
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
+      <run hidden="Children" type="source_data" name="Ten year test" run_id="49">
         <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_199.SFBaseyr2009_2010Sep03Fri_1220_Sim2010to2035</cache_directory>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_49.2010_09_13_16_48</cache_directory>
+        <start_year type="integer">2017</start_year>
+        <end_year type="integer">2020</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="Run 46 - LUCI" run_id="46">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_46.2010_09_06_12_00</cache_directory>
         <start_year type="integer">2010</start_year>
         <end_year type="integer">2035</end_year>
       </run>
-      <run hidden="Children" type="source_data" name="SFBaseyr2009_2010Jul02Fri_1257_Sim2010to2035" run_id="None">
-        <scenario_name type="string">sanfrancisco_baseline2009</scenario_name>
-        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_183.SFBaseyr2009_2010Jul02Fri_1257_Sim2010to2035</cache_directory>
-        <start_year type="integer">2009</start_year>
-        <end_year type="integer">2035</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="10">
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="47">
         <scenario_name type="string"/>
         <cache_directory type="string">C:\opus\data\sanfrancisco\base_year_data</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2001</end_year>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2009</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="Run10" run_id="10">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_10.2010_09_04_18_02</cache_directory>
+        <start_year type="integer">2010</start_year>
+        <end_year type="integer">2035</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="No description" run_id="4">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_4.2010_08_31_17_13</cache_directory>
+        <start_year type="integer">2010</start_year>
+        <end_year type="integer">2020</end_year>
       </run>
     </simulation_runs>
   </results_manager>
