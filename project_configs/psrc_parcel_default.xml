@@ -8,7 +8,9 @@
       <variable use="model variable" source="expression" name="building.lngcdacbd_bldg" type="variable_definition">ln(building.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_seattle_cbd))</variable>
       <variable use="model variable" source="expression" name="building.lngcdacbdbell_bldg" type="variable_definition">ln(building.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_bellevue_cbd))</variable>
       <variable use="model variable" source="expression" name="building.lnsqft_bldg" type="variable_definition">ln(urbansim_parcel.building.building_sqft)</variable>
-      <variable use="model variable" source="expression" name="parcel.lngcdacbdbell" type="variable_definition">(ln(parcel.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_bellevue_cbd))).astype(float32)</variable>
+      <variable use="model variable" source="expression" name="building.ln_price_per_unit" type="variable_definition">ln(urbansim_parcel.building.price_per_unit)</variable>
+      <variable use="model variable" source="expression" name="building.price_per_unit" type="variable_definition">urbansim_parcel.building.price_per_unit</variable>
+      <variable use="model variable" source="expression" name="parcel.lngcdacbdbell" type="variable_definition">(ln_bounded(urbansim_parcel.building.price_per_unit)).astype(float32)</variable>
       <variable use="both" source="expression" name="household.res_to_cbd_time" type="variable_definition">household.disaggregate(building.disaggregate(zone.travel_time_to_cbd))</variable>
       <variable use="both" source="primary attribute" name="household.persons" type="variable_definition">household.persons</variable>
       <variable use="both" source="primary attribute" name="household.children" type="variable_definition">household.children</variable>
@@ -122,7 +124,7 @@
       <variable use="both" source="expression" name="parcel.lndemand" type="variable_definition">ln(parcel.aggregate(building.residential_demand))</variable>
       <variable use="both" source="expression" name="parcel.supply" type="variable_definition">parcel.aggregate(building.residential_supply)</variable>
       <variable use="both" source="expression" name="parcel.lnsupply" type="variable_definition">ln(parcel.aggregate(building.residential_supply))</variable>
-      <variable use="both" source="expression" name="parcel.sdratio" type="variable_definition">safe_array_divide(parcel.aggregate(building.residential_supply), parcel.aggregate(building.residential_demand))</variable>	  
+      <variable use="both" source="expression" name="parcel.sdratio" type="variable_definition">safe_array_divide(parcel.aggregate(building.residential_supply), parcel.aggregate(building.residential_demand))</variable>
   </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone', 'household']</available_datasets>
   </general>
@@ -932,7 +934,7 @@
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="location_id_string" parser_action="quote_string" type="string">building_id</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string">urbansim.household.income_category</argument>
-            <argument name="estimation_size_agents" type="float">0.5</argument>
+            <argument name="estimation_size_agents" type="float">1.0</argument>
             <argument name="filter" parser_action="quote_string" type="string">numpy.logical_and(urbansim_parcel.building.is_residential, numpy.logical_and(numpy.logical_and(building.residential_units, building.sqft_per_unit), urbansim_parcel.building.unit_price &gt; 0))</argument>
             <argument name="run_config" type="string">Resources({'lottery_max_iterations': 7})</argument>
             <argument name="estimate_config" type="string">Resources({'wesml_sampling_correction_variable':'psrc_parcel.building.wesml_sampling_correction_variable'})</argument>
@@ -1489,7 +1491,7 @@
             <argument hidden="True" name="coefficients_storage" type="string">base_cache_storage</argument>
             <argument name="coefficients_table" parser_action="quote_string" type="string">real_estate_price_model_coefficients</argument>
             <argument hidden="True" name="spec_replace_module_variable_pair" type="string">('psrc_parcel.estimation.repm_specification', 'variables_for_development_project_proposal')</argument>
-            <argument hidden="False" name="proposed_units_variable" type="string" parser_action="quote_string">psrc_parcel.development_project_proposal.minimum_1DU_per_legal_lot_yield</argument>
+            <argument hidden="False" name="proposed_units_variable" type="string" parser_action="quote_string">psrc_parcel.development_project_proposal.units_proposed_plus_minimum_1DU_per_legal_lot_yield</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <output hidden="True" name="output" type="string">(development_project_proposal, specification, coefficients)</output>
           </prepare_for_run>

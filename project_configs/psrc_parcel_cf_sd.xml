@@ -4,6 +4,9 @@
     <description type="string">Configuration for the PSRC parcel project - with Control Function and SD variable</description>
     <parent type="file">psrc_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" source="expression" name="household_x_building.housing_affordability" type="variable_definition">(urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income) &lt; .25 * ((urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income)-.25)**2</variable>
+      <variable use="model variable" source="expression" name="household_x_building.housing_unaffordability" type="variable_definition">(urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income)&gt; .4 * ((urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income)-.4)</variable>
+      <variable use="model variable" source="expression" name="household_x_building.housing_cost" type="variable_definition">ln((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/household.income)</variable>
       <variable use="both" source="expression" name="building.bdiff_demand_supply" type="variable_definition">building.residential_demand - building.residential_supply</variable>
       <variable use="both" source="primary attribute" name="building.bresidential_demand" type="variable_definition">building.residential_demand</variable>
       <variable use="both" source="expression" name="building.blndemand" type="variable_definition">ln(building.residential_demand)</variable>
@@ -422,13 +425,16 @@
       <model name="household_location_choice_model" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+          <seed type="integer" convert_blank_to_none="True">1</seed>
         </estimation_config>
         <structure type="dictionary">
           <init type="dictionary">
             <argument convert_blank_to_none="True" parser_action="quote_string" name="demand_string" type="string">residential_demand</argument>
+            <argument name="sample_size_locations" type="integer">100</argument>
             <argument name="run_config" type="dictionary">
               <key name="supply_string" convert_blank_to_none="True" type="string">residential_supply=urbansim_parcel.building.vacant_residential_units</key>
             </argument>
+            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation_with_diagnose</argument>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="index_to_unplace" type="string">None</argument>
@@ -443,7 +449,32 @@
           <submodel name="submodel" submodel_id="-2" type="submodel" hidden="Children">
             <description type="string">submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_residential_units"/>
+              <variable_spec name="household_x_building.E_max_commute_distance"/>
+              <variable_spec name="household_x_building.E_max_commute_logsum"/>
+              <!--<variable_spec name="household_x_building.b_same_area_type"/>!-->
+              <variable_spec name="household_x_building.c_same_area"/>
+              <variable_spec name="building.Kitsap"/>
+              <variable_spec name="household_x_building.disposable_inc"/>
+             <!-- <variable_spec name="household_x_building.inc_x_condo"/>!-->
+            <!--  <variable_spec name="household_x_building.inc_x_mfr"/>!-->
+           <!--   <variable_spec name="household_x_building.income_x_size"/>!-->
+              <variable_spec name="household_x_building.kids_x_kids"/>
+            <!--  <variable_spec name="building.ln_residential_units"/>!-->
+             <!--  <variable_spec name="household_x_building.neigh_shopping"/>!-->
+              <variable_spec name="household_x_building.one_pers_x_not_sfr"/>
+              <variable_spec name="building.population_density"/>
+              <variable_spec name="household_x_building.renter_x_is_mfr"/>
+           <!--    <variable_spec name="building.sqft_per_unit"/>!-->
+           <!--   <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>!-->
+          <variable_spec name="household_x_building.housing_cost"/>
+         <!--   <variable_spec name="household_x_building.housing_affordability"/>
+           <variable_spec name="household_x_building.housing_unaffordability"/>!-->
+        <variable_spec name="building.iv_price_residual"/>
+        <variable_spec name="building.price_per_unit"/>
+        <!--<variable_spec name="building.iv_ln_price_residual"/>
+        <variable_spec name="building.ln_price_per_unit"/>!-->
+
+         <!--     <variable_spec name="building.ln_residential_units"/>
               <variable_spec name="household_x_building.same_area"/>
               <variable_spec name="household_x_building.same_area_type"/>
               <variable_spec name="building.Kitsap"/>
@@ -455,11 +486,11 @@
               <variable_spec name="household_x_building.renter_x_is_mfr"/>
               <variable_spec name="household_x_building.E_max_commute_logsum"/>
               <variable_spec name="household_x_building.E_max_network_distance"/>
-              <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>
+           <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>
               <variable_spec name="household_x_building.neigh_shopping"/>
               <variable_spec name="household_x_building.income_x_size"/>
               <variable_spec name="household_x_building.persons_x_size"/>
-              <variable_spec name="household_x_building.is_young_x_percent_young_households_within_walking_distance"/>
+              <variable_spec name="household_x_building.is_young_x_percent_young_households_within_walking_distance"/>!-->
             </variable_list>
           </submodel>
         </specification>
@@ -578,9 +609,10 @@
       <parent type="scenario_name">PSRC_baseline</parent>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2000</firstyear>
-        <lastyear type="integer">2002</lastyear>
+        <lastyear type="integer">2040</lastyear>
       </years_to_run>
       <flush_variables type="boolean">True</flush_variables>
+      <seed type="integer" convert_blank_to_none="True">1</seed>
       <models_in_year type="dictionary">
         <cache_latent_variables key_name="year" key_value="models" type="category_with_special_keys">
           <doesnotmatter type="dictionary">
@@ -589,6 +621,26 @@
           </doesnotmatter>
         </cache_latent_variables>
       </models_in_year>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/latent_demand</argument>
+        </argument>
+        <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
+        <argument name="advanced" type="category">
+          <baseyear_database_configuration config_name="scenario_database_configuration" type="class">
+            <class_name hidden="True" type="string">ScenarioDatabaseConfiguration</class_name>
+            <class_module hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</class_module>
+            <argument name="database_name" type="string">psrc_2000_parcel_baseyear_data</argument>
+          </baseyear_database_configuration>
+          <cache_from_database type="boolean">False</cache_from_database>
+          <cache_scenario_database type="string">urbansim.model_coordinators.cache_scenario_database</cache_scenario_database>
+              </argument>
+      </creating_baseyear_cache_configuration>
     </scenario>
   </scenario_manager>
   <results_manager>
