@@ -229,7 +229,9 @@
             <argument hidden="True" name="index" type="string">index</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
-            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <!--<argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>!-->
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression_r</argument>
+            <!--<argument name="procedure" parser_action="quote_string" type="string">opus_core.bma_for_linear_regression_r</argument>!-->
             <argument name="estimate_config" type="dictionary">
               <key name="submodel_size_max" type="integer">100000</key>
             </argument>
@@ -238,6 +240,7 @@
         </structure>
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">['household_relocation_model', 'household_location_choice_model']</config_override>
+          <seed type="integer" convert_blank_to_none="True">1</seed>
         </estimation_config>
         <specification type="dictionary">
           <submodel hidden="Children" name="civil" submodel_id="2" type="submodel">
@@ -300,21 +303,22 @@
               <variable_spec name="parcel.lnpopden"/>
               <variable_spec name="parcel.lnempden"/>
               <variable_spec name="parcel.lnavginc"/>
-              <variable_spec name="parcel.lnemp20wa"/>
+              <!--<variable_spec name="parcel.lnemp20wa"/>!-->
               <variable_spec name="parcel.lnemp10wa"/>
               <variable_spec name="parcel.lnemp20tw"/>
-              <variable_spec name="parcel.lnemp30tw"/>
+             <!-- <variable_spec name="parcel.lnemp30tw"/>!-->
               <variable_spec name="parcel.lnemp10da"/>
               <variable_spec name="parcel.lnemp20da"/>
               <variable_spec name="parcel.lngcdacbd"/>
               <variable_spec name="parcel.ln_invfar"/>
-              <variable_spec name="parcel.lnunits"/>
+             <!-- <variable_spec name="parcel.lnunits"/>!-->
               <variable_spec name="parcel.lnsqft"/>
               <variable_spec name="parcel.ln_bldgage"/>
               <variable_spec name="parcel.art300"/>
               <variable_spec name="constant"/>
-              <variable_spec name="parcel.submarket_demo_var"/>
+             <!-- <variable_spec name="parcel.submarket_demo_var"/>!-->
               <variable_spec name="parcel.submarket_dsratio"/>
+             <!-- <variable_spec name="parcel.submarket_dsdiff"/>!-->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="condominium" submodel_id="15" type="submodel">
@@ -331,6 +335,7 @@
               <variable_spec name="constant"/>
               <variable_spec name="parcel.submarket_demo_var"/>
               <variable_spec name="parcel.submarket_dsratio"/>
+              <variable_spec name="parcel.submarket_dsdiff"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="office" submodel_id="18" type="submodel">
@@ -365,7 +370,7 @@
             <variable_list type="variable_list">
               <variable_spec name="parcel.is_pre_1940"/>
               <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.lnpopden"/>
+              <!--<variable_spec name="parcel.lnpopden"/>!-->
               <variable_spec name="parcel.lnavginc"/>
               <variable_spec name="parcel.lnemp10da"/>
               <variable_spec name="parcel.lnemp20da"/>
@@ -376,11 +381,12 @@
               <variable_spec name="parcel.lnsqft"/>
               <variable_spec name="parcel.ln_bldgage"/>
               <variable_spec name="parcel.art600"/>
-              <variable_spec name="parcel.art300"/>
-              <variable_spec name="parcel.hwy2000"/>
+              <!--<variable_spec name="parcel.art300"/>!-->
+              <!--<variable_spec name="parcel.hwy2000"/>!-->
               <variable_spec name="constant"/>
               <variable_spec name="parcel.submarket_demo_var"/>
-              <variable_spec name="parcel.submarket_dsratio"/>
+              <!--<variable_spec name="parcel.submarket_dsratio"/>!-->
+              <variable_spec name="parcel.submarket_dsdiff"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="transportation" submodel_id="25" type="submodel">
@@ -412,12 +418,13 @@
           <submodel hidden="Children" name="mixed_use" submodel_id="30" type="submodel">
             <variable_list type="variable_list">
               <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.lnemp20tw"/>
+              <!--<variable_spec name="parcel.lnemp20tw"/>!-->
               <variable_spec name="parcel.lnunits"/>
               <variable_spec name="parcel.ln_bldgage"/>
               <variable_spec name="constant"/>
-              <variable_spec name="parcel.submarket_demo_var"/>
+              <!--<variable_spec name="parcel.submarket_demo_var"/>!-->
               <variable_spec name="parcel.submarket_dsratio"/>
+              <!--<variable_spec name="parcel.submarket_dsdiff"/>!-->
             </variable_list>
           </submodel>
         </specification>
@@ -430,7 +437,7 @@
         <structure type="dictionary">
           <init type="dictionary">
             <argument convert_blank_to_none="True" parser_action="quote_string" name="demand_string" type="string">residential_demand</argument>
-            <argument name="sample_size_locations" type="integer">100</argument>
+            <argument name="sample_size_locations" type="integer">30</argument>
             <argument name="run_config" type="dictionary">
               <key name="supply_string" convert_blank_to_none="True" type="string">residential_supply=urbansim_parcel.building.vacant_residential_units</key>
             </argument>
@@ -469,10 +476,10 @@
           <variable_spec name="household_x_building.housing_cost"/>
          <!--   <variable_spec name="household_x_building.housing_affordability"/>
            <variable_spec name="household_x_building.housing_unaffordability"/>!-->
-        <variable_spec name="building.iv_price_residual"/>
-        <variable_spec name="building.price_per_unit"/>
-        <!--<variable_spec name="building.iv_ln_price_residual"/>
-        <variable_spec name="building.ln_price_per_unit"/>!-->
+        <!--<variable_spec name="building.iv_price_residual"/>
+        <variable_spec name="building.price_per_unit"/>!-->
+        <variable_spec name="building.iv_ln_price_residual"/>
+        <variable_spec name="building.ln_price_per_unit"/>
 
          <!--     <variable_spec name="building.ln_residential_units"/>
               <variable_spec name="household_x_building.same_area"/>
