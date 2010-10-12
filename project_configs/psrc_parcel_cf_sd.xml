@@ -4,9 +4,11 @@
     <description type="string">Configuration for the PSRC parcel project - with Control Function and SD variable</description>
     <parent type="file">psrc_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" source="Python class" name="household_x_building.E_avg_network_distance" type="variable_definition">psrc_parcel.household_x_building.avg_network_distance_from_home_to_work</variable>
       <variable use="model variable" source="expression" name="household_x_building.housing_affordability" type="variable_definition">(urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income) &lt; .25 * ((urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income)-.25)**2</variable>
       <variable use="model variable" source="expression" name="household_x_building.housing_unaffordability" type="variable_definition">(urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income)&gt; .4 * ((urbansim_parcel.building.unit_price/10.0 * urbansim_parcel.building.building_sqft_per_unit/household.income)-.4)</variable>
       <variable use="model variable" source="expression" name="household_x_building.housing_cost" type="variable_definition">ln((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/household.income)</variable>
+      <variable use="model variable" source="expression" name="household_x_building.housing_range" type="variable_definition">numpy.logical_or(((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/household.income) &lt; .1, (((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/household.income)&gt;.3))</variable>
       <variable use="both" source="expression" name="building.bdiff_demand_supply" type="variable_definition">building.residential_demand - building.residential_supply</variable>
       <variable use="both" source="primary attribute" name="building.bresidential_demand" type="variable_definition">building.residential_demand</variable>
       <variable use="both" source="expression" name="building.blndemand" type="variable_definition">ln(building.residential_demand)</variable>
@@ -456,12 +458,12 @@
           <submodel name="submodel" submodel_id="-2" type="submodel" hidden="Children">
             <description type="string">submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.E_max_commute_distance"/>
+              <variable_spec name="household_x_building.E_avg_network_distance"/>
               <variable_spec name="household_x_building.E_max_commute_logsum"/>
               <!--<variable_spec name="household_x_building.b_same_area_type"/>!-->
               <variable_spec name="household_x_building.c_same_area"/>
               <variable_spec name="building.Kitsap"/>
-              <variable_spec name="household_x_building.disposable_inc"/>
+             <!-- <variable_spec name="household_x_building.disposable_inc"/>!-->
              <!-- <variable_spec name="household_x_building.inc_x_condo"/>!-->
             <!--  <variable_spec name="household_x_building.inc_x_mfr"/>!-->
            <!--   <variable_spec name="household_x_building.income_x_size"/>!-->
@@ -469,11 +471,11 @@
             <!--  <variable_spec name="building.ln_residential_units"/>!-->
              <!--  <variable_spec name="household_x_building.neigh_shopping"/>!-->
               <variable_spec name="household_x_building.one_pers_x_not_sfr"/>
-              <variable_spec name="building.population_density"/>
+            <!--  <variable_spec name="building.population_density"/>!-->
               <variable_spec name="household_x_building.renter_x_is_mfr"/>
            <!--    <variable_spec name="building.sqft_per_unit"/>!-->
            <!--   <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>!-->
-          <variable_spec name="household_x_building.housing_cost"/>
+          <variable_spec name="household_x_building.housing_range"/>
          <!--   <variable_spec name="household_x_building.housing_affordability"/>
            <variable_spec name="household_x_building.housing_unaffordability"/>!-->
         <!--<variable_spec name="building.iv_price_residual"/>
