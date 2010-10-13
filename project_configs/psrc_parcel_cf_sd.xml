@@ -24,6 +24,7 @@
       <variable use="both" source="expression" name="parcel.sdratio" type="variable_definition">safe_array_divide(parcel.aggregate(building.residential_supply), parcel.aggregate(building.residential_demand))</variable>
       <variable use="both" source="expression" name="parcel.submarket_demo_var" type="variable_definition">parcel.disaggregate(submarket.aggregate(urbansim_parcel.building.number_of_households, intermediates=[parcel]) - submarket.aggregate(building.residential_units, intermediates=[parcel]))</variable>
       <variable use="both" source="expression" name="parcel.submarket_dsdiff" type="variable_definition">parcel.disaggregate(submarket.aggregate(building.residential_demand, intermediates=[parcel]) - submarket.aggregate(building.residential_supply, intermediates=[parcel]))</variable>
+      <variable use="both" source="expression" name="parcel.submarket_dsratio_minus_occupancy" type="variable_definition">parcel.disaggregate(-1 * safe_array_divide(submarket.aggregate(urbansim_parcel.building.number_of_households, intermediates=[parcel]), submarket.aggregate(urbansim_parcel.building.residential_units, intermediates=[parcel])) + safe_array_divide(submarket.aggregate(building.residential_demand, intermediates=[parcel]), submarket.aggregate(building.residential_supply, intermediates=[parcel])))</variable>
       <variable use="both" source="expression" name="parcel.submarket_dsratio" type="variable_definition">parcel.disaggregate(safe_array_divide(submarket.aggregate(building.residential_demand, intermediates=[parcel]), submarket.aggregate(building.residential_supply, intermediates=[parcel])))</variable>
       <variable dataset="person_trip_x_zone" use="model variable" source="Python class" name="single_vehicle_to_work_travel_time" type="variable_definition">urbansim.person_trip_x_zone.from_origin_to_destination_travel_data_am_single_vehicle_to_work_travel_time</variable>
       <variable dataset="None" use="model variable" source="expression" name="income_x_num_of_retail_jobs" type="variable_definition">person_trip.disaggregate(household.income, intermediates=[person]) * urbansim_parcel.zone.number_of_jobs_of_sector_14</variable>
@@ -319,8 +320,9 @@
               <variable_spec name="parcel.art300"/>
               <variable_spec name="constant"/>
              <!-- <variable_spec name="parcel.submarket_demo_var"/>!-->
-              <variable_spec name="parcel.submarket_dsratio"/>
+             <!--  <variable_spec name="parcel.submarket_dsratio"/>!-->
              <!-- <variable_spec name="parcel.submarket_dsdiff"/>!-->
+             <variable_spec name="parcel.submarket_dsratio_minus_occupancy"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="condominium" submodel_id="15" type="submodel">
@@ -328,16 +330,17 @@
             <variable_list type="variable_list">
               <variable_spec name="parcel.lnavginc"/>
               <variable_spec name="parcel.lnemp10da"/>
-              <variable_spec name="parcel.lnemp20da"/>
-              <variable_spec name="parcel.lnemp30da"/>
+             <!-- <variable_spec name="parcel.lnemp20da"/>!-->
+             <!-- <variable_spec name="parcel.lnemp30da"/>!-->
               <variable_spec name="parcel.lngcdacbd"/>
               <variable_spec name="parcel.lnunits"/>
               <variable_spec name="parcel.art600"/>
-              <variable_spec name="parcel.hwy2000"/>
+              <!--<variable_spec name="parcel.hwy2000"/>!-->
               <variable_spec name="constant"/>
-              <variable_spec name="parcel.submarket_demo_var"/>
-              <variable_spec name="parcel.submarket_dsratio"/>
-              <variable_spec name="parcel.submarket_dsdiff"/>
+             <!-- <variable_spec name="parcel.submarket_demo_var"/>!-->
+             <!-- <variable_spec name="parcel.submarket_dsratio"/>!-->
+             <!-- <variable_spec name="parcel.submarket_dsdiff"/>!-->
+             <variable_spec name="parcel.submarket_dsratio_minus_occupancy"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="office" submodel_id="18" type="submodel">
@@ -386,9 +389,10 @@
               <!--<variable_spec name="parcel.art300"/>!-->
               <!--<variable_spec name="parcel.hwy2000"/>!-->
               <variable_spec name="constant"/>
-              <variable_spec name="parcel.submarket_demo_var"/>
+              <!--<variable_spec name="parcel.submarket_demo_var"/>!-->
               <!--<variable_spec name="parcel.submarket_dsratio"/>!-->
-              <variable_spec name="parcel.submarket_dsdiff"/>
+              <!--<variable_spec name="parcel.submarket_dsdiff"/>!-->
+              <variable_spec name="parcel.submarket_dsratio_minus_occupancy"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="transportation" submodel_id="25" type="submodel">
@@ -425,8 +429,9 @@
               <variable_spec name="parcel.ln_bldgage"/>
               <variable_spec name="constant"/>
               <!--<variable_spec name="parcel.submarket_demo_var"/>!-->
-              <variable_spec name="parcel.submarket_dsratio"/>
+              <!--<variable_spec name="parcel.submarket_dsratio"/>!-->
               <!--<variable_spec name="parcel.submarket_dsdiff"/>!-->
+              <variable_spec name="parcel.submarket_dsratio_minus_occupancy"/>
             </variable_list>
           </submodel>
         </specification>
@@ -440,10 +445,16 @@
           <init type="dictionary">
             <argument convert_blank_to_none="True" parser_action="quote_string" name="demand_string" type="string">residential_demand</argument>
             <argument name="sample_size_locations" type="integer">30</argument>
+            <argument name="number_of_units_string" type="string" convert_blank_to_none="True" parser_action="quote_string"/>
+            <argument name="number_of_agents_string" type="string" convert_blank_to_none="True" parser_action="quote_string"/>
+            <!--<argument name="capacity_string" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_residential_units &gt; 0</argument>!-->
+            <argument name="capacity_string" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_residential_units</argument>
             <argument name="run_config" type="dictionary">
-              <key name="supply_string" convert_blank_to_none="True" type="string">residential_supply=urbansim_parcel.building.vacant_residential_units</key>
+              <!--<key name="supply_string" convert_blank_to_none="True" type="string">residential_supply=urbansim_parcel.building.vacant_residential_units</key>!-->
+              <key name="supply_string" convert_blank_to_none="True" type="string">residential_supply=urbansim_parcel.building.residential_units</key>
             </argument>
             <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation_with_diagnose</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="index_to_unplace" type="string">None</argument>
