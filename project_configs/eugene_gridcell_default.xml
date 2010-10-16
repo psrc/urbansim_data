@@ -7,13 +7,75 @@
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="zone_indicator_batch" type="indicator_batch">
-        <batch_visualization hidden="Children" type="batch_visualization" name="jobs">
+        <batch_visualization hidden="Children" type="batch_visualization" name="land_value">
+          <indicators>['land_value']</indicators>
+          <output_type>mapnik_map</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <dataset_name>gridcell</dataset_name>
+          <visualization_type>mapnik_map</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="population_density">
+          <indicators>['population_density']</indicators>
+          <output_type>mapnik_map</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <dataset_name>gridcell</dataset_name>
+          <visualization_type>mapnik_map</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="population">
           <settings>
             <setting name="mapnik_bucket_labels">range_labels</setting>
             <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
             <setting name="mapnik_map_lower_left">0.5,0.5</setting>
             <setting name="mapnik_page_dims">8.5,5.5</setting>
             <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['population']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>gridcell</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="gridcell_table">
+          <indicators>['population', 'population_density', 'land_value']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>gridcell</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="jobs">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#fee0d2,#fcbba1,#fc9272,#fb6a4a,#ef3b2c,#cb181d,#b0171f,#a50f15,#67000d,#400000</setting>
             <setting name="mapnik_map_upper_right">6.0,5.0</setting>
             <setting name="mapnik_resolution">96</setting>
             <setting name="mapnik_bucket_ranges">linear_scale</setting>
@@ -39,7 +101,7 @@
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
     </simulation_runs>
   </results_manager>
 </opus_project>
