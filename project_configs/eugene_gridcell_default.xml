@@ -89,12 +89,6 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs followers="Results" name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
-        <scenario_name type="string"/>
-        <cache_directory type="string">C:\opus\data\eugene_gridcell\base_year_data</cache_directory>
-        <start_year type="integer">1980</start_year>
-        <end_year type="integer">1980</end_year>
-      </run>
     </simulation_runs>
   </results_manager>
 </opus_project>
