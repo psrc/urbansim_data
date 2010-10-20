@@ -9,6 +9,34 @@
     </dataset_pool_configuration>
     <available_datasets type="list">['job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="alldata.total_hholds_sf" type="variable_definition">alldata.aggregate_all(household.multi_unit==0)</variable>
+      <variable use="both" source="expression" name="alldata.total_hholds_mf" type="variable_definition">alldata.aggregate_all(household.multi_unit&gt;0)</variable>
+      <variable use="both" source="expression" name="alldata.total_res_units_sf_sm" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==3))</variable>
+      <variable use="both" source="expression" name="alldata.total_res_units_sf_md" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==2))</variable>
+      <variable use="both" source="expression" name="alldata.total_res_units_sf_lg" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==1))</variable>
+      <variable use="both" source="expression" name="alldata.total_res_units_sf_att" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==4))</variable>
+      <variable use="both" source="expression" name="alldata.total_res_units_mid" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==5))</variable>
+      <variable use="both" source="expression" name="alldata.total_res_units_high" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==6))</variable>
+      <variable use="both" source="expression" name="zone.zone_res_units" type="variable_definition">zone.aggregate(building.residential_units)</variable>
+      <variable use="both" source="expression" name="zone.zone_households" type="variable_definition">zone.number_of_agents(household)</variable>
+      <variable use="both" source="expression" name="zone.zone_hholds_mf" type="variable_definition">zone.aggregate(household.multi_unit&gt;0)</variable>
+      <variable use="both" source="expression" name="zone.zone_hholds_sf" type="variable_definition">zone.aggregate(household.multi_unit==0)</variable>
+      <variable use="both" source="expression" name="zone.non_res_sqft_office_high" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==14))</variable>
+      <variable use="both" source="expression" name="zone.non_res_sqft_office_low" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==13))</variable>
+      <variable use="both" source="expression" name="zone.non_res_sqft_mall_big" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==12))</variable>
+      <variable use="both" source="expression" name="zone.non_res_sqft_retail" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==11))</variable>
+      <variable use="both" source="expression" name="zone.non_res_sqft_warehouse" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==10))</variable>
+      <variable use="both" source="expression" name="zone.non_res_sqft_indus" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==9))</variable>
+      <variable use="both" source="expression" name="zone.res_units_high" type="variable_definition">zone.aggregate(building.residential_units*(building.building_type_id==6))</variable>
+      <variable use="both" source="expression" name="zone.res_units_mid" type="variable_definition">zone.aggregate(building.residential_units*(building.building_type_id==5))</variable>
+      <variable use="both" source="expression" name="zone.res_units_sf_att" type="variable_definition">zone.aggregate(building.residential_units*(building.building_type_id==4))</variable>
+      <variable use="both" source="expression" name="zone.res_units_sf_sm" type="variable_definition">zone.aggregate(building.residential_units*(building.building_type_id==3))</variable>
+      <variable use="both" source="expression" name="zone.res_units_sf_md" type="variable_definition">zone.aggregate(building.residential_units*(building.building_type_id==2))</variable>
+      <variable use="both" source="expression" name="zone.res_units_sf_lg" type="variable_definition">zone.aggregate(building.residential_units*(building.building_type_id==1))</variable>
+      <variable use="both" source="expression" name="building.zone_emp_finance_prof_density" type="variable_definition">building.disaggregate(zone.aggregate(job.sector_id==4)/zone.acres)</variable>
+      <variable use="both" source="expression" name="building.zone_emp_retail_density" type="variable_definition">building.disaggregate(zone.aggregate(job.sector_id==3)/zone.acres)</variable>
+      <variable use="both" source="expression" name="building.zone_emp_manuf_density" type="variable_definition">building.disaggregate(zone.aggregate(job.sector_id==2)/zone.acres)</variable>
+      <variable use="model variable" source="expression" name="building.ln_pop_30_min" type="variable_definition">ln_bounded(building.disaggregate(urbansim_zone.zone.population_within_3000_drive_alone_am_time_threshold))</variable>
       <variable use="both" source="Python class" name="zone.zone_emp_finance_prof_30_min_drive_1" type="variable_definition">urbansim_zone.zone.emp_finance_prof_within_3000_drive_alone_am_time_threshold</variable>
       <variable use="both" source="expression" name="zone.zone_percent_renters" type="variable_definition">safe_array_divide(zone.aggregate(household.ownrent==2),zone.number_of_agents(household))*100.0</variable>
       <variable use="both" source="expression" name="zone.university_students" type="variable_definition">zone.aggregate(household.university)</variable>
@@ -21,19 +49,19 @@
       <variable use="both" source="expression" name="zone.zone_emp_agric" type="variable_definition">zone.aggregate(job.sector_id==1)</variable>
       <variable use="both" source="expression" name="zone.zone_ln_pop_10_min" type="variable_definition">ln_bounded(urbansim_zone.zone.population_within_10_am_lov_time_threshold)</variable>
       <variable use="model variable" source="expression" name="household_x_building.ln_inc_avg_inc" type="variable_definition">ln_bounded(household.income * building.aggregate(household.income, function=mean))</variable>
-      <variable use="model variable" source="expression" name="building.ln_emp_10_min" type="variable_definition">ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_10_am_lov_time_threshold))</variable>
+      <variable use="model variable" source="expression" name="building.ln_emp_10_min" type="variable_definition">ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_1000_drive_alone_am_time_threshold))</variable>
       <variable use="both" source="expression" name="zone.zone_total_jobs" type="variable_definition">zone.number_of_agents(job)</variable>
-      <variable use="model variable" source="expression" name="building.zone_area_bldg" type="variable_definition">building.disaggregate(zone.area)</variable>
+      <variable use="model variable" source="expression" name="building.zone_area_bldg" type="variable_definition">building.disaggregate(zone.acres)</variable>
       <variable use="model variable" source="expression" name="building.ln_households" type="variable_definition">ln(building.number_of_agents(household))</variable>
       <variable use="indicator" source="expression" name="alldata.total_population" type="variable_definition">alldata.aggregate_all(household.persons)</variable>
       <variable use="indicator" source="expression" name="alldata.total_employment" type="variable_definition">alldata.aggregate_all(urbansim_zone.zone.number_of_jobs)</variable>
       <variable use="both" source="expression" name="zone.zone_pop_density" type="variable_definition">(zone.aggregate(household.persons))/zone.acres</variable>
       <variable use="both" source="expression" name="zone.zone_job_density" type="variable_definition">(zone.number_of_agents(job))/zone.acres</variable>
       <variable use="model variable" source="expression" name="building.ln_employees" type="variable_definition">ln_bounded(building.number_of_agents(job))</variable>
-      <variable use="model variable" source="expression" name="building.ln_job_density_zone" type="variable_definition">building.disaggregate(zone.number_of_agents(job)/zone.area)/1000</variable>
+      <variable use="model variable" source="expression" name="building.ln_job_density_zone" type="variable_definition">building.disaggregate(zone.number_of_agents(job)/zone.acres)</variable>
       <variable use="model variable" source="expression" name="building.ln_pop_density_zone" type="variable_definition">building.disaggregate(zone.aggregate(household.persons)/zone.acres)</variable>
       <variable use="both" source="expression" name="zone.zone_ln_emp_10_min" type="variable_definition">ln_bounded(urbansim_zone.zone.number_of_jobs_within_10_drive_alone_am_time_threshold/100)</variable>
-      <variable use="model variable" source="expression" name="building.ln_emp_30_min" type="variable_definition">ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_30_am_lov_time_threshold))</variable>
+      <variable use="model variable" source="expression" name="building.ln_emp_30_min" type="variable_definition">ln_bounded(building.disaggregate(urbansim_zone.zone.number_of_jobs_within_3000_drive_alone_am_time_threshold))</variable>
       <variable use="model variable" source="expression" name="building.ln_mf_units" type="variable_definition">ln_bounded((building.building_type_id==2)*building.residential_units)</variable>
       <variable use="model variable" source="expression" name="building.ln_residential_units" type="variable_definition">ln_bounded(building.residential_units)</variable>
       <variable use="indicator" source="expression" name="zone.zone_avg_cars" type="variable_definition">zone.aggregate(household.cars)/zone.number_of_agents(household)</variable>
@@ -398,67 +426,136 @@
         </specification>
       </model>
       <model name="real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">ln_average_value_per_unit=ln_bounded(building.average_value_per_unit)</argument>
+          </init>
+          <estimate type="dictionary">
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">ln_average_value_per_unit=ln_bounded(building.average_value_per_unit)</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <argument convert_blank_to_none="True" name="filter_variable" type="string">"(building.average_value_per_unit&gt;0)"</argument>
+          </prepare_for_estimate>
+        </structure>
         <specification type="dictionary">
-          <submodel hidden="Children" name="mf residential" submodel_id="3" type="submodel">
-            <description type="string">MF Residential</description>
+          <submodel hidden="Children" name="sf_res_lg" submodel_id="1" type="submodel">
+            <description type="string">Single Family Residential Large Lot</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income"/>
               <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
               <variable_spec name="building.ln_job_density_zone"/>
               <variable_spec name="building.ln_land_per_unit"/>
-              <variable_spec name="building.schl_dist1"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
-            <description type="string">Office</description>
+          <submodel hidden="Children" name="sf_res_md" submodel_id="2" type="submodel">
+            <description type="string">Single Family Residential Medium Lot</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income_zonal"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.ln_inv_far"/>
+              <variable_spec name="building.ln_emp_30_min"/>
               <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_jobs_within_30_min"/>
-              <variable_spec name="building.schl_dist1"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="other" submodel_id="6" type="submodel">
-            <description type="string">Other</description>
-            <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income_zonal"/>
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_inv_far"/>
-              <variable_spec name="building.ln_job_density_zone"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
-            <description type="string">Retail</description>
-            <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income_zonal"/>
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_inv_far"/>
-              <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_jobs_within_30_min"/>
-              <variable_spec name="building.schl_dist1"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="sf residential" submodel_id="9" type="submodel">
-            <description type="string">SF Residential</description>
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.ln_avg_hh_income"/>
-              <variable_spec name="building.ln_jobs_within_30_min"/>
               <variable_spec name="building.ln_land_per_unit"/>
-              <variable_spec name="building.schl_dist1"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="sf_res_sm" submodel_id="3" type="submodel">
+            <description type="string">Single Family Residential Small Lot</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_land_per_unit"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="res_sf_att" submodel_id="4" type="submodel">
+            <description type="string">Single Family Residential Attached</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_land_per_unit"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="res_mid" submodel_id="5" type="submodel">
+            <description type="string">Residential Multi-family Mid-density</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_land_per_unit"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="res_hi" submodel_id="6" type="submodel">
+            <description type="string">Residential Multi-family High Density</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_land_per_unit"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="industrial" submodel_id="9" type="submodel">
+            <description type="string">Industrial</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_emp_manuf_density"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="warehouse" submodel_id="10" type="submodel">
             <description type="string">Warehouse</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
-              <variable_spec name="building.ln_avg_hh_income_zonal"/>
-              <variable_spec name="building.ln_inv_far"/>
+              <variable_spec name="building.ln_emp_30_min"/>
               <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_jobs_within_30_min"/>
-              <variable_spec name="building.schl_dist1"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_emp_manuf_density"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="retail" submodel_id="11" type="submodel">
+            <description type="string">Retail</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_emp_retail_density"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="mall_big" submodel_id="12" type="submodel">
+            <description type="string">Large Mall</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_emp_retail_density"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="office_low" submodel_id="13" type="submodel">
+            <description type="string">Office Low Density</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_emp_finance_prof_density"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="office_hi" submodel_id="14" type="submodel">
+            <description type="string">Office High Density</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"/>
+              <variable_spec name="building.ln_emp_30_min"/>
+              <variable_spec name="building.ln_job_density_zone"/>
+              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_emp_finance_prof_density"/>
             </variable_list>
           </submodel>
         </specification>
@@ -472,7 +569,7 @@
         <selectable name="job" type="selectable">True</selectable>
       </datasets_to_preload>
       <save_estimation_results type="boolean">True</save_estimation_results>
-      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">durham_zone/base_year_data</cache_directory>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">bay_area_zone/base_year_data</cache_directory>
       <estimation_database_configuration type="class">
         <class_name hidden="True" type="string">EstimationDatabaseConfiguration</class_name>
         <class_module hidden="True" type="string">opus_core.database_management.configurations.estimation_database_configuration</class_module>
@@ -510,7 +607,7 @@
         <firstyear type="integer">2001</firstyear>
         <lastyear type="integer">2003</lastyear>
       </years_to_run>
-      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">durham_zone/base_year_data</cache_directory>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_zone/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
@@ -603,6 +700,44 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="residential_units">
+        <batch_visualization hidden="Children" type="batch_visualization" name="households_jobs">
+          <indicators>['total_hholds_sf', 'total_hholds_mf', 'total_population', 'total_employment']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">2</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="regional_summary">
+          <indicators>['total_res_units_sf_sm', 'total_res_units_sf_md', 'total_res_units_sf_lg', 'total_res_units_sf_att', 'total_res_units_mid', 'total_res_units_high']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">2</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="residential_units_and_households">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0,#c7e9c0,#a1d99b,#7ccd7c,#74c476,#41ab5d,#238b45,#006400,#00441b,#00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="output_style">2</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['zone_households', 'zone_hholds_mf', 'zone_hholds_sf', 'res_units_high', 'res_units_mid', 'res_units_sf_att', 'res_units_sf_sm', 'res_units_sf_md', 'res_units_sf_lg', 'zone_res_units']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="zone_household_characteristics">
         <batch_visualization hidden="Children" type="batch_visualization" name="percent_renters">
           <settings>
