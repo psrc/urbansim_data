@@ -242,6 +242,12 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
   </model_manager>
   <scenario_manager>
+    <scenario executable="True" name="PSRC_full_TM" type="scenario">
+      <seed type="integer" convert_blank_to_none="True">1</seed>
+      <advanced type="category">
+        <flush_variables type="boolean">True</flush_variables>
+      </advanced>
+    </scenario>
     <scenario type="scenario" executable="True" name="psrc_wo_latent_demand_supply">
       <parent type="scenario_name">PSRC_baseline</parent>
       <years_to_run config_name="years" type="tuple">
