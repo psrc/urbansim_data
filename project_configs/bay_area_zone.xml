@@ -120,7 +120,7 @@
             <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">jobs</argument>
           </prepare_for_estimate>
         </structure>
-        <specification type="dictionary">
+        <specification type="dictionary" inherit_parent_values="False">
           <submodel_group name="home_based" type="submodel_group">
             <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
               <description type="string">No submodel</description>
@@ -176,7 +176,7 @@
                 <variable_spec name="building.ln_price"/>
               </variable_list>
             </submodel>
-            <submodel hidden="Children" name="health_educ" submodel_id="5" type="submodel" inherit_parent_values="False">
+            <submodel hidden="Children" name="health_educ" submodel_id="5" type="submodel" >
               <description type="string">Health and Educational Services</description>
               <variable_list type="variable_list">
                 <variable_spec name="building.emp_frac_healthed"/>
@@ -224,8 +224,8 @@
             <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">households</argument>
           </prepare_for_estimate>
         </structure>
-        <specification type="dictionary">
-          <submodel name="income_1" submodel_id="1" type="submodel" hidden="Children" inherit_parent_values="False">
+        <specification type="dictionary" inherit_parent_values="False">
+          <submodel name="income_1" submodel_id="1" type="submodel" hidden="Children" >
             <description type="string">submodel1</description>
             <variable_list type="variable_list">
               <variable_spec name="building.emp_retail_200"/>
@@ -238,7 +238,7 @@
               <variable_spec name="building.transit_access_ratio"/>
             </variable_list>
           </submodel>
-          <submodel name="income_2" submodel_id="2" type="submodel" hidden="Children" inherit_parent_values="False">
+          <submodel name="income_2" submodel_id="2" type="submodel" hidden="Children">
             <description type="string">submodel2</description>
             <variable_list type="variable_list">
               <variable_spec name="building.emp_retail_200"/>
@@ -251,7 +251,7 @@
               <variable_spec name="building.transit_access_ratio"/>
             </variable_list>
           </submodel>
-          <submodel name="income_3" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
+          <submodel name="income_3" submodel_id="3" type="submodel" hidden="Children">
             <description type="string">submodel3</description>
             <variable_list type="variable_list">
               <variable_spec name="building.emp_retail_200"/>
@@ -264,7 +264,7 @@
               <variable_spec name="building.transit_access_ratio"/>
             </variable_list>
           </submodel>
-          <submodel name="income_4" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
+          <submodel name="income_4" submodel_id="4" type="submodel" hidden="Children">
             <description type="string">submodel4</description>
             <variable_list type="variable_list">
               <variable_spec name="building.emp_retail_200"/>
