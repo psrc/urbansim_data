@@ -7,8 +7,18 @@
     <dataset_pool_configuration type="class">
       <argument name="package_order" type="list">['urbansim_zone', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
+    <available_datasets type="list">['development_project_x_building','job','building','household_x_building','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="development_project_x_building.ln_units_x_unit_price" type="variable_definition">ln_bounded(development_project.residential_units*building.average_value_per_unit)</variable>
+      <variable use="both" source="expression" name="development_project_x_building.ln_units_x_building_units" type="variable_definition">ln_bounded(development_project.residential_units*building.residential_units)</variable>
+      <variable use="both" source="expression" name="building.ln_bldg_non_res_sqft_whse" type="variable_definition">ln_bounded(building.non_residential_sqft*(building.building_type_id==4))</variable>
+      <variable use="both" source="expression" name="building.ln_bldg_non_res_sqft_retail" type="variable_definition">ln_bounded(building.non_residential_sqft*(building.building_type_id==5))</variable>
+      <variable use="both" source="expression" name="building.ln_bldg_non_res_sqft_other" type="variable_definition">ln_bounded(building.non_residential_sqft*(building.building_type_id==8))</variable>
+      <variable use="both" source="expression" name="building.ln_bldg_non_res_sqft_office" type="variable_definition">ln_bounded(building.non_residential_sqft*(building.building_type_id==6))</variable>
+      <variable use="both" source="expression" name="building.ln_bldg_non_res_sqft_indus" type="variable_definition">ln_bounded(building.non_residential_sqft*(building.building_type_id==3))</variable>
+      <variable use="both" source="expression" name="building.ln_bldg_non_res_sqft_govt" type="variable_definition">ln_bounded(building.non_residential_sqft*(building.building_type_id==7))</variable>
+      <variable use="both" source="expression" name="development_project_x_building.units_x_zone_size" type="variable_definition">development_project.residential_units*building.disaggregate(zone.acres)</variable>
+      <variable use="both" source="expression" name="building.zone_size" type="variable_definition">ln(building.disaggregate(zone.acres))</variable>
       <variable use="both" source="expression" name="building.emp_frac_other" type="variable_definition">building.disaggregate(safe_array_divide(zone.aggregate(job.sector_id==6),zone.number_of_agents(job)))</variable>
       <variable use="both" source="expression" name="building.emp_frac_healthed" type="variable_definition">building.disaggregate(safe_array_divide(zone.aggregate(job.sector_id==5),zone.number_of_agents(job)))</variable>
       <variable use="both" source="expression" name="building.emp_frac_finprof" type="variable_definition">building.disaggregate(safe_array_divide(zone.aggregate(job.sector_id==4),zone.number_of_agents(job)))</variable>
@@ -176,7 +186,7 @@
                 <variable_spec name="building.ln_price"/>
               </variable_list>
             </submodel>
-            <submodel hidden="Children" name="health_educ" submodel_id="5" type="submodel" >
+            <submodel hidden="Children" name="health_educ" submodel_id="5" type="submodel">
               <description type="string">Health and Educational Services</description>
               <variable_list type="variable_list">
                 <variable_spec name="building.emp_frac_healthed"/>
@@ -225,7 +235,7 @@
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary" inherit_parent_values="False">
-          <submodel name="income_1" submodel_id="1" type="submodel" hidden="Children" >
+          <submodel name="income_1" submodel_id="1" type="submodel" hidden="Children">
             <description type="string">submodel1</description>
             <variable_list type="variable_list">
               <variable_spec name="building.emp_retail_200"/>
@@ -436,80 +446,72 @@
       </model>
       <model name="residential_development_project_location_choice_model" type="model">
         <specification type="dictionary">
-          <submodel hidden="Children" name="mf_residential" submodel_id="3" type="submodel">
+          <submodel hidden="Children" name="mf_residential" submodel_id="2" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_job_density_zone"/>
               <variable_spec name="building.ln_mf_units"/>
-              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="sf_residential" submodel_id="9" type="submodel">
+          <submodel hidden="Children" name="sf_residential" submodel_id="1" type="submodel">
             <description type="string">sf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_job_density_zone"/>
-              <variable_spec name="building.ln_mf_units"/>
+              <variable_spec name="building.ln_price"/>
               <variable_spec name="building.ln_sf_units"/>
-              <variable_spec name="building.ln_zonal_avg_income"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
         </specification>
       </model>
       <model name="non_residential_development_project_location_choice_model" type="model">
         <specification type="dictionary">
-          <submodel hidden="Children" name="government" submodel_id="1" type="submodel">
-            <description type="string">government</description>
+          <submodel hidden="Children" name="industrial" submodel_id="3" type="submodel">
+            <description type="string">Industrial</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-              <variable_spec name="building.ln_jobs_in_zone"/>
-              <variable_spec name="building.ln_pop_zone"/>
+              <variable_spec name="building.ln_bldg_non_res_sqft_indus"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
-            <description type="string">office</description>
+          <submodel hidden="Children" name="warehouse" submodel_id="4" type="submodel">
+            <description type="string">Warehouse</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_avg_value_per_sqft_office"/>
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-              <variable_spec name="building.ln_zonal_emp_30_min"/>
-              <variable_spec name="building.ln_pop_density_zone"/>
+              <variable_spec name="building.ln_bldg_non_res_sqft_whse"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="other" submodel_id="6" type="submodel">
-            <description type="string">Other Use</description>
+          <submodel hidden="Children" name="retail" submodel_id="5" type="submodel">
+            <description type="string">Retail</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_average_value_per_sqft"/>
-              <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-              <variable_spec name="building.ln_zonal_emp_30_min"/>
+              <variable_spec name="building.ln_bldg_non_res_sqft_retail"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
-            <description type="string">retail</description>
+          <submodel hidden="Children" name="office" submodel_id="6" type="submodel">
+            <description type="string">Office</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_avg_value_per_sqft_retail"/>
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-              <variable_spec name="building.ln_zonal_emp_30_min"/>
-              <variable_spec name="building.zonal_retail_emp_15_min"/>
+              <variable_spec name="building.ln_bldg_non_res_sqft_office"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="school" submodel_id="8" type="submodel">
-            <description type="string">office</description>
+          <submodel hidden="Children" name="government" submodel_id="7" type="submodel">
+            <description type="string">Government</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_average_value_per_sqft"/>
-              <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-              <variable_spec name="building.ln_zonal_emp_30_min"/>
+              <variable_spec name="building.ln_bldg_non_res_sqft_govt"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="warehouse" submodel_id="10" type="submodel">
-            <description type="string">warehouse</description>
+          <submodel hidden="Children" name="other" submodel_id="8" type="submodel">
+            <description type="string">Other</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.ln_zonal_avg_income"/>
-              <variable_spec name="building.ln_avg_value_per_sqft_whse"/>
-              <variable_spec name="building.ln_zonal_dev_acre"/>
-              <variable_spec name="building.ln_zonal_emp_30_min"/>
+              <variable_spec name="building.ln_bldg_non_res_sqft_other"/>
+              <variable_spec name="building.ln_price"/>
+              <variable_spec name="building.zone_size"/>
             </variable_list>
           </submodel>
         </specification>
