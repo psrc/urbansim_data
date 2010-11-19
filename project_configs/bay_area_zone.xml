@@ -445,7 +445,7 @@
         </specification>
       </model>
       <model name="residential_development_project_location_choice_model" type="model">
-        <specification type="dictionary">
+        <specification type="dictionary" inherit_parent_values="False">
           <submodel hidden="Children" name="mf_residential" submodel_id="2" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
