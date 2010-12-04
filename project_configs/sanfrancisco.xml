@@ -154,18 +154,18 @@
       <variable use="indicator" source="expression" name="zone.emp_vis" type="variable_definition">sanfrancisco.zone.employment_of_activity_visitor</variable>
       <variable use="indicator" source="expression" name="zone.hh" type="variable_definition">sanfrancisco.zone.number_of_households</variable>
       <variable use="indicator" source="expression" name="zone.pop" type="variable_definition">sanfrancisco.zone.population</variable>
-      <variable use="indicator" source="expression" name="zone.avginc89" type="variable_definition">sanfrancisco.zone.average_income*0.7328*1000.0*2.4</variable>
-      <variable use="indicator" source="expression" name="zone.avgincgrowth89" type="variable_definition">0.7328*1000.0*sanfrancisco.zone.absolute_average_income_difference_from_2010</variable>
+      <variable use="indicator" source="expression" name="zone.avginc89" type="variable_definition">sanfrancisco.zone.avginc_adj*0.7328*1000.0</variable>
+      <variable use="indicator" source="expression" name="zone.avgincgrowth89" type="variable_definition">0.7328*1000.0*sanfrancisco.zone.absolute_avginc_adj_difference_from_2010</variable>
       <variable use="indicator" source="expression" name="zone.empres" type="variable_definition">sanfrancisco.zone.empres</variable>
       <variable use="indicator" source="expression" name="zone.empresgrowth" type="variable_definition">sanfrancisco.zone.absolute_empres_difference_from_2010</variable>
       <variable use="indicator" source="expression" name="zone.hhincq1" type="variable_definition">sanfrancisco.zone.hhincq1</variable>
       <variable use="indicator" source="expression" name="zone.hhincq2" type="variable_definition">sanfrancisco.zone.hhincq2</variable>
       <variable use="indicator" source="expression" name="zone.hhincq3" type="variable_definition">sanfrancisco.zone.hhincq3</variable>
       <variable use="indicator" source="expression" name="zone.hhincq4" type="variable_definition">sanfrancisco.zone.hhincq4</variable>
-      <variable use="indicator" source="expression" name="zone.avgincq1_1989" type="variable_definition">sanfrancisco.zone.avgincq1*0.7328*1000.0*2.4</variable>
-      <variable use="indicator" source="expression" name="zone.avgincq2_1989" type="variable_definition">sanfrancisco.zone.avgincq2*0.7328*1000.0*2.4</variable>
-      <variable use="indicator" source="expression" name="zone.avgincq3_1989" type="variable_definition">sanfrancisco.zone.avgincq3*0.7328*1000.0*2.4</variable>
-      <variable use="indicator" source="expression" name="zone.avgincq4_1989" type="variable_definition">sanfrancisco.zone.avgincq4*0.7328*1000.0*2.4</variable>
+      <variable use="indicator" source="expression" name="zone.avgincq1_1989" type="variable_definition">sanfrancisco.zone.avgincq1*0.7328*1000.0</variable>
+      <variable use="indicator" source="expression" name="zone.avgincq2_1989" type="variable_definition">sanfrancisco.zone.avgincq2*0.7328*1000.0</variable>
+      <variable use="indicator" source="expression" name="zone.avgincq3_1989" type="variable_definition">sanfrancisco.zone.avgincq3*0.7328*1000.0</variable>
+      <variable use="indicator" source="expression" name="zone.avgincq4_1989" type="variable_definition">sanfrancisco.zone.avgincq4*0.7328*1000.0</variable>
       <variable use="indicator" source="expression" name="zone.totsqft_auto" type="variable_definition">zone.aggregate(where(building.building_type_id==2,building.building_sqft,0), intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="zone.pricesqft_auto" type="variable_definition">safe_array_divide(zone.aggregate(where(building.building_type_id==2,building.total_price,0), intermediates=[parcel]),zone.aggregate(where(building.building_type_id==2,building.building_sqft,0),intermediates=[parcel]))</variable>
       <variable use="indicator" source="expression" name="zone.totsqft_commercial" type="variable_definition">zone.aggregate(where(building.building_type_id==3,building.building_sqft,0), intermediates=[parcel])</variable>
@@ -1255,11 +1255,11 @@
         <variable use="model" source="expression" name="tm.HHINCQ2" type="variable_definition">sanfrancisco.zone.hhincq2</variable>
         <variable use="model" source="expression" name="tm.HHINCQ3" type="variable_definition">sanfrancisco.zone.hhincq3</variable>
         <variable use="model" source="expression" name="tm.HHINCQ4" type="variable_definition">sanfrancisco.zone.hhincq4</variable>
-        <variable use="model" source="expression" name="tm.AVGINCQ1" type="variable_definition">sanfrancisco.zone.avgincq1*0.7328*1000.0*2.4</variable>
-        <variable use="model" source="expression" name="tm.AVGINCQ2" type="variable_definition">sanfrancisco.zone.avgincq2*0.7328*1000.0*2.4</variable>
-        <variable use="model" source="expression" name="tm.AVGINCQ3" type="variable_definition">sanfrancisco.zone.avgincq3*0.7328*1000.0*2.4</variable>
-        <variable use="model" source="expression" name="tm.AVGINCQ4" type="variable_definition">sanfrancisco.zone.avgincq4*0.7328*1000.0*2.4</variable>
-        <variable use="model" source="expression" name="tm.AVGHHINC" type="variable_definition">sanfrancisco.zone.average_income*0.7328*1000.0*2.4</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ1" type="variable_definition">sanfrancisco.zone.avgincq1*0.7328*1000.0</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ2" type="variable_definition">sanfrancisco.zone.avgincq2*0.7328*1000.0</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ3" type="variable_definition">sanfrancisco.zone.avgincq3*0.7328*1000.0</variable>
+        <variable use="model" source="expression" name="tm.AVGINCQ4" type="variable_definition">sanfrancisco.zone.avgincq4*0.7328*1000.0</variable>
+        <variable use="model" source="expression" name="tm.AVGHHINC" type="variable_definition">sanfrancisco.zone.average_income*0.7328*1000.0</variable>
       </urbansim_to_tm_variable_mapping>
       <tazdataprocessor_srcdir type="string">Q:\Model Projects\Model Programs\TazDataProcessor9county</tazdataprocessor_srcdir>
       <tazdataprocessor_datadir type="string">Y:\champ\landuse\p2009\CHAMP4.Standard\%YEAR%\TazDataProcessor9county</tazdataprocessor_datadir>
@@ -1848,7 +1848,19 @@
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
+      <run hidden="Children" type="source_data" name="2010.12.02_baseline_incometest1" run_id="None">
+        <scenario_name type="string">sanfrancisco_baseline2009</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_67.2010.12.02_baseline_incometest1</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2035</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="2010.11.26_baseline" run_id="65">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_65.2010.11.26_baseline</cache_directory>
+        <start_year type="integer">2010</start_year>
+        <end_year type="integer">2035</end_year>
+      </run>
       <run hidden="Children" type="source_data" name="2010.11.09_baseline_CHAMP" run_id="None">
         <scenario_name type="string">sanfrancisco_baseline2009_with_CHAMP</scenario_name>
         <cache_directory type="string">C:\opus\data\sanfrancisco\runs\run_64.2010.11.09_baseline_CHAMP</cache_directory>
