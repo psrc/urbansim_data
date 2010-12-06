@@ -1347,6 +1347,70 @@
         </travel_model_configuration>
       </advanced>
     </scenario>
+    <scenario executable="True" name="sanfrancisco_baseline2009_with_CHAMP_mitigated" type="scenario">
+      <description type="string">sanfrancisco_baseline2009 with CHAMP run</description>
+      <parent type="scenario_name">sanfrancisco_baseline2009</parent>
+      <advanced type="category">
+        <travel_model_configuration type="dictionary">
+          <travel_model_base_directory type="string">X:\Projects\LUCI\Runs\lmz_2010.11.29_mitigatedpipeline</travel_model_base_directory>
+          <years_to_run key_name="year" type="category_with_special_keys">
+            <run_description type="dictionary">
+              <year type="integer">2010</year>
+              <year_dir type="string">2010_model</year_dir>
+              <BASEDEMAND type="string">Y:\champ\triptables\sf\p2009\CHAMP4.1\2010</BASEDEMAND>
+              <MTCDEMAND type="string">Y:\champ\triptables\mtc\p2007_RTP2009\2006</MTCDEMAND>
+              <NETWORKS type="string">..\networks\2010</NETWORKS>
+              <RUNBATCH type="string">runmodel_short.bat</RUNBATCH>
+            </run_description>
+            <run_description type="dictionary">
+              <year type="integer">2015</year>
+              <year_dir type="string">2015_model</year_dir>
+              <BASEDEMAND type="string">..\2010_model\triptables</BASEDEMAND>
+              <MTCDEMAND type="string">Y:\champ\triptables\mtc\p2007_RTP2009\2015</MTCDEMAND>
+              <NETWORKS type="string">..\networks\2015</NETWORKS>
+              <RUNBATCH type="string">runmodel_short.bat</RUNBATCH>
+            </run_description>
+            <run_description type="dictionary">
+              <year type="integer">2020</year>
+              <year_dir type="string">2020_model</year_dir>
+              <BASEDEMAND type="string">..\2015_model\triptables</BASEDEMAND>
+              <MTCDEMAND type="string">Y:\champ\triptables\mtc\p2007_RTP2009\2015</MTCDEMAND>
+              <NETWORKS type="string">..\networks\2020</NETWORKS>
+              <RUNBATCH type="string">runmodel_short.bat</RUNBATCH>
+            </run_description>
+            <run_description type="dictionary">
+              <year type="integer">2025</year>
+              <year_dir type="string">2025_model</year_dir>
+              <BASEDEMAND type="string">..\2020_model\triptables</BASEDEMAND>
+              <MTCDEMAND type="string">Y:\champ\triptables\mtc\p2007_RTP2009\2025</MTCDEMAND>
+              <NETWORKS type="string">..\networks\2025</NETWORKS>
+              <RUNBATCH type="string">runmodel_short.bat</RUNBATCH>
+            </run_description>
+            <run_description type="dictionary">
+              <year type="integer">2030</year>
+              <year_dir type="string">2030_model</year_dir>
+              <BASEDEMAND type="string">..\2025_model\triptables</BASEDEMAND>
+              <MTCDEMAND type="string">Y:\champ\triptables\mtc\p2007_RTP2009\2030</MTCDEMAND>
+              <NETWORKS type="string">..\networks\2030</NETWORKS>
+              <RUNBATCH type="string">runmodel_short.bat</RUNBATCH>
+            </run_description>
+            <run_description type="dictionary">
+              <year type="integer">2035</year>
+              <year_dir type="string">2035_model</year_dir>
+              <BASEDEMAND type="string">..\2030_model\triptables</BASEDEMAND>
+              <MTCDEMAND type="string">Y:\champ\triptables\mtc\p2007_RTP2009\2035</MTCDEMAND>
+              <NETWORKS type="string">..\networks\2035</NETWORKS>
+              <RUNBATCH type="string">runmodel.bat</RUNBATCH>
+            </run_description>
+          </years_to_run>
+          <models_to_run config_name="models" type="selectable_list">
+            <selectable name="sanfrancisco.travel_model.get_cache_data_into_travel_model" type="selectable">True</selectable>
+            <selectable name="sanfrancisco.travel_model.run_sanfrancisco_travel_model" type="selectable">True</selectable>
+            <selectable name="sanfrancisco.travel_model.get_travel_model_data_into_cache" type="selectable">True</selectable>
+          </models_to_run>
+        </travel_model_configuration>
+      </advanced>
+    </scenario>
     <scenario executable="True" name="sanfrancisco_baseline2009_with_CHAMP_2010network" type="scenario">
       <description type="string">sanfrancisco_baseline2009 with CHAMP run, stuck in 2010 networks</description>
       <parent type="scenario_name">sanfrancisco_baseline2009</parent>
