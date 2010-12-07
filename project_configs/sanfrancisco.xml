@@ -1259,7 +1259,7 @@
         <variable use="model" source="expression" name="tm.AVGINCQ2" type="variable_definition">sanfrancisco.zone.avgincq2*0.7328*1000.0</variable>
         <variable use="model" source="expression" name="tm.AVGINCQ3" type="variable_definition">sanfrancisco.zone.avgincq3*0.7328*1000.0</variable>
         <variable use="model" source="expression" name="tm.AVGINCQ4" type="variable_definition">sanfrancisco.zone.avgincq4*0.7328*1000.0</variable>
-        <variable use="model" source="expression" name="tm.AVGHHINC" type="variable_definition">sanfrancisco.zone.average_income*0.7328*1000.0</variable>
+        <variable use="model" source="expression" name="tm.AVGHHINC" type="variable_definition">sanfrancisco.zone.avginc_adj*0.7328*1000.0</variable>
       </urbansim_to_tm_variable_mapping>
       <tazdataprocessor_srcdir type="string">Q:\Model Projects\Model Programs\TazDataProcessor9county</tazdataprocessor_srcdir>
       <tazdataprocessor_datadir type="string">Y:\champ\landuse\p2009\CHAMP4.Standard\%YEAR%\TazDataProcessor9county</tazdataprocessor_datadir>
