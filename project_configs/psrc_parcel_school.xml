@@ -3,14 +3,20 @@
   <general>
     <description type="string">Configuration for the PSRC parcel project with school choice model</description>
     <parent type="file">psrc_parcel_default.xml</parent>
-    <!--<expression_library type="dictionary">
+    <expression_library type="dictionary">
+      <!--        
       <variable use="model variable" source="primary attribute" name="person.sex" type="variable_definition">person.sex</variable>
+      <variable use="model variable" source="primary attribute" name="person.is_male" type="variable_definition">person.sex==1</variable>
+      <variable use="model variable" source="primary attribute" name="person.is_female" type="variable_definition">person.sex==2</variable>     
+      <variable use="model variable" source="primary attribute" name="person.age" type="variable_definition">person.age</variable>
+      <variable use="model variable" source="expression" name="person.timetocbd" type="variable_definition">person.disaggregate(urbansim_parcel.parcel.travel_time_to_cbd, intermediates=[building, household])</variable>
       <variable use="model variable" source="expression" name="person.hhincome" type="variable_definition">person.disaggregate(household.income)</variable>
       <variable use="model variable" source="expression" name="person.lhhincome" type="variable_definition">ln(person.disaggregate(household.income))</variable>
       <variable use="model variable" source="expression" name="person.valid_inc" type="variable_definition">person.disaggregate(household.income &gt; 0)</variable>
       <variable use="model variable" source="expression" name="person.hhchild" type="variable_definition">person.disaggregate(household.children)</variable>
       <variable use="model variable" source="expression" name="person.hhworkers" type="variable_definition">person.disaggregate(household.workers)</variable>
-    </expression_library>!-->
+   !-->
+    </expression_library>
     <available_datasets type="list">['school', 'person', 'mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone', 'household']</available_datasets>
  </general>
  <model_manager>
@@ -155,11 +161,13 @@
              <equation equation_id="1" name="private" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="constant"/>
-                <!--<variable_spec name="person.lhhincome" coefficient_name="lhhincome"/>!-->
+                <!-- <variable_spec name="person.lhhincome" coefficient_name="lhhincome"/>
+                <variable_spec name="person.hhworkers" coefficient_name="workers"/>
+                <variable_spec name="person.age" coefficient_name="age"/>-->
                 <variable_spec name="person.hhchild" coefficient_name="children"/>
-                <!--<variable_spec name="person.hhworkers" coefficient_name="workers"/>
-                <variable_spec name="person.age" coefficient_name="age"/>!-->
-                <variable_spec name="person.sex" coefficient_name="sex"/>
+                <variable_spec name="person.is_male" coefficient_name="is_male"/>
+                <variable_spec name="person.timetocbd"/>
+                
               </variable_list>
             </equation>
           </submodel>
@@ -185,7 +193,7 @@
 </model>
 </models>
 <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_schoolm</cache_directory>
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_estimation</cache_directory>
 <save_estimation_results type="boolean">False</save_estimation_results>
 <base_year type="integer" field_identifier="Base Year">2006</base_year>
 <years type="tuple">
