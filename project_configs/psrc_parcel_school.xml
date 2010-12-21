@@ -4,19 +4,20 @@
     <description type="string">Configuration for the PSRC parcel project with school choice model</description>
     <parent type="file">psrc_parcel_default.xml</parent>
     <expression_library type="dictionary">
-      <!--        
-      <variable use="model variable" source="primary attribute" name="person.sex" type="variable_definition">person.sex</variable>
-      <variable use="model variable" source="primary attribute" name="person.is_male" type="variable_definition">person.sex==1</variable>
-      <variable use="model variable" source="primary attribute" name="person.is_female" type="variable_definition">person.sex==2</variable>     
-      <variable use="model variable" source="primary attribute" name="person.age" type="variable_definition">person.age</variable>
-      <variable use="model variable" source="expression" name="person.timetocbd" type="variable_definition">person.disaggregate(urbansim_parcel.parcel.travel_time_to_cbd, intermediates=[building, household])</variable>
+      <variable use="model variable" source="expression" name="person.valid_hhchild" type="variable_definition">person.disaggregate(household.children>0)</variable>
       <variable use="model variable" source="expression" name="person.hhincome" type="variable_definition">person.disaggregate(household.income)</variable>
       <variable use="model variable" source="expression" name="person.lhhincome" type="variable_definition">ln(person.disaggregate(household.income))</variable>
       <variable use="model variable" source="expression" name="person.valid_inc" type="variable_definition">person.disaggregate(household.income &gt; 0)</variable>
       <variable use="model variable" source="expression" name="person.hhchild" type="variable_definition">person.disaggregate(household.children)</variable>
       <variable use="model variable" source="expression" name="person.hhworkers" type="variable_definition">person.disaggregate(household.workers)</variable>
-   !-->
-    </expression_library>
+      <variable use="model variable" source="expression" name="person.hhnonworkers" type="variable_definition">person.disaggregate(urbansim_parcel.household.number_of_adults-household.workers)</variable>
+      <variable use="model variable" source="expression" name="person.has_nonworkers" type="variable_definition">person.disaggregate((urbansim_parcel.household.number_of_adults-household.workers) &gt; 0)</variable>
+      <variable use="model variable" source="expression" name="person.timetocbd" type="variable_definition">person.disaggregate(urbansim_parcel.parcel.travel_time_to_cbd, intermediates=[building, household])</variable>
+      <variable use="model variable" source="primary attribute" name="person.is_male" type="variable_definition">person.sex==1</variable>
+      <variable use="model variable" source="primary attribute" name="person.is_female" type="variable_definition">person.sex==2</variable> 
+      <variable use="model variable" source="primary attribute" name="person.sex" type="variable_definition">person.sex</variable>
+      <variable use="model variable" source="expression" name="person.valid_age" type="variable_definition">person.age &gt; 0</variable>
+      </expression_library>
     <available_datasets type="list">['school', 'person', 'mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone', 'household']</available_datasets>
  </general>
  <model_manager>
@@ -167,12 +168,225 @@
                 <variable_spec name="person.hhchild" coefficient_name="children"/>
                 <variable_spec name="person.is_male" coefficient_name="is_male"/>
                 <variable_spec name="person.timetocbd"/>
-                
+                <variable_spec name="person.has_nonworkers" coefficient_name="has_nonworkers"/>            
               </variable_list>
             </equation>
           </submodel>
         </specification>
 </model>
+<model name="public_private_school_model" type="model">
+     <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.school_type_choice_model</class_module>
+            <class_name type="string">SchoolTypeChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SchoolTypeChoiceModel</name>
+            <argument name="choice_set" type="string">[1,2]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"/>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">person.school_type</argument>
+            <argument name="debuglevel" type="string" hidden="True">debuglevel</argument>
+            <argument name="dataset_pool" type="string" hidden="True">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">person</argument>
+            <!--<argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"/>!-->
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = numpy.logical_and(person.is_in_school, numpy.logical_and(person.stype &lt;&gt; 1, person.school_type &lt;&gt; 3)) </argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_specification</argument>
+          </prepare_for_estimate>
+    </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+             <equation equation_id="2" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="constant"/>
+                <variable_spec name="person.lhhincome" coefficient_name="lhhincome"/>
+                <variable_spec name="person.valid_inc" coefficient_name="valid_inc"/>
+                <!--<variable_spec name="person.hhworkers" coefficient_name="workers"/>!-->
+                <variable_spec name="person.age" coefficient_name="age"/>
+                <!--<variable_spec name="person.hhchild" coefficient_name="children"/>!-->
+                <variable_spec name="person.is_male" coefficient_name="is_male"/>
+                <variable_spec name="person.timetocbd"/>
+                <variable_spec name="person.nonworkers" coefficient_name="nonworkers"/>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+  </model>
+      <model name="school_type_choice_model_nested" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.school_type_choice_model</class_module>
+            <class_name type="string">SchoolTypeChoiceModelNested</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SchoolTypeChoiceModelNested</name>
+            <argument name="choice_set" type="string">[1,2,3]</argument>
+            <argument name="nested_structure" type="string">{1: [3], 2: [1,2]}</argument>
+            <!--<argument name="nested_structure" type="string">{1: [2,3], 2: [1]}</argument>-->
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.hierarchical_linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.nl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"/>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">school_type</argument>
+            <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation_size_agents" type="float">1.0</key>
+              <key name="starting_values" type="dictionary">
+                <key name="__logsum_1" type="tuple">
+                  <initvalue type="float">1</initvalue>
+                  <doestimate type="boolean">False</doestimate>
+                </key>
+                <key name="__logsum_2" type="tuple">
+                  <initvalue type="float">1</initvalue>
+                  <doestimate type="boolean">True</doestimate>
+                </key>
+              </key>
+            </argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">person</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"/>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_nested_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">school_type_choice_model_nested_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bfgs_nl_estimation</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = numpy.logical_and(person.is_in_school, person.stype &lt;&gt; 1) </argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_nested_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+          <nest nest_id="2" name="public-private">
+            <equation equation_id="1" name="public" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="constant"/>
+                <!--<variable_spec name="person.timetocbd" coefficient_name="timetocbd_1"/>!-->
+              </variable_list>
+            </equation>
+            <equation equation_id="2" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="constant"/>
+                <variable_spec name="person.lhhincome" coefficient_name="lhhincome_2"/>
+                <variable_spec name="person.valid_inc" coefficient_name="valid_inc_2"/>
+                <!--<variable_spec name="person.hhworkers" coefficient_name="workers"/>!-->
+                <variable_spec name="person.age" coefficient_name="age_2"/>
+                <variable_spec name="person.is_male" coefficient_name="is_male_2"/>
+                <variable_spec name="person.timetocbd" coefficient_name="timetocbd_2"/>
+              </variable_list>
+            </equation>
+          </nest>
+          <nest nest_id="1" name="home school">
+            <equation equation_id="3" name="home school">
+               <variable_list type="variable_list">
+                   <!-- <variable_spec name="constant" coefficient_name="constant_3"/>!-->
+                  <variable_spec name="person.hhchild" coefficient_name="children_3"/>
+                  <variable_spec name="person.is_male" coefficient_name="is_male_3"/>
+                  <!--<variable_spec name="person.hhnonworkers" coefficient_name="hhnonworkers_3"/>!-->
+                  <!-- <variable_spec name="person.timetocbd" coefficient_name="timetocbd_3"/>!-->
+                </variable_list>
+            </equation>
+          </nest>
+        </submodel>
+      </specification>
+      <specification_test type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+          <nest nest_id="2" name="public">
+            <equation equation_id="1" name="public" type="submodel_equation">
+              <variable_list type="variable_list">
+                <!--<variable_spec name="constant" coefficient_name="constant"/>!-->
+                <variable_spec name="person.timetocbd" coefficient_name="timetocbd_1"/>
+              </variable_list>
+            </equation>
+            </nest>
+            <nest nest_id="1" name="private - home school">
+            <equation equation_id="2" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="constant"/>
+                <variable_spec name="person.lhhincome" coefficient_name="lhhincome"/>
+                <variable_spec name="person.valid_inc" coefficient_name="valid_inc"/>
+                <!--<variable_spec name="person.hhworkers" coefficient_name="workers"/>!-->
+                <variable_spec name="person.age" coefficient_name="age"/>
+                <!--<variable_spec name="person.is_male" coefficient_name="is_male_2"/>-->
+                <!--<variable_spec name="person.timetocbd" coefficient_name="timetocbd_2"/>-->
+                <variable_spec name="person.hhnonworkers" coefficient_name="hhnonworkers"/>
+              </variable_list>
+            </equation>
+          
+            <equation equation_id="3" name="home school">
+               <variable_list type="variable_list">
+                  <variable_spec name="constant" coefficient_name="constant"/>
+                  <variable_spec name="person.hhchild" coefficient_name="children_3"/>
+                  <variable_spec name="person.valid_hhchild" coefficient_name="valid_children_3"/>
+                  <variable_spec name="person.is_male" coefficient_name="is_male_3"/>
+                  <!-- <variable_spec name="person.timetocbd" coefficient_name="timetocbd_3"/>!-->
+                  <variable_spec name="person.lhhincome" coefficient_name="lhhincome"/>
+                  <variable_spec name="person.valid_inc" coefficient_name="valid_inc"/>
+                  <variable_spec name="person.hhnonworkers" coefficient_name="hhnonworkers"/>
+                  <variable_spec name="person.age" coefficient_name="age"/>
+                </variable_list>
+            </equation>
+          </nest>
+        </submodel>
+      </specification_test>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
  <model name="school_choice_model" type="model">
      <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -193,7 +407,7 @@
 </model>
 </models>
 <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_estimation</cache_directory>
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_schoolm</cache_directory>
 <save_estimation_results type="boolean">False</save_estimation_results>
 <base_year type="integer" field_identifier="Base Year">2006</base_year>
 <years type="tuple">
