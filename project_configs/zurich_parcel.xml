@@ -26,7 +26,7 @@
     </estimation_config>
   </model_manager>
   <scenario_manager>
-    <scenario name="test_run" type="scenario">
+    <scenario name="test_run" type="scenario" executable="True">
       <advanced type="category">
         <model_system type="string">urbansim.model_coordinators.model_system</model_system>
         <debuglevel type="integer">4</debuglevel>
