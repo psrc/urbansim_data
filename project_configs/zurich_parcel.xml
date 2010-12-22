@@ -1,0 +1,45 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">SustainCity: Zurich case study</description>
+    <parent type="file">/home/muelleki/urbansim2/urbansim/src/urbansim_parcel/configs/urbansim_parcel.xml</parent>
+    <project_name hidden="True" type="string">zurich_parcel</project_name>
+  </general>
+  <results_manager>
+    <simulation_runs followers="Results" name="Simulation Runs" setexpanded="True" type="all_source_data">
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+        <scenario_name type="string"/>
+        <cache_directory type="string">/home/muelleki/urbansim2/urbansim/data/zurich_parcel/base_year_data</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2000</end_year>
+      </run>
+    </simulation_runs>
+  </results_manager>
+  <model_manager>
+    <estimation_config name="Estimation Configuration" config_name="estimation_config" type="dictionary">
+      <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
+      <base_year name="" type="integer" field_identifier="Base Year">2000</base_year>
+      <years type="tuple">
+        <firstyear name="" type="integer" field_identifier="Base Year">2000</firstyear>
+        <lastyear name="" type="integer" field_identifier="Base Year">2000</lastyear>
+      </years>
+    </estimation_config>
+  </model_manager>
+  <scenario_manager>
+    <scenario name="urbansim_parcel_baseline" type="scenario">
+      <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <argument name="cache_directory_root" config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Scenario Runs Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs">zurich_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <base_year name="" type="integer" field_identifier="Base Year">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear name="" type="integer" field_identifier="First Year of Simulation">2001</firstyear>
+        <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
+      </years_to_run>
+    </scenario>
+  </scenario_manager>
+</opus_project>
+
