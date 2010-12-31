@@ -1,0 +1,140 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the Honolulu parcel project</description>
+    <project_name hidden="True" type="string">honolulu_parcel</project_name>
+    <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
+    <expression_library type="dictionary" />
+  </general>
+  <model_manager>  
+  <travel_model_configuration type="dictionary">
+      <transcad_binary type="string">C:\\Program Files\\TransCAD\\tcw.exe</transcad_binary>
+      <project_ini type="string">C:\\Program Files\\TransCAD\\semcog.ini</project_ini>
+      <travel_model_base_directory type="string">C:\\SEMCOG_baseline\\</travel_model_base_directory>
+      <ui_file type="string">macros\\semcog_ui</ui_file> <!-- relative to <directory> -->
+      <urbansim_to_tm_variable_mapping type="dictionary">
+           <DataTable type="string">TAZ Data Table</DataTable>
+           <JoinField type="string">ZoneID</JoinField>
+           <variable_mapping type="dictionary">
+             <variable name="zone.zone_id" type="string">ZoneID</variable>
+             <variable name="urbansim_parcel.zone.population" type="string">Population</variable>
+             <variable name="urbansim_parcel.zone.number_of_households" type="string">Households</variable>
+             <variable name="urbansim_parcel.zone.number_of_jobs" type="string">Total_Emp</variable>
+             <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_basic)" type="string">Basic</variable>
+             <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_nonbasic)" type="string">NonBasic</variable>
+             <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_4" type="string">WholeSale</variable>
+             <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_5" type="string">Retail</variable>
+	       </variable_mapping>
+       </urbansim_to_tm_variable_mapping>
+       <tm_to_urbansim_variable_mapping type="dictionary">
+             <row_index_name type="string">ZoneID</row_index_name>
+             <col_index_name type="string">ZoneID</col_index_name>
+             <matrix name="AMHwySkims" type="dictionary">
+                     <variable name="Miles" type="string">highway_distance</variable>
+                     <variable name="Trav_Time" type="string">highway_travel_time</variable>
+             </matrix>
+             <matrix name="AMTransitSkim" type="dictionary">
+                     <variable name="Generalized Cost" type="string">generalized_cost</variable>
+             </matrix>             
+       </tm_to_urbansim_variable_mapping>
+       <macro type="dictionary">
+           <get_cache_data_into_transcad type="string">SEMCOGImportTabFile</get_cache_data_into_transcad>
+	   	   <get_transcad_data_into_cache type="string">SEMCOGExportMatrices</get_transcad_data_into_cache>
+	       <run_semcog_travel_model type="string">SEMCOG Run Loops</run_semcog_travel_model>
+	       <get_file_location type="string">SEMCOGGetFileLocation</get_file_location>
+       </macro>
+      <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
+      <models type="selectable_list">
+        <selectable name="washtenaw.transcad.get_cache_data_into_transcad" type="selectable">True</selectable>
+        <selectable name="washtenaw.transcad.run_semcog_travel_model" type="selectable">True</selectable>
+        <selectable name="washtenaw.transcad.get_transcad_data_into_cache" type="selectable">True</selectable>
+      </models>
+      <!--
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2000</year>
+          <data_dir type="string">CoreEA05</data_dir>  
+	  <data_exchange_dir type="string">CoreEA05\\urbansim\\2001</data_exchange_dir>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2002</year>
+	  <data_dir type="string">CoreEA05</data_dir>
+          <data_exchange_dir type="string">CoreEA05\\urbansim\\2002</data_exchange_dir>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2005</year>
+	  <data_dir type="string">CoreEA05</data_dir>
+          <data_exchange_dir type="string">CoreEA05\\urbansim\\2005</data_exchange_dir>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2010</year>
+	  <data_dir type="string">CoreEA10</data_dir>
+          <data_exchange_dir type="string">CoreEA10\\urbansim\\2010</data_exchange_dir>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2015</year>
+	  <data_dir type="string">CoreEA10</data_dir>
+          <data_exchange_dir type="string">CoreEA10\\urbansim\\2015</data_exchange_dir>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2020</year>
+	  <data_dir type="string">CoreEA20</data_dir>
+          <data_exchange_dir type="string">CoreEA20\\urbansim\\2020</data_exchange_dir>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2025</year>
+	  <data_dir type="string">CoreEA20</data_dir>
+          <data_exchange_dir type="string">CoreEA20\\urbansim\\2025</data_exchange_dir>
+        </run_description>
+      </years_to_run>
+      -->
+  </travel_model_configuration>    
+  </model_manager>
+  <scenario_manager>
+      <scenario executable="True" name="washtenaw_baseline_with_travel_model" type="scenario">
+      <parent type="scenario_name">washtenaw_baseline</parent>
+      <travel_model_configuration type="dictionary">
+		  <travel_model_base_directory type="string">D:\transcad_e5</travel_model_base_directory>
+		  <ui_file type="string">D:\transcad_e5\semcog_e5_ui</ui_file>
+		  <years_to_run key_name="year" type="category_with_special_keys">
+			<run_description type="dictionary">
+			  <year type="integer">2000</year>
+			  <data_dir type="string"></data_dir>  <!-- relative to <directory> -->
+		  <data_exchange_dir type="string">urbansim\\2001</data_exchange_dir>  <!-- relative to <directory> -->
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2002</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2002</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2005</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2005</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2009</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2010</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2015</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2015</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2020</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2020</data_exchange_dir>
+			</run_description>
+			<run_description type="dictionary">
+			  <year type="integer">2025</year>
+		  <data_dir type="string"></data_dir>
+			  <data_exchange_dir type="string">urbansim\\2025</data_exchange_dir>
+			</run_description>
+		  </years_to_run>		
+      </travel_model_configuration>
+    </scenario>
+  </scenario_manager>    
+</opus_project>
+
