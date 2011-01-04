@@ -43,6 +43,24 @@
           <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
           <argument name="package_order" type="list">['urbansim_parcel', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="building" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">False</selectable>
+          <selectable name="building_type" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">False</selectable>
+          <selectable name="job_building_type" type="selectable">False</selectable>
+        </datasets_to_preload>
       </advanced>
       <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
@@ -61,6 +79,8 @@
         <firstyear name="" type="integer" field_identifier="First Year of Simulation">2001</firstyear>
         <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
       </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+      </models_to_run>
     </scenario>
     <scenario name="urbansim_parcel_baseline" type="scenario">
       <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
