@@ -296,7 +296,7 @@
             <argument convert_blank_to_none="True" parser_action="quote_string" name="filter" type="string">building.average_value_per_unit&gt;0</argument>
             <argument name="estimation_size_agents" type="float">0.005</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string">building.building_id&gt;0</argument>
-            <argument name="capacity_string" parser_action="quote_string" type="string">building.max_jobs-building.number_of_agents(job)</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces</argument>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">jobs</argument>
@@ -390,6 +390,9 @@
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
         <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="chunk_specification" type="string">{'nchunks':6}</argument>
+          </run>
           <init type="dictionary">
             <argument convert_blank_to_none="True" name="submodel_string" type="string">'household.income_4'</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">building.residential_units-building.number_of_agents(household)</argument>
@@ -617,7 +620,12 @@
         </specification>
       </model>
       <model name="residential_development_project_location_choice_model" type="model">
-        <specification type="dictionary" inherit_parent_values="False">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="chunk_specification" type="string">{'nchunks':6}</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"  inherit_parent_values="False">
           <submodel hidden="Children" name="mf_residential" submodel_id="2" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
@@ -799,9 +807,9 @@
     </estimation_config>
   </model_manager>
   <scenario_manager>
-    <scenario copyable="True" executable="True" name="durham_baseline" type="scenario">
+    <scenario copyable="True" executable="True" name="bay_area_baseline" type="scenario">
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="real_estate_price_model" type="selectable">True</selectable>
         <selectable name="household_transition_model" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
@@ -809,6 +817,9 @@
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
         </selectable>
+        <selectable return_value="development_project_transition_model" type="selectable" name="development_project_transition_model_1">True</selectable>
+        <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="non_residential_development_project_location_choice_model" type="selectable" name="non_residential_development_project_location_choice_model_1">True</selectable>
       </models_to_run>
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
       <base_year type="integer">2000</base_year>
@@ -820,11 +831,11 @@
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">durham_zone/runs</argument>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">bay_area_zone/runs</argument>
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">durham_zone/base_year_data</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">bay_area_zone/base_year_data</argument>
         </argument>
         <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
         <argument name="advanced" type="category">
@@ -892,6 +903,8 @@
           <selectable name="building_type" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
           <selectable name="business" type="selectable">False</selectable>
         </datasets_to_preload>
       </advanced>
@@ -1036,11 +1049,131 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_35" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_35.run_2011_01_12_16_35</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_30" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_34.run_2011_01_12_16_30</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_27" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_33.run_2011_01_12_16_27</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_21" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_32.run_2011_01_12_16_21</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_18" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_31.run_2011_01_12_16_18</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_05" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_30.run_2011_01_12_16_05</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_16_01" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_29.run_2011_01_12_16_01</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_59" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_28.run_2011_01_12_15_59</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_42" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_27.run_2011_01_12_15_42</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_27" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_26.run_2011_01_12_15_27</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_25" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_25.run_2011_01_12_15_25</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_24" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_24.run_2011_01_12_15_24</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_22" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_23.run_2011_01_12_15_22</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_18" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_22.run_2011_01_12_15_18</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_15" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_21.run_2011_01_12_15_15</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_15_10" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_20.run_2011_01_12_15_10</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_14_57" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_19.run_2011_01_12_14_57</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_14_52" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_18.run_2011_01_12_14_52</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_01_12_14_48" run_id="None">
+        <scenario_name type="string">bay_area_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_17.run_2011_01_12_14_48</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2003</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="4">
         <scenario_name type="string"/>
-        <cache_directory type="string">/data/opus/data/bay_area_zone/base_year_data</cache_directory>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\base_year_data</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2000</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2010_11_02_11_14" run_id="2">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_2.run_2010_11_02_11_14</cache_directory>
+        <start_year type="integer">2001</start_year>
+        <end_year type="integer">2002</end_year>
       </run>
     </simulation_runs>
   </results_manager>
