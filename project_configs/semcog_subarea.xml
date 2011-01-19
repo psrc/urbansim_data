@@ -788,9 +788,13 @@
       <save_estimation_results type="boolean">True</save_estimation_results>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">semcog_subarea/base_year_data</cache_directory>
       <estimation_database_configuration type="class">
+        <class_name hidden="True" type="string">EstimationDatabaseConfiguration</class_name>
+        <class_module hidden="True" type="string">opus_core.database_management.configurations.estimation_database_configuration</class_module>
         <argument type="string" name="database_name">washtenaw_2008_parcel_baseyear_data</argument>
       </estimation_database_configuration>
       <dataset_pool_configuration type="class">
+        <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+        <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
         <argument type="list" name="package_order">['urbansim_parcel', 'urbansim', 'opus_core']</argument>
       </dataset_pool_configuration>
       <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
