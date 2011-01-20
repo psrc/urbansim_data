@@ -50,7 +50,7 @@
       <variable use="model variable" source="expression" name="zone.zone_ln_average_value_per_sqft" type="variable_definition">ln(zone.aggregate(building.average_value_per_unit*building.disaggregate(building_type.is_residential==0), function=mean))</variable>
       <variable use="model variable" source="Python class" name="zone.zone_services_emp_25_min" type="variable_definition">urbansim_parcel.zone.sector_6_employment_within_25_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_jobs" type="variable_definition">ln(zone.number_of_agents(job))</variable>
-      <variable use="both" source="expression" name="building.ln_inv_far" type="variable_definition">ln(building.land_area/building.non_residential_sqft)</variable>
+      <variable use="both" source="expression" name="building.ln_inv_far" type="variable_definition">ln(safe_array_divide(building.land_area, building.non_residential_sqft))</variable>
       <variable use="both" source="expression" name="building.ln_pop_zone" type="variable_definition">ln(building.disaggregate(zone.aggregate(household.persons)))</variable>
       <variable use="both" source="expression" name="building.ln_non_residential_sqft" type="variable_definition">ln(building.non_residential_sqft)</variable>
       <variable use="model variable" source="primary attribute" name="building.unit_price" type="variable_definition">building.average_value_per_unit</variable>
@@ -59,7 +59,7 @@
       <variable use="both" source="expression" name="building.is_school" type="variable_definition">building.building_type_id==8</variable>
       <variable use="both" source="expression" name="building.is_retail" type="variable_definition">building.building_type_id==7</variable>
       <variable use="both" source="expression" name="building.is_government" type="variable_definition">building.building_type_id==1</variable>
-      <variable use="both" source="expression" name="building.ln_land_per_unit" type="variable_definition">ln(building.land_area/building.residential_units)</variable>
+      <variable use="both" source="expression" name="building.ln_land_per_unit" type="variable_definition">ln_bounded(safe_array_divide(building.land_area, building.residential_units))</variable>
       <variable use="both" source="expression" name="household_x_building.price_income_ratio_l1" type="variable_definition">safe_array_divide(building.average_value_per_unit,household.income)&lt;1</variable>
       <variable use="both" source="expression" name="household_x_building.price_income_ratio_g5" type="variable_definition">safe_array_divide(building.average_value_per_unit,household.income)&gt;5</variable>
       <variable use="both" source="expression" name="household_x_building.ln_persons_land_per_unit" type="variable_definition">ln(household.persons*building.land_area/building.residential_units)</variable>
@@ -79,14 +79,14 @@
       <variable use="both" source="expression" name="household_x_building.persons_x_single_family" type="variable_definition">household.persons*building.building_type_id==9</variable>
       <variable use="both" source="expression" name="building.ln_number_jobs_retail" type="variable_definition">ln(building.disaggregate(urbansim.zone.number_of_jobs_of_sector_5))</variable>
       <variable use="model variable" source="expression" name="building.ln_jobs_within_15_min" type="variable_definition">ln(building.disaggregate(urbansim_parcel.zone.employment_within_15_minutes_travel_time_hbw_am_drive_alone))</variable>
-      <variable use="both" source="expression" name="building.ln_pop_density_zone" type="variable_definition">ln(building.aggregate(household.persons)/building.disaggregate(zone.aggregate(building.land_area)))</variable>
+      <variable use="both" source="expression" name="building.ln_pop_density_zone" type="variable_definition">ln(43560*safe_array_divide(building.aggregate(household.persons), building.disaggregate(zone.aggregate(building.land_area))))</variable>
       <variable use="model variable" source="expression" name="building.cbd_time_sq" type="variable_definition">building.disaggregate(zone.travel_time_to_cbd)**2</variable>
       <variable use="model variable" source="expression" name="building.ln_cbd_time" type="variable_definition">ln(building.disaggregate(zone.travel_time_to_cbd))</variable>
       <variable use="model variable" source="expression" name="building.ln_avg_hh_income_zonal" type="variable_definition">ln(building.disaggregate(zone.aggregate(household.income, function=mean)))</variable>
       <variable use="model variable" source="primary attribute" name="building.ln_avg_val_per_unit" type="variable_definition">ln(building.average_value_per_unit)</variable>
       <variable use="both" source="expression" name="building.ln_residential_units" type="variable_definition">ln(building.residential_units)</variable>
       <variable use="both" source="expression" name="building.is_single_family" type="variable_definition">building.building_type_id == 9</variable>
-      <variable use="both" source="expression" name="building.ln_job_density_zone" type="variable_definition">ln(building.disaggregate(zone.number_of_agents(job))/building.disaggregate(zone.aggregate(building.land_area)))</variable>
+      <variable use="both" source="expression" name="building.ln_job_density_zone" type="variable_definition">ln(building.disaggregate(43560*safe_array_divide(zone.number_of_agents(job), zone.aggregate(building.land_area))))</variable>
       <variable use="model variable" source="primary attribute" name="building.avg_value_per_unit" type="variable_definition">building.average_value_per_unit</variable>
       <variable use="model variable" source="expression" name="building.avg_hh_income" type="variable_definition">building.aggregate(household.income, function=mean)</variable>
       <variable use="model variable" source="expression" name="building.avg_hh_income_zonal" type="variable_definition">building.disaggregate(zone.aggregate(household.income, function=mean))</variable>
@@ -239,7 +239,7 @@
           <submodel hidden="Children" name="mf_residential" submodel_id="3" type="submodel">
             <description type="string">mf residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="development_project_x_building.ln_res_units_x_zone_dev_acre"/>              
+              <variable_spec name="development_project_x_building.ln_res_units_x_zone_dev_acre"/> 
               <variable_spec name="building.ln_job_density_zone"/>
               <variable_spec name="building.avg_hh_income_zonal"/>
               <variable_spec name="building.ln_dev_acre_in_zone"/>
@@ -277,7 +277,9 @@
               <variable_spec name="building.ln_avg_value_per_sqft_office"/>
               <variable_spec name="building.ln_dev_acre_in_zone"/>
               <variable_spec name="building.zone_ln_emp_30_min"/>
+	      <!--
               <variable_spec name="building.ln_pop_density_zone"/>
+	      -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="other" submodel_id="6" type="submodel">
@@ -324,7 +326,7 @@
           <submodel hidden="Children" name="mf residential" submodel_id="3" type="submodel">
             <description type="string">MF Residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income"/>
+              <variable_spec name="building.ln_avg_hh_income"/>
               <variable_spec name="constant"/>
               <variable_spec name="building.ln_job_density_zone"/>
               <variable_spec name="building.ln_land_per_unit"/>
@@ -334,7 +336,7 @@
           <submodel hidden="Children" name="office" submodel_id="5" type="submodel">
             <description type="string">Office</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.avg_hh_income_zonal"/>
+              <variable_spec name="building.ln_avg_hh_income_zonal"/>
               <variable_spec name="constant"/>
               <variable_spec name="building.ln_inv_far"/>
               <variable_spec name="building.ln_job_density_zone"/>
