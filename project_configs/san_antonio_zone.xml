@@ -421,7 +421,7 @@
     </estimation_config>
   </model_manager>
   <scenario_manager followers="debuglevel,base_year,cache_directory">
-    <scenario type="scenario" name="san_antonio_baseline_test">
+    <scenario type="scenario" executable="True"  name="san_antonio_baseline_test">
     <parent type="scenario_name">san_antonio_baseline</parent>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2006</firstyear>
