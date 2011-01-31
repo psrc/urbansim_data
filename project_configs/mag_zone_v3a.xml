@@ -1,0 +1,8 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">MAG Zone v3a</description>
+    <parent type="file">mag_zone/configs/mag_zone_v3a.xml</parent>
+  </general>
+</opus_project>
+
