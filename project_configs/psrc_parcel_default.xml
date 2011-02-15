@@ -164,7 +164,15 @@
           </run>
         </structure>
       </model>
-      <model type="model" name="development_proposal_choice_model" inherit_parent_values="False">
+      <model type="model" name="development_proposal_choice_model">
+        <structure type="dictionary">
+          <import hidden="True" type="dictionary" name="import">
+            <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_temp</class_module>
+            <class_name>DevelopmentProjectProposalSamplingModel</class_name>
+          </import>
+         </structure>
+      </model>
+      <model type="model" name="Development_proposal_choice_model" inherit_parent_values="False">
         <structure type="dictionary">
           <import hidden="True" type="dictionary" name="import">
             <class_module type="string">urbansim_parcel.models.development_project_proposal_sampling_model2</class_module>
