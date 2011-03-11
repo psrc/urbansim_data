@@ -3,6 +3,239 @@
   <general>
     <description type="string">MAG Zone v3a</description>
     <parent type="file">mag_zone/configs/mag_zone_v3a.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="both" source="expression" name="household.test_hhld_yougest_age" type="variable_definition">household.aggregate(person.age, function=minimum)</variable>
+      <variable use="both" source="Python class" name="household.household_mpa_id" type="variable_definition">mag_zone.household.mpa_id</variable>
+      <variable use="both" source="Python class" name="household.household_raz_id" type="variable_definition">mag_zone.household.raz_id</variable>
+    </expression_library>
+    <spatial_datasets type="list">['zone','raz','mpa','faz','large_area','gridcell','city','county']</spatial_datasets>
+    <available_datasets type="list">['building','person','household_x_building','household','zone','raz','control_total','mpa','gridcell','city','county','alldata','job','business','travel_data']</available_datasets>
   </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="new_employment_transition_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">job</argument>
+            <argument name="dataset_accounting_attribute" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
+            <argument name="model_name" parser_action="quote_string" type="string">Employment Transition Model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">ETM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_employment_control_totals_BY_MPA</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_jobs</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+            <argument name="sampling_threshold" parser_action="quote_string" convert_blank_to_none="True" type="string">control_total.number_of_agents(job) &gt; 10000</argument>
+            <argument name="sampling_hierarchy" convert_blank_to_none="True" type="string">['mpa_id', 'county_id']</argument>
+            <argument name="sync_dataset" convert_blank_to_none="True" type="string"/>
+            <argument name="reset_sync_dataset_attribute_value" convert_blank_to_none="True" type="string"/>
+          </run>
+        </structure>
+      </model>
+      <model name="new_household_transition_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">household</argument>
+            <argument name="dataset_accounting_attribute" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
+            <argument name="model_name" parser_action="quote_string" type="string">Household Transition Model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">HTM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_household_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_households</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+            <argument name="sampling_threshold" parser_action="quote_string" convert_blank_to_none="True" type="string">70000</argument>
+            <argument name="sampling_hierarchy" convert_blank_to_none="True" type="string">['raz_id','mpa_id', 'county_id']</argument>
+            <argument name="sync_dataset" convert_blank_to_none="True" type="string">person</argument>
+            <argument name="reset_sync_dataset_attribute_value" convert_blank_to_none="True" type="string"/>
+          </run>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
+  <results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="test_hhld_youngest_age">
+        <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
+          <indicators>[]</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>control_total</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+    </indicator_batches>
+    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
+      <run hidden="Children" type="source_data" name="htm_test_33" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_29.htm_test_33</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="htm_test_11" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_27.htm_test_11</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_26" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_26.etm_test_26</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_23_new" run_id="25">
+        <scenario_name type="string">?</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_23.etm_test_23_new</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_24_new" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_24.etm_test_24_new</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="htm_test_32_1" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_22.htm_test_32_1</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="htm_test_31_2" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_21.htm_test_31_2</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="htm_test_32" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_20.htm_test_32</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="htm_test_31_1" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_19.htm_test_31_1</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="htm_test_31" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_18.htm_test_31</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_24" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_14.etm_test_24</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_23" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_13.etm_test_23</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_21" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_12.etm_test_21</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_22" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_11.etm_test_22</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_20" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_10.etm_test_20</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_19" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_9.etm_test_19</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_18" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_8.etm_test_18</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_17" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_7.etm_test_17</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_16" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_6.etm_test_16</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_15" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_5.etm_test_15</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="etm_test_14" run_id="None">
+        <scenario_name type="string">Zone_baseline</scenario_name>
+        <cache_directory type="string">C:\opus\data\mag_zone_v3a\runs\run_4.etm_test_14</cache_directory>
+        <start_year type="integer">2009</start_year>
+        <end_year type="integer">2010</end_year>
+      </run>
+    </simulation_runs>
+  </results_manager>
+  <scenario_manager>
+    <scenario setexpanded="True" copyable="True" executable="True" name="Zone_baseline" type="scenario">
+      <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable name="real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="development_project_transition_model" type="selectable">False</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="household_transition_model" type="selectable">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="selectable">False</selectable>
+        <selectable name="employment_transition_model" type="selectable">False</selectable>
+        <selectable name="household_relocation_model" type="selectable">False</selectable>
+        <selectable name="household_location_choice_model" type="selectable">False</selectable>
+        <selectable name="employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable return_value="new_household_transition_model" type="selectable" name="new_household_transition_model_1">True</selectable>
+        <selectable return_value="new_employment_transition_model" type="selectable" name="new_employment_transition_model_1">False</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
 </opus_project>
 
