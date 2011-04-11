@@ -2,7 +2,7 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">Configuration for the PSRC parcel project</description>
-    <parent type="file">psrc_parcel_default_consolidated.xml</parent>
+    <parent type="file">psrc_parcel_default.xml</parent>
     <expression_library type="dictionary">
     </expression_library>
  </general>
@@ -72,7 +72,8 @@
                 <run type="dictionary">
                   <argument name="agent_set" type="string">job</argument>
                   <argument hidden="True" name="agents_index" type="string">erm_index</argument>
-                  <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+                  <!--<argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>-->
+                  <argument name="chunk_specification" type="string">{'records_per_chunk':5000}</argument>
                   <argument name="coefficients" type="string">coefficients</argument>
                   <argument name="data_objects" type="string">datasets</argument>
                   <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
@@ -123,11 +124,18 @@
           <name hidden="True" name="name" type="string">ScalingJobsModelByGeography</name>
           <argument name="debuglevel" type="string">2</argument>
           </init>
+          <prepare_for_run type="dictionary">
+    <name hidden="True" name="name" type="string">prepare_for_run</name>
+          <argument name="agent_set" type="string">job</argument>
+          <argument name="agents_filter" type="string" parser_action="quote_string">numpy.logical_or(job.sector_id==18, job.sector_id==19)</argument>
+          <argument name="agents_index" type="string">erm_index</argument>
+    <output hidden="True" name="output" type="string">filtered_erm_index</output>
+    </prepare_for_run>
           <run type="dictionary">
               <argument name="geography_set" type="string">zone</argument>
               <argument name="location_set" type="string">building</argument>
               <argument name="agent_set" type="string">job</argument>
-              <argument name="agents_index" type="string">erm_index</argument>
+              <argument name="agents_index" type="string">filtered_erm_index</argument>
           </run>
        </structure>
     </model>
@@ -148,11 +156,12 @@
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/jobsdataprep/assigned_jobs</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/jobsdataprep/revised/assigned_jobs</argument>
         </argument>
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
+        <!-- -->
         <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>
         <selectable name="governmental_employment_location_choice_model_without_filter" type="model_choice">True</selectable>
