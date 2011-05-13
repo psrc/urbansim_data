@@ -7,38 +7,35 @@
     </expression_library>
   </general>
   <model_manager>
-	  <travel_model_configuration type="dictionary">
-	      <urbansim_to_tm_variable_mapping type="dictionary">
-	           <DataTable type="string">TAZ Data Table</DataTable>
-	           <JoinField type="string">ZoneID</JoinField>
-	           <variable_mapping type="dictionary">
-	             <variable name="zone.zone_id" type="string">ZoneID</variable>
-	             <variable name="urbansim_parcel.zone.population" type="string">Population</variable>
-	             <variable name="urbansim_parcel.zone.number_of_households" type="string">Households</variable>
-	             <variable name="urbansim_parcel.zone.number_of_jobs" type="string">Total_Emp</variable>
-	             <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_basic)" type="string">Basic</variable>
-	             <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_nonbasic)" type="string">NonBasic</variable>
-	             <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_4" type="string">WholeSale</variable>
-	             <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_5" type="string">Retail</variable>
-	           </variable_mapping>
-		   </urbansim_to_tm_variable_mapping>
-	      <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
-	      <models type="selectable_list">
-	        <selectable name="mag_zone.simtravel.export_urbansim_data_to_travel_model" type="selectable">True</selectable>
-	        <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
-	        <!--
-	        <selectable name="mag_zone.simtravel.quit_on_travel_model" type="selectable">True</selectable>
-	        -->
-	      </models>
-	      <years_to_run key_name="year" type="category_with_special_keys">
-	        <run_description type="dictionary">
-	          <year type="integer">2010</year>
-	          <data_dir type="string">somedir</data_dir>
-	        </run_description>
-	      </years_to_run>
-	  </travel_model_configuration>
+    <travel_model_configuration type="dictionary">
+      <urbansim_to_tm_variable_mapping type="dictionary">
+        <DataTable type="string">TAZ Data Table</DataTable>
+        <JoinField type="string">ZoneID</JoinField>
+        <variable_mapping type="dictionary">
+          <variable name="zone.zone_id" type="string">ZoneID</variable>
+          <variable name="urbansim_parcel.zone.population" type="string">Population</variable>
+          <variable name="urbansim_parcel.zone.number_of_households" type="string">Households</variable>
+          <variable name="urbansim_parcel.zone.number_of_jobs" type="string">Total_Emp</variable>
+          <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_basic)" type="string">Basic</variable>
+          <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_nonbasic)" type="string">NonBasic</variable>
+          <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_4" type="string">WholeSale</variable>
+          <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_5" type="string">Retail</variable>
+        </variable_mapping>
+      </urbansim_to_tm_variable_mapping>
+      <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
+      <models type="selectable_list">
+        <selectable name="mag_zone.simtravel.export_urbansim_data_to_travel_model" type="selectable">True</selectable>
+        <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
+      </models>
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2010</year>
+          <data_dir type="string">somedir</data_dir>
+        </run_description>
+      </years_to_run>
+    </travel_model_configuration>
   </model_manager>
-  <results_manager />
+  <results_manager/>
   <scenario_manager>
     <scenario setexpanded="True" copyable="True" executable="True" name="Zone_baseline" type="scenario">
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
@@ -65,12 +62,12 @@
         <lastyear type="integer">2012</lastyear>
       </years_to_run>
       <models_in_year type="dictionary">
-        <cache_latent_variables key_name="year" key_value="models" type="category_with_special_keys">
-          <run_description type="dictionary">
+        <models_to_run_in_year name="models_to_run_in_year" key_name="year" key_value="models" type="category_with_special_keys">
+          <run_description name="2010" type="dictionary">
             <year type="integer">2010</year>
             <models type="list">['household_relocation_model','household_location_choice_model']</models>
           </run_description>
-        </cache_latent_variables>
+        </models_to_run_in_year>
       </models_in_year>
       <advanced type="category">
         <flush_variables type="boolean">False</flush_variables>
