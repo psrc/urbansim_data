@@ -61,13 +61,13 @@
         <firstyear type="integer">2010</firstyear>
         <lastyear type="integer">2012</lastyear>
       </years_to_run>
-      <models_in_year type="dictionary">
-        <models_to_run_in_year name="models_to_run_in_year" key_name="year" key_value="models" type="category_with_special_keys">
+      <models_in_year name="models_to_run_in_year" type="dictionary">
+        <year_models name="year_models" key_name="year" key_value="models" type="category_with_special_keys">
           <run_description name="2010" type="dictionary">
             <year type="integer">2010</year>
             <models type="list">['household_relocation_model','household_location_choice_model']</models>
           </run_description>
-        </models_to_run_in_year>
+        </year_models>
       </models_in_year>
       <advanced type="category">
         <flush_variables type="boolean">False</flush_variables>
