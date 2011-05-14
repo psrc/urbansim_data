@@ -25,7 +25,9 @@
       <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
       <models type="selectable_list">
         <selectable name="mag_zone.simtravel.export_urbansim_data_to_travel_model" type="selectable">True</selectable>
+        <!--
         <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
+        -->
       </models>
       <years_to_run key_name="year" type="category_with_special_keys">
         <run_description type="dictionary">
@@ -61,14 +63,21 @@
         <firstyear type="integer">2010</firstyear>
         <lastyear type="integer">2012</lastyear>
       </years_to_run>
-      <models_in_year name="models_to_run_in_year" type="dictionary">
+      <models_to_run_in_year config_name="models_in_year" type="dictionary">
         <year_models name="year_models" key_name="year" key_value="models" type="category_with_special_keys">
+          <run_description name="2011" type="dictionary">
+            <year type="integer">2011</year>
+            <models type="list">['employment_relocation_model']</models>
+            <!--
+            <models type="list">['employment_relocation_model',{"employment_location_choice_model":{'group_members': '_all_'}}]</models>
+            -->
+          </run_description>
           <run_description name="2010" type="dictionary">
             <year type="integer">2010</year>
             <models type="list">['household_relocation_model','household_location_choice_model']</models>
           </run_description>
         </year_models>
-      </models_in_year>
+      </models_to_run_in_year>
       <advanced type="category">
         <flush_variables type="boolean">False</flush_variables>
         <seed type="integer" convert_blank_to_none="True">1</seed>
