@@ -2,27 +2,405 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">SustainCity: Zurich case study</description>
-    <parent type="file">/home/muelleki/urbansim2/urbansim/src/urbansim_parcel/configs/urbansim_parcel.xml</parent>
+    <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="model variable" source="expression" name="parcel.pop_density_within_1000_of_parcel" type="variable_definition">urbansim_parcel.parcel.persons_within_1000_of_parcel / (1000**2 * 3.1415926535897931)</variable>
+      <variable use="model variable" source="Python class" name="parcel.persons_within_some_distance_of_parcel" type="variable_definition">urbansim_parcel.parcel.persons_within_DDD_of_parcel</variable>
+      <variable use="both" source="expression" name="household.pop_density_x_young_hh" type="variable_definition">ln(urbansim.household.is_young)</variable>
+    </expression_library>
     <project_name hidden="True" type="string">zurich_parcel</project_name>
   </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <class_module>sql_data_to_opus</class_module>
+          <params>
+            <param name="database_server_connection" param_type="db_connection_hook" required="True">postgres_test_database_server</param>
+            <param name="database_name" param_type="string" required="True">zurich_parcel</param>
+            <param name="table_name" param_type="string" required="True">annual_household_control_totals</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+          </params>
+        </tool>
+        <tool name="esri_data_to_opus_tool">
+          <class_module>esri_data_to_opus</class_module>
+          <params>
+            <param name="esri_data_path" param_type="dir_path" required="True">data/zurich_parcel/shapefiles</param>
+            <param name="esri_table_name" param_type="dir_path" required="True">zonen_kvm</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+          </params>
+        </tool>
+        <tool name="csv_data_to_opus_tool">
+          <class_module>csv_data_to_opus</class_module>
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/Documents/Projekte/SustainCity/03_original_data/pg2urbansim/options</param>
+            <param name="csv_table_name" param_type="string" required="True">household_location_choice_model_coefficients</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
   <results_manager>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="run_2010_12_22_12_41" run_id="None">
+      <run hidden="Children" type="source_data" name="run_2011_05_05_09_53" run_id="None">
         <scenario_name type="string">test_run</scenario_name>
-        <cache_directory type="string">/home/muelleki/urbansim2/urbansim/data/zurich_parcel/runs/run_2.run_2010_12_22_12_41</cache_directory>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_32.run_2011_05_05_09_53</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2002</end_year>
       </run>
-      <run hidden="Children" type="source_data" name="base_year_data" run_id="1">
+      <run hidden="Children" type="source_data" name="run_2011_05_05_09_41" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_30.run_2011_05_05_09_41</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_05_09_38" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_29.run_2011_05_05_09_38</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_20_04" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_20.run_2011_05_04_20_04</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_20_02" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_19.run_2011_05_04_20_02</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_19_48" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_18.run_2011_05_04_19_48</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_17_36" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_16.run_2011_05_04_17_36</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_17_29" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_15.run_2011_05_04_17_29</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_17_24" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_14.run_2011_05_04_17_24</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_16_30" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_10.run_2011_05_04_16_30</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_14_58" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_9.run_2011_05_04_14_58</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_05_04_14_50" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_8.run_2011_05_04_14_50</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_04_30_16_19" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_6.run_2011_04_30_16_19</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_04_30_16_04" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_5.run_2011_04_30_16_04</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_04_30_15_57" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_4.run_2011_04_30_15_57</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="run_2011_04_30_15_49" run_id="None">
+        <scenario_name type="string">test_run</scenario_name>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/runs/run_3.run_2011_04_30_15_49</cache_directory>
+        <start_year type="integer">2000</start_year>
+        <end_year type="integer">2002</end_year>
+      </run>
+      <run hidden="Children" type="source_data" name="base_year_data" run_id="2">
         <scenario_name type="string"/>
-        <cache_directory type="string">/home/muelleki/urbansim2/urbansim/data/zurich_parcel/base_year_data</cache_directory>
+        <cache_directory type="string">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/base_year_data</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2000</end_year>
       </run>
     </simulation_runs>
   </results_manager>
   <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="Copy of household_location_choice_model" type="model">
+        <dependencies type="list">['household_relocation_model']</dependencies>
+        <structure type="dictionary">
+          <estimate type="dictionary">
+            <output hidden="True" name="output" type="string">(coefficients, _)</output>
+            <argument name="agent_set" type="string">household</argument>
+            <argument hidden="True" name="agents_index" type="string">_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">_specification</argument>
+          </estimate>
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.household_location_choice_model</class_module>
+            <class_name>HouseholdLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">HouseholdLocationChoiceModel</name>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="location_set" type="string">building</argument>
+            <argument name="sample_size_locations" type="integer">30</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">vacant_residential_units</argument>
+            <argument name="estimation_weight_string" parser_action="quote_string" type="string">residential_units</argument>
+            <argument name="number_of_units_string" parser_action="quote_string" type="string">residential_units</argument>
+            <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
+            <argument name="location_id_string" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="submodel_string" parser_action="quote_string" type="string">urbansim.household.income_category</argument>
+            <argument name="estimation_size_agents" type="float">0.5</argument>
+            <argument name="filter" parser_action="quote_string" type="string">numpy.logical_and(urbansim_parcel.building.is_residential, numpy.logical_and(building.residential_units, building.sqft_per_unit))</argument>
+            <argument name="run_config" type="string">Resources({'lottery_max_iterations': 7})</argument>
+            <argument name="estimate_config" type="string">Resources({'wesml_sampling_correction_variable':'psrc_parcel.building.wesml_sampling_correction_variable'})</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_estimate</name>
+            <output hidden="True" name="output" type="string">(_specification, _index)</output>
+            <argument name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">households</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="index_to_unplace" type="string">None</argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">.1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string">numpy.logical_and(household.building_id&gt;0, household.disaggregate(building.sqft_per_unit&gt;0))</argument>
+          </prepare_for_estimate>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">(_specification, _coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">household_location_choice_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string">household</argument>
+            <argument hidden="True" name="agents_index" type="string">hrm_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument hidden="True" name="coefficients" type="string">_coefficients</argument>
+            <argument hidden="True" name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.pop_density_within_1000_of_parcel"/>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
+      <model name="building_choice_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.choice_model</class_module>
+            <class_name type="string">ChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">ChoiceModel</name>
+            <argument name="choice_set" type="string">buildings</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string">building_choice_model</argument>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"/>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">building_choice_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">building_choice_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string"/>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">urbansim_pacel.building.is_residential</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="1" name="Choice 1" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant"/>
+              </variable_list>
+            </equation>
+            <equation equation_id="2" name="Choice 2" type="submodel_equation">
+              <variable_list type="variable_list"/>
+            </equation>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="new_HH_location_choice_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="location_set" type="string">building</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string"/>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">new_HLCM</argument>
+            <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">AgentLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">NHLCM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="capacity_string" parser_action="quote_string" type="string">building.vacant_residential_units</key>
+              <key convert_blank_to_none="True" name="number_of_units_string" parser_action="quote_string" type="string"/>
+              <key convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string"/>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" parser_action="quote_string" type="string"/>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">new_HH_location_choice_model_specification</argument>
+            <argument name="agent_set" type="string">household</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">households</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string"/>
+            <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string">building_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">new_HH_location_choice_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">new_HH_location_choice_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string"/>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.ln_bldage"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+    </models>
     <estimation_config name="Estimation Configuration" config_name="estimation_config" type="dictionary">
+      <save_estimation_results type="boolean">True</save_estimation_results>
       <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
       <base_year name="" type="integer" field_identifier="Base Year">2000</base_year>
       <years type="tuple">
@@ -45,18 +423,18 @@
         </dataset_pool_configuration>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
           <selectable name="zone" type="selectable">False</selectable>
-          <selectable name="household" type="selectable">False</selectable>
-          <selectable name="building" type="selectable">False</selectable>
-          <selectable name="parcel" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
-          <selectable name="person" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          <selectable name="person" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="job" type="selectable">False</selectable>
-          <selectable name="building_type" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          <selectable name="building_type" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="travel_data" type="selectable">False</selectable>
           <selectable name="job_building_type" type="selectable">False</selectable>
@@ -80,9 +458,17 @@
         <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable return_value="household_location_choice_model" type="selectable" name="household_location_choice_model_1">False</selectable>
+        <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
+        <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
+        <selectable return_value="employment_location_choice_model" type="selectable" name="employment_location_choice_model_1">False</selectable>
+        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
+        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model_1">False</selectable>
+        <selectable return_value="new_HH_location_choice_model" type="selectable" name="new_HH_location_choice_model_1">False</selectable>
+        <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">True</selectable>
       </models_to_run>
     </scenario>
-    <scenario name="urbansim_parcel_baseline" type="scenario">
+    <scenario name="urbansim_parcel_baseline" type="scenario" executable="True">
       <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
         <argument name="cache_directory_root" config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Scenario Runs Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs">zurich_parcel/runs</argument>
