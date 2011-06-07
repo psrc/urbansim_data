@@ -176,6 +176,7 @@
          </structure>
       </model>
       <model type="model" name="development_proposal_choice_model" inherit_parent_values="False">
+      <dependencies type="list">['real_estate_price_model', "expected_sale_price_model"]</dependencies>
         <structure type="dictionary">
           <import hidden="True" type="dictionary" name="import">
             <class_module type="string">urbansim_parcel.models.development_project_proposal_sampling_model2</class_module>
@@ -1744,6 +1745,27 @@
             <argument hidden="False" name="accept_only_larger_proposals_for_redevelopment" type="boolean">True</argument>
             <output hidden="True" name="output" type="string">(development_project_proposal, specification, coefficients)</output>
           </prepare_for_run>
+        </structure>
+      </model>
+      <model name="military_employment_location_choice_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.capacity_location_model</class_module>
+            <class_name>CapacityLocationModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">CapacityLocationModel</name>
+            <argument hidden="False" name="capacity_attribute" parser_action="quote_string" type="string" convert_blank_to_none="True">building.job_capacity</argument>
+            <argument hidden="False" name="number_of_agents_attribute" parser_action="quote_string" type="string" convert_blank_to_none="True">urbansim_parcel.building.number_of_jobs</argument>
+            <argument name="filter" parser_action="quote_string" type="string" convert_blank_to_none="True">urbansim.building.is_building_type_military</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string" convert_blank_to_none="True">urbansim.job.is_in_employment_sector_20</argument>           
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="location_set" type="string">building</argument>
+            <argument name="agent_set" type="string">job</argument>
+            <argument hidden="True" name="agents_index" type="string">erm_index</argument>
+          </run>
         </structure>
       </model>
     </models>
