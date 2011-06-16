@@ -755,6 +755,26 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="typical">
+        <batch_visualization hidden="Children" type="batch_visualization" name="real_estate">
+          <indicators>['res_units_sf', 'res_units_mf', 'non_res_sqft_office', 'non_res_sqft_retail', 'non_res_sqft_indus', 'non_res_sqft_warehouse']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="agents">
+          <indicators>['zone_households', 'zone_emp_other', 'zone_emp_health_ed', 'zone_emp_finance_prof', 'zone_emp_retail', 'zone_emp_manuf', 'zone_emp_agric']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="emp ch ">
         <batch_visualization hidden="Children" type="batch_visualization" name="emp ch all zone">
           <indicators>['zone_emp_other', 'zone_emp_health_ed', 'zone_emp_finance_prof', 'zone_emp_retail', 'zone_emp_manuf', 'zone_total_jobs']</indicators>
@@ -922,23 +942,17 @@
       </indicator_batch>
     </indicator_batches>
     <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data">
-      <run hidden="Children" type="source_data" name="run_2011_04_13_20_21" run_id="None">
+      <run hidden="Children" type="source_data" name="run_2011_06_07_17_21" run_id="None">
         <scenario_name type="string">bay_area_baseline</scenario_name>
-        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_24.run_2011_04_13_20_21</cache_directory>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_33.run_2011_06_07_17_21</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2040</end_year>
       </run>
-      <run hidden="Children" type="source_data" name="run_2011_04_09_12_10" run_id="None">
+      <run hidden="Children" type="source_data" name="planned_future_success" run_id="None">
         <scenario_name type="string">bay_area_baseline</scenario_name>
-        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_20.run_2011_04_09_12_10</cache_directory>
+        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_32.run_2011_06_07_13_46</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2040</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2011_03_01_10_03" run_id="None">
-        <scenario_name type="string">bay_area_baseline</scenario_name>
-        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_19.run_2011_03_01_10_03</cache_directory>
-        <start_year type="integer">2000</start_year>
-        <end_year type="integer">2035</end_year>
       </run>
       <run hidden="Children" type="source_data" name="run_2011_02_02_12_15" run_id="None">
         <scenario_name type="string">bay_area_baseline</scenario_name>
@@ -969,12 +983,6 @@
         <cache_directory type="string">C:\opus\data\bay_area_zone\base_year_data</cache_directory>
         <start_year type="integer">2000</start_year>
         <end_year type="integer">2000</end_year>
-      </run>
-      <run hidden="Children" type="source_data" name="run_2010_11_02_11_14" run_id="2">
-        <scenario_name type="string">?</scenario_name>
-        <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_2.run_2010_11_02_11_14</cache_directory>
-        <start_year type="integer">2001</start_year>
-        <end_year type="integer">2002</end_year>
       </run>
     </simulation_runs>
   </results_manager>
