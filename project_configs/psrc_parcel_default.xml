@@ -137,6 +137,25 @@
       <variable use="both" source="expression" name="parcel.supply" type="variable_definition">parcel.aggregate(building.residential_supply)</variable>
       <variable use="both" source="expression" name="parcel.lnsupply" type="variable_definition">ln(parcel.aggregate(building.residential_supply))</variable>
       <variable use="both" source="expression" name="parcel.sdratio" type="variable_definition">safe_array_divide(parcel.aggregate(building.residential_supply), parcel.aggregate(building.residential_demand))</variable>
+      <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_1" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_1_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_2" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_2_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_3" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_3_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_4" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_4_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_5" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_5_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_6" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_6_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_7" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_7_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_8" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_8_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_9" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_9_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_10" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_10_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_11" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_11_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_12" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_12_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_13" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_13_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_14" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_14_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_15" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_15_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_16" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_16_combined</variable>
+  <variable use="model variable" source="Python class" name="job_x_building.mnl_bias_sector_17" type="variable_definition">psrc_parcel.job_x_building.ln_sampling_probability_for_bias_correction_mnl_percentage_of_non_home_based_jobs_of_sector_17_combined</variable>
+  
+  
   </expression_library>
     <available_datasets type="list">['mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone', 'household']</available_datasets>
   </general>
@@ -1365,7 +1384,7 @@
                   <argument name="sample_size_locations" type="integer">30</argument>
                   <argument name="capacity_string" parser_action="quote_string" type="string">vacant_SSS_job_space</argument>
                   <!--<argument name="estimation_weight_string" parser_action="quote_string" type="string">vacant_SSS_job_space</argument>-->
-                  <argument name="estimation_weight_string" parser_action="quote_string" type="string">(urbansim_parcel.building.percentage_of_jobs_of_sector_SUBMODEL+(urbansim_parcel.building.number_of_jobs == 0)*psrc_parcel.building.percentage_of_jobs_of_sector_SUBMODEL_static)* (urbansim_parcel.building.vacant_SSS_job_space > 0) </argument>
+                  <argument name="estimation_weight_string" parser_action="quote_string" type="string">psrc_parcel.building.percentage_of_SSS_jobs_of_sector_SUBMODEL_combined </argument>
                   <argument name="simulation_weight_string" parser_action="quote_string" type="string">(urbansim_parcel.building.percentage_of_jobs_of_sector_SUBMODEL+(urbansim_parcel.building.number_of_jobs == 0)*psrc_parcel.building.percentage_of_jobs_of_sector_SUBMODEL_static)* (urbansim_parcel.building.vacant_SSS_job_space > 0) </argument>
                   <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string" />
                   <argument name="estimation_size_agents" type="float">1.</argument>
@@ -1436,6 +1455,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_1" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="construction" submodel_id="2" type="submodel">
@@ -1444,6 +1464,7 @@
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_2" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="aerospace" submodel_id="3" type="submodel">
@@ -1459,6 +1480,7 @@
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_3" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="durable_manufacturing" submodel_id="4" type="submodel">
@@ -1480,6 +1502,7 @@
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_4" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="nondurable_manufacturing" submodel_id="5" type="submodel">
@@ -1501,6 +1524,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_5" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="wholesale" submodel_id="6" type="submodel">
@@ -1522,6 +1546,7 @@
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_6" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
@@ -1540,6 +1565,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_7" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="transportation_warehousing" submodel_id="8" type="submodel">
@@ -1557,6 +1583,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_8" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="utilities" submodel_id="9" type="submodel">
@@ -1572,6 +1599,7 @@
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_9" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="telecom" submodel_id="10" type="submodel">
@@ -1592,6 +1620,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_10" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="information" submodel_id="11" type="submodel">
@@ -1613,6 +1642,7 @@
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_11" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="finance" submodel_id="12" type="submodel">
@@ -1632,6 +1662,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_12" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="professional_services" submodel_id="13" type="submodel">
@@ -1651,6 +1682,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_13" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="food_and_drink" submodel_id="14" type="submodel">
@@ -1671,6 +1703,7 @@
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_14" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="ed_services" submodel_id="15" type="submodel">
@@ -1690,6 +1723,7 @@
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_15" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="health" submodel_id="16" type="submodel">
@@ -1710,6 +1744,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_16" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="other_services" submodel_id="17" type="submodel">
@@ -1730,6 +1765,7 @@
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="job_x_building.mnl_bias_sector_17" fixed_value="1"/>
                     </variable_list>
                   </submodel>
                 </submodel_group>
