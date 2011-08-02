@@ -1,0 +1,237 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the Bay Area parcel project</description>
+    <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="indicator" source="expression" name="alldata.total_population" type="variable_definition">alldata.aggregate_all(household.persons)</variable>
+      <variable use="indicator" source="expression" name="alldata.total_employment" type="variable_definition">alldata.aggregate_all(urbansim_zone.zone.number_of_jobs)</variable>
+    </expression_library>
+    <available_datasets type="list">['building_x_parcel','household','job','household_x_building','building','parcel','zone','tract','city','county', 'alldata','development_event_history' ]</available_datasets>
+    <spatial_datasets type="list">['parcel','zone','tract','city','county']</spatial_datasets>
+    <dataset_pool_configuration type="class" hidden="True">
+      <class_name type="string">DatasetPoolConfiguration</class_name>
+      <class_module type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+      <argument name="package_order" type="list">['urbansim_parcel','urbansim','opus_core']</argument>
+    </dataset_pool_configuration>
+  </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="seller_price_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" type="string"/>
+            <argument convert_blank_to_none="True" name="run_config" type="string"/>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"/>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="dataset" type="string">building</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" name="dataset" type="string"/>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string"/>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">seller_price_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">seller_price_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="dataset" type="string">building</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">building.sales_price</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" name="dataset" type="string">building</argument>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(building.sales_price&gt;0, building.building_sqft&gt;0)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">seller_price_model_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Commercial" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.avg_income_in_zone"/>
+              <variable_spec name="building.building_jobs"/>
+              <variable_spec name="constant"/>
+              <variable_spec name="building.emp_30_lrt_10k"/>
+              <variable_spec name="building.is_commercial_building"/>
+              <variable_spec name="building.is_office_building"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+    </models>
+    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
+      <save_estimation_results type="boolean">True</save_estimation_results>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="">bay_area_parcel/base_year_data</cache_directory>
+      <low_memory_mode type="boolean">True</low_memory_mode>
+      <base_year type="integer" field_identifier="Base Year">2001</base_year>
+      <years type="tuple">
+        <firstyear type="integer" field_identifier="Base Year">2001</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2001</lastyear>
+      </years>
+    </estimation_config>
+  </model_manager>
+  <scenario_manager>
+    <scenario type="scenario" name="bay_area_baseline_test">
+      <description type="string">Single year test</description>
+      <parent type="scenario_name">sanfrancisco_baseline</parent>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2002</firstyear>
+        <lastyear type="integer">2003</lastyear>
+      </years_to_run>
+    </scenario>
+    <scenario type="scenario" name="bay_area_baseline_10yeartest">
+      <description type="string">Ten year test</description>
+      <parent type="scenario_name">sanfrancisco_baseline</parent>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2002</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+    </scenario>
+    <scenario executable="True" name="bay_area_baseline" type="scenario">
+      <description type="string">sanfrancisco_baseline2009 run</description>
+      <model_system type="string">urbansim.model_coordinators.model_system</model_system>
+      <base_year type="integer">2001</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2002</firstyear>
+        <lastyear type="integer">2035</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="process_pipeline_events" type="selectable">True</selectable>
+        <selectable name="seller_price_model" type="selectable">True</selectable>
+        <selectable name="building_transition_model" type="selectable">True</selectable>
+        <selectable name="building_location_choice_model" type="selectable">True</selectable>
+        <selectable name="Household_transition_model" type="selectable">True</selectable>
+        <selectable name="Business_transition_model" type="selectable">True</selectable>
+        <selectable name="household_relocation_model" type="selectable">True</selectable>
+        <selectable name="household_location_choice_model" type="selectable">True</selectable>
+        <selectable name="business_relocation_model" type="selectable">True</selectable>
+        <selectable name="business_location_choice_model" type="selectable">True</selectable>
+      </models_to_run>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">sanfrancisco/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="FALSE" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="FALSE" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">sanfrancisco/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="FALSE" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="FALSE" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">sanfrancisco/base_year_data</argument>
+        </argument>
+        <argument hidden="FALSE" name="unroll_gridcells" type="boolean">False</argument>
+        <argument name="advanced" type="category">
+          <baseyear_database_configuration config_name="scenario_database_configuration" type="class">
+            <class_name hidden="FALSE" type="string">ScenarioDatabaseConfiguration</class_name>
+            <class_module hidden="FALSE" type="string">opus_core.database_management.configurations.scenario_database_configuration</class_module>
+            <argument name="database_name" type="string">sanfrancisco_baseyear</argument>
+          </baseyear_database_configuration>
+          <cache_from_database type="boolean">False</cache_from_database>
+          <cache_scenario_database type="string">urbansim.model_coordinators.cache_scenario_database</cache_scenario_database>
+          <tables_to_cache type="selectable_list">
+            <selectable name="activities" type="selectable">True</selectable>
+            <selectable name="annual_business_control_totals" type="selectable">True</selectable>
+            <selectable name="annual_household_control_totals" type="selectable">True</selectable>
+            <selectable name="annual_relocation_rates_for_business" type="selectable">True</selectable>
+            <selectable name="annual_relocation_rates_for_households" type="selectable">True</selectable>
+            <selectable name="building_types" type="selectable">True</selectable>
+            <selectable name="building_type_classification" type="selectable">True</selectable>
+            <selectable name="buildings" type="selectable">True</selectable>
+            <selectable name="business" type="selectable">True</selectable>
+            <selectable name="business_for_estimation" type="selectable">True</selectable>
+            <selectable name="business_location_choice_model_coefficients" type="selectable">True</selectable>
+            <selectable name="business_location_choice_model_specification" type="selectable">True</selectable>
+            <selectable name="development_event_history" type="selectable">True</selectable>
+            <selectable name="development_events_exogenous" type="selectable">True</selectable>
+            <selectable name="district14" type="selectable">True</selectable>
+            <selectable name="district24" type="selectable">True</selectable>
+            <selectable name="households" type="selectable">True</selectable>
+            <selectable name="households_for_estimation" type="selectable">True</selectable>
+            <selectable name="household_location_choice_model_coefficients" type="selectable">True</selectable>
+            <selectable name="household_location_choice_model_specification" type="selectable">True</selectable>
+            <selectable name="nonresidential_building_location_choice_model_coefficients" type="selectable">True</selectable>
+            <selectable name="building_location_choice_model_specification" type="selectable">True</selectable>
+            <selectable name="parcels" type="selectable">True</selectable>
+            <selectable name="pdists" type="selectable">True</selectable>
+            <selectable name="persons" type="selectable">True</selectable>
+            <selectable name="seller_price_model_coefficients" type="selectable">True</selectable>
+            <selectable name="seller_price_model_specification" type="selectable">True</selectable>
+            <selectable name="residential_building_location_choice_model_coefficients" type="selectable">True</selectable>
+            <selectable name="residential_building_location_choice_model_specification" type="selectable">True</selectable>
+            <selectable name="sectors" type="selectable">True</selectable>
+            <selectable name="target_vacancies" type="selectable">True</selectable>
+            <selectable name="tracts" type="selectable">True</selectable>
+            <selectable name="travel_data" type="selectable">True</selectable>
+            <selectable name="urbansim_constants" type="selectable">True</selectable>
+            <selectable name="zones" type="selectable">True</selectable>
+          </tables_to_cache>
+          <tables_to_cache_nchunks type="dictionary">
+            <parcels type="integer">1</parcels>
+          </tables_to_cache_nchunks>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <advanced type="category">
+        <dataset_pool_configuration type="class">
+          <class_name hidden="FALSE" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="FALSE" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['sanfrancisco', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
+        <flush_dataset_to_cache_after_each_model type="boolean">False</flush_dataset_to_cache_after_each_model>
+        <flush_variables type="boolean">False</flush_variables>
+        <low_memory_run type="boolean">False</low_memory_run>
+        <datasets_to_cache_after_each_model type="list">['parcel', 'building', 'household', 'business','travel_data']</datasets_to_cache_after_each_model>
+        <unroll_gridcells hidden="FALSE" type="boolean">False</unroll_gridcells>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">True
+          	<package_name type="string">sanfrancisco</package_name>
+          </selectable>
+          <selectable name="business" type="selectable">True
+          	<package_name type="string">sanfrancisco</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">True
+          	<package_name type="string">sanfrancisco</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+        </datasets_to_preload>
+      </advanced>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+     <simulation_runs />
+  </results_manager>
+</opus_project>
+
