@@ -13,6 +13,7 @@
      <init type="dictionary">
     <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_total_value_per_sqft=ln(urbansim_parcel.parcel.total_value_per_sqft)</argument>
         <argument name="filter_attribute" parser_action="quote_string" type="string" convert_blank_to_none="True"></argument>
+        <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': True})</argument>
      </init>
   <prepare_for_estimate type="dictionary">
     <argument name="filter_variable" parser_action="quote_string" type="string">numpy.logical_and(urbansim_parcel.parcel.total_value_per_sqft&gt;1, urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63)</argument>
