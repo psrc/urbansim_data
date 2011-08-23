@@ -1943,12 +1943,32 @@
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2001</firstyear>
-        <lastyear type="integer">2006</lastyear>
+        <lastyear type="integer">2001</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">False</flush_variables>
       <models_to_run config_name="models" type="selectable_list" inherit_parent_values="False">
       </models_to_run>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</argument>
+        </argument>
+        <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
+        <argument name="advanced" type="category">
+          <baseyear_database_configuration config_name="scenario_database_configuration" type="class">
+            <class_name hidden="True" type="string">ScenarioDatabaseConfiguration</class_name>
+            <class_module hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</class_module>
+            <argument name="database_name" type="string">psrc_2000_parcel_baseyear_data</argument>
+          </baseyear_database_configuration>
+          <cache_from_database type="boolean">False</cache_from_database>
+          <cache_scenario_database type="string">urbansim.model_coordinators.cache_scenario_database</cache_scenario_database>
+              </argument>
+      </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
         <travel_model_base_directory type="string">Version_1.0c</travel_model_base_directory>
         <emme2_batch_file_name type="string">MODEL1-0c.BAT</emme2_batch_file_name>
@@ -1960,7 +1980,7 @@
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2006</year>
+            <year type="integer">2001</year>
             <bank type="list">['2006_06']</bank>
           </run_description>
         </years_to_run>
