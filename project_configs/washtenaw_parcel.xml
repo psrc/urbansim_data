@@ -924,9 +924,10 @@
     </estimation_config>
   <travel_model_configuration type="dictionary">
       <transcad_binary type="string">C:\\Program Files\\TransCAD\\tcw.exe</transcad_binary>
-      <project_ini type="string">C:\\Program Files\\TransCAD\\semcog.ini</project_ini>
+      <project_ini type="string">C:\\Program Files\\TransCAD\\semcog_e5.ini</project_ini>
       <travel_model_base_directory type="string">C:\\SEMCOG_baseline\\</travel_model_base_directory>
       <ui_file type="string">macros\\semcog_ui</ui_file> <!-- relative to <directory> -->
+      <!--	  
       <urbansim_to_tm_variable_mapping type="dictionary">
            <DataTable type="string">TAZ Data Table</DataTable>
            <JoinField type="string">ZoneID</JoinField>
@@ -940,7 +941,6 @@
              <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_4" type="string">WholeSale</variable>
              <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_5" type="string">Retail</variable>
 	   </variable_mapping>
-           <!--
            <variable_mapping type="list">[
              ('zone.zone_id', 'ZoneID'),
 #            ('zone.seq_taz', 'ZoneID'),   #JoinField
@@ -953,7 +953,6 @@
              ('urbansim.zone.number_of_jobs_of_sector_5', 'Retail')
              ]
 	   </variable_mapping>
-	   -->
        </urbansim_to_tm_variable_mapping>
        <tm_to_urbansim_variable_mapping type="dictionary">
              <row_index_name type="string">ZoneID</row_index_name>
@@ -966,6 +965,7 @@
                      <variable name="Generalized Cost" type="string">generalized_cost</variable>
              </matrix>             
        </tm_to_urbansim_variable_mapping>
+	   -->	   
        <!--
        <tm_to_urbansim_variable_mapping type="list">
              [
@@ -990,9 +990,9 @@
        </macro>
       <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
       <models type="selectable_list">
-        <selectable name="washtenaw.transcad.get_cache_data_into_transcad" type="selectable">True</selectable>
-        <selectable name="washtenaw.transcad.run_semcog_travel_model" type="selectable">True</selectable>
-        <selectable name="washtenaw.transcad.get_transcad_data_into_cache" type="selectable">True</selectable>
+        <selectable name="opus_transcad.models.get_cache_data_into_transcad" type="selectable">True</selectable>
+        <selectable name="opus_transcad.models.run_semcog_travel_model" type="selectable">True</selectable>
+        <selectable name="opus_transcad.models.get_transcad_data_into_cache" type="selectable">True</selectable>
       </models>
       <!--
       <years_to_run key_name="year" type="category_with_special_keys">
