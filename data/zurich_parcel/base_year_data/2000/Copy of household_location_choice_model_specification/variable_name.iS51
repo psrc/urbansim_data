@@ -1,1 +1,0 @@
-ln_bldage = ln(urbansim_parcel.building.age_masked)
