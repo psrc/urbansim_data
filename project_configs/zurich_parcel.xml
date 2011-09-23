@@ -392,14 +392,15 @@
         <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable return_value="household_location_choice_model" type="selectable" name="household_location_choice_model_1">False</selectable>
+        <selectable return_value="Copy of real_estate_price_model" type="selectable" name="Copy of real_estate_price_model_1">True</selectable>
+        <selectable return_value="building_transition_model" type="selectable" name="building_transition_model_1">False</selectable>
+        <selectable return_value="building_location_choice_model" type="selectable" name="building_location_choice_model_1">False</selectable>
         <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
         <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
+        <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">True</selectable>
         <selectable return_value="employment_location_choice_model" type="selectable" name="employment_location_choice_model_1">False</selectable>
         <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
         <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model_1">False</selectable>
-        <selectable return_value="new_HH_location_choice_model" type="selectable" name="new_HH_location_choice_model_1">False</selectable>
-        <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">True</selectable>
       </models_to_run>
     </scenario>
     <scenario name="urbansim_parcel_baseline" type="scenario" executable="True">
