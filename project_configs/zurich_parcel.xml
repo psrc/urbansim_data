@@ -2,6 +2,7 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">SustainCity: Zurich case study</description>
+    <project_name hidden="True" type="string">zurich_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="building.SC_ln_dist_to_zh_cbd" type="variable_definition">ln(building.disaggregate(parcel.dist_to_zh_cbd))</variable>
@@ -29,15 +30,64 @@
       <variable use="model variable" source="expression" name="parcel.pop_density_within_1000_of_parcel" type="variable_definition">urbansim_parcel.parcel.persons_within_1000_of_parcel / (1000**2 * 3.1415926535897931)</variable>
       <variable use="model variable" source="Python class" name="parcel.SC_persons_within_1000_of_parcel" type="variable_definition">urbansim_parcel.parcel.persons_within_1000_of_parcel</variable>
       <variable use="both" source="expression" name="household.pop_density_x_young_hh" type="variable_definition">ln(urbansim.household.is_young)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_trade" type="variable_definition">(job.sector_id == 4) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_hotelbar" type="variable_definition">(job.sector_id == 5) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HWnet_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(parcel.dist_to_highwaynet)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HWnet_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(parcel.dist_to_highwaynet)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HWnet_trade" type="variable_definition">(job.sector_id == 4) * building.disaggregate(parcel.dist_to_highwaynet)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HWnet_hotelbar" type="variable_definition">(job.sector_id == 5) * building.disaggregate(parcel.dist_to_highwaynet)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HWnet_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.disaggregate(parcel.dist_to_highwaynet)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HW_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(parcel.dist_to_highwayaccess)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HW_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(parcel.dist_to_highwayaccess)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HW_trade" type="variable_definition">(job.sector_id == 4) * building.disaggregate(parcel.dist_to_highwayaccess)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HW_hotelbar" type="variable_definition">(job.sector_id == 5) * building.disaggregate(parcel.dist_to_highwayaccess)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_HW_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.disaggregate(parcel.dist_to_highwayaccess)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_PT_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(parcel.dist_to_station)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_PT_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(parcel.dist_to_station)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_PT_trade" type="variable_definition">(job.sector_id == 4) * building.disaggregate(parcel.dist_to_station)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_PT_hotelbar" type="variable_definition">(job.sector_id == 5) * building.disaggregate(parcel.dist_to_station)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_PT_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.disaggregate(parcel.dist_to_station)</variable>
+      <variable use="both" source="expression" name="job_x_building.RH_zonal_income_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(zone.aggregate(household.income, function=mean))</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_zonal_income_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(zone.aggregate(household.income, function=mean))</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_zonal_income_trade" type="variable_definition">(job.sector_id == 4) * building.disaggregate(zone.aggregate(household.income, function=mean))</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_zonal_income_hotelbar" type="variable_definition">(job.sector_id == 5) * building.disaggregate(zone.aggregate(household.income, function=mean))</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_zonal_income_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.disaggregate(zone.aggregate(household.income, function=mean))</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_pop_dens_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) *  building.disaggregate(urbansim_parcel.zone.population_per_acre)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_pop_dens_wtrade" type="variable_definition">(job.sector_id == 3) *  building.disaggregate(urbansim_parcel.zone.population_per_acre)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_pop_dens_trade" type="variable_definition">(job.sector_id == 4) *  building.disaggregate(urbansim_parcel.zone.population_per_acre)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_pop_dens_hotelbar" type="variable_definition">(job.sector_id == 5) *  building.disaggregate(urbansim_parcel.zone.population_per_acre)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_pop_dens_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) *  building.disaggregate(urbansim_parcel.zone.population_per_acre)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_parcel_land_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(parcel.parcel_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_parcel_land_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(parcel.parcel_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_parcel_land_trade" type="variable_definition">(job.sector_id == 4) * building.disaggregate(parcel.parcel_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_parcel_land_hotelbar" type="variable_definition">(job.sector_id == 5) * building.disaggregate(parcel.parcel_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_parcel_land_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.disaggregate(parcel.parcel_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * ln(building.non_residential_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_wtrade" type="variable_definition">(job.sector_id == 3) * ln(building.non_residential_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_trade" type="variable_definition">(job.sector_id == 4) * ln(building.non_residential_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_hotelbar" type="variable_definition">(job.sector_id == 5) * ln(building.non_residential_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * ln(building.non_residential_sqft)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_imp_value_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.improvement_value</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_imp_value_wtrade" type="variable_definition">(job.sector_id == 3) * building.improvement_value</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_imp_value_trade" type="variable_definition">(job.sector_id == 4) * building.improvement_value</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_imp_value_hotelbar" type="variable_definition">(job.sector_id == 5) * building.improvement_value</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_imp_value_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.improvement_value</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_land_surfb_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.land_area</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_land_surfb_wtrade" type="variable_definition">(job.sector_id == 3) * building.land_area</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_land_surfb_trade" type="variable_definition">(job.sector_id == 4) * building.land_area</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_land_surfb_hotelbar" type="variable_definition">(job.sector_id == 5) * building.land_area</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_land_surfb_service" type="variable_definition">(((job.sector_id == 7)+(job.sector_id == 8))&gt;0) * building.land_area</variable>
     </expression_library>
-    <available_datasets type="list">['building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','development_event_history']</available_datasets>
+    <available_datasets type="list">['building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','development_event_history', 'job_x_building']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','tract','district24','district14','city','county']</spatial_datasets>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name type="string">DatasetPoolConfiguration</class_name>
       <class_module type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <project_name hidden="True" type="string">zurich_parcel</project_name>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
@@ -73,8 +123,6 @@
       </tool_group>
     </tool_library>
   </data_manager>
-  <results_manager>
-  </results_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
       <model name="Copy of real_estate_price_model" type="model">
@@ -332,6 +380,76 @@
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
       </model>
+      <model name="employment_location_choice_model" type="model">
+        <dependencies type="list">['employment_relocation_model']</dependencies>
+        <structure type="dictionary">
+          <group_by_attribute type="tuple">
+            <argument name="grouping_table" type="string" model_dependency_type="table">home_based_status</argument>
+          </group_by_attribute>
+          <init type="dictionary">
+            <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
+            <argument name="sample_size_locations" type="integer">10</argument>
+            <argument name="estimation_size_agents" type="float">.05</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">jobs</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel_group name="home_based" type="submodel_group">
+            <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+              <description type="string">No submodel</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.blngcdacbd"/>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+          <submodel_group name="non_home_based" type="submodel_group">
+            <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+              <description type="string">No submodel</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_distance_to_CBD_hotelbar"/>
+                <variable_spec name="job_x_building.RH_distance_to_CBD_indust"/>
+                <variable_spec name="job_x_building.RH_distance_to_CBD_service"/>
+                <variable_spec name="job_x_building.RH_distance_to_CBD_trade"/>
+                <variable_spec name="job_x_building.RH_distance_to_CBD_wtrade"/>
+                <variable_spec name="job_x_building.RH_distance_to_HW_hotelbar"/>
+                <variable_spec name="job_x_building.RH_distance_to_HW_indust"/>
+                <variable_spec name="job_x_building.RH_distance_to_HW_service"/>
+                <variable_spec name="job_x_building.RH_distance_to_HW_trade"/>
+                <variable_spec name="job_x_building.RH_distance_to_HWnet_hotelbar"/>
+                <variable_spec name="job_x_building.RH_distance_to_HWnet_indust"/>
+                <variable_spec name="job_x_building.RH_distance_to_HWnet_service"/>
+                <variable_spec name="job_x_building.RH_distance_to_HWnet_trade"/>
+                <variable_spec name="job_x_building.RH_distance_to_PT_hotelbar"/>
+                <variable_spec name="job_x_building.RH_distance_to_PT_indust"/>
+                <variable_spec name="job_x_building.RH_distance_to_PT_service"/>
+                <variable_spec name="job_x_building.RH_distance_to_PT_trade"/>
+                <variable_spec name="job_x_building.RH_distance_to_PT_wtrade"/>
+                <variable_spec name="job_x_building.RH_imp_value_hotelbar"/>
+                <variable_spec name="job_x_building.RH_imp_value_indust"/>
+                <variable_spec name="job_x_building.RH_imp_value_service"/>
+                <variable_spec name="job_x_building.RH_imp_value_trade"/>
+                <variable_spec name="job_x_building.RH_imp_value_wtrade"/>
+                <variable_spec name="job_x_building.RH_ln_surf_hotelbar"/>
+                <variable_spec name="job_x_building.RH_ln_surf_indust"/>
+                <variable_spec name="job_x_building.RH_ln_surf_service"/>
+                <variable_spec name="job_x_building.RH_ln_surf_trade"/>
+                <variable_spec name="job_x_building.RH_parcel_land_hotelbar"/>
+                <variable_spec name="job_x_building.RH_parcel_land_indust"/>
+                <variable_spec name="job_x_building.RH_parcel_land_service"/>
+                <variable_spec name="job_x_building.RH_parcel_land_trade"/>
+                <variable_spec name="job_x_building.RH_parcel_land_wtrade"/>
+                <variable_spec name="job_x_building.RH_pop_dens_hotelbar"/>
+                <variable_spec name="job_x_building.RH_pop_dens_indust"/>
+                <variable_spec name="job_x_building.RH_pop_dens_service"/>
+                <variable_spec name="job_x_building.RH_pop_dens_trade"/>
+                <variable_spec name="job_x_building.RH_pop_dens_wtrade"/>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+        </specification>
+      </model>
     </models>
     <estimation_config name="Estimation Configuration" config_name="estimation_config" type="dictionary">
       <save_estimation_results type="boolean">True</save_estimation_results>
@@ -398,9 +516,9 @@
         <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
         <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
         <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">True</selectable>
-        <selectable return_value="employment_location_choice_model" type="selectable" name="employment_location_choice_model_1">False</selectable>
         <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
         <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model_1">False</selectable>
+        <selectable return_value="employment_location_choice_model" type="selectable" name="employment_location_choice_model_1">False</selectable>
       </models_to_run>
     </scenario>
     <scenario name="urbansim_parcel_baseline" type="scenario" executable="True">
@@ -418,5 +536,7 @@
       </years_to_run>
     </scenario>
   </scenario_manager>
+  <results_manager>
+  </results_manager>
 </opus_project>
 
