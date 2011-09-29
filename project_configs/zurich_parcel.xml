@@ -5,6 +5,16 @@
     <project_name hidden="True" type="string">zurich_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" source="Python class" name="parcel.SC_households_within_500_of_parcel" type="variable_definition">urbansim_parcel.parcel.households_within_500_of_parcel</variable>
+      <variable use="model variable" source="Python class" name="parcel.xSC_pop_ha" type="variable_definition">urbansim_parcel.parcel.persons_within_56_of_parcel</variable>
+      <variable use="both" source="expression" name="building.SC_acc_pt" type="variable_definition">building.disaggregate(parcel.acc_pt)</variable>
+      <variable use="both" source="expression" name="building.SC_acc_car" type="variable_definition">building.disaggregate(parcel.acc_car)</variable>
+      <variable use="both" source="expression" name="building.SC_ln_sqm_per_unit" type="variable_definition">ln(building.sqft_per_unit)</variable>
+      <variable use="both" source="expression" name="building.SC_is_house" type="variable_definition">building.building_quality_id == 1021</variable>
+      <variable use="both" source="expression" name="building.SC_building_built91to05" type="variable_definition">numpy.logical_or(numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &gt; 1991, numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &lt; 2005)</variable>
+      <variable use="both" source="expression" name="building.SC_building_built81to90" type="variable_definition">numpy.logical_or(numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &gt; 1981, numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &lt; 1990)</variable>
+      <variable use="both" source="expression" name="building.SC_building_is_pre_1921" type="variable_definition">numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &lt; 1921</variable>
+      <variable use="both" source="expression" name="building.SC_building_built21to30" type="variable_definition">numpy.logical_or(numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &gt; 1921, numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &lt; 1930)</variable>
       <variable use="both" source="expression" name="building.SC_ln_dist_to_zh_cbd" type="variable_definition">ln(building.disaggregate(parcel.dist_to_zh_cbd))</variable>
       <variable use="both" source="expression" name="parcel.is_nearer_100_highway" type="variable_definition">parcel.dist_to_highwaynet&lt;100</variable>
       <variable use="both" source="primary attribute" name="parcel.SC_share_of_university_degrees" type="variable_definition">parcel.share_of_universitydegrees</variable>
@@ -178,7 +188,12 @@
           <submodel hidden="Children" name="rent" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.SC_ln_dist_to_zh_cbd"/>
+              <variable_spec name="building.SC_building_built21to30"/>
+              <variable_spec name="building.SC_building_built81to90"/>
+              <variable_spec name="building.SC_building_built91to05"/>
+              <variable_spec name="building.SC_building_is_pre_1921"/>
+              <variable_spec name="building.SC_is_house"/>
+              <variable_spec name="building.SC_ln_sqm_per_unit"/>
               <variable_spec name="constant"/>
             </variable_list>
           </submodel>
