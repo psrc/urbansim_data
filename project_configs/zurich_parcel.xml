@@ -5,8 +5,10 @@
     <project_name hidden="True" type="string">zurich_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="primary attribute" name="parcel.SC_autobahn_within_100m" type="variable_definition">parcel.autobahn_100m</variable>
+      <variable use="both" source="expression" name="building.SC_ln_taxlevel" type="variable_definition">ln(building.disaggregate(parcel.municipal_taxindex))</variable>
       <variable use="model variable" source="Python class" name="parcel.SC_households_within_500_of_parcel" type="variable_definition">urbansim_parcel.parcel.households_within_500_of_parcel</variable>
-      <variable use="model variable" source="Python class" name="parcel.xSC_pop_ha" type="variable_definition">urbansim_parcel.parcel.persons_within_56_of_parcel</variable>
+      <variable use="model variable" source="Python class" name="parcel.SC_pop_ha" type="variable_definition">urbansim_parcel.parcel.persons_within_56_of_parcel</variable>
       <variable use="both" source="expression" name="building.SC_acc_pt" type="variable_definition">building.disaggregate(parcel.acc_pt)</variable>
       <variable use="both" source="expression" name="building.SC_acc_car" type="variable_definition">building.disaggregate(parcel.acc_car)</variable>
       <variable use="both" source="expression" name="building.SC_ln_sqm_per_unit" type="variable_definition">ln(building.sqft_per_unit)</variable>
