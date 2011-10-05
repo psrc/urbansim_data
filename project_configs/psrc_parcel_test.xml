@@ -466,25 +466,25 @@
         <specification type="dictionary">
           <submodel copyable="True" name="submodel" submodel_id="-2" type="submodel">
             <equation equation_id="1" name="sov">
-	            <variable_list type="variable_list">
-	              <variable_spec name="constant" coefficient_name="asc_sov"/>
-	            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="asc_sov"/>
+              </variable_list>
               <variables type="variable_list">time</variables>
             </equation>
             <equation equation_id="2" name="hov">
-	            <variable_list type="variable_list">
-	              <variable_spec name="constant" coefficient_name="asc_hov"/>
-	            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="asc_hov"/>
+              </variable_list>
             </equation>
             <equation equation_id="3" name="transit">
-	            <variable_list type="variable_list">
-	              <variable_spec name="constant" coefficient_name="asc_transit"/>
-	            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="asc_transit"/>
+              </variable_list>
             </equation>
             <equation equation_id="4" name="walk">
-	            <variable_list type="variable_list">
-	              <variable_spec name="constant" coefficient_name="asc_walk"/>
-	            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="constant" coefficient_name="asc_walk"/>
+              </variable_list>
             </equation>
             <description/>
           </submodel>
@@ -751,7 +751,7 @@
         </estimation_config>
         <structure type="dictionary">
           <init type="dictionary">
-            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation</argument>
+            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
             <argument name="sample_size_locations" type="integer">50</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">building.residential_units&gt;0</argument>
           </init>
@@ -867,7 +867,7 @@
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
             <variable_spec name="person_trip_x_zone.single_vehicle_to_destination_travel_cost" coefficient_name="single_vehicle_to_destination_travel_cost"/>
-			<!--   <variable_spec name="person_trip.travel_data_retail" coefficient_name="travel_data_retail"/>  -->
+      <!--   <variable_spec name="person_trip.travel_data_retail" coefficient_name="travel_data_retail"/>  -->
             </variable_list>
           </submodel>
         </specification>        
