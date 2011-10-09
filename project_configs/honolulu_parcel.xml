@@ -17,11 +17,11 @@
         <selectable type="selectable" name="parcel">True</selectable>
       </datasets_to_preload>
       <save_estimation_results type="boolean">True</save_estimation_results>
-      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">semcog_subarea/base_year_data</cache_directory>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">honolulu_parcel/base_year_data</cache_directory>
       <estimation_database_configuration type="class">
         <class_name hidden="True" type="string">EstimationDatabaseConfiguration</class_name>
         <class_module hidden="True" type="string">opus_core.database_management.configurations.estimation_database_configuration</class_module>
-        <argument type="string" name="database_name">washtenaw_2008_parcel_baseyear_data</argument>
+        <argument type="string" name="database_name">honolulu_parcel_baseyear</argument>
       </estimation_database_configuration>
       <dataset_pool_configuration type="class">
         <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
@@ -30,22 +30,24 @@
       </dataset_pool_configuration>
       <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
       <low_memory_mode type="boolean">False</low_memory_mode>
-      <base_year type="integer" field_identifier="Base Year">2008</base_year>
+      <base_year type="integer" field_identifier="Base Year">2005</base_year>
       <years type="tuple">
-        <firstyear type="integer" field_identifier="Base Year">2008</firstyear>
-        <lastyear type="integer" field_identifier="Base Year">2008</lastyear>
+        <firstyear type="integer" field_identifier="Base Year">2005</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2005</lastyear>
       </years>
     </estimation_config>
     <travel_model_configuration type="dictionary">
       <transcad_binary type="string">C:\\Program Files (x86)\\TransCAD\\tcw.exe</transcad_binary>
-      <project_ini type="string">C:\\Program Files (x86)\\TransCAD\\semcog_e5.ini</project_ini>
-      <travel_model_base_directory type="string">D:\\semcog_e5_35\\</travel_model_base_directory>
-      <ui_file type="string">D:\\semcog_e5_35\\semcog_e5_ui</ui_file>
+      <scenario_directory type="string">C:\\projects\\ompo\\Conversion\\Application\\2007_100709</scenario_directory>
+      <generic_directory type="string">C:\\projects\\ompo\\Conversion\\Application\\generic</generic_directory>
+      <ui_file type="string">C:\\projects\\ompo\\Conversion\\Application\\2007_100709\\scripts\ompo5</ui_file>
       <urbansim_to_tm_variable_mapping type="dictionary">
         <DataTable type="string">TAZ Data Table</DataTable>
         <JoinField type="string">ZoneID</JoinField>
         <variable_mapping type="dictionary">
           <variable name="zone.zone_id" type="string">ZoneID</variable>
+	  <variable name="urbansim_parcel.zone.zone_id&lt;100" type="string">dummy</variable>
+	  <!--
           <variable name="urbansim_parcel.zone.population/(zone.aggregate(parcel.parcel_sqft)/43560.0)" type="string">PopDens</variable>
           <variable name="urbansim_parcel.zone.population" type="string">HHPop</variable>
           <variable name="urbansim_parcel.zone.number_of_households" type="string">Households</variable>
@@ -53,6 +55,7 @@
           <variable name="zone.aggregate(urbansim.job.is_in_employment_sector_group_nonbasic)" type="string">EmpNonBas</variable>
           <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_4" type="string">EmpWhole</variable>
           <variable name="urbansim_parcel.zone.number_of_jobs_of_sector_5" type="string">EmpRetail</variable>
+          -->
         </variable_mapping>
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
@@ -67,15 +70,14 @@
         </matrix>
       </tm_to_urbansim_variable_mapping>
       <macro type="dictionary">
-        <get_cache_data_into_transcad type="string">SEMCOGImportTabFile</get_cache_data_into_transcad>
-        <get_transcad_data_into_cache type="string">SEMCOGExportMatrices</get_transcad_data_into_cache>
-        <run_semcog_travel_model type="string">SEMCOG Run Loops</run_semcog_travel_model>
-        <get_file_location type="string">SEMCOGGetFileLocation</get_file_location>
+        <get_cache_data_into_transcad type="string">ImportxlsFile</get_cache_data_into_transcad>
+        <get_transcad_data_into_cache type="string">ExportMatrices</get_transcad_data_into_cache>
+        <run_transcad_travel_model type="string">BatchRun</run_transcad_travel_model>
       </macro>
       <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
       <models type="selectable_list">
-        <selectable name="opus_transcad.models.get_cache_data_into_transcad" type="selectable">True</selectable>
-        <selectable name="opus_transcad.models.run_semcog_travel_model" type="selectable">True</selectable>
+        <selectable name="honolulu_parcel.transcad.get_cache_data_into_transcad" type="selectable">False</selectable>
+        <selectable name="honolulu_parcel.transcad.run_transcad_travel_model" type="selectable">True</selectable>
         <selectable name="opus_transcad.models.get_transcad_data_into_cache" type="selectable">True</selectable>
       </models>
     </travel_model_configuration>
@@ -88,6 +90,7 @@
           <firstyear type="integer">2006</firstyear>
           <lastyear type="integer">2007</lastyear>
         </years_to_run>
+	<cache_directory parser_action="prefix_with_opus_data_path" type="directory" >honolulu_parcel/base_year_data</cache_directory>
         <models_to_run config_name="models" type="selectable_list">
           <selectable name="real_estate_price_model" type="selectable">False</selectable>
           <selectable type="selectable" name="expected_sale_price_model">False</selectable>
@@ -115,7 +118,7 @@
           <argument type="list" name="package_order">['urbansim_parcel', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
         </datasets_to_preload>    
     </scenario>
     <scenario executable="True" name="honolulu_baseline_with_tm" type="scenario">
@@ -125,7 +128,7 @@
         <lastyear type="integer">2007</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable type="selectable" name="real_estate_price_model">True</selectable>
+        <selectable type="selectable" name="real_estate_price_model">False</selectable>
         <selectable type="selectable" name="expected_sale_price_model">False</selectable>
         <selectable type="selectable" name="development_proposal_choice_model">False</selectable>
         <selectable type="selectable" name="building_construction_model">False</selectable>
@@ -139,43 +142,41 @@
         <selectable type="selectable" name="governmental_employment_location_choice_model">False</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">C:\\semcog_e5_35</travel_model_base_directory>
-        <ui_file type="string">D:\\semcog_e5_35\\semcog_e5_ui</ui_file>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2000</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2001</data_exchange_dir>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2002</year>
-            <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2002</data_exchange_dir>
+            <data_exchange_dir type="string">inputs\\taz\\2001</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2005</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2005</data_exchange_dir>
+            <data_exchange_dir type="string">inputs\\taz\\2005</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
-            <year type="integer">2009</year>
+            <year type="integer">2006</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2010</data_exchange_dir>
+            <data_exchange_dir type="string">inputs\\taz\\2006</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2007</year>
+            <data_dir type="string"/>
+            <data_exchange_dir type="string">inputs\\taz\\2007</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2015</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2015</data_exchange_dir>
+            <data_exchange_dir type="string">inputs\\taz\\2015</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2020</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2020</data_exchange_dir>
+            <data_exchange_dir type="string">inputs\\taz\\2020</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2025</data_exchange_dir>
+            <data_exchange_dir type="string">inputs\\taz\\2025</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
