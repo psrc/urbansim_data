@@ -1832,6 +1832,7 @@
       </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
+      <seed type="integer">1</seed>
       <dataset_pool_configuration type="class">
         <argument name="package_order" type="list">['psrc_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
       </dataset_pool_configuration>
