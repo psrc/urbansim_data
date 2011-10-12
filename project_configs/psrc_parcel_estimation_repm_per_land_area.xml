@@ -65,7 +65,7 @@
         <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
        </init>
        <run type="dictionary">
-         <argument name="add_attribute" type="string">unit_price=(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument>
+         <argument name="add_attribute" type="string" parser_action="quote_string">unit_price=(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument>
          <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':0, 'outlier_is_greater_than': 7})</argument>
        </run>
   <prepare_for_estimate type="dictionary">
