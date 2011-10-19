@@ -5,11 +5,26 @@
     <project_name hidden="True" type="string">zurich_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" source="expression" name="building.SC_logit_slope" type="variable_definition">ln(building.disaggregate(parcel.slope, intermediates=[parcel])) - ln(1 - building.disaggregate(parcel.slope, intermediates=[parcel]))</variable>
+      <variable use="model variable" source="expression" name="parcel.SC_logit_foreigners_within_56_of_parcel" type="variable_definition">ln(zurich_parcel.parcel.households_foreign_within_56_of_parcel) - ln(1 - zurich_parcel.parcel.households_foreign_within_56_of_parcel)</variable>
+      <variable use="model variable" source="expression" name="building.SC_ln_jobs_G52_H_within_1km" type="variable_definition">building.disaggregate(ln(urbansim_parcel.parcel.jobs_of_sector_5_within_1000_of_parcel), intermediates=[parcel])#urbansim_parcel.parcel.jobs_within_1000_of_parcel did work</variable>
+      <variable use="both" source="Python class" name="zone.SC_number_of_housholds_in_zone" type="variable_definition">urbansim_parcel.zone.number_of_households#zone.number_of_agents(household)#zurich_parcel.parcel.number_of_households</variable>
+      <variable use="both" source="expression" name="household.SC_building_pt_acc_X_dummy_nocar" type="variable_definition">household.disaggregate(parcel.acc_pt, intermediates=[building])* (numpy.ma.masked_where(household.cars==0, household.cars+1))</variable>
+      <variable use="both" source="expression" name="building.SC_building_age" type="variable_definition">2050-(numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built==0, building.year_built))</variable>
+      <variable use="model variable" source="expression" name="household.SC_hh_size1_X_hh1_density" type="variable_definition">numpy.ma.masked_where(household.persons == 1, household.persons * household.disaggregate(urbansim_parcel.parcel.households_within_1000_of_parcel, intermediates=[parcel, building]))</variable>
+      <variable use="both" source="expression" name="building.SC_building_year_built" type="variable_definition">numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built==0,building.year_built)</variable>
+      <variable use="both" source="expression" name="household_x_building.SC_pop_dens_within_1km_X_young_hh_dummy" type="variable_definition">(household.age_of_head &lt; 35)*(building.disaggregate(zurich_parcel.parcel.persons_within_1000_of_parcel))#(building.disaggregate(zuerich_parcel.urbansim_parcel.parcel.persons_within_1000_of_parcel, intermediates=[household])* (household.age_of_head &lt; 30)</variable>
+      <variable use="model variable" source="expression" name="building.SC_rent_vacancy_per_municipality" type="variable_definition">building.disaggregate(city.aggregate(zone.aggregate(building.residential_units, intermediates=[parcel])- zone.number_of_agents(household)), intermediates=[parcel, building])#city.aggregate(zone.aggregate(building.residential_units, intermediates=[parcel])- zone.number_of_agents(household))</variable>
+      <variable use="model variable" source="expression" name="building.SC_jobs_in_municipality" type="variable_definition">building.disaggregate(city.aggregate(zone.number_of_agents(job)),intermediates=[zone,parcel])</variable>
+      <variable use="model variable" source="expression" name="building.SC_jobs_G52_H_within_1km" type="variable_definition">building.disaggregate(urbansim_parcel.parcel.jobs_of_sector_5_within_1000_of_parcel, intermediates=[parcel])#urbansim_parcel.parcel.jobs_within_1000_of_parcel did work</variable>
+      <variable use="both" source="expression" name="building.SC_building_is_pre_1941" type="variable_definition">numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built) &lt; 1921</variable>
+      <variable use="model variable" source="expression" name="building.SC_jobs_within_1km" type="variable_definition">building.disaggregate(ln(parcel.bz05_g52_1km+parcel.bz05_h_1km+1)) #this uses the precalculated values out of GIS</variable>
+      <variable use="both" source="expression" name="zones.SC_number_of_resid_units_in_zone" type="variable_definition">zones.aggregate(buildings.residential_units, intermediates=[parcels])</variable>
       <variable use="both" source="expression" name="building.SC_ln_dist_to_station" type="variable_definition">ln(building.disaggregate(parcel.dist_to_station))</variable>
       <variable use="both" source="primary attribute" name="parcel.SC_autobahn_within_100m" type="variable_definition">parcel.autobahn_100m</variable>
       <variable use="both" source="expression" name="building.SC_ln_taxlevel" type="variable_definition">ln(building.disaggregate(parcel.municipal_taxindex))</variable>
       <variable use="model variable" source="Python class" name="parcel.SC_households_within_500_of_parcel" type="variable_definition">urbansim_parcel.parcel.households_within_500_of_parcel</variable>
-      <variable use="model variable" source="Python class" name="parcel.SC_pop_ha" type="variable_definition">urbansim_parcel.parcel.persons_within_56_of_parcel</variable>
+      <variable use="model variable" source="Python class" name="parcel.SC_pop_ha" type="variable_definition">zurich_parcel.parcel.persons_within_56_of_parcel</variable>
       <variable use="both" source="expression" name="building.SC_acc_pt" type="variable_definition">building.disaggregate(parcel.acc_pt)</variable>
       <variable use="both" source="expression" name="building.SC_acc_car" type="variable_definition">building.disaggregate(parcel.acc_car)</variable>
       <variable use="both" source="expression" name="building.SC_ln_sqm_per_unit" type="variable_definition">ln(building.sqft_per_unit)</variable>
@@ -251,6 +266,10 @@
               <variable_spec name="building.SC_is_house"/>
               <variable_spec name="building.SC_ln_dist_to_station"/>
               <variable_spec name="building.SC_ln_sqm_per_unit"/>
+              <variable_spec name="building.SC_ln_taxlevel"/>
+              <variable_spec name="parcel.SC_logit_foreigners_within_56_of_parcel"/>
+              <variable_spec name="building.SC_logit_slope"/>
+              <variable_spec name="parcel.SC_pop_ha"/>
               <variable_spec name="constant"/>
             </variable_list>
           </submodel>
