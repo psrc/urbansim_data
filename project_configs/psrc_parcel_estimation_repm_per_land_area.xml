@@ -41,7 +41,7 @@
     <variable source="expression" type="variable_definition" use="model variable" name="parcel.lndevcapacity">ln_shifted(psrc_parcel.parcel.developable_capacity)*(psrc_parcel.parcel.developable_capacity &gt; 0)</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="parcel.isdevcap_gt0">psrc_parcel.parcel.developable_capacity &gt; 0</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="parcel.isdevcap_le0">(psrc_parcel.parcel.developable_capacity &gt; 0) == 0</variable>
-    <variable source="expression" type="variable_definition" use="model variable" name="parcel.lndevcapacity_psf">ln_shifted(clip_to_zero(psrc_parcel.parcel.max_developable_capacity-urbansim_parcel.parcel.building_sqft)/ (parcel.parcel_sqft).astype(float32))</variable>
+    <variable source="expression" type="variable_definition" use="model variable" name="parcel.lndevcapacity_psf">ln_shifted(psrc_parcel.parcel.developable_capacity/ (parcel.parcel_sqft).astype(float32))</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="parcel.maxdevcapacity_gt1">psrc_parcel.parcel.max_developable_capacity &gt; 1</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="parcel.lnmaxdevcapacity">ln_shifted(psrc_parcel.parcel.max_developable_capacity)</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="parcel.lnmaxdevcapacity_psf">ln_shifted(psrc_parcel.parcel.max_developable_capacity/ (parcel.parcel_sqft).astype(float32))</variable>
