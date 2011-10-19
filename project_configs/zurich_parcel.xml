@@ -5,6 +5,7 @@
     <project_name hidden="True" type="string">zurich_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building.SC_ln_dist_to_station" type="variable_definition">ln(building.disaggregate(parcel.dist_to_station))</variable>
       <variable use="both" source="primary attribute" name="parcel.SC_autobahn_within_100m" type="variable_definition">parcel.autobahn_100m</variable>
       <variable use="both" source="expression" name="building.SC_ln_taxlevel" type="variable_definition">ln(building.disaggregate(parcel.municipal_taxindex))</variable>
       <variable use="model variable" source="Python class" name="parcel.SC_households_within_500_of_parcel" type="variable_definition">urbansim_parcel.parcel.households_within_500_of_parcel</variable>
@@ -40,7 +41,7 @@
       <variable use="model variable" source="expression" name="household_x_building.SC_population_density_interacted_young_household" type="variable_definition">(ln(building.disaggregate(urbansim_parcel.zone.population_per_acre))).astype(float32) * (household.age_of_head &lt; 30)</variable>
       <variable name="parcel.is_pre_1971" source="expression" type="variable_definition" use="model variable">parcel.aggregate(numpy.ma.masked_where(urbansim_parcel.building.has_valid_year_built == 0, building.year_built),function=mean) &lt; 1971</variable>
       <variable use="model variable" source="expression" name="parcel.pop_density_within_1000_of_parcel" type="variable_definition">urbansim_parcel.parcel.persons_within_1000_of_parcel / (1000**2 * 3.1415926535897931)</variable>
-      <variable use="model variable" source="Python class" name="parcel.SC_persons_within_1000_of_parcel" type="variable_definition">urbansim_parcel.parcel.persons_within_1000_of_parcel</variable>
+      <variable use="model variable" source="Python class" name="parcel.SC_persons_within_1000_of_parcel" type="variable_definition">zurich_parcel.parcel.persons_within_1000_of_parcel</variable>
       <variable use="both" source="expression" name="household.pop_density_x_young_hh" type="variable_definition">ln(urbansim.household.is_young)</variable>
       <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_indust" type="variable_definition">(((job.sector_id == 1) + (job.sector_id == 2) + (job.sector_id == 6))&gt;0) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
       <variable use="model variable" source="expression" name="job_x_building.RH_distance_to_CBD_wtrade" type="variable_definition">(job.sector_id == 3) * building.disaggregate(parcel.dist_to_zh_cbd)</variable>
@@ -95,7 +96,7 @@
     </expression_library>
     <available_datasets type="list">['building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','development_event_history', 'job_x_building']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','tract','district24','district14','city','county']</spatial_datasets>
-    <dataset_pool_configuration type="class" hidden="True">
+    <dataset_pool_configuration type="class" hidden="False">
       <class_name type="string">DatasetPoolConfiguration</class_name>
       <class_module type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel','urbansim','opus_core']</argument>
@@ -107,10 +108,10 @@
         <tool name="sql_data_to_opus_tool">
           <class_module>sql_data_to_opus</class_module>
           <params>
-            <param name="database_server_connection" param_type="db_connection_hook" required="True">postgres_test_database_server</param>
-            <param name="database_name" param_type="string" required="True">zurich_parcel</param>
-            <param name="table_name" param_type="string" required="True">development_templates</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/base_year_data</param>
+            <param name="database_server_connection" param_type="db_connection_hook" required="True">scenario_database_server</param>
+            <param name="database_name" param_type="string" required="True">sustaincity</param>
+            <param name="table_name" param_type="string" required="True"/>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_parcel/base_year_data</param>
             <param name="opus_data_year" param_type="string" required="True">2000</param>
           </params>
         </tool>
@@ -126,9 +127,9 @@
         <tool name="csv_data_to_opus_tool">
           <class_module>csv_data_to_opus</class_module>
           <params>
-            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/Documents/Projekte/SustainCity/03_original_data/pg2urbansim/options</param>
+            <param name="csv_data_path" param_type="dir_path" required="True"/>
             <param name="csv_table_name" param_type="string" required="True">household_location_choice_model_coefficients</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_parcel/base_year_data</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_parcel/base_year_data</param>
             <param name="opus_data_year" param_type="string" required="True">2000</param>
           </params>
         </tool>
@@ -137,6 +138,56 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="employment_transition_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.employment_transition_model</class_module>
+            <class_name>EmploymentTransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">EmploymentTransitionModel</name>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">control_totals</output>
+            <argument name="storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="control_totals" type="string" model_dependency_type="dataset">control_totals</argument>
+            <argument name="job_building_types" type="string">job_building_type</argument>
+            <argument name="job_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument name="year" type="string">year</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="employment_relocation_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.employment_relocation_model_creator</class_module>
+            <class_name>EmploymentRelocationModelCreator</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">EmploymentRelocationModelCreator().get_model</name>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">urbansim.employment_relocation_probabilities</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">erm_resources</output>
+            <argument name="rate_storage" type="string">base_cache_storage</argument>
+            <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_job_relocation_rates</argument>
+            <argument name="what" parser_action="quote_string" type="string">jobs</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <output hidden="True" name="output" type="string">erm_index</output>
+            <argument hidden="True" name="resources" type="string">erm_resources</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
+          </run>
+        </structure>
+      </model>
       <model name="Copy of real_estate_price_model" type="model">
         <structure type="dictionary">
           <import hidden="True" name="import" type="dictionary">
@@ -190,11 +241,15 @@
           <submodel hidden="Children" name="rent" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.SC_acc_car"/>
+              <variable_spec name="building.SC_acc_pt"/>
+              <variable_spec name="parcel.SC_autobahn_within_100m"/>
               <variable_spec name="building.SC_building_built21to30"/>
               <variable_spec name="building.SC_building_built81to90"/>
               <variable_spec name="building.SC_building_built91to05"/>
               <variable_spec name="building.SC_building_is_pre_1921"/>
               <variable_spec name="building.SC_is_house"/>
+              <variable_spec name="building.SC_ln_dist_to_station"/>
               <variable_spec name="building.SC_ln_sqm_per_unit"/>
               <variable_spec name="constant"/>
             </variable_list>
@@ -488,7 +543,7 @@
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
-          <argument name="package_order" type="list">['urbansim_parcel', 'urbansim', 'opus_core']</argument>
+          <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
           <selectable name="zone" type="selectable">False</selectable>
@@ -502,12 +557,13 @@
           </selectable>
           <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
-          <selectable name="job" type="selectable">False</selectable>
+          <selectable name="job" type="selectable">True</selectable>
           <selectable name="building_type" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="travel_data" type="selectable">False</selectable>
-          <selectable name="job_building_type" type="selectable">False</selectable>
+          <selectable name="job_building_type" type="selectable">True</selectable>
         </datasets_to_preload>
+        <run_in_same_process type="boolean">True</run_in_same_process>
       </advanced>
       <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
@@ -527,14 +583,14 @@
         <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable return_value="Copy of real_estate_price_model" type="selectable" name="Copy of real_estate_price_model_1">True</selectable>
+        <selectable return_value="Copy of real_estate_price_model" type="selectable" name="Copy of real_estate_price_model_1">False</selectable>
         <selectable return_value="building_transition_model" type="selectable" name="building_transition_model_1">False</selectable>
         <selectable return_value="building_location_choice_model" type="selectable" name="building_location_choice_model_1">False</selectable>
         <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
         <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
         <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">True</selectable>
-        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
-        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model_1">False</selectable>
+        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">True</selectable>
+        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model_1">True</selectable>
         <selectable return_value="employment_location_choice_model" type="selectable" name="employment_location_choice_model_1">False</selectable>
       </models_to_run>
     </scenario>
