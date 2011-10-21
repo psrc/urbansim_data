@@ -5,6 +5,7 @@
     <project_name hidden="True" type="string">zurich_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="parcel.SC_is_generic_land_use_type_smaller_7" type="variable_definition">parcel.generic_land_use_type_id &lt; 7</variable>
       <variable use="model variable" source="expression" name="building.SC_logit_slope" type="variable_definition">ln(building.disaggregate(parcel.slope, intermediates=[parcel])) - ln(1 - building.disaggregate(parcel.slope, intermediates=[parcel]))</variable>
       <variable use="model variable" source="expression" name="parcel.SC_logit_foreigners_within_56_of_parcel" type="variable_definition">ln(zurich_parcel.parcel.households_foreign_within_56_of_parcel) - ln(1 - zurich_parcel.parcel.households_foreign_within_56_of_parcel)</variable>
       <variable use="model variable" source="expression" name="building.SC_ln_jobs_G52_H_within_1km" type="variable_definition">building.disaggregate(ln(urbansim_parcel.parcel.jobs_of_sector_5_within_1000_of_parcel), intermediates=[parcel])#urbansim_parcel.parcel.jobs_within_1000_of_parcel did work</variable>
@@ -211,9 +212,9 @@
           </import>
           <init type="dictionary">
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
-            <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">building_type_id</argument>
             <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_total_price=ln(building.improvement_value)</argument>
-            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_or(zurich_parcel.building.is_building_type_1, zurich_parcel.building.is_building_type_5)</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
           </init>
@@ -253,24 +254,24 @@
           </estimate>
         </structure>
         <specification type="dictionary">
-          <submodel hidden="Children" name="rent" submodel_id="-2" type="submodel">
+          <submodel hidden="Children" name="rent" submodel_id="1" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
               <variable_spec name="building.SC_acc_car"/>
-              <variable_spec name="building.SC_acc_pt"/>
-              <variable_spec name="parcel.SC_autobahn_within_100m"/>
-              <variable_spec name="building.SC_building_built21to30"/>
-              <variable_spec name="building.SC_building_built81to90"/>
-              <variable_spec name="building.SC_building_built91to05"/>
-              <variable_spec name="building.SC_building_is_pre_1921"/>
-              <variable_spec name="building.SC_is_house"/>
-              <variable_spec name="building.SC_ln_dist_to_station"/>
-              <variable_spec name="building.SC_ln_sqm_per_unit"/>
-              <variable_spec name="building.SC_ln_taxlevel"/>
-              <variable_spec name="parcel.SC_logit_foreigners_within_56_of_parcel"/>
-              <variable_spec name="building.SC_logit_slope"/>
-              <variable_spec name="parcel.SC_pop_ha"/>
-              <variable_spec name="constant"/>
+              <variable_spec name="building.SC_acc_pt" ignore="True"/>
+              <variable_spec name="parcel.SC_autobahn_within_100m" ignore="True"/>
+              <variable_spec name="building.SC_building_built21to30" ignore="True"/>
+              <variable_spec name="building.SC_building_built81to90" ignore="True"/>
+              <variable_spec name="building.SC_building_built91to05" ignore="True"/>
+              <variable_spec name="building.SC_building_is_pre_1921" ignore="True"/>
+              <variable_spec name="building.SC_is_house" ignore="True"/>
+              <variable_spec name="building.SC_ln_dist_to_station" ignore="True"/>
+              <variable_spec name="building.SC_ln_sqm_per_unit" ignore="True"/>
+              <variable_spec name="building.SC_ln_taxlevel" ignore="True"/>
+              <variable_spec name="parcel.SC_logit_foreigners_within_56_of_parcel" ignore="True"/>
+              <variable_spec name="building.SC_logit_slope" ignore="True"/>
+              <variable_spec name="parcel.SC_pop_ha" ignore="True"/>
+              <variable_spec name="constant" ignore="True"/>
             </variable_list>
           </submodel>
         </specification>
@@ -544,6 +545,9 @@
     </models>
     <estimation_config name="Estimation Configuration" config_name="estimation_config" type="dictionary">
       <save_estimation_results type="boolean">True</save_estimation_results>
+      <dataset_pool_configuration type="class">
+        <argument name="package_order" type="list">['zurich_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
+      </dataset_pool_configuration>
       <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_parcel/base_year_data</cache_directory>
       <base_year name="" type="integer" field_identifier="Base Year">2000</base_year>
       <years type="tuple">
