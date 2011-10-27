@@ -56,7 +56,7 @@
      <model copyable="True" name="real_estate_price_model" type="model">
      <structure type="dictionary">
       <import hidden="True" name="import" type="dictionary">
-        <class_module type="string">psrc_parcel.models.real_estate_price_model</class_module>
+        <class_module type="string">urbansim.models.real_estate_price_model</class_module>
         <class_name>RealEstatePriceModel</class_name>
       </import>
        <init type="dictionary">
@@ -65,7 +65,7 @@
         <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
        </init>
        <run type="dictionary">
-         <argument name="add_attribute" type="string" parser_action="quote_string">unit_price=(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument>
+        <!--  <argument name="add_attribute" type="string" parser_action="quote_string">unit_price=(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument> -->
          <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':0, 'outlier_is_greater_than': 7})</argument>
        </run>
   <prepare_for_estimate type="dictionary">
@@ -876,6 +876,24 @@
          </init>
         </structure>
      </model>
+     <model name="postprocess_real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string">parcel</argument>
+            <argument name="expression" parser_action="quote_string" type="string">(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">unit_price</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
      <model name="postprocess_expected_sale_price_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -887,7 +905,8 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string">development_project_proposal</argument>
-            <argument name="expression" parser_action="quote_string" type="string">unit_price_expected = (development_project_proposal.total_parcel_value_per_sqft * urbansim_parcel.development_project_proposal.parcel_sqft)/(development_project_proposal.units_proposed).astype(float32)</argument>
+            <argument name="expression" parser_action="quote_string" type="string">(development_project_proposal.total_parcel_value_per_sqft * urbansim_parcel.development_project_proposal.parcel_sqft)/(development_project_proposal.units_proposed).astype(float32)</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">unit_price_expected</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -918,6 +937,7 @@
        <models_to_run config_name="models" type="selectable_list">
         <selectable name="model_template" type="model_choice">False</selectable>
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
+         <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="expected_sale_price_model" type="model_choice">True</selectable>
         <selectable name="postprocess_expected_sale_price_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
@@ -943,7 +963,7 @@
       <models_in_year_category  key_name="year" key_value="models_list" type="category_with_special_keys">
        <doesnotmatter type="dictionary">
           <year type="integer">2001</year>
-          <models_list type="list">["compute_max_dev_capacity_model", "real_estate_price_model", "expected_sale_price_model", "postprocess_expected_sale_price_model", "development_proposal_choice_model", "building_construction_model", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_transition_model", "employment_transition_model", "job_person_consistency_keeper", "household_relocation_model", "household_location_choice_model","modify_workers_jobs_after_moving_households", "employment_relocation_model", {"employment_location_choice_model": {"group_members": ["non_home_based"]}},"distribute_unplaced_jobs_model", "distribute_unplaced_mining_utilities_jobs_model","modify_workers_jobs_after_moving_jobs", "work_at_home_choice_model","workplace_choice_model_for_resident"]</models_list>
+          <models_list type="list">["compute_max_dev_capacity_model", "real_estate_price_model", "postprocess_real_estate_price_model", "expected_sale_price_model", "postprocess_expected_sale_price_model", "development_proposal_choice_model", "building_construction_model", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_transition_model", "employment_transition_model", "job_person_consistency_keeper", "household_relocation_model", "household_location_choice_model","modify_workers_jobs_after_moving_households", "employment_relocation_model", {"employment_location_choice_model": {"group_members": ["non_home_based"]}},"distribute_unplaced_jobs_model", "distribute_unplaced_mining_utilities_jobs_model","modify_workers_jobs_after_moving_jobs", "work_at_home_choice_model","workplace_choice_model_for_resident"]</models_list>
 		</doesnotmatter>
 		</models_in_year_category>
       </models_in_year>
