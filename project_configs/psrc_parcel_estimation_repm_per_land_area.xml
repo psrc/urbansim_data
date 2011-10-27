@@ -877,6 +877,7 @@
         </structure>
      </model>
      <model name="postprocess_real_estate_price_model" type="model">
+        <dependencies type="list">['real_estate_price_model']</dependencies>
         <structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">opus_core.simple_model</class_module>
@@ -886,8 +887,8 @@
             <name name="name" type="string">SimpleModel</name>
           </init>
           <run type="dictionary">
-            <argument name="dataset" type="string">parcel</argument>
-            <argument name="expression" parser_action="quote_string" type="string">(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument>
+            <argument name="dataset" type="string" model_dependency_type="dataset">parcel</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">(parcel.total_value_per_sqft * parcel.parcel_sqft)/(urbansim_parcel.parcel.existing_units).astype(float32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">unit_price</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
@@ -895,6 +896,7 @@
         <specification type="dictionary"/>
       </model>
      <model name="postprocess_expected_sale_price_model" type="model">
+        <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model', 'expected_sale_price_model']</dependencies>
         <structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">opus_core.simple_model</class_module>
@@ -904,8 +906,8 @@
             <name name="name" type="string">SimpleModel</name>
           </init>
           <run type="dictionary">
-            <argument name="dataset" type="string">development_project_proposal</argument>
-            <argument name="expression" parser_action="quote_string" type="string">(development_project_proposal.total_parcel_value_per_sqft * urbansim_parcel.development_project_proposal.parcel_sqft)/(development_project_proposal.units_proposed).astype(float32)</argument>
+            <argument name="dataset" type="string" model_dependency_type="dataset">development_project_proposal</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">(development_project_proposal.total_parcel_value_per_sqft * urbansim_parcel.development_project_proposal.parcel_sqft)/(development_project_proposal.units_proposed).astype(float32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">unit_price_expected</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
@@ -923,7 +925,7 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string">parcel</argument>
-            <argument name="expression" parser_action="quote_string" type="string">psrc_parcel.parcel.max_developable_capacity</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.parcel.max_developable_capacity</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
