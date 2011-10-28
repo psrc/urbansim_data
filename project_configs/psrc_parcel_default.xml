@@ -737,9 +737,10 @@
                   <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
                   <argument name="submodel_string" parser_action="quote_string" type="string">land_use_type_id</argument>
                   <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_unit_price=ln(urbansim_parcel.parcel.unit_price)</argument>
-                  <argument name="filter_attribute" parser_action="quote_string" type="string">numpy.logical_or(urbansim_parcel.parcel.building_sqft, urbansim_parcel.parcel.is_land_use_type_vacant)</argument>
+                  <!--<argument name="filter_attribute" parser_action="quote_string" type="string">numpy.logical_or(urbansim_parcel.parcel.building_sqft, urbansim_parcel.parcel.is_land_use_type_vacant)</argument>-->
+                  <argument name="filter_attribute" parser_action="quote_string" type="string" convert_blank_to_none="True"></argument>
                   <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
-                  <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
+                  <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': True})</argument>
                 </init>
                 <prepare_for_run type="dictionary">
                   <name hidden="True" name="name" type="string">prepare_for_run</name>
@@ -1830,6 +1831,25 @@
           </run>
         </structure>
       </model>
+      <model name="jobs_event_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>psrc_parcel.models.agent_event_model</class_module>
+            <class_name>AgentEventModel</class_name>
+          </import>
+         <init type="dictionary">
+            <name hidden="True" name="name" type="string">AgentEventModel</name>
+            </init>
+          <run type="dictionary">
+            <name name="name" type="string">AgentEventModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">parcel</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument name="agent_event_set" type="string" model_dependency_type="dataset">jobs_event</argument>
+            <argument name="current_year" type="string" hidden="True" >year</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
@@ -1906,6 +1926,93 @@
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">Version_1.0c</travel_model_base_directory>
+        <emme2_batch_file_name type="string">MODEL1-0c.BAT</emme2_batch_file_name>
+        <models type="selectable_list">
+          <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">False</selectable>
+          <selectable name="opus_emme2.models.run_travel_model" type="selectable">False</selectable>
+          <selectable name="opus_emme2.models.run_export_macros" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.get_emme2_data_into_cache" type="selectable">True</selectable>
+        </models>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2006</year>
+            <bank type="list">['2006_06']</bank>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2015</year>
+            <bank type="list">['2015_06']</bank>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <bank type="list">['2025_06']</bank>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2035</year>
+            <bank type="list">['2035_06']</bank>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2040</year>
+            <bank type="list">['2040_06']</bank>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
+    <scenario executable="True" name="PSRC_TM_skims_with_jobs_events" type="scenario">
+    <parent type="scenario_name">PSRC_baseline</parent>
+      <base_year type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2040</lastyear>
+      </years_to_run>
+      <seed type="integer" convert_blank_to_none="True">1</seed>
+      <flush_variables type="boolean">True</flush_variables>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="model_template" type="model_choice">False</selectable>
+        <selectable name="jobs_event_model" type="model_choice">True</selectable>
+        <selectable name="real_estate_price_model" type="model_choice">True</selectable>
+        <selectable name="expected_sale_price_model" type="model_choice">True</selectable>
+        <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
+        <selectable name="building_construction_model" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
+        <selectable name="household_transition_model" type="model_choice">True</selectable>
+        <selectable name="employment_transition_model" type="model_choice">True</selectable>
+        <selectable name="job_person_consistency_keeper" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="household_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
+        <selectable name="employment_relocation_model" type="model_choice">True</selectable>
+        <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="model_choice">True</selectable>
+        <selectable name="distribute_unplaced_mining_utilities_jobs_model" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
+        <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
+        <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
+      </models_to_run>
+      <advanced type="category">
+       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="job_building_type" type="selectable">True</selectable>
+          <selectable name="jobs_event" type="selectable">True</selectable>
+        </datasets_to_preload>
+        </advanced>
       <travel_model_configuration type="dictionary">
         <travel_model_base_directory type="string">Version_1.0c</travel_model_base_directory>
         <emme2_batch_file_name type="string">MODEL1-0c.BAT</emme2_batch_file_name>
