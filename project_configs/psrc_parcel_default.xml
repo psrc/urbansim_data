@@ -1845,6 +1845,7 @@
             <argument name="location_set" type="string" model_dependency_type="dataset">parcel</argument>
             <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
             <argument name="agent_event_set" type="string" model_dependency_type="dataset">jobs_event</argument>
+            <argument name="disaggregate_to" type="string" model_dependency_type="dataset">building</argument>
             <argument name="current_year" type="string" hidden="True" >year</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           </run>
@@ -1970,13 +1971,13 @@
       <flush_variables type="boolean">True</flush_variables>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="model_template" type="model_choice">False</selectable>
-        <selectable name="jobs_event_model" type="model_choice">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="expected_sale_price_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
         <selectable name="building_construction_model" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
+        <selectable name="jobs_event_model" type="model_choice">True</selectable>
         <selectable name="household_transition_model" type="model_choice">True</selectable>
         <selectable name="employment_transition_model" type="model_choice">True</selectable>
         <selectable name="job_person_consistency_keeper" type="model_choice">True</selectable>
