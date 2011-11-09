@@ -66,7 +66,8 @@
        </run>
   <prepare_for_estimate type="dictionary">
  <!--   <argument name="filter_variable" parser_action="quote_string" type="string">numpy.logical_and(numpy.logical_and(urbansim_parcel.parcel.total_value_per_sqft&gt;1, urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63), numpy.logical_not((psrc_parcel.parcel.max_developable_capacity &lt; 1)*(urbansim_parcel.parcel.building_sqft &gt;= 1)))</argument>-->
-  <argument name="filter_variable" parser_action="quote_string" type="string">numpy.logical_and(numpy.logical_and(urbansim_parcel.parcel.total_value_per_sqft&gt;5, urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63), parcel.parcel_sqft &gt; 100)</argument>
+ <!--  <argument name="filter_variable" parser_action="quote_string" type="string">numpy.logical_and(numpy.logical_and(urbansim_parcel.parcel.total_value_per_sqft&gt;5, urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63), parcel.parcel_sqft &gt; 100)</argument>-->
+       <argument name="filter_variable" parser_action="quote_string" type="string">numpy.logical_and(((urbansim_parcel.parcel.total_value_per_sqft&gt;=1) * (urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63)*(psrc_parcel.parcel.is_lut_19_25_26==0)) + (urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63)*parcel.is_lut_19_25_26, parcel.parcel_sqft &gt; 100)</argument>
   <!--  <argument name="filter_variable" parser_action="quote_string" type="string">numpy.logical_and(urbansim_parcel.parcel.total_value_per_sqft&gt;1, urbansim_parcel.parcel.total_value_per_sqft&lt;1096.63)</argument>-->
   </prepare_for_estimate>
      <estimate type="dictionary">
@@ -142,7 +143,6 @@
              <!-- <variable_spec name="parcel.lnavginc"/>-->
               <!--<variable_spec name="parcel.lnemp20wa"/>-->
               <!--<variable_spec name="parcel.lnemp20tw"/>-->
-              <variable_spec name="parcel.lnemp30tw"/> 
               <!--<variable_spec name="parcel.lnemp10da"/>-->
               <!--<variable_spec name="parcel.lnemp20da"/>-->
               <!--<variable_spec name="parcel.lnemp30da"/>-->
@@ -176,7 +176,6 @@
               <variable_spec name="parcel.povertyshare"/>
               <!-- <variable_spec name="parcel.wealthshare"/>-->   
               <variable_spec name="parcel.lnsbsqft"/>  
-              <variable_spec name="parcel.lnemp10wa"/>   
               <variable_spec name="parcel.is_waterfront"/>  
               <variable_spec name="parcel.lnsbsqftden_wwd"/>
               <variable_spec name="constant"/>
@@ -185,6 +184,8 @@
                 <variable_spec name="parcel.hbwavgtmda"/>
                 <variable_spec name="parcel.lnempden"/>
                  <variable_spec name="parcel.art600"/>
+                 <variable_spec name="parcel.lnemp30tw"/> 
+                 <variable_spec name="parcel.lnemp10wa"/>   
                 -->
             </variable_list>
           </submodel>
@@ -277,9 +278,9 @@
               <variable_spec name="parcel.povertyshare"/>
               <variable_spec name="parcel.wealthshare"/>-->
               <!--<variable_spec name="parcel.is_waterfront"/>-->
+              <variable_spec name="parcel.lnsbsqft"/>
               <variable_spec name="constant"/>
               <!-- Included in BMA but not selected  
-                <variable_spec name="parcel.lnsbsqft"/>
                 <variable_spec name="parcel.lnsbsqftden_wwd"/>
                 -->
             </variable_list>
@@ -357,7 +358,6 @@
               <variable_spec name="parcel.lnsbsqft_all"/>
 			  <variable_spec name="parcel.lnsbsqft_all_psf"/>
               <variable_spec name="parcel.lnsbsqftden_wwd"/>
-              <variable_spec name="parcel.lnsavglotsqft"/>
               <variable_spec name="parcel.lnslotsqft"/>
               <variable_spec name="parcel.lnslotsqft_x_cbd"/>
               <!--<variable_spec name="parcel.ninugb"/>
@@ -375,7 +375,6 @@
               <variable_spec name="parcel.wealthshare"/>
               <variable_spec name="parcel.is_waterfront"/>
               <variable_spec name="parcel.art600"/>
-              <variable_spec name="parcel.lnemp10wa"/>
               <variable_spec name="parcel.age_lt_10"/>
              <variable_spec name="parcel.lnslotsqft_x_nugb"/>
               <variable_spec name="constant"/>
@@ -384,12 +383,14 @@
                 <variable_spec name="parcel.art300"/>
                 <variable_spec name="parcel.lnavginc"/>
                 <variable_spec name="parcel.lnemp20tw"/>
+                <variable_spec name="parcel.lnemp10wa"/>
                 <variable_spec name="parcel.lnpopden_wwd"/>
                 <variable_spec name="parcel.lnpopden"/>
                 <variable_spec name="parcel.lnempden_wwd"/>
                 <variable_spec name="parcel.lnempden"/>
                 <variable_spec name="parcel.lnsunits"/>
                 <variable_spec name="parcel.lnsunits_psf"/>
+                <variable_spec name="parcel.lnsavglotsqft"/>
                -->
             </variable_list>
           </submodel>
@@ -523,35 +524,35 @@
               <!--<variable_spec name="parcel.lnsunits"/>-->
               <!--<variable_spec name="parcel.lnsbsqft"/>-->
               <variable_spec name="parcel.lnslotsqft"/>
+              <variable_spec name="parcel.lnslotsqft_x_nugb"/>
+              <variable_spec name="parcel.ninugb"/>
               <!--<variable_spec name="parcel.faz_school_totscore"/>-->
               <!--<variable_spec name="parcel.no_good_publ_schools"/>-->
               <variable_spec name="parcel.wealthshare"/>
               <variable_spec name="parcel.hbwavgtmda"/>
               <variable_spec name="parcel.lnsbsqftden_wwd"/>
+              <variable_spec name="parcel.hwy2000"/>
+              <variable_spec name="parcel.lnpopden_wwd"/>
+              <variable_spec name="parcel.is_waterfront"/>
+              <variable_spec name="parcel.lnempden"/>
+              <variable_spec name="parcel.ngoodpubl_schools"/>
               <variable_spec name="constant"/>
 
-              <!-- Included in BMA but not selected  
+              <!-- Included in BMA but not selected   
               <variable_spec name="parcel.art300"/>
              <variable_spec name="parcel.art600"/>
-             <variable_spec name="parcel.hwy2000"/>
               <variable_spec name="parcel.lnemp10da"/>
               <variable_spec name="parcel.isdevcap_le0"/> 
               <variable_spec name="parcel.lndevcapacity_psf"/>
-              <variable_spec name="parcel.lnslotsqft_x_nugb"/>
               <variable_spec name="parcel.lnslotsqft_x_cbd"/>
-              <variable_spec name="parcel.ninugb"/>
               <variable_spec name="parcel.lnpopden"/>
-              <variable_spec name="parcel.lnpopden_wwd"/>
-             <variable_spec name="parcel.is_waterfront"/>
-              <variable_spec name="parcel.lnempden"/>
               <variable_spec name="parcel.lnretailden_wwd"/>
-              <variable_spec name="parcel.povertyshare"/>
-               <variable_spec name="parcel.ngoodpubl_schools"/>
+              <variable_spec name="parcel.povertyshare"/> 
               <variable_spec name="parcel.lndevcapacity"/>
               <variable_spec name="parcel.is_in_cbd"/>
               <variable_spec name="parcel.lnempden_wwd"/>
-              <variable_spec name="parcel.lngcdacbd"/>
-             -->
+              <variable_spec name="parcel.lngcdacbd"/>  -->
+          
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="parking" submodel_id="20" type="submodel">
@@ -687,30 +688,30 @@
               <!--<variable_spec name="parcel.lns_bldgagesf"/>-->
               <variable_spec name="parcel.lnsbsqft"/>
               <variable_spec name="parcel.lnsbsqft_psf"/>
-              <variable_spec name="parcel.lnsbsqftden_wwd"/>
               <variable_spec name="parcel.lnslotsqft"/>
               <!-- <variable_spec name="parcel.faz_school_totscore"/>-->
               <!--<variable_spec name="parcel.no_good_publ_schools"/>-->
-              <variable_spec name="parcel.ngoodpubl_schools"/>
               <!--<variable_spec name="parcel.lndevcapacity"/>-->
-              <variable_spec name="parcel.lnslotsqft_x_cbd"/>
+              <variable_spec name="parcel.art600"/>
+              <variable_spec name="parcel.lnslotsqft_x_nugb"/>
+              <variable_spec name="parcel.ninugb"/>
+              <variable_spec name="parcel.wealthshare"/>
+              <variable_spec name="parcel.isdevcap_le0"/>
+              <variable_spec name="parcel.lndevcapacity_psf"/>
+             <variable_spec name="parcel.lnempden_wwd"/>
+              <variable_spec name="parcel.lnempden"/>
               <variable_spec name="constant"/>
-               <!-- Included in BMA but not selected  
-                <variable_spec name="parcel.art600"/>
+               <!-- Included in BMA but not selected 
                 <variable_spec name="parcel.lnsunits"/>
                 <variable_spec name="parcel.is_in_cbd"/>
-              <variable_spec name="parcel.ninugb"/>
                <variable_spec name="parcel.hbwavgtmda"/>
-               <variable_spec name="parcel.lnslotsqft_x_nugb"/>
                <variable_spec name="parcel.povertyshare"/>
-               <variable_spec name="parcel.wealthshare"/>
-               <variable_spec name="parcel.isdevcap_le0"/>
                <variable_spec name="parcel.is_waterfront"/>
-               <variable_spec name="parcel.lndevcapacity_psf"/>
-              <variable_spec name="parcel.lnempden_wwd"/>
-              <variable_spec name="parcel.lnempden"/>
               <variable_spec name="parcel.lnpopden_wwd"/>
-              -->
+              <variable_spec name="parcel.lnsbsqftden_wwd"/>
+               <variable_spec name="parcel.ngoodpubl_schools"/>
+               <variable_spec name="parcel.lnslotsqft_x_cbd"/>
+               -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="vacant_developable" submodel_id="26" type="submodel">
@@ -730,31 +731,32 @@
               <variable_spec name="parcel.lnsavglotsqft"/>
               <variable_spec name="parcel.lnslotsqft"/>
               <variable_spec name="parcel.lnslotsqft_x_nugb"/>
-              <variable_spec name="parcel.lnslotsqft_x_cbd"/>
+              <variable_spec name="parcel.ninugb"/>
               <!--<variable_spec name="parcel.no_good_publ_schools"/>-->
-              <variable_spec name="parcel.ngoodpubl_schools"/>
               <variable_spec name="parcel.isdevcap_le0"/>
-              <variable_spec name="parcel.povertyshare"/>
               <variable_spec name="parcel.wealthshare"/>
               <variable_spec name="parcel.is_waterfront"/>
               <variable_spec name="parcel.lnemp20tw"/>
               <variable_spec name="parcel.lnsbsqftden_wwd"/>
               <variable_spec name="parcel.faz_school_totscore"/>
-              <variable_spec name="parcel.is_in_cbd"/>
+
               <variable_spec name="parcel.lnemp10wa"/>
               <variable_spec name="parcel.lnempden_wwd"/>
+              <variable_spec name="parcel.lnemp20da"/>
+              <variable_spec name="parcel.lnempden"/>
+             <variable_spec name="parcel.lnretailden_wwd"/>
+              <variable_spec name="parcel.lnemp30da"/>
+              <variable_spec name="parcel.lndevcapacity"/>
               <variable_spec name="constant"/>
              <!-- Included in BMA but not selected 
               <variable_spec name="parcel.lnemp30tw"/>
-              <variable_spec name="parcel.lnemp20da"/>
-               <variable_spec name="parcel.lnretailden_wwd"/>
               <variable_spec name="parcel.hbwavgtmda"/>
               <variable_spec name="parcel.lnpopden"/>
-              <variable_spec name="parcel.ninugb"/>
-              <variable_spec name="parcel.lnempden"/>
-              <variable_spec name="parcel.lnemp30da"/>
-              <variable_spec name="parcel.lndevcapacity"/>
+              <variable_spec name="parcel.ngoodpubl_schools"/>
+              <variable_spec name="parcel.povertyshare"/>
               <variable_spec name="parcel.lndevcapacity_psf"/>
+              <variable_spec name="parcel.lnslotsqft_x_cbd"/>
+              <variable_spec name="parcel.is_in_cbd"/>
 			-->
 
              
@@ -769,10 +771,8 @@
               <!--<variable_spec name="parcel.lnemp30tw"/>-->
               <!--<variable_spec name="parcel.lnemp10da"/>-->
               <!--<variable_spec name="parcel.lnemp20da"/>-->
-              <variable_spec name="parcel.lnemp30da"/>
               <variable_spec name="parcel.lngcdacbd"/>
               <!--<variable_spec name="parcel.art300"/>-->
-              <variable_spec name="parcel.art600"/>
               <!--<variable_spec name="parcel.hwy200"/>-->
               <!--<variable_spec name="parcel.hwy2000"/>-->
               <!--<variable_spec name="parcel.ln_invfar"/>-->
@@ -791,13 +791,15 @@
               <!--<variable_spec name="parcel.lndevcapacity"/>-->
               <variable_spec name="parcel.lndevcapacity_psf"/>
               <variable_spec name="parcel.isdevcap_le0"/>
-               <variable_spec name="parcel.lnpopden_wwd"/>
+              <variable_spec name="parcel.is_waterfront"/>
               <variable_spec name="constant"/>
                <!-- Included in BMA but not selected 
+               <variable_spec name="parcel.lnpopden_wwd"/>
+               <variable_spec name="parcel.lnemp30da"/>
+               <variable_spec name="parcel.art600"/>
               <variable_spec name="parcel.lnslotsqft_x_nugb"/>
               <variable_spec name="parcel.lnslotsqft_x_cbd"/>
               <variable_spec name="parcel.ninugb"/>
-              <variable_spec name="parcel.is_waterfront"/>
               <variable_spec name="parcel.povertyshare"/>
               <variable_spec name="parcel.hbwavgtmda"/>
               <variable_spec name="parcel.wealthshare"/>
@@ -819,11 +821,11 @@
               <!--<variable_spec name="parcel.lnemp20da"/>-->
               <variable_spec name="parcel.lngcdacbd"/>
               <!--<variable_spec name="parcel.art600"/>-->
-              <!--<variable_spec name="parcel.hwy200"/>-->
-              <variable_spec name="parcel.hwy2000"/>
+             <!-- <variable_spec name="parcel.hwy200"/>-->
+             <!-- <variable_spec name="parcel.hwy2000"/>-->
              <!-- <variable_spec name="parcel.ln_invfar"/>-->
-              <variable_spec name="parcel.age_lt_10"/>
-              <variable_spec name="parcel.nvalid_bldgage"/>
+
+
               <!--<variable_spec name="parcel.lns_bldgage"/>
               <variable_spec name="parcel.lns_bldgagesf"/>-->
               <variable_spec name="parcel.lnsbsqft_all"/>
@@ -833,34 +835,35 @@
               <!--<variable_spec name="parcel.faz_school_totscore"/>-->
               <!--<variable_spec name="parcel.no_good_publ_schools"/>-->
               <variable_spec name="parcel.ngoodpubl_schools"/>
-              <variable_spec name="parcel.lnyardsqft"/>
-              <!--<variable_spec name="parcel.lndevcapacity"/>-->
+              <!-- <variable_spec name="parcel.lndevcapacity"/>-->
               <variable_spec name="parcel.wealthshare"/>
-              <variable_spec name="parcel.is_in_cbd"/>  
               <variable_spec name="parcel.lnsunits_psf"/>
-              <variable_spec name="parcel.lnemp10wa"/> 
-              <variable_spec name="parcel.lndevcapacity_psf"/>
-              <variable_spec name="parcel.isdevcap_le0"/>
-   
               <variable_spec name="parcel.povertyshare"/> 
-              <variable_spec name="constant"/>
-               <!-- Included in BMA but not selected  
-              <variable_spec name="parcel.bldgage"/>         
               <variable_spec name="parcel.lnempden_wwd"/>
               <variable_spec name="parcel.art300"/>
-              <variable_spec name="parcel.lnslotsqft_x_cbd"/>
-               <variable_spec name="parcel.lnpopden_wwd"/>
               <variable_spec name="parcel.lnempden"/> 
-              <variable_spec name="parcel.lnparkarea_wwd"/>
+              <variable_spec name="parcel.lnemp30da"/>
+             <variable_spec name="parcel.lnparkarea_wwd"/>
+              <variable_spec name="parcel.is_waterfront"/> 
+              <variable_spec name="parcel.lnslotsqft_x_nugb"/> 
+              <variable_spec name="parcel.ninugb"/>
+              <variable_spec name="constant"/>
+               <!-- Included in BMA but not selected  
+              <variable_spec name="parcel.bldgage"/>   
+              <variable_spec name="parcel.nvalid_bldgage"/>  
+                <variable_spec name="parcel.age_gt_60"/>   
+                 <variable_spec name="parcel.age_lt_10"/>            
+              <variable_spec name="parcel.lnslotsqft_x_cbd"/>
+               <variable_spec name="parcel.is_in_cbd"/>  
+               <variable_spec name="parcel.lnpopden_wwd"/>
+             <variable_spec name="parcel.lnemp10wa"/> 
               <variable_spec name="parcel.lnemp10da"/>
               <variable_spec name="parcel.hbwavgtmda"/>
-              <variable_spec name="parcel.is_waterfront"/> 
-              <variable_spec name="parcel.age_gt_60"/>
-              <variable_spec name="parcel.lnemp30da"/>
               <variable_spec name="parcel.lnsunits"/>
-              <variable_spec name="parcel.lnslotsqft_x_nugb"/> 
-             <variable_spec name="parcel.ninugb"/>
-             -->
+              <variable_spec name="parcel.lndevcapacity_psf"/>
+              <variable_spec name="parcel.isdevcap_le0"/>
+             <variable_spec name="parcel.lnyardsqft"/>
+  			-->
             </variable_list>
           </submodel>
        </specification>
@@ -928,6 +931,15 @@
         <specification type="dictionary"/>
       </model>
    </models>
+   <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
+      <seed type="integer">1</seed>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_estimation</cache_directory>
+      <base_year type="integer" field_identifier="Base Year">2000</base_year>
+      <years type="tuple">
+        <firstyear type="integer" field_identifier="Base Year">2000</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2000</lastyear>
+      </years>
+    </estimation_config>
  </model_manager>
  <scenario_manager>
     <scenario executable="True" name="psrc_baseline_new_repm" type="scenario">
