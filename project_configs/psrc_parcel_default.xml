@@ -4,6 +4,9 @@
     <description type="string">Configuration for the PSRC parcel project</description>
     <parent type="file">psrc_parcel/configs/psrc_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="model variable" type="variable_definition" source="expression" name="building.lnempden_threshold">((building.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre))&gt;25)*(ln(building.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre)-25+1)).astype(float32) </variable>
+      <variable use="model variable" type="variable_definition" source="expression" name="building.lnpopden_threshold">((building.disaggregate(urbansim_parcel.zone.population_per_acre))&gt;45)*(ln(building.disaggregate(urbansim_parcel.zone.population_per_acre)-45+1)).astype(float32)</variable>"
+      <variable use="model variable" source="expression" name="household_x_building.twoplus_x_sqft_per_HH_member" type="variable_definition">(household.persons&gt;2)*(building.sqft_per_unit/household.persons)</variable>
       <variable use="model variable" source="Python class" name="household_x_building.E_avg_network_distance" type="variable_definition">psrc_parcel.household_x_building.avg_network_distance_from_home_to_work</variable>
       <variable use="model variable" source="expression" name="household_x_building.housing_range" type="variable_definition">numpy.logical_or(((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/household.income) &lt; .1, (((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/household.income)&gt;.3))</variable>
       <variable use="model variable" source="expression" name="building.hbwavgtmda_bldg" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_drive_alone)</variable>
@@ -32,7 +35,7 @@
       <variable source="expression" type="variable_definition" use="model variable" name="job_x_building.sector_density_in_building">safe_array_divide(urbansim_parcel.job_x_building.same_sector_employment_in_building, urbansim_parcel.building.employment)</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="building.ln_residential_units">ln(psrc_parcel.building.residential_units)</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.b_same_area_type">(urbansim_parcel.household.residence_area_type_id_lag1 == building.disaggregate(zone.area_type_id))</variable>
-      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.c_same_area">(urbansim_parcel.household.residence_large_area_id_lag1 == building.disaggregate(faz.large_area_id))</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.c_same_area">urbansim_parcel.household.residence_large_area_id_lag1 == urbansim_parcel.building.large_area_id</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="building.d_kitsap_dummy">building.disaggregate(zone.district_id)==19</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="building.lnpopden_bldg">(ln(building.disaggregate(urbansim_parcel.zone.population_per_acre))).astype(float32)</variable>
       <variable source="expression" type="variable_definition" use="model variable" name="building_x_household.disposable_inc">ln_bounded(household.income - ((urbansim_parcel.building.unit_price/10.) * urbansim_parcel.building.building_sqft_per_unit))</variable>
@@ -1202,7 +1205,7 @@
             <argument name="number_of_units_string" parser_action="quote_string" type="string">residential_units</argument>
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="location_id_string" parser_action="quote_string" type="string">building_id</argument>
-            <argument name="submodel_string" parser_action="quote_string" type="string">urbansim.household.income_category</argument>
+            <!-- <argument name="submodel_string" parser_action="quote_string" type="string">urbansim.household.income_category</argument> -->
             <argument name="estimation_size_agents" type="float">1.0</argument>
             <argument name="filter" parser_action="quote_string" type="string">numpy.logical_and(urbansim_parcel.building.is_residential, numpy.logical_and(numpy.logical_and(building.residential_units, building.sqft_per_unit), urbansim_parcel.building.unit_price &gt; 0))</argument>
             <!--<argument convert_blank_to_none="True" parser_action="quote_string" name="demand_string" type="string">residential_demand</argument>!-->
@@ -1251,7 +1254,7 @@
             <description type="string">submodel</description>
             <variable_list type="variable_list">
               <variable_spec name="household_x_building.E_avg_network_distance"/>
-             <!-- <variable_spec name="household_x_building.E_max_commute_logsum"/>-->
+              <variable_spec name="household_x_building.E_max_commute_logsum"/>
               <!--<variable_spec name="household_x_building.b_same_area_type"/>!-->
               <variable_spec name="household_x_building.c_same_area"/>
               <variable_spec name="building.Kitsap"/>
@@ -1275,6 +1278,8 @@
         <variable_spec name="building.iv_ln_price_residual"/>
         <variable_spec name="building.ln_price_per_unit"/>
         <!--<variable_spec name="household_x_building.space_per_pers_gt1T"/>-->
+             <variable_spec name="building.lnempden_threshold"/>
+             <variable_spec name="building.lnpopden_threshold"/>
         </variable_list>
         </submodel>
         </specification>
@@ -1796,7 +1801,8 @@
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=urbansim_parcel.parcel.vacant_land_area &gt; 0</argument>
-            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio_non_gov=numpy.logical_and(urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.33, parcel.aggregate(urbansim_parcel.building.is_governmental)==0)</argument>
+            <!-- <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio_non_gov=numpy.logical_and(urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.33, parcel.aggregate(urbansim_parcel.building.is_governmental)==0)</argument>-->
+            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)>2)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or(((safe_array_divide(parcel.parcel_sqft,parcel.aggregate(building.job_capacity)))>100),(parcel.aggregate(building.job_capacity)<15000)))*((safe_array_divide(parcel.parcel_sqft,urbansim_parcel.parcel.residential_units))>250)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))<300))</argument>
             <argument name="template_filter" convert_blank_to_none="True" parser_action="quote_string" type="string"/>
             <argument hidden="True" name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">real_estate_price_model_specification</argument>
