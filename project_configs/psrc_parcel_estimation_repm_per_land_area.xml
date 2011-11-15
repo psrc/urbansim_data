@@ -747,6 +747,7 @@
              <variable_spec name="parcel.lnretailden_wwd"/>
               <variable_spec name="parcel.lnemp30da"/>
               <variable_spec name="parcel.lndevcapacity"/>
+              <variable_spec name="parcel.lndevcapacity_psf"/>
               <variable_spec name="constant"/>
              <!-- Included in BMA but not selected 
               <variable_spec name="parcel.lnemp30tw"/>
@@ -754,7 +755,6 @@
               <variable_spec name="parcel.lnpopden"/>
               <variable_spec name="parcel.ngoodpubl_schools"/>
               <variable_spec name="parcel.povertyshare"/>
-              <variable_spec name="parcel.lndevcapacity_psf"/>
               <variable_spec name="parcel.lnslotsqft_x_cbd"/>
               <variable_spec name="parcel.is_in_cbd"/>
 			-->
@@ -841,13 +841,14 @@
               <variable_spec name="parcel.povertyshare"/> 
               <variable_spec name="parcel.lnempden_wwd"/>
               <variable_spec name="parcel.art300"/>
-              <variable_spec name="parcel.lnempden"/> 
               <variable_spec name="parcel.lnemp30da"/>
              <variable_spec name="parcel.lnparkarea_wwd"/>
               <variable_spec name="parcel.is_waterfront"/> 
               <variable_spec name="parcel.lnslotsqft_x_nugb"/> 
               <variable_spec name="parcel.ninugb"/>
               <variable_spec name="constant"/>
+              <variable_spec name="parcel.lndevcapacity_psf"/>
+             <variable_spec name="parcel.isdevcap_le0"/>
                <!-- Included in BMA but not selected  
               <variable_spec name="parcel.bldgage"/>   
               <variable_spec name="parcel.nvalid_bldgage"/>  
@@ -860,9 +861,8 @@
               <variable_spec name="parcel.lnemp10da"/>
               <variable_spec name="parcel.hbwavgtmda"/>
               <variable_spec name="parcel.lnsunits"/>
-              <variable_spec name="parcel.lndevcapacity_psf"/>
-              <variable_spec name="parcel.isdevcap_le0"/>
              <variable_spec name="parcel.lnyardsqft"/>
+             <variable_spec name="parcel.lnempden"/> 
   			-->
             </variable_list>
           </submodel>
