@@ -51,13 +51,13 @@
     <variable use="model variable" source="expression" name="parcel.is_waterfront" type="variable_definition">parcel.is_waterfront</variable>
 
     <variable use="model variable" source="expression" name="household_x_building.mnl_bias" type="variable_definition">household_x_building.__mnl_bias_correction_term</variable>
-    <variable use="model variable" source="expression" name="building.ngoodpubl_schools" type="variable_definition">building.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_3000_radius)</variable>
-    <variable source="expression" type="variable_definition" use="model variable" name="building.lnretailden_wwd">ln(building.disaggregate(psrc_parcel.parcel.retail_density_within_walking_distance))</variable>   
-    <variable use="model variable" source="expression" name="building.no_good_publ_schools" type="variable_definition">building.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_3000_radius == 0)</variable>
+    <variable use="model variable" source="expression" name="building.ngoodpubl_schools_bldg" type="variable_definition">building.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_3000_radius)</variable>
+    <variable source="expression" type="variable_definition" use="model variable" name="building.lnretailden_wwd_bldg">ln(building.disaggregate(psrc_parcel.parcel.retail_density_within_walking_distance))</variable>   
+    <variable use="model variable" source="expression" name="building.no_good_publ_schools_bldg" type="variable_definition">building.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_3000_radius == 0)</variable>
     <variable use="model variable" source="expression" name="household_x_building.kids_x_has_good_publ_schools" type="variable_definition">(household.children &gt; 0) * building.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_3000_radius &gt; 0)</variable>
  <variable use="model variable" source="expression" name="household_x_building.kids_x_ngood_publ_schools" type="variable_definition">(household.children > 0) * building.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_3000_radius)</variable>
-     <variable source="expression" type="variable_definition" use="model variable" name="building.park_wwd">building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_is_park_wwd)</variable>      
-    <variable source="expression" type="variable_definition" use="model variable" name="building.lnparkarea_wwd">ln_shifted(building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_park_area_wwd))</variable>   
+     <variable source="expression" type="variable_definition" use="model variable" name="building.park_wwd_bldg">building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_is_park_wwd)</variable>      
+    <variable source="expression" type="variable_definition" use="model variable" name="building.lnparkarea_wwd_bldg">ln_shifted(building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_park_area_wwd))</variable>   
     <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_building_type">urbansim_parcel.household.residence_type_lag1 == building.building_type_id</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_btype_if_sfr">urbansim_parcel.household.residence_type_lag1 * household.disaggregate(urbansim.building.is_single_family_residential)*urbansim.building.is_single_family_residential</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="household.is_valid_income">household.income > 0</variable>
