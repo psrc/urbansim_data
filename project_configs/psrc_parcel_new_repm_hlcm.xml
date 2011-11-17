@@ -1070,7 +1070,8 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string">household</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">is_inmigrant = household.building_id &lt; 0</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">household.building_id &lt; 0</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">is_inmigrant</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
