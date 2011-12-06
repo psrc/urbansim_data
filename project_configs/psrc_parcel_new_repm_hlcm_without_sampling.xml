@@ -19,7 +19,8 @@
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
-              <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.wesml_sampling_correction_variable</key>
+              <!-- <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.wesml_sampling_correction_variable</key> -->
+              <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.transit_shares</key>
               <key name="sample_alternatives_by_group" type="boolean">False</key>
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
             </argument>
