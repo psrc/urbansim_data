@@ -971,7 +971,8 @@
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
-              <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.wesml_sampling_correction_variable</key>
+              <!-- <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.wesml_sampling_correction_variable</key> -->
+              <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.transit_shares</key>
               <key name="sample_alternatives_by_group" type="boolean">True</key>
               <key name="group_definition_for_sampling_alternatives" type="string" model_dependency_type="variable">psrc_parcel.household.nonneg_large_area_id_lag5</key>
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
@@ -990,8 +991,8 @@
               <variable_spec name="household_x_building.E_avg_network_distance"/>
               <variable_spec name="household_x_building.E_max_commute_logsum"/>
               <variable_spec name="building.Kitsap"/>
-              <!-- <variable_spec name="household_x_building.c_same_area"/>  -->
-              <!--<variable_spec name="household_x_building.b_same_area_type"/> -->
+              <variable_spec name="household_x_building.c_same_area"/> 
+             <!--  <variable_spec name="household_x_building.b_same_area_type"/> -->
               <variable_spec name="household_x_building.same_btype_if_sfr"/>
               <!-- <variable_spec name="household_x_building.same_building_type"/>  -->
               <variable_spec name="household_x_building.housing_range"/>
