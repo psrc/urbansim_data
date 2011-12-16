@@ -932,12 +932,24 @@
         </structure>
         <specification type="dictionary"/>
       </model>
-      <model type="model" name="development_proposal_choice_model">
-      	<structure type="dictionary">
-      		<init type="dictionary">
-      			<argument type="string" parser_action="quote_string" name="weight_string">exp_ROI = psrc_parcel.development_project_proposal.exp_expected_rate_of_return_on_investment</argument>
-      		</init>
-      	</structure>
+      <model type="model" name="development_proposal_choice_model" inherit_parent_values="False">
+        <dependencies type="list">['real_estate_price_model', "expected_sale_price_model"]</dependencies>
+        <structure type="dictionary">
+          <import hidden="True" type="dictionary" name="import">
+            <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_with_minimum</class_module>
+            <class_name>DevelopmentProjectProposalSamplingModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string" name="name">DevelopmentProjectProposalSamplingModel</name>
+            <argument type="string" name="proposal_set">development_project_proposal</argument>
+            <argument type="string" parser_action="quote_string" name="weight_string">exp_ROI = psrc_parcel.development_project_proposal.exp_expected_rate_of_return_on_investment</argument>
+            <argument type="string" convert_blank_to_none="True" name="filter_attribute"/>
+          </init>
+          <run type="dictionary">
+            <argument type="integer" name="n">5000</argument>
+            <output hidden="True" type="string" name="output">(development_project_proposal, demolished_buildings)</output>
+          </run>
+        </structure>
       </model>
       <model name="compute_max_dev_capacity_model" type="model">
         <structure type="dictionary">
