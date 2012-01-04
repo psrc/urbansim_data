@@ -31,10 +31,14 @@
       <variable use="model variable" source="primary attribute" name="person.sex" type="variable_definition">person.sex</variable>
       <variable use="model variable" source="expression" name="person.valid_age" type="variable_definition">person.age &gt; 0</variable>
       <variable use="model variable" source="expression" name="person.npriv_schools_if_oldest" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_private_schools_within_1000_radius, intermediates=[building, household])*(psrc_parcel.person.has_older_sibling==0)</variable>
-      <variable use="model variable" source="expression" name="person.npriv_schools" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_private_schools_within_1000_radius, intermediates=[building, household])</variable>
-      <variable use="model variable" source="expression" name="person.npubl_schools" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_public_schools_within_2000_radius, intermediates=[building, household])</variable>
-      <variable use="model variable" source="expression" name="person.ngoodpubl_schools" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_1000_radius, intermediates=[building, household])</variable>
-      <variable use="model variable" source="expression" name="person.no_good_publ_schools" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_1000_radius ==0, intermediates=[building, household])</variable>
+      <variable use="model variable" source="expression" name="person.npriv_s2000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_private_schools_within_2000_radius, intermediates=[building, household])</variable>
+      <variable use="model variable" source="expression" name="person.npriv_s3000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_private_schools_within_3000_radius, intermediates=[building, household])</variable>
+      
+      <variable use="model variable" source="expression" name="person.npubl_s2000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_public_schools_within_2000_radius, intermediates=[building, household])</variable>
+      <variable use="model variable" source="expression" name="person.npubl_s3000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_public_schools_within_3000_radius, intermediates=[building, household])</variable>
+      
+      <variable use="model variable" source="expression" name="person.ngoodpubl_s2000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_2000_radius, intermediates=[building, household])</variable>
+      <variable use="model variable" source="expression" name="person.no_good_publ_s2000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_good_public_schools_within_2000_radius ==0, intermediates=[building, household])</variable>
       <variable use="model variable" source="expression" name="person.nschools" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_schools_within_1000_radius, intermediates=[building, household])</variable>
       <variable use="model variable" source="Python class" name="person_x_school.travel_distance_to_school" type="variable_definition">psrc_parcel.person_x_school.network_distance_from_home_to_school</variable>
       <variable use="model variable" source="expression" name="person.faz_school_totscore" type="variable_definition">person.disaggregate(psrc_parcel.faz.average_school_total_score, intermediates=[zone, parcel, building, household])</variable>
@@ -85,7 +89,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(specification, cm_index, est_dataset)</output>
             <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
-            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">person.school_type</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = numpy.logical_and(person.is_in_school, numpy.logical_or(numpy.logical_or(person.school_type==1, person.school_type==2), person.school_type==3))</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
             <argument name="estimation_storage" type="string">base_cache_storage</argument>
             <argument name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
@@ -95,20 +99,37 @@
     </structure>
         <specification type="dictionary">
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
-             <equation equation_id="1" name="private" type="submodel_equation">
-              <variable_list type="variable_list">
+            <equation equation_id="1" name="public" type="submodel_equation">
+            <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="constant"/>
-                <variable_spec name="person.hhincome" coefficient_name="hhincome"/>
-                <variable_spec name="person.age" coefficient_name="age"/>
+                <variable_spec name="person.faz_school_totscore"/>                         
+                <variable_spec name="person.no_good_publ_s2000"/>
+                <variable_spec name="person.ngoodpubl_s2000"/>                 
+                <variable_spec name="person.lhhincome_imputed" coefficient_name="lincome1"/>                
+                <variable_spec name="person.timetocbd" coefficient_name="timetocbd1"/> 
+                <variable_spec name="person.age" coefficient_name="age1"/>
               </variable_list>
             </equation>
             <equation equation_id="2" name="private" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="constant"/>
-                <variable_spec name="person.hhincome" coefficient_name="hhincome"/>
-                <variable_spec name="person.age" coefficient_name="age"/>
+                <variable_spec name="person.faz_school_totscore"/>                    
+                <variable_spec name="person.lhhincome_imputed" coefficient_name="lincome2"/>                
+                <variable_spec name="person.timetocbd" coefficient_name="timetocbd2"/>
+                <variable_spec name="person.older_sibl_priv"/>     
+                <variable_spec name="person.npriv_s2000"/>
+                <!-- <variable_spec name="person.npriv_s3000"/> -->
+                <variable_spec name="person.age" coefficient_name="age2"/>
               </variable_list>
             </equation>
+            <equation equation_id="3" name="home" type="submodel_equation">
+              <variable_list type="variable_list">
+                  <variable_spec name="person.older_sibl_home"/>
+                  <variable_spec name="person.hhchild"/>
+                  <variable_spec name="person.is_male"/>
+                  <variable_spec name="person.lives_in_rural"/>
+              </variable_list>
+            </equation> 
            <!--   <equation equation_id="1" name="private" type="submodel_equation">
               <variable_list type="variable_list">
                 <variable_spec name="constant" coefficient_name="constant_1"/>
@@ -518,7 +539,7 @@
 </model>
 </models>
 <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_schoolm</cache_directory>
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory>
 <save_estimation_results type="boolean">False</save_estimation_results>
 <base_year type="integer" field_identifier="Base Year">2006</base_year>
 <years type="tuple">
