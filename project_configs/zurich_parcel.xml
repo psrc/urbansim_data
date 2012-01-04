@@ -185,9 +185,9 @@
               <key name="sample_size_locations" type="integer">30</key>
               <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
               <key name="compute_capacity_flag" type="boolean">True</key>
-              <key convert_blank_to_none="True" name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">(zurich_parcel.job.is_untaken_non_home_based_job).astype(int32)</key>
-              <key convert_blank_to_none="True" name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">(job.disaggregate(building.building_type_id)&lt;&gt;1).astype(int32)</key>
-              <key convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">(zurich_parcel.job.is_untaken_non_home_based_job).astype(int32)</key>
+              <key convert_blank_to_none="True" name="number_of_units_string" type="string" model_dependency_type="variable">(job.disaggregate(building.building_type_id)&lt;&gt;1).astype(int32)</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
               <key name="lottery_max_iterations" type="integer">10</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
@@ -201,7 +201,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, wlcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">LAST of SC_workplace_location_choice_specification</argument>
             <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">persons</argument>
@@ -225,9 +225,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_coefficients</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">LAST of SC_workplace_location_choice_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">LAST of SC_workplace_location_choice_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
