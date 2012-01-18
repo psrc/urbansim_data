@@ -2172,7 +2172,7 @@
             <argument hidden="True" name="specification" type="string">specification</argument>
             <argument hidden="True" name="coefficients" type="string">coefficients</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
-            <argument name="chunk_specification" type="string">{'records_per_chunk':5000}</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':100000}</argument>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
           </run>
           <prepare_for_estimate type="dictionary">
@@ -2389,6 +2389,31 @@
           </submodel>
         </specification>
       </model>
+      <model name="establishment_transition_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">establishment</argument>
+            <argument name="dataset_accounting_attribute" parser_action="quote_string" type="string">employment</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Establishment Transition Model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">ETM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_employment_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">number_of_jobs</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'zone_id':-1}</argument>
+          </run>
+        </structure>
+      </model>
       <model name="establishment_disappearance_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -2543,6 +2568,7 @@
         <selectable return_value="real_estate_price_model" type="selectable" name="real_estate_price_model_1">True</selectable>
         <selectable return_value="update_of_departement" type="selectable" name="update_of_departement">True</selectable>
 	-->
+        <selectable type="selectable" name="establishment_transition_model">True</selectable>
         <selectable type="selectable" name="establishment_disappearance_model">True</selectable>
         <selectable type="selectable" name="establishment_evolution_model">True</selectable>
         <selectable type="selectable" name="establishment_location_choice_model">True</selectable>
