@@ -3,5 +3,382 @@
   <general>
     <description type="string">SustainCity: Zurich case study cz</description>
     <parent type="file">zurich_parcel/configs/zurich_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="both" source="expression" name="person.SC_dist_to_job" type="variable_definition">0.1629 * exp(-0.00008 * sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.x_coord_sp, intermediates=[building, job]))^2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.y_coord_sp, intermediates=[building, job]))^2))</variable>
+    </expression_library>
   </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="csv_data_to_opus_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/TEMP_files</param>
+            <param name="csv_table_name" param_type="string" required="True">SC_workplace_location_choice_coefficients</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="SC_workplace_location_choice" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">job.number_of_agents(person)==0</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">person.job_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">WorkplaceLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">WLCM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel.person</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">(zurich_parcel.job.is_untaken_non_home_based_job).astype(int32)</key>
+              <key convert_blank_to_none="True" name="number_of_units_string" type="string" model_dependency_type="variable">(job.disaggregate(building.building_type_id)&lt;&gt;1).astype(int32)</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string" model_dependency_type="variable">SC_is_placed_job = (urbansim_parcel.job.zone_id&gt;0).astype(int32)</key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="estimation_size_agents" type="float">0.1</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, wlcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_workplace_location_choice_specification</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">persons</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">zurich_parcel.person.is_non_home_based_worker_with_job</argument>
+            <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="agents_index" type="string">wlcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_workplace_location_choice_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_workplace_location_choice_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string"/>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="person.SC_dist_to_job"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="SC_workplace_location_choice__FIRSTTRY" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">job.number_of_agents(person)&lt;&gt;0</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">person.job_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">WorkplaceLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">WLCM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel.person</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="compute_capacity_flag" type="boolean">False</key>
+              <key convert_blank_to_none="True" name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+              <key convert_blank_to_none="True" name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">(job.disaggregate(building.building_type_id)&lt;&gt;1).astype(int32)</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string" model_dependency_type="variable">SC_is_placed_job = (urbansim_parcel.job.zone_id&gt;0).astype(int32)</key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="estimation_size_agents" type="float">0.1</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, wlcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_specification</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">persons</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">zurich_parcel.person.is_non_home_based_worker_with_job</argument>
+            <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="agents_index" type="string">wlcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string"/>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="person.SC_dist_to_job"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="SC_workplace_location_chocie_ORIGIN" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.building.number_of_jobs&lt;&gt;0</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.person.building_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">AgentLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">WLCM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel.person</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+              <key convert_blank_to_none="True" name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">number_of_jobs</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">number_of_persons</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="estimation_size_agents" type="float">0.5</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_specification</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">persons</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">new_workplace_location_chocie_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string"/>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="person.SC_dist_to_job"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="SC_real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.real_estate_price_model</class_module>
+            <class_name>RealEstatePriceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
+            <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">building_type_id</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">zurich_parcel.building.building_cost</argument>
+            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors':True})</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_real_estate_price_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_real_estate_price_model_coefficients</argument>
+            <output hidden="True" name="output" type="string">(specification, coefficients)</output>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument hidden="True" name="specification" type="string">specification</argument>
+            <argument hidden="True" name="coefficients" type="string">coefficients</argument>
+            <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
+            <argument hidden="True" name="data_objects" type="string">datasets</argument>
+            <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
+          </run>
+          <prepare_for_estimate type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_estimate</name>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_real_estate_price_model_specification</argument>
+            <argument name="filter_variable" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="threshold" type="integer">0</argument>
+            <output hidden="True" name="output" type="string">(specification, index)</output>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <argument hidden="True" name="specification" type="string">specification</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">zurich_parcel.building.building_cost</argument>
+            <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
+            <argument hidden="True" name="index" type="string">index</argument>
+            <argument hidden="True" name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <output hidden="True" name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+        </structure>
+        <specification type="dictionary" inherit_parent_values="False">
+          <submodel hidden="Children" name="rent" submodel_id="1" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.SC_acc_car"/>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    <scenario name="test_run" type="scenario" executable="True">
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+          <selectable name="building_type" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="job_building_type" type="selectable">False</selectable>
+        </datasets_to_preload>
+      </advanced>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable return_value="building_transition_model" type="selectable" name="building_transition_model_1">False</selectable>
+        <selectable return_value="building_location_choice_model_from_template" type="selectable" name="building_location_choice_model_from_template_1">False</selectable>
+        <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">False</selectable>
+        <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">False</selectable>
+        <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">False</selectable>
+        <selectable return_value="LAST of SC_workplace_location_choice" type="selectable" name="LAST of SC_workplace_location_choice_1">False</selectable>
+        <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">True</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    </results_manager>
 </opus_project>
+
