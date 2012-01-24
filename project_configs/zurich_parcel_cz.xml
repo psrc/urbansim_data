@@ -29,6 +29,7 @@
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">buildings</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">building.year_built&gt;1999</argument>
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary" inherit_parent_values="False">
