@@ -3,6 +3,15 @@
   <general>
     <description type="string">SustainCity: Zurich case study cz</description>
     <parent type="file">zurich_parcel/configs/zurich_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="both" source="expression" name="parcel.SC_plan_type_id_smaller_7000" type="variable_definition">parcel.plan_type_id &lt; 7000</variable>
+      <variable use="both" source="expression" name="parcel.SC_ln_jobs_within_56" type="variable_definition">ln(urbansim_parcel.parcel.jobs_within_56_of_parcel)</variable>
+      <variable use="both" source="Python class" name="parcel.SC_jobs_within_56" type="variable_definition">urbansim_parcel.parcel.jobs_within_56_of_parcel</variable>
+      <variable use="model variable" source="expression" name="parcel.SC_ln_pop_ha" type="variable_definition">ln(zurich_parcel.parcel.persons_within_56_of_parcel)</variable>
+      <variable use="both" source="expression" name="parcel.SC_dist_to_station" type="variable_definition">parcel.dist_to_station</variable>
+      <variable use="both" source="primary attribute" name="parcel.SC_slope" type="variable_definition">parcel.slope</variable>
+      <variable use="both" source="primary attribute" name="parcel.SC_dist_to_zh_cbd" type="variable_definition">parcel.dist_to_zh_cbd</variable>
+    </expression_library>
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
@@ -15,6 +24,9 @@
       </model>
       <model name="SC_building_location_choice_model_from_template" type="model">
         <structure type="dictionary">
+          <init type="dictionary">
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">SC_plan_type_id_smaller_7000</argument>
+          </init>
           <prepare_for_estimate type="dictionary">
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">buildings</argument>
           </prepare_for_estimate>
@@ -23,8 +35,11 @@
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
-              <variable_spec name="parcel.SC_pop_ha"/>
-              <variable_spec name="parcel.SC_unbuilt_parcel_area"/>
+              <variable_spec name="parcel.SC_dist_to_zh_cbd"/>
+              <variable_spec name="parcel.SC_jobs_within_56"/>
+              <variable_spec name="parcel.SC_ln_pop_ha"/>
+              <variable_spec name="parcel.SC_logit_foreigners_within_56_of_parcel"/>
+              <variable_spec name="parcel.SC_slope"/>
             </variable_list>
           </submodel>
         </specification>
