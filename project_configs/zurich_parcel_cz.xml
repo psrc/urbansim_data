@@ -4,6 +4,7 @@
     <description type="string">SustainCity: Zurich case study cz</description>
     <parent type="file">zurich_parcel/configs/zurich_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building_x_parcel.SC_building_fit_parcel" type="variable_definition">building.land_area - parcel.parcel_sqft</variable>
       <variable use="both" source="expression" name="parcel.SC_plan_type_id_smaller_7000" type="variable_definition">parcel.plan_type_id &lt; 7000</variable>
       <variable use="both" source="expression" name="parcel.SC_ln_jobs_within_56" type="variable_definition">ln(urbansim_parcel.parcel.jobs_within_56_of_parcel)</variable>
       <variable use="both" source="Python class" name="parcel.SC_jobs_within_56" type="variable_definition">urbansim_parcel.parcel.jobs_within_56_of_parcel</variable>
@@ -36,6 +37,7 @@
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
+              <variable_spec name="building_x_parcel.SC_building_fit_parcel"/>
               <variable_spec name="parcel.SC_dist_to_zh_cbd"/>
               <variable_spec name="parcel.SC_jobs_within_56"/>
               <variable_spec name="parcel.SC_ln_pop_ha"/>
