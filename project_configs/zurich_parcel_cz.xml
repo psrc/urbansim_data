@@ -4,6 +4,7 @@
     <description type="string">SustainCity: Zurich case study cz</description>
     <parent type="file">zurich_parcel/configs/zurich_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building_x_parcel.INWORK_SC_building_fit_parcel_plan" type="variable_definition">building.land_area - parcel.aggregate(development_constraints.max, intermediates=[development_constraint, plan_type])</variable>
       <variable use="both" source="expression" name="building_x_parcel.SC_building_fit_parcel" type="variable_definition">building.land_area - parcel.parcel_sqft</variable>
       <variable use="both" source="expression" name="parcel.SC_plan_type_id_smaller_7000" type="variable_definition">parcel.plan_type_id &lt; 7000</variable>
       <variable use="both" source="expression" name="parcel.SC_ln_jobs_within_56" type="variable_definition">ln(urbansim_parcel.parcel.jobs_within_56_of_parcel)</variable>
@@ -13,6 +14,7 @@
       <variable use="both" source="primary attribute" name="parcel.SC_slope" type="variable_definition">parcel.slope</variable>
       <variable use="both" source="primary attribute" name="parcel.SC_dist_to_zh_cbd" type="variable_definition">parcel.dist_to_zh_cbd</variable>
     </expression_library>
+    <available_datasets type="list">['building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','buildings_for_estimation', 'development_event_history', 'job_x_building']</available_datasets>
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
@@ -29,8 +31,8 @@
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">SC_plan_type_id_smaller_7000</argument>
           </init>
           <prepare_for_estimate type="dictionary">
-            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">buildings</argument>
-            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">building.year_built&gt;1999</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">buildings_for_estimation</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">building.year_built&gt;2000</argument>
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary" inherit_parent_values="False">
@@ -109,7 +111,7 @@
     <scenario name="test_run" type="scenario" executable="True">
       <advanced type="category">
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="buildings_for_estimation" type="selectable">True</selectable>
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
           <selectable name="development_event_history" type="selectable">False</selectable>
         </datasets_to_preload>
       </advanced>
