@@ -600,6 +600,7 @@
               <variable_spec name="building.SC_acc_pt"/>
               <variable_spec name="building.SC_building_built21to30"/>
               <variable_spec name="building.SC_building_built81to90"/>
+              <variable_spec name="building.SC_building_built91to05"/>
               <variable_spec name="building.SC_building_is_pre_1921"/>
               <variable_spec name="building.SC_highway_within_100m"/>
               <variable_spec name="building.SC_is_house"/>
