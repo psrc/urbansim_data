@@ -138,7 +138,7 @@
             <name hidden="True" name="name" type="string">HouseholdRelocationModelCreator().get_model</name>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
             <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
-            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.upc.rate_based_probabilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.upc_rate_based_probabilities</argument>
           </init>
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
@@ -632,12 +632,12 @@
         <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">False</selectable>
         <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">False</selectable>
         <selectable return_value="Copy of household_location_choice_model" type="selectable" name="Copy of household_location_choice_model_1">False</selectable>
-        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">False</selectable>
-        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">False</selectable>
-        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
+        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">True</selectable>
+        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">True</selectable>
+        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">True</selectable>
         <selectable return_value="LAST of SC_workplace_location_choice" type="selectable" name="LAST of SC_workplace_location_choice_1">False</selectable>
         <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">False</selectable>
-        <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">True</selectable>
+        <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">False</selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
