@@ -115,6 +115,7 @@
       <variable use="model variable" source="Python class" name="person_x_job.home_area_type_3_workplace_area_type_1" type="variable_definition">psrc_parcel.person_x_job.home_area_type_3_workplace_area_type_1</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_19_workplace_dist_19" type="variable_definition">(person.disaggregate(zone.district_id)==19) * (job.disaggregate(zone.district_id)==19)</variable>
+      <variable use="model variable" source="expression" name="person_x_job.home_dist_19_workplace_dist_ne_19" type="variable_definition">(person.disaggregate(zone.district_id)==19) * (job.disaggregate(zone.district_id)&lt;&gt;19)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_1_workplace_dist_1" type="variable_definition">(person.disaggregate(zone.district_id)==1) * (job.disaggregate(zone.district_id)==1)</variable>
       <variable use="model variable" source="expression" name="person_x_job.home_dist_6_workplace_dist_6" type="variable_definition">(person.disaggregate(zone.district_id)==6) * (job.disaggregate(zone.district_id)==6)</variable>
       <variable use="model variable" source="expression" name="building.iv_price_residual" type="variable_definition">urbansim_parcel.building.price_residual</variable>
@@ -428,6 +429,7 @@
       <model copyable="True" hidden="False" name="workplace_choice_model_for_resident" type="model">
         <structure type="dictionary">
           <init type="dictionary">
+          <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation_with_diagnose</argument>
           <argument name="filter" parser_action="quote_string" type="string">psrc_parcel.job.is_untaken_non_home_based_job</argument>
             <argument name="run_config" type="dictionary">
             <key name="sample_size_locations" type="integer">30</key>
@@ -450,17 +452,20 @@
           <submodel copyable="True" hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
+             <variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="5"/>
+               <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_ne_19" fixed_value="-1.5"/> -->
               <variable_spec name="person_x_job.logsum_hbw_am_from_home_to_work"/>
-              <variable_spec name="person_x_job.network_distance_from_home_to_work"/>
+             <variable_spec name="person_x_job.network_distance_from_home_to_work"/>
               <variable_spec name="person_x_job.home_district_is_same_as_workplace_district"/>
-              <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/>!-->
-              <variable_spec name="person_x_job.home_dist_1_workplace_dist_1"/>
-              <variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/>
+               <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/> -->
+              <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_ne_19"/>   -->
+             <!-- <variable_spec name="person_x_job.home_dist_1_workplace_dist_1"/>
+              <variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/> -->
               <variable_spec name="person_x_job.home_area_type_3_workplace_area_type_1"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_basic"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_retail"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_fires"/>
-              <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_edu"/>
+             <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_edu"/>
             </variable_list>
           </submodel>
         </specification>
@@ -1401,7 +1406,7 @@
                   <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
                   <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
                   <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
-                  <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+                  <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation_with_diagnose</argument>
                   <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
                   <argument name="location_set" type="string">building</argument>
                   <argument name="submodel_string" parser_action="quote_string" type="string">job.sector_id</argument>
@@ -1472,11 +1477,11 @@
                     <description type="string">Natural Resources</description>
                     <variable_list type="variable_list">
                       <variable_spec name="building.hbwavgtmda_bldg"/>
-                      <variable_spec name="building.is_near_art"/>
+                    <!--   <variable_spec name="building.is_near_art"/> -->
                       <variable_spec name="building.ln_empden_zone_1"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
-                      <variable_spec name="building.lnemp30da_bldg"/>
+                     <!--   <variable_spec name="building.lnemp30da_bldg"/>-->
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
@@ -1501,8 +1506,9 @@
                       <variable_spec name="building.is_warehousing_building"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
-                      <variable_spec name="building.lnemp30da_bldg"/>
-                      <variable_spec name="building.lngcdacbdbell_bldg"/>
+                    <!--   <variable_spec name="building.lnemp30da_bldg"/> -->
+                    <!--  <variable_spec name="building.lngcdacbdbell_bldg"/>-->
+                      <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
                       <variable_spec name="job_x_building.mnl_bias_sector_3" fixed_value="1"/>
@@ -1558,9 +1564,9 @@
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                      <variable_spec name="building.is_mixed_use_building"/>
+                    <!--   <variable_spec name="building.is_mixed_use_building"/>  -->
                       <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.is_near_highway"/>
+                    <!--   <variable_spec name="building.is_near_highway"/> -->
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.is_warehousing_building"/>
                       <variable_spec name="building.ln_empden_zone_6"/>
@@ -1579,14 +1585,14 @@
                     <variable_list type="variable_list">
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
-                      <variable_spec name="building.is_mixed_use_building"/>
-                      <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.is_near_highway"/>
+                    <!--  <variable_spec name="building.is_mixed_use_building"/> -->
+                     <variable_spec name="building.is_near_art"/>
+                    <!--   <variable_spec name="building.is_near_highway"/>-->
                       <variable_spec name="building.is_warehousing_building"/>
                       <variable_spec name="building.ln_empden_zone_7"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                      <variable_spec name="building.lnavginc_bldg"/>
-                      <variable_spec name="building.lnemp30da_bldg"/>
+                    <!--  <variable_spec name="building.lnavginc_bldg"/>-->
+                    <!--  <variable_spec name="building.lnemp30da_bldg"/>-->
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
@@ -1656,15 +1662,15 @@
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
-                      <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.is_near_highway"/>
+                     <!-- <variable_spec name="building.is_near_art"/>-->
+                      <!-- <variable_spec name="building.is_near_highway"/>  -->
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_11"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                      <variable_spec name="building.lngcdacbd_bldg"/>
+                      <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="job_x_building.mnl_bias_sector_11" fixed_value="1"/>
@@ -1682,7 +1688,7 @@
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_12"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                      <variable_spec name="building.lnavginc_bldg"/>
+                     <!--  <variable_spec name="building.lnavginc_bldg"/> -->
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
@@ -1702,10 +1708,11 @@
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_13"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                      <variable_spec name="building.lnavginc_bldg"/>
+                      <!-- <variable_spec name="building.lnavginc_bldg"/>  -->
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                      <variable_spec name="building.lngcdacbdbell_bldg"/>
+                     <!--  <variable_spec name="building.lngcdacbdbell_bldg"/>-->
+                      <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="job_x_building.mnl_bias_sector_13" fixed_value="1"/>
                     </variable_list>
@@ -1713,7 +1720,7 @@
                   <submodel hidden="Children" name="food_and_drink" submodel_id="14" type="submodel">
                     <description type="string">Food and drink</description>
                     <variable_list type="variable_list">
-                      <variable_spec name="building.hbwavgtmda_bldg"/>
+                     <!--  <variable_spec name="building.hbwavgtmda_bldg"/> -->
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
@@ -1726,7 +1733,8 @@
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
-                      <variable_spec name="building.lngcdacbdbell_bldg"/>
+                     <!--  <variable_spec name="building.lngcdacbdbell_bldg"/>-->
+                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="job_x_building.mnl_bias_sector_14" fixed_value="1"/>
                     </variable_list>
@@ -1734,16 +1742,16 @@
                   <submodel hidden="Children" name="ed_services" submodel_id="15" type="submodel">
                     <description type="string">ed_services</description>
                     <variable_list type="variable_list">
-                      <variable_spec name="building.hbwavgtmda_bldg"/>
+                    <!--  <variable_spec name="building.hbwavgtmda_bldg"/>-->
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                      <variable_spec name="building.is_mixed_use_building"/>
+                    <!--  <variable_spec name="building.is_mixed_use_building"/>-->
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_15"/>
-                      <variable_spec name="building.ln_unit_price_trunc"/>
+                    <!--  <variable_spec name="building.ln_unit_price_trunc"/>-->
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
@@ -1754,11 +1762,11 @@
                   <submodel hidden="Children" name="health" submodel_id="16" type="submodel">
                     <description type="string">Health</description>
                     <variable_list type="variable_list">
-                      <variable_spec name="building.hbwavgtmda_bldg"/>
+                  <!--    <variable_spec name="building.hbwavgtmda_bldg"/> -->
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                      <variable_spec name="building.is_mixed_use_building"/>
+                      <!-- <variable_spec name="building.is_mixed_use_building"/>  -->
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
                       <variable_spec name="building.is_office_building"/>
@@ -1775,7 +1783,7 @@
                   <submodel hidden="Children" name="other_services" submodel_id="17" type="submodel">
                     <description type="string">Other services</description>
                     <variable_list type="variable_list">
-                      <variable_spec name="building.inugb_bldg"/>
+                     <!-- <variable_spec name="building.inugb_bldg"/>-->
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
@@ -1787,8 +1795,8 @@
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                      <variable_spec name="building.lngcdacbd_bldg"/>
-                      <variable_spec name="building.lngcdacbdbell_bldg"/>
+                     <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
+                     <!-- <variable_spec name="building.lngcdacbdbell_bldg"/>-->
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="job_x_building.mnl_bias_sector_17" fixed_value="1"/>
                     </variable_list>
@@ -1802,7 +1810,7 @@
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=urbansim_parcel.parcel.vacant_land_area &gt; 0</argument>
             <!-- <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio_non_gov=numpy.logical_and(urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.33, parcel.aggregate(urbansim_parcel.building.is_governmental)==0)</argument>-->
-            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;2)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or(((safe_array_divide(parcel.parcel_sqft,parcel.aggregate(building.job_capacity)))&gt;100),(parcel.aggregate(building.job_capacity)&lt;15000)))*((safe_array_divide(parcel.parcel_sqft,urbansim_parcel.parcel.residential_units))&gt;250)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;300))</argument>
+            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;2)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or(numpy.logical_and((safe_array_divide(parcel.parcel_sqft,parcel.aggregate(building.job_capacity))&gt;100),(parcel.aggregate(building.job_capacity)&lt;15000)),(safe_array_divide(parcel.parcel_sqft,urbansim_parcel.parcel.residential_units)&gt;250)))*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;300))</argument>
             <argument name="template_filter" convert_blank_to_none="True" parser_action="quote_string" type="string"/>
             <argument hidden="True" name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">real_estate_price_model_specification</argument>
