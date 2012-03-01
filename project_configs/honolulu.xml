@@ -2150,8 +2150,8 @@
     <scenario type="scenario" executable="True" name="honolulu_baseline_test">
       <parent type="scenario_name">honolulu_baseline</parent>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2006</firstyear>
-        <lastyear type="integer">2009</lastyear>
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2003</lastyear>
       </years_to_run>
     </scenario>
     <scenario copyable="True" executable="True" name="honolulu_baseline" type="scenario">
@@ -2177,7 +2177,7 @@
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2001</firstyear>
-        <lastyear type="integer">2003</lastyear>
+        <lastyear type="integer">2010</lastyear>
       </years_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">honolulu/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
