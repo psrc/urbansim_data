@@ -7,8 +7,123 @@
     <dataset_pool_configuration type="class">
       <argument name="package_order" type="list">['paris', 'urbansim_zone', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['job','building','household_x_building','building_x_household','zone','faz','household','large_area','gridcell','city','county','zemp','alldata','dept']</available_datasets>
+    <available_datasets type="list">['job','building','household_x_building','building_x_household','zone','faz','household','large_area','gridcell','city','county','zemp','zgp','alldata','dept']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="establishment.emp_pred_test_2" type="variable_definition">establishment.employment*establishment.building_id&lt;0</variable>
+      <variable use="both" source="expression" name="establishment.emp_pred_test_1" type="variable_definition">(paris.establishment.emp_pred*establishment.building_id&gt;0)</variable>
+      <variable use="both" source="expression" name="establishment.emp_pred_test" type="variable_definition">(paris.establishment.emp_pred*establishment.building_id&gt;0)+(establishment.employment*establishment.building_id&lt;0)</variable>
+      <variable use="both" source="expression" name="establishment._init_error_ln_emp_ratio" type="variable_definition">establishment._init_error_ln_emp_ratio</variable>
+      <variable use="both" source="expression" name="establishment.ln_emp_ratio" type="variable_definition">paris.establishment.ln_emp_ratio</variable>
+      <variable use="both" source="expression" name="establishment.emp_pred" type="variable_definition">paris.establishment.emp_pred</variable>
+      <variable use="both" source="expression" name="building.total_job_spaces" type="variable_definition">urbansim_zone.building.total_non_home_based_job_spaces</variable>
+      <variable use="both" source="expression" name="building.total_emp" type="variable_definition">paris.building.number_of_non_home_based_jobs</variable>
+      <variable use="both" source="expression" name="building.vacant_job_spaces" type="variable_definition">paris.building.vacant_non_home_based_job_spaces</variable>
+      <variable use="both" source="expression" name="building.CLEmpTot" type="variable_definition">ln_bounded(building.aggregate(establishment.employment))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec1" type="variable_definition">building.disaggregate(paris.zone.sector1_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec2" type="variable_definition">building.disaggregate(paris.zone.sector2_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec3" type="variable_definition">building.disaggregate(paris.zone.sector3_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec4" type="variable_definition">building.disaggregate(paris.zone.sector4_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec5" type="variable_definition">building.disaggregate(paris.zone.sector5_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec6" type="variable_definition">building.disaggregate(paris.zone.sector6_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec7" type="variable_definition">building.disaggregate(paris.zone.sector7_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec8" type="variable_definition">building.disaggregate(paris.zone.sector8_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec9" type="variable_definition">building.disaggregate(paris.zone.sector9_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec10" type="variable_definition">building.disaggregate(paris.zone.sector10_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CQEdst97Sec11" type="variable_definition">building.disaggregate(paris.zone.sector11_employment_lag2/(1000*zone.project99st))</variable>
+      <variable use="both" source="expression" name="building.CPRchld111g" type="variable_definition">building.disaggregate(zone.aggregate(household.children11&gt;=1, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="building.CPGZFU" type="variable_definition">building.disaggregate(zone.czfu)</variable>
+      <variable use="both" source="expression" name="building.CLOprjST99" type="variable_definition">building.disaggregate(zone.lproject99st)</variable>
+      <variable use="both" source="expression" name="zgp.zgp_pop" type="variable_definition">zgp.aggregate(zone.aggregate(household.size,intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="zgp.zgp_emp" type="variable_definition">zgp.aggregate(zone.aggregate(establishment.employment,intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="zone.emp_s9" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==9),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s8" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==8),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s7" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==7),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s6" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==6),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s5" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==5),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s4" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==4),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s3" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==3),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s2" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==2),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s11" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==11),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s10" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==10),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s1" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==1),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.Ejobs_s1" type="variable_definition">zone.aggregate(establishment.employment,function=sum)</variable>
+      <variable use="both" source="expression" name="building.CLPB" type="variable_definition">ln_bounded(building.price)</variable>
+      <variable use="both" source="expression" name="establishment.w6slope" type="variable_definition">paris.establishment.w6slope</variable>
+      <variable use="both" source="expression" name="establishment.w50slope" type="variable_definition">paris.establishment.w50slope</variable>
+      <variable use="both" source="expression" name="establishment.w20slope" type="variable_definition">paris.establishment.w20slope</variable>
+      <variable use="both" source="expression" name="establishment.w10slope" type="variable_definition">paris.establishment.w10slope</variable>
+      <variable use="both" source="expression" name="establishment.w100slope" type="variable_definition">paris.establishment.w100slope</variable>
+      <variable use="both" source="expression" name="establishment.w2slope" type="variable_definition">paris.establishment.w2slope</variable>
+      <variable use="both" source="expression" name="building.CREdensEmp" type="variable_definition">building.disaggregate(zone.aggregate(establishment.employment,function=sum))/(1000*building.disaggregate(zone.careakm2))</variable>
+      <variable use="both" source="expression" name="establishment.EDRETvpmd_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cdretvpmd))</variable>
+      <variable use="both" source="expression" name="establishment.EDRETtcmd_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cdrettcmd))</variable>
+      <variable use="both" source="expression" name="establishment.EVilNouvel_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cvilnouvel))</variable>
+      <variable use="both" source="expression" name="establishment.EPOORPC_M_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cpoorpc_m))</variable>
+      <variable use="both" source="expression" name="establishment.ENPAM0_M_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cnpam0_m))</variable>
+      <variable use="both" source="expression" name="establishment.Edensity_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cdensity))</variable>
+      <variable use="both" source="expression" name="establishment.ELPB_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.clpb))</variable>
+      <variable use="both" source="expression" name="establishment.ENGtrainSt" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctrain9))</variable>
+      <variable use="both" source="expression" name="establishment.ERam0" type="variable_definition">establishment.disaggregate((zone.aggregate(building.aggregate(household.workers==0))/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
+      <variable use="both" source="expression" name="establishment.EPBhghInc" type="variable_definition">establishment.disaggregate(100*(zone.aggregate(household.lincomepc&gt;10.3)/(zone.aggregate(building.number_of_agents(household),function=sum))))</variable>
+      <variable use="both" source="expression" name="establishment.EPBlowInc" type="variable_definition">establishment.disaggregate(100*(zone.aggregate(household.lincomepc&lt;=9.9)/(zone.aggregate(building.number_of_agents(household),function=sum))))</variable>
+      <variable use="both" source="expression" name="establishment.ETPNiv2" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctpniv2))</variable>
+      <variable use="both" source="expression" name="establishment.ETPNiv1" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctpniv1))</variable>
+      <variable use="model variable" source="expression" name="establishment.ERRdensPop" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.aggregate(household.size, intermediates = [building])/(1000*zone.careakm2)))</variable>
+      <variable use="both" source="expression" name="establishment.ELimit" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.limit))</variable>
+      <variable use="both" source="expression" name="establishment.ENGsubwSP" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.csubway9))</variable>
+      <variable use="both" source="expression" name="establishment.EBAnwCty" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cvilnouvel))</variable>
+      <variable use="both" source="expression" name="establishment.EBAparis" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.dept==75))</variable>
+      <variable use="both" source="expression" name="establishment.ELGarea" type="variable_definition">establishment.disaggregate(ln_bounded(building.disaggregate(zone.careakm2)))</variable>
+      <variable use="both" source="expression" name="establishment.EBADefense" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.insee==92062)+building.disaggregate(zone.insee==92026)+building.disaggregate(zone.insee==92050))</variable>
+      <variable use="both" source="expression" name="establishment.ERItaxPro" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.taxpro))</variable>
+      <variable use="both" source="expression" name="establishment.EAMctt_TC" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctt_tc))</variable>
+      <variable use="both" source="expression" name="establishment.EAMctt_vp" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctt_vp))</variable>
+      <variable use="both" source="expression" name="building.CTPNiv3" type="variable_definition">building.disaggregate(zone.ctpniv3)</variable>
+      <variable use="both" source="expression" name="building.CTPNiv4" type="variable_definition">building.disaggregate(zone.ctpniv4)</variable>
+      <variable use="both" source="expression" name="building.CAMctt_vp" type="variable_definition">building.disaggregate(zone.ctt_vp)</variable>
+      <variable use="both" source="expression" name="establishment.ELPB" type="variable_definition">establishment.disaggregate(ln_bounded(building.price))</variable>
+      <variable use="both" source="expression" name="establishment.ETPNiv4" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctpniv4))</variable>
+      <variable use="both" source="expression" name="establishment.ETPNiv3" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.ctpniv3))</variable>
+      <variable use="both" source="expression" name="building.CTPNiv2" type="variable_definition">building.disaggregate(zone.ctpniv2)</variable>
+      <variable use="both" source="expression" name="building.CTPNiv1" type="variable_definition">building.disaggregate(zone.ctpniv1)</variable>
+      <variable use="both" source="expression" name="establishment.w3slope" type="variable_definition">paris.establishment.w3slope</variable>
+      <variable use="both" source="expression" name="building.CLsector1_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector1_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector11_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector11_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector10_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector10_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector9_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector9_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector8_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector8_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector7_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector7_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector6_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector6_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector5_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector5_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector4_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector4_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector3_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector3_employment_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector2_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector2_employment_lag2))</variable>
+      <variable use="both" source="expression" name="zone.Zsector2_employment_lag2" type="variable_definition">paris.zone.sector2_employment_lag2</variable>
+      <variable use="both" source="expression" name="zone.ZCLPB" type="variable_definition">zone.aggregate(building.price)</variable>
+      <variable use="both" source="expression" name="zone.ZPRmemb4g" type="variable_definition">(zone.aggregate(household.size&gt;=4)/(zone.number_of_agents(household)))*100</variable>
+      <variable use="both" source="expression" name="zone.ZPRmemb3g" type="variable_definition">(zone.aggregate(household.size&gt;=3, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="zone.ZPRKyng" type="variable_definition">(zone.aggregate(household.age_of_head&lt;=35, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="zone.ZPRKold" type="variable_definition">(zone.aggregate(household.age_of_head&gt;55, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="zone.ZPRKmidAge" type="variable_definition">(zone.aggregate(building.number_of_agents(household),function=sum)- zone.aggregate(household.age_of_head&gt;55, intermediates = [building])- zone.aggregate(household.age_of_head&lt;=35, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="zone.ZPBmedInc" type="variable_definition">100*((zone.aggregate(building.number_of_agents(household),function=sum)- zone.aggregate(household.lincomepc&lt;=9.9, intermediates = [building])- zone.aggregate(household.lincomepc&gt;10.3, intermediates = [building]))/(zone.aggregate(building.number_of_agents(household),function=sum)))</variable>
+      <variable use="both" source="expression" name="zone.ZPBlowInc" type="variable_definition">100*(zone.aggregate(household.lincomepc&lt;=9.9)/(zone.aggregate(building.number_of_agents(household),function=sum)))</variable>
+      <variable use="both" source="expression" name="zone.ZPBhghInc" type="variable_definition">100*(zone.aggregate(household.lincomepc&gt;10.3)/(zone.aggregate(building.number_of_agents(household),function=sum)))</variable>
+      <variable use="both" source="expression" name="zone.ZNGtrainSt" type="variable_definition">zone.ctrain9</variable>
+      <variable use="both" source="expression" name="zone.ZNGsubwSP" type="variable_definition">zone.csubway9</variable>
+      <variable use="both" source="expression" name="zone.Zpop" type="variable_definition">zone.aggregate(building.aggregate(household.size),function=sum)</variable>
+      <variable use="model variable" source="expression" name="zone.ZRRdensPop" type="variable_definition">(zone.aggregate(household.size)/(1000*zone.careakm2))</variable>
+      <variable use="both" source="expression" name="zone.ZPRam0" type="variable_definition">(zone.aggregate(building.aggregate(household.workers==0))/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="zone.ZLGarea" type="variable_definition">zone.careakm2</variable>
+      <variable use="both" source="expression" name="establishment.w6" type="variable_definition">paris.establishment.w6</variable>
+      <variable use="both" source="expression" name="establishment.w50" type="variable_definition">paris.establishment.w50</variable>
+      <variable use="both" source="expression" name="establishment.w3" type="variable_definition">paris.establishment.w3</variable>
+      <variable use="both" source="expression" name="establishment.w20" type="variable_definition">paris.establishment.w20</variable>
+      <variable use="both" source="expression" name="establishment.w100" type="variable_definition">paris.establishment.w100</variable>
+      <variable use="both" source="expression" name="establishment.w10" type="variable_definition">paris.establishment.w10</variable>
+      <variable use="both" source="expression" name="zone.ZAMctt_TC" type="variable_definition">zone.ctt_tc</variable>
+      <variable use="both" source="expression" name="building.CAMctt_TC" type="variable_definition">building.disaggregate(zone.ctt_tc)</variable>
+      <variable use="both" source="expression" name="building.CRItaxHabit" type="variable_definition">building.disaggregate(zone.taxhabit)</variable>
+      <variable use="both" source="expression" name="building.CRItaxBati" type="variable_definition">building.disaggregate(zone.bati)</variable>
       <variable use="both" source="expression" name="establishment.w2" type="variable_definition">paris.establishment.w2</variable>
       <variable use="both" source="expression" name="establishment.emp" type="variable_definition">establishment.employment</variable>
       <variable use="both" source="expression" name="dept.households" type="variable_definition">dept.number_of_agents(household)</variable>
@@ -42,7 +157,9 @@
       <variable use="both" source="expression" name="household_x_building.CNGtrainSt_HBRcar1g" type="variable_definition">(household.cars&gt;=1)*(building.disaggregate(zone.ctrain9))</variable>
       <variable use="both" source="expression" name="household_x_building.CNGsubwSP_HBRcar1g" type="variable_definition">(household.cars&gt;=1)*(building.disaggregate(zone.csubway9))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempVP_HBRcar1g" type="variable_definition">(household.cars&gt;=1)*(building.disaggregate(zone.cemploivp))</variable>
+      <variable use="both" source="expression" name="household_x_building.ctt_vp_HBRcar1g" type="variable_definition">(household.cars&gt;=1)*(building.disaggregate(zone.ctt_vp))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempTC_HBRcar1g" type="variable_definition">(household.cars&gt;=1)*(building.disaggregate(zone.cemploitc))</variable>
+      <variable use="both" source="expression" name="household_x_building.ctt_tc_HBRcar1g" type="variable_definition">(household.cars&gt;=1)*(building.disaggregate(zone.ctt_tc))</variable>
       <variable use="both" source="expression" name="zone.jobs_s11" type="variable_definition">zone.aggregate(building.aggregate(job.sector_id==11))</variable>
       <variable use="both" source="expression" name="zone.jobs_s10" type="variable_definition">zone.aggregate(building.aggregate(job.sector_id==10))</variable>
       <variable use="both" source="expression" name="building.CLEsect11" type="variable_definition">ln_bounded(building.aggregate((job.sector_id==11)))</variable>
@@ -130,11 +247,11 @@
       <variable use="both" source="expression" name="building.CPRmemb3" type="variable_definition">building.disaggregate(zone.aggregate(household.size==3, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
       <variable use="both" source="expression" name="building.CPRmemb1" type="variable_definition">building.disaggregate(zone.aggregate(household.size==1, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
       <variable use="both" source="expression" name="building.CPRKyng" type="variable_definition">building.disaggregate(zone.aggregate(household.age_of_head&lt;=35, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
-      <variable use="both" source="expression" name="building.CPRKold" type="variable_definition">building.disaggregate(zone.aggregate(household.age_of_head&gt;55, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
+      <variable use="both" source="expression" name="building.CPRKold" type="variable_definition">building.disaggregate(safe_array_divide(zone.aggregate(household.age_of_head&gt;55, intermediates = [building]),(zone.aggregate(building.number_of_agents(household),function=sum))))*100</variable>
       <variable use="both" source="expression" name="building.CPRKmidAge" type="variable_definition">building.disaggregate(zone.aggregate(building.number_of_agents(household),function=sum)- zone.aggregate(household.age_of_head&gt;55, intermediates = [building])- zone.aggregate(household.age_of_head&lt;=35, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
       <variable use="both" source="expression" name="building.CPBmedInc" type="variable_definition">100*building.disaggregate((zone.aggregate(building.number_of_agents(household),function=sum)- zone.aggregate(household.lincomepc&lt;=9.9, intermediates = [building])- zone.aggregate(household.lincomepc&gt;10.3, intermediates = [building]))/(zone.aggregate(building.number_of_agents(household),function=sum)))</variable>
       <variable use="both" source="expression" name="building.CPBhghInc" type="variable_definition">100*building.disaggregate(zone.aggregate(household.lincomepc&gt;10.3, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))</variable>
-      <variable use="both" source="expression" name="building.CPBlowInc" type="variable_definition">100*building.disaggregate(zone.aggregate(household.lincomepc&lt;=9.9, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))</variable>
+      <variable use="both" source="expression" name="building.CPBlowInc" type="variable_definition">100*building.disaggregate(safe_array_divide( zone.aggregate(household.lincomepc&lt;=9.9, intermediates = [building]),(zone.aggregate(building.number_of_agents(household),function=sum))))</variable>
       <variable use="both" source="expression" name="building.CPRcar2" type="variable_definition">building.disaggregate(zone.aggregate(household.cars==2, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
       <variable use="both" source="expression" name="building.CPRcar1" type="variable_definition">building.disaggregate(zone.aggregate(household.cars==1, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
       <variable use="both" source="expression" name="building.CPRcar0" type="variable_definition">building.disaggregate(zone.aggregate(household.cars==0, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
@@ -144,7 +261,7 @@
       <variable use="both" source="expression" name="building.CNRcar2" type="variable_definition">building.disaggregate(zone.aggregate(building.aggregate(household.cars==2)))</variable>
       <variable use="both" source="expression" name="building.CNRcar1" type="variable_definition">building.disaggregate(zone.aggregate(building.aggregate(household.cars==1)))</variable>
       <variable use="both" source="expression" name="building.CNRcar0" type="variable_definition">building.disaggregate(zone.aggregate(building.aggregate(household.cars==0)))</variable>
-      <variable use="both" source="expression" name="building.CREdensEmp" type="variable_definition">building.disaggregate(zone.aggregate(building.number_of_agents(job),function=sum))/(1000*building.disaggregate(zone.careakm2))</variable>
+      <variable use="both" source="expression" name="building.CREdensEmp_OK" type="variable_definition">building.disaggregate(zone.aggregate(building.number_of_agents(job),function=sum))/(1000*building.disaggregate(zone.careakm2))</variable>
       <variable use="model variable" source="expression" name="building.CRRdensPop" type="variable_definition">building.disaggregate(zone.aggregate(household.size, intermediates = [building])/(1000*zone.careakm2))</variable>
       <variable use="model variable" source="expression" name="building.CLEemp" type="variable_definition">building.disaggregate(ln_bounded(zone.aggregate(building.number_of_agents(job))))</variable>
       <variable use="both" source="expression" name="building.CDGartClse" type="variable_definition">building.disaggregate(zone.cdgartclse)</variable>
@@ -177,6 +294,7 @@
       <variable use="both" source="expression" name="building.CLEsect2" type="variable_definition">ln_bounded(building.aggregate((job.sector_id==2)))</variable>
       <variable use="both" source="expression" name="building.CLEsect1" type="variable_definition">ln_bounded( building.aggregate(job.sector_id==1) )</variable>
       <variable use="both" source="expression" name="building.CAMempTC" type="variable_definition">building.disaggregate(zone.cemploitc)</variable>
+      <variable use="both" source="expression" name="building.ctt_tc" type="variable_definition">building.disaggregate(zone.ctt_tc)</variable>
       <variable use="both" source="expression" name="building.CDGCBD" type="variable_definition">building.disaggregate(zone.cd_chatelet)</variable>
       <variable use="both" source="expression" name="building.CBAdept77" type="variable_definition">building.disaggregate(zone.dept==77)</variable>
       <variable use="both" source="expression" name="building.CBAdept95" type="variable_definition">building.disaggregate(zone.dept==95)</variable>
@@ -188,6 +306,7 @@
       <variable use="both" source="expression" name="building.CPInoise" type="variable_definition">building.disaggregate(zone.cnoise)</variable>
       <variable use="both" source="expression" name="building.CBAparis" type="variable_definition">building.disaggregate(zone.dept==75)</variable>
       <variable use="both" source="expression" name="building.CAMempVP" type="variable_definition">building.disaggregate(zone.cemploivp)</variable>
+      <variable use="both" source="expression" name="building.ctt_vp" type="variable_definition">building.disaggregate(zone.ctt_vp)</variable>
       <variable use="both" source="expression" name="building.CDGart" type="variable_definition">building.disaggregate(zone.cdistart)/1000</variable>
       <variable use="both" source="expression" name="building.CLCdwlgprice" type="variable_definition">ln_bounded(building.price)</variable>
       <variable use="both" source="expression" name="building.CPOeduc" type="variable_definition">building.disaggregate(zone.cpequipem_enseign)</variable>
@@ -202,9 +321,12 @@
       <variable use="both" source="expression" name="household_x_building.CAMempVP_HBRcar2g" type="variable_definition">(household.cars&gt;=2)*(building.disaggregate(zone.cemploivp))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempVP_HBRcar1" type="variable_definition">(household.cars==1)*(building.disaggregate(zone.cemploivp))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempVP_HBRcar0" type="variable_definition">(household.cars==0)*(building.disaggregate(zone.cemploivp))</variable>
+      <variable use="both" source="expression" name="household_x_building.ctt_vp_HBRcar0" type="variable_definition">(household.cars==0)*(building.disaggregate(zone.ctt_vp))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempTC_HBRcar1" type="variable_definition">(household.cars==1)*(building.disaggregate(zone.cemploitc))</variable>
+      <variable use="both" source="expression" name="household_x_building.ctt_tc_HBRcar1" type="variable_definition">(household.cars==1)*(building.disaggregate(zone.ctt_tc))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempTC_HBRcar2g" type="variable_definition">(household.cars&gt;=2)*(building.disaggregate(zone.cemploitc))</variable>
       <variable use="both" source="expression" name="household_x_building.CAMempTC_HBRcar0" type="variable_definition">(household.cars==0)*(building.disaggregate(zone.cemploitc))</variable>
+      <variable use="both" source="expression" name="household_x_building.ctt_tc_HBRcar0" type="variable_definition">(household.cars==0)*(building.disaggregate(zone.ctt_tc))</variable>
       <variable use="both" source="expression" name="household_x_building.CNGsubwSP_HBRcar2g" type="variable_definition">(household.cars&gt;=2)*(building.disaggregate(zone.csubway9))</variable>
       <variable use="both" source="expression" name="household_x_building.CNGsubwSP_HBRcar1" type="variable_definition">(household.cars==1)*(building.disaggregate(zone.csubway9))</variable>
       <variable use="both" source="expression" name="household_x_building.CNGsubwSP_HBRcar0" type="variable_definition">(household.cars==0)*(building.disaggregate(zone.csubway9))</variable>
@@ -227,10 +349,89 @@
       <variable use="both" source="expression" name="household_x_building.CPRam2_HBRam2" type="variable_definition">(household.workers==2)*(building.disaggregate(zone.aggregate(household.workers==2, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
       <variable use="both" source="expression" name="household_x_building.CPRam1_HBRam1" type="variable_definition">(household.workers==1)*(building.disaggregate(zone.aggregate(household.workers==1, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
       <variable use="both" source="expression" name="household_x_building.CPRam0_HBRam0" type="variable_definition">(household.workers==0)*(building.disaggregate(zone.aggregate(household.workers==0, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
+      <variable use="both" source="expression" name="building.BNHH" type="variable_definition">building.number_of_agents(household)</variable>
+      <variable use="both" source="primary attribute" name="building.BNResU" type="variable_definition">building.residential_units</variable>
+      <variable use="both" source="expression" name="building.BLPrice" type="variable_definition">ln_bounded(building.price)</variable>
+      <variable use="both" source="expression" name="dept.dept_emp" type="variable_definition">dept.aggregate(establishment.employment,intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.zgp_pop" type="variable_definition">zgp.aggregate(zone.aggregate(household.size,intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="zgp.zgp_emp" type="variable_definition">zgp.aggregate(establishment.employment,intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zone.emp_s9" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==9),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s8" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==8),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s7" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==7),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s6" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==6),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s5" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==5),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s4" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==4),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s3" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==3),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s2" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==2),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s11" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==11),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s10" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==10),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s1" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==1),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.hh6g" type="variable_definition">zone.aggregate(building.aggregate(household.size&gt;=6),function=sum)</variable>
+      <variable use="both" source="expression" name="zone.hh4" type="variable_definition">zone.aggregate(building.aggregate(household.size==4),function=sum)</variable>
+      <variable use="both" source="expression" name="zone.hh3" type="variable_definition">zone.aggregate(building.aggregate(household.size==3),function=sum)</variable>
+      <variable use="both" source="expression" name="zone.hh2" type="variable_definition">zone.aggregate(building.aggregate(household.size==2),function=sum)</variable>
+      <variable use="both" source="expression" name="zone.hh1" type="variable_definition">zone.aggregate(building.aggregate(household.size==1),function=sum)</variable>
+      <variable use="both" source="expression" name="zone.hh6" type="variable_definition">zone.aggregate(building.aggregate(household.size==6),function=sum)</variable>
+      <variable use="both" source="expression" name="zone.hh5" type="variable_definition">zone.aggregate(building.aggregate(household.size==5),function=sum)</variable>
     </expression_library>
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="update_of_ctt_vp" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string">zone</argument>
+            <argument name="expression" parser_action="quote_string" type="string">vpo</argument>
+            <argument convert_blank_to_none="True" name="outcome_attribute" parser_action="quote_string" type="string">ctt_vp</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="update_of_employment" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string">establishment</argument>
+            <argument name="expression" parser_action="quote_string" type="string">paris.establishment.emp_pred</argument>
+            <argument convert_blank_to_none="True" name="outcome_attribute" parser_action="quote_string" type="string">employment</argument>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">establishment.disappeared == 0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="update_of_ctt_tc" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string">zone</argument>
+            <argument name="expression" parser_action="quote_string" type="string">numpy.clip(tco, 0, 240)</argument>
+            <argument convert_blank_to_none="True" name="outcome_attribute" parser_action="quote_string" type="string">ctt_tc</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
       <model name="update_of_departement" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -703,7 +904,7 @@
               <key name="capacity_string" type="string">urbansim_zone.building.developable_residential_units_capacity</key>
               <key name="sample_alternatives_by_submodel" type="string">True</key>
               <key convert_blank_to_none="True" name="weights_for_simulation_string" type="string">residential_units</key>
-              <key name="sample_size_locations" type="integer">8</key>
+              <key name="sample_size_locations" type="integer">10</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
@@ -750,7 +951,7 @@
           <submodel hidden="Children" name="1 - Owner House" submodel_id="1" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.ctt_vp"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -785,7 +986,7 @@
           <submodel hidden="Children" name="2 - Owner Flat" submodel_id="2" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.ctt_vp"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -820,7 +1021,7 @@
           <submodel hidden="Children" name="3 - Rent House" submodel_id="3" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.ctt_vp"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -855,7 +1056,7 @@
           <submodel hidden="Children" name="4 - Rent Flat" submodel_id="4" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.ctt_vp"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -902,7 +1103,7 @@
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">100</key>
               <key convert_blank_to_none="True" name="weights_for_simulation_string" type="string">building.number_of_agents(job)</key>
-              <key name="sample_size_locations" type="integer">8</key>
+              <key name="sample_size_locations" type="integer">10</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string">building.number_of_agents(job)</key>
@@ -917,7 +1118,7 @@
           <submodel hidden="Children" name="submodel" submodel_id="6" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.ctt_vp"/>
               <variable_spec name="building.CBADefense"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
@@ -970,37 +1171,32 @@
         </estimation_config>
         <structure type="dictionary">
           <run type="dictionary">
-            <argument name="chunk_specification" type="string">{'nchunks':30}</argument>
-            <argument name="maximum_runs" type="integer">100</argument>
+            <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
+            <argument name="maximum_runs" type="integer">8</argument>
           </run>
           <init type="dictionary">
             <argument convert_blank_to_none="True" name="submodel_string" type="string">"hh_type"</argument>
             <argument name="filter" parser_action="quote_string" type="string">(urbansim_zone.building.vacant_residential_units&gt;0)*(household.building_type_id==building.building_type_id)</argument>
-	    <!--
-            <argument name="estimation_weight_string" parser_action="quote_string" type="string">building.aggregate(household.hh_type==SUBMODEL)</argument>
-	    -->
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">1.0</argument>
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">paris.building.M_SUBMODELjt</argument>
-            <argument name="simulation_weight_string" parser_action="quote_string" type="string">paris.building.M_SUBMODELjt</argument>
-            <argument name="sample_size_locations" type="integer">100</argument>
-	    <!--
-            <argument name="estimate_config" type="string">Resources({"sample_alternatives_by_submodel":True})</argument>
-            <argument name="run_config" type="string">Resources({'lottery_max_iterations': 50,"sample_alternatives_by_submodel":True })</argument>
-	    -->
+            <argument name="simulation_weight_string" parser_action="quote_string" type="string" convert_blank_to_none="True">paris.building.M_SUBMODELjt</argument>
+            <argument name="sample_size_locations" type="integer">10</argument>
             <argument name="run_config" type="dictionary">
               <key name="compute_capacity_flag" type="boolean">True</key>
               <key convert_blank_to_none="True" name="capacity_string" parser_action="quote_string" type="string">urbansim_zone.building.vacant_residential_units</key>
-	      <key name="is_choice_overfilled_string" convert_blank_to_none="True" type="string">(building.residential_units - urbansim_zone.building.number_of_households) &lt; 0 </key>
+	      <!--
+              <key name="is_choice_overfilled_string" convert_blank_to_none="True" type="string">(building.residential_units - urbansim_zone.building.number_of_households) &lt; 0 </key>
+	      -->
               <key name="lottery_max_iterations" type="integer">5</key>
-	      <key name="sample_alternatives_by_submodel" type="boolean">True</key>
+              <key name="sample_alternatives_by_submodel" type="boolean">True</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key convert_blank_to_none="True" name="weights_for_estimation_string" parser_action="quote_string" type="string"/>
               <key name="sample_size_locations" type="integer">5</key>
               <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
               <key name="estimation_size_agents" type="float">1.0</key>
-	      <key name="sample_alternatives_by_submodel" type="boolean">True</key>
+              <key name="sample_alternatives_by_submodel" type="boolean">True</key>
             </argument>
           </init>
           <prepare_for_estimate type="dictionary">
@@ -1017,10 +1213,10 @@
           <submodel hidden="child" name="-1- Single - Owner - House" submodel_id="1" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1056,10 +1252,10 @@
           <submodel hidden="child" name="-2- Single - Owner - Flat" submodel_id="2" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1095,10 +1291,10 @@
           <submodel hidden="child" name="-3- Single - Tenant - House" submodel_id="3" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1134,10 +1330,10 @@
           <submodel hidden="child" name="-4- Single - Tenant - Flat" submodel_id="4" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1173,10 +1369,10 @@
           <submodel hidden="child" name="-5- 2 person - Owner - House" submodel_id="5" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1212,10 +1408,10 @@
           <submodel hidden="child" name="-6- 2 Person - Owner - Flat" submodel_id="6" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1251,10 +1447,10 @@
           <submodel hidden="child" name="-7- 2 Person - Tenant - House" submodel_id="7" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1290,10 +1486,10 @@
           <submodel hidden="child" name="-8- 2 Person - Tenant - Flat" submodel_id="8" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1329,10 +1525,10 @@
           <submodel hidden="child" name="-9- 3 Persons - Owner - House" submodel_id="9" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1369,10 +1565,10 @@
           <submodel hidden="child" name="-10- 3 Persons - Owner - Flat" submodel_id="10" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1409,10 +1605,10 @@
           <submodel hidden="child" name="-11- 3 Persons - Tenant - House" submodel_id="11" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1449,10 +1645,10 @@
           <submodel hidden="child" name="-12- 3 Persons - Tenant - Flat" submodel_id="12" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1489,10 +1685,10 @@
           <submodel hidden="child" name="-13- 4 Persons - Owner - House" submodel_id="13" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1529,10 +1725,10 @@
           <submodel hidden="child" name="-14- 4 Persons - Owner - Flat" submodel_id="14" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1569,10 +1765,10 @@
           <submodel hidden="child" name="-15- 4 Persons - Tenant - House" submodel_id="15" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1609,10 +1805,10 @@
           <submodel hidden="child" name="-16- 4 Persons - Tenant - Flat" submodel_id="16" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1649,10 +1845,10 @@
           <submodel hidden="child" name="-17- 5 Persons - Owner - House" submodel_id="17" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1691,10 +1887,10 @@
           <submodel hidden="child" name="-18- 5 Persons - Owner - Flat" submodel_id="18" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1733,10 +1929,10 @@
           <submodel hidden="child" name="-19- 5 Persons - Tenant - House" submodel_id="19" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1776,10 +1972,10 @@
           <submodel hidden="child" name="-20-  5 Persons - Tenant - Flat" submodel_id="20" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1819,10 +2015,10 @@
           <submodel hidden="child" name="-21-  6 Persons - Owner - House" submodel_id="21" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1862,10 +2058,10 @@
           <submodel hidden="child" name="-22-  6 Persons - Owner - Flat" submodel_id="22" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1905,10 +2101,10 @@
           <submodel hidden="child" name="-23- 6 Persons - Tenant - House" submodel_id="23" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
@@ -1948,14 +2144,9 @@
           <submodel hidden="child" name="-24-  6 Persons - Tenant - Flat" submodel_id="24" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.CAMempTC_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempTC_HBRcar1g"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar0"/>
-              <variable_spec name="household_x_building.CAMempVP_HBRcar1g"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAnwCty"/>
-              <variable_spec name="household_x_building.CBAparis_HBRmemb2"/>
-              <variable_spec name="household_x_building.CBAparis_HBRmemb3g"/>
+              <variable_spec name="building.CBAparis"/>
               <variable_spec name="building.CDGartClse"/>
               <variable_spec name="building.CDGartFar"/>
               <variable_spec name="building.CDGhighwClse"/>
@@ -1987,6 +2178,10 @@
               <variable_spec name="building.CREdensEmp"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="household_x_building.HBRsmeDept"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_tc_HBRcar1g"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar0"/>
+              <variable_spec name="household_x_building.ctt_vp_HBRcar1g"/>
             </variable_list>
           </submodel>
         </specification>
@@ -2130,33 +2325,37 @@
           </import>
           <init type="dictionary">
             <name hidden="True" name="name" type="string">AgentLocationChoiceModel</name>
-            <argument name="location_set" type="string">zone</argument>
+            <argument name="location_set" type="string">building</argument>
             <argument name="model_name" parser_action="quote_string" type="string">Establishment Location Choice Model</argument>
             <argument name="short_name" parser_action="quote_string" type="string">ELCM</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string">establishment.sector_id</argument>
             <argument name="sampler" convert_blank_to_none="True" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
-	    <argument name="filter" parser_action="quote_string" convert_blank_to_none="True" type="string" />
-            <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.005</argument>
+            <argument name="filter" parser_action="quote_string" convert_blank_to_none="True" type="string"/>
             <argument name="run_config" type="dictionary">
-              <key name="sample_size_locations" type="integer">100</key>
+              <key name="sample_size_locations" type="integer">50</key>
               <key name="compute_capacity_flag" type="string">True</key>
-              <key name="capacity_string" type="string">non_residential_sqft=zone.aggregate(building.non_residential_sqft)</key>
-	      <key name="sample_alternatives_by_submodel" type="string">True</key>
-	      <key name="weights_for_simulation_string" type="string" >zone.zone_id &gt; 0</key>
-	      <key name="chunk_specification_for_sampling" type="string">{'records_per_chunk':50000}</key>
-	      <key name="compute_capacity_flag" type="string">True</key>
-	      <!--
-	      <key name="weights_for_simulation_string" type="string">(building.non_residential_sqft > establishment.sqft)</key>
-              <key name="number_of_agents_string" parser_action="quote_string" type="string">establishment.sqft</key>
-              <key name="number_of_units_string" parser_action="quote_string" type="string">sanfrancisco.building.vacant_non_residential_sqft</key>
-	      -->
+              <!--
+              <key name="capacity_string" type="string">urbansim_zone.building.total_non_home_based_job_spaces</key>
+              <key name="sample_alternatives_by_submodel" type="string">True</key>
+              <key name="weights_for_simulation_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces</key>
+              <key name="weights_for_simulation_string" type="string">establishment.employment &lt; urbansim_zone.building.vacant_non_home_based_job_spaces</key>
+              <key name="weights_for_simulation_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces &gt; 0</key>
+              <key name="chunk_specification_for_sampling" type="string">{'records_per_chunk':100000}</key>
+              -->
+              <key name="capacity_string" type="string">paris.building.vacant_non_home_based_job_spaces</key>
+              <key name="number_of_units_string" type="string">paris.building.vacant_non_home_based_job_spaces</key>
+              <key name="number_of_agents_string" type="string">building.aggregate(establishment.employment)</key>
+              <key convert_blank_to_none="True" name="agent_units_string" type="string">establishment.employment</key>
+              <key name="weights_for_simulation_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces</key>
+              <key name="compute_capacity_flag" type="string">True</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
-	      <key name="weights_for_estimation_string" type="string" >zone.zone_id &gt; 0</key>
-	      <key name="sample_alternatives_by_submodel" type="string">True</key>
-	      <key name="chunk_specification_for_sampling" type="string">{'records_per_chunk':1000}</key>
+              <key name="weights_for_estimation_string" type="string">building.building_id &gt; 0</key>
+              <key name="sample_alternatives_by_submodel" type="string">True</key>
+              <key name="chunk_specification_for_sampling" type="string">{'records_per_chunk':10000}</key>
             </argument>
           </init>
           <prepare_for_run type="dictionary">
@@ -2169,14 +2368,13 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string">establishment</argument>
-	    <!--
-            <argument hidden="True" name="agents_index" convert_blank_to_none="True" type="string">erm_index</argument>
-	    -->
             <argument hidden="True" name="specification" type="string">specification</argument>
             <argument hidden="True" name="coefficients" type="string">coefficients</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
-            <argument name="chunk_specification" type="string">{'records_per_chunk':100000}</argument>
+            <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+
           </run>
           <prepare_for_estimate type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_estimate</name>
@@ -2197,10 +2395,241 @@
           </estimate>
         </structure>
         <specification type="dictionary">
-          <submodel name="CIE" submodel_id="2" type="submodel" hidden="Children">
+          <submodel name="S1" submodel_id="1" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">submodel1</description>
             <variable_list type="variable_list">
-              <variable_spec name="zone.sector2_employment_lag2"/>
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMempTC"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CLsector10_employment_lag2"/>
+              <variable_spec name="building.CLsector11_employment_lag2"/>
+              <variable_spec name="building.CLsector1_employment_lag2"/>
+              <variable_spec name="building.CLsector2_employment_lag2"/>
+              <variable_spec name="building.CLsector3_employment_lag2"/>
+              <variable_spec name="building.CLsector4_employment_lag2"/>
+              <variable_spec name="building.CLsector5_employment_lag2"/>
+              <variable_spec name="building.CLsector6_employment_lag2"/>
+              <variable_spec name="building.CLsector7_employment_lag2"/>
+              <variable_spec name="building.CLsector8_employment_lag2"/>
+              <variable_spec name="building.CLsector9_employment_lag2"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S2" submodel_id="2" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel2</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CDGhighw"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CQEdst97Sec1"/>
+              <variable_spec name="building.CQEdst97Sec2"/>
+              <variable_spec name="building.CQEdst97Sec3"/>
+              <variable_spec name="building.CQEdst97Sec7"/>
+              <variable_spec name="building.CRRdensPop"/>
+              <variable_spec name="building.CTPNiv1"/>
+              <variable_spec name="building.CTPNiv2"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S3" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel3</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CDGhighw"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CQEdst97Sec1"/>
+              <variable_spec name="building.CQEdst97Sec2"/>
+              <variable_spec name="building.CQEdst97Sec3"/>
+              <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.CRRdensPop"/>
+              <variable_spec name="building.CTPNiv1"/>
+              <variable_spec name="building.CTPNiv2"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S4" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel4</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CDGhighw"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CPBhghInc"/>
+              <variable_spec name="building.CPBlowInc"/>
+              <variable_spec name="building.CPRKold"/>
+              <variable_spec name="building.CPRKyng"/>
+              <variable_spec name="building.CPRchld111g"/>
+              <variable_spec name="building.CQEdst97Sec1"/>
+              <variable_spec name="building.CQEdst97Sec2"/>
+              <variable_spec name="building.CQEdst97Sec3"/>
+              <variable_spec name="building.CQEdst97Sec5"/>
+              <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.CRRdensPop"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S5" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel5</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CDGhighw"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CQEdst97Sec4"/>
+              <variable_spec name="building.CRRdensPop"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S6" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel6</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CPBhghInc"/>
+              <variable_spec name="building.CQEdst97Sec3"/>
+              <variable_spec name="building.CQEdst97Sec5"/>
+              <variable_spec name="building.CQEdst97Sec6"/>
+              <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.CRRdensPop"/>
+              <variable_spec name="building.CTPNiv3"/>
+              <variable_spec name="building.CTPNiv4"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S7" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel7</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CPBhghInc"/>
+              <variable_spec name="building.CQEdst97Sec6"/>
+              <variable_spec name="building.CQEdst97Sec7"/>
+              <variable_spec name="building.CQEdst97Sec8"/>
+              <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.CRRdensPop"/>
+              <variable_spec name="building.CTPNiv3"/>
+              <variable_spec name="building.CTPNiv4"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S8" submodel_id="8" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel8</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CDGhighw"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CPBhghInc"/>
+              <variable_spec name="building.CPBlowInc"/>
+              <variable_spec name="building.CPRam0"/>
+              <variable_spec name="building.CQEdst97Sec1"/>
+              <variable_spec name="building.CQEdst97Sec6"/>
+              <variable_spec name="building.CQEdst97Sec7"/>
+              <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.CRRdensPop"/>
+              <variable_spec name="building.CTPNiv3"/>
+              <variable_spec name="building.CTPNiv4"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S9" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel9</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CDGhighw"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CPBhghInc"/>
+              <variable_spec name="building.CPBlowInc"/>
+              <variable_spec name="building.CPGZFU"/>
+              <variable_spec name="building.CPRKold"/>
+              <variable_spec name="building.CPRKyng"/>
+              <variable_spec name="building.CPRam0"/>
+              <variable_spec name="building.CPRchld111g"/>
+              <variable_spec name="building.CQEdst97Sec8"/>
+              <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.CRRdensPop"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S10" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel10</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CPBhghInc"/>
+              <variable_spec name="building.CPBlowInc"/>
+              <variable_spec name="building.CPRKold"/>
+              <variable_spec name="building.CPRKyng"/>
+              <variable_spec name="building.CPRam0"/>
+              <variable_spec name="building.CPRchld111g"/>
+              <variable_spec name="building.CQEdst97Sec10"/>
+              <variable_spec name="building.CQEdst97Sec2"/>
+              <variable_spec name="building.CQEdst97Sec5"/>
+              <variable_spec name="building.CQEdst97Sec9"/>
+              <variable_spec name="building.CRRdensPop"/>
+            </variable_list>
+          </submodel>
+          <submodel name="S11" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
+            <description type="string">submodel11</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CAMctt_TC"/>
+              <variable_spec name="building.CAMctt_vp"/>
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAnwCty"/>
+              <variable_spec name="building.CLEmpTot"/>
+              <variable_spec name="building.CLOprjST99"/>
+              <variable_spec name="building.CLPB"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CNGtrainSt"/>
+              <variable_spec name="building.CQEdst97Sec10"/>
+              <variable_spec name="building.CQEdst97Sec8"/>
+              <variable_spec name="building.CQEdst97Sec9"/>
+              <variable_spec name="building.CRRdensPop"/>
             </variable_list>
           </submodel>
         </specification>
@@ -2216,18 +2645,16 @@
             <argument name="coefficients" type="string">coefficients</argument>
           </run>
           <init type="dictionary">
-            <name name="name" type="string">RealEstatePriceModel</name>
+            <name name="name" type="string">EstablishmentEvolutionModel</name>
+            <argument name="filter_attribute" parser_action="quote_string" type="string">paris.establishment.year_lag2 != paris.establishment.year </argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">paris.establishment.ln_emp_ratio</argument>
-            <argument convert_blank_to_none="True" name="filter_attribute" type="string"/>
             <argument name="submodel_string" parser_action="quote_string" type="string">sector_id</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
-            <argument name="model_name" parser_action="quote_string" type="string">Establishment Evolution Model</argument>
-            <argument name="model_short_name" parser_action="quote_string" type="string">EEM</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </init>
           <import name="import" type="dictionary">
-            <class_module>urbansim.models.real_estate_price_model</class_module>
-            <class_name>RealEstatePriceModel</class_name>
+            <class_module>paris.models.establishment_evolution_model</class_module>
+            <class_name>EstablishmentEvolutionModel</class_name>
           </import>
           <estimate type="dictionary">
             <output name="output" type="string">(coefficients, _)</output>
@@ -2250,26 +2677,235 @@
             <output name="output" type="string">(specification, repm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">establishment_evolution_model_specification</argument>
-            <argument convert_blank_to_none="True" name="filter_variable" type="string"/>
+	    <argument convert_blank_to_none="True" name="filter_variable" type="string"/>
             <argument name="dataset" type="string">establishment</argument>
             <name name="name" type="string">prepare_for_estimate</name>
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary" inherit_parent_values="False">
-          <submodel hidden="Children" name="2 - Industry" submodel_id="2" type="submodel" inherit_parent_values="False">
+          <submodel hidden="Children" name="S1" submodel_id="1" type="submodel" inherit_parent_values="False">
             <description type="string">Industry</description>
             <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ERam0"/>
+              <variable_spec name="establishment.ETPNiv1"/>
+              <variable_spec name="establishment.ETPNiv2"/>
               <variable_spec name="constant"/>
-	    </variable_list>
-	  </submodel>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S2" submodel_id="2" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ERam0"/>
+              <variable_spec name="establishment.ETPNiv1"/>
+              <variable_spec name="establishment.ETPNiv2"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S3" submodel_id="3" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ETPNiv1"/>
+              <variable_spec name="establishment.ETPNiv2"/>
+              <variable_spec name="establishment.ETPNiv3"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S4" submodel_id="4" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERam0"/>
+              <variable_spec name="establishment.ETPNiv1"/>
+              <variable_spec name="establishment.ETPNiv2"/>
+              <variable_spec name="establishment.ETPNiv3"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S5" submodel_id="5" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ERam0"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S6" submodel_id="6" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ETPNiv3"/>
+              <variable_spec name="establishment.ETPNiv4"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S7" submodel_id="7" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ETPNiv3"/>
+              <variable_spec name="establishment.ETPNiv4"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S8" submodel_id="8" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ETPNiv3"/>
+              <variable_spec name="establishment.ETPNiv4"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S9" submodel_id="9" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ERam0"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S10" submodel_id="10" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELPB"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.EPBlowInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ERam0"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="S11" submodel_id="11" type="submodel" inherit_parent_values="False">
+            <description type="string">Industry</description>
+            <variable_list type="variable_list">
+              <variable_spec name="establishment.EAMctt_TC"/>
+              <variable_spec name="establishment.EAMctt_vp"/>
+              <variable_spec name="establishment.EBADefense"/>
+              <variable_spec name="establishment.EBAnwCty"/>
+              <variable_spec name="establishment.EBAparis"/>
+              <variable_spec name="establishment.ELimit"/>
+              <variable_spec name="establishment.ENGsubwSP"/>
+              <variable_spec name="establishment.ENGtrainSt"/>
+              <variable_spec name="establishment.EPBhghInc"/>
+              <variable_spec name="establishment.ERItaxPro"/>
+              <variable_spec name="establishment.ERRdensPop"/>
+              <variable_spec name="establishment.ETPNiv3"/>
+              <variable_spec name="establishment.ETPNiv4"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
         </specification>
       </model>
       <model name="real_estate_price_model" type="model">
         <structure type="dictionary">
           <init type="dictionary">
             <argument name="outcome_attribute" parser_action="quote_string" type="string">ln_price=ln(building.price)</argument>
-            <argument convert_blank_to_none="True" name="filter_attribute" type="string">"building_type_id&lt;5"</argument>
+            <argument convert_blank_to_none="True" name="filter_attribute" type="string"/>
             <argument name="submodel_string" parser_action="quote_string" type="string">building_type_id</argument>
           </init>
           <estimate type="dictionary">
@@ -2283,26 +2919,13 @@
           <submodel hidden="Children" name="1 - Owner_House" submodel_id="1" type="submodel" inherit_parent_values="False">
             <description type="string">Residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.CAMctt_TC"/>
               <variable_spec name="building.CBAPC"/>
-              <variable_spec name="building.CBAnwCty"/>
-              <variable_spec name="building.CDGhighwClse"/>
-              <variable_spec name="building.CDGhighwFar"/>
-              <variable_spec name="building.CLGarea"/>
-              <variable_spec name="building.CNGsubwSP"/>
-              <variable_spec name="building.CNGtrainSt"/>
               <variable_spec name="building.CPBlowInc"/>
-              <variable_spec name="building.CPOpark"/>
-              <variable_spec name="building.CPOsport"/>
-              <variable_spec name="building.CPOwater"/>
-              <variable_spec name="building.CPRKfrgn"/>
+              <variable_spec name="building.CPRKold"/>
               <variable_spec name="building.CPRaft90"/>
-              <variable_spec name="building.CPRam1"/>
-              <variable_spec name="building.CPRam2g"/>
               <variable_spec name="building.CPRbef15"/>
-              <variable_spec name="building.CPRmemb2"/>
-              <variable_spec name="building.CPRmemb3g"/>
-              <variable_spec name="building.CREdensEmp"/>
+              <variable_spec name="building.CRItaxBati"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="constant"/>
             </variable_list>
@@ -2310,27 +2933,15 @@
           <submodel hidden="Children" name="2 - Owner_Flat" submodel_id="2" type="submodel" inherit_parent_values="False">
             <description type="string">Residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.CAMctt_TC"/>
               <variable_spec name="building.CBAPC"/>
-              <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
-              <variable_spec name="building.CDGhighwClse"/>
-              <variable_spec name="building.CDGhighwFar"/>
-              <variable_spec name="building.CLGarea"/>
               <variable_spec name="building.CNGsubwSP"/>
-              <variable_spec name="building.CNGtrainSt"/>
               <variable_spec name="building.CPBlowInc"/>
-              <variable_spec name="building.CPOpark"/>
-              <variable_spec name="building.CPOsport"/>
-              <variable_spec name="building.CPOwater"/>
-              <variable_spec name="building.CPRKfrgn"/>
+              <variable_spec name="building.CPRKold"/>
               <variable_spec name="building.CPRaft90"/>
-              <variable_spec name="building.CPRam1"/>
-              <variable_spec name="building.CPRam2g"/>
               <variable_spec name="building.CPRbef15"/>
-              <variable_spec name="building.CPRmemb2"/>
-              <variable_spec name="building.CPRmemb3g"/>
-              <variable_spec name="building.CREdensEmp"/>
+              <variable_spec name="building.CRItaxBati"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="constant"/>
             </variable_list>
@@ -2338,26 +2949,13 @@
           <submodel hidden="Children" name="3 - Rent_House" submodel_id="3" type="submodel" inherit_parent_values="False">
             <description type="string">Residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.CAMctt_TC"/>
               <variable_spec name="building.CBAPC"/>
-              <variable_spec name="building.CBAnwCty"/>
-              <variable_spec name="building.CDGhighwClse"/>
-              <variable_spec name="building.CDGhighwFar"/>
-              <variable_spec name="building.CLGarea"/>
               <variable_spec name="building.CNGsubwSP"/>
-              <variable_spec name="building.CNGtrainSt"/>
               <variable_spec name="building.CPBlowInc"/>
-              <variable_spec name="building.CPOpark"/>
-              <variable_spec name="building.CPOsport"/>
-              <variable_spec name="building.CPOwater"/>
-              <variable_spec name="building.CPRKfrgn"/>
+              <variable_spec name="building.CPRKold"/>
               <variable_spec name="building.CPRaft90"/>
-              <variable_spec name="building.CPRam1"/>
-              <variable_spec name="building.CPRam2g"/>
               <variable_spec name="building.CPRbef15"/>
-              <variable_spec name="building.CPRmemb2"/>
-              <variable_spec name="building.CPRmemb3g"/>
-              <variable_spec name="building.CREdensEmp"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="constant"/>
             </variable_list>
@@ -2365,32 +2963,61 @@
           <submodel hidden="Children" name="4 - Rent_Flat" submodel_id="4" type="submodel" inherit_parent_values="False">
             <description type="string">Residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CAMempVP"/>
+              <variable_spec name="building.CAMctt_TC"/>
               <variable_spec name="building.CBAPC"/>
-              <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CBAparis"/>
-              <variable_spec name="building.CDGhighwClse"/>
-              <variable_spec name="building.CDGhighwFar"/>
-              <variable_spec name="building.CLGarea"/>
               <variable_spec name="building.CNGsubwSP"/>
-              <variable_spec name="building.CNGtrainSt"/>
               <variable_spec name="building.CPBlowInc"/>
-              <variable_spec name="building.CPOpark"/>
-              <variable_spec name="building.CPOsport"/>
-              <variable_spec name="building.CPOwater"/>
-              <variable_spec name="building.CPRKfrgn"/>
+              <variable_spec name="building.CPRKold"/>
               <variable_spec name="building.CPRaft90"/>
-              <variable_spec name="building.CPRam1"/>
-              <variable_spec name="building.CPRam2g"/>
               <variable_spec name="building.CPRbef15"/>
-              <variable_spec name="building.CPRmemb2"/>
-              <variable_spec name="building.CPRmemb3g"/>
-              <variable_spec name="building.CREdensEmp"/>
+              <variable_spec name="building.CRItaxBati"/>
+              <variable_spec name="building.CRRdensPop"/>
+              <variable_spec name="constant"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="6 - Offices" submodel_id="6" type="submodel" inherit_parent_values="False">
+            <description type="string">Offices</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building.CBADefense"/>
+              <variable_spec name="building.CBAPC"/>
+              <variable_spec name="building.CBAparis"/>
+              <variable_spec name="building.CNGsubwSP"/>
+              <variable_spec name="building.CPBlowInc"/>
+              <variable_spec name="building.CPRaft90"/>
+              <variable_spec name="building.CPRbef15"/>
+              <variable_spec name="building.CRItaxPro"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="constant"/>
             </variable_list>
           </submodel>
         </specification>
+      </model>
+      <model name="establishment_reappearance_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>paris.models.establishment_reappearance_model</class_module>
+            <class_name>EstablishmentReappearanceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">EstablishmentReappearanceModel</name>
+            <argument name="dataset" type="string">establishment</argument>
+            <argument name="dataset_accounting_attribute" parser_action="quote_string" type="string">employment</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Establishment Reappearance Model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">ERM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_employment_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">number_of_jobs</argument>
+            <argument name="sampling_filter" parser_action="quote_string" type="string">establishment.disappeared == 1</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1,'disappeared':0}</argument>
+          </run>
+        </structure>
       </model>
       <model name="establishment_transition_model" type="model">
         <structure type="dictionary">
@@ -2413,7 +3040,7 @@
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
             <argument name="target_attribute_name" parser_action="quote_string" type="string">number_of_jobs</argument>
-            <argument name="reset_dataset_attribute_value" type="string">{'zone_id':-1}</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
           </run>
         </structure>
       </model>
@@ -2428,6 +3055,7 @@
             <argument name="choice_set" type="string">array([0, 1])</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string">sector_id</argument>
             <argument name="choice_attribute_name" parser_action="quote_string" type="string">disappeared</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">paris.upc.annualized_disappearance_probabilities</argument>
           </init>
           <run type="dictionary">
             <argument name="specification" type="string">specification</argument>
@@ -2448,19 +3076,12 @@
             <output name="output" type="string">(coefficients, dummy)</output>
             <argument name="agent_set" type="string">establishment</argument>
             <argument name="specification" type="string">specification</argument>
-            <!--
-            <argument name="agents_index" type="string" />
-            <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.05</argument>
-            -->
             <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
           </estimate>
           <prepare_for_estimate type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_estimate</name>
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
             <argument name="join_datasets" type="string">True</argument>
-            <!--
-            <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.person.is_worker</argument>
-            -->
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">establishment_disappeared_97_01</argument>
@@ -2468,18 +3089,349 @@
           </prepare_for_estimate>
         </structure>
         <specification type="dictionary">
-          <submodel hidden="Children" name="submodel" submodel_id="2" type="submodel">
-            <!--
-            <equation equation_id="0" name="extant" type="submodel_equation">
-              <variable_list type="variable_list">
-                <variable_spec name="constant" />
-              </variable_list>
-            </equation>
-            -->
+          <submodel hidden="Children" name="S1" submodel_id="1" type="submodel" inherit_parent_values="False">
             <equation equation_id="1" name="disappeared" type="submodel_equation">
               <variable_list type="variable_list">
-                <variable_spec name="constant" />
-                <variable_spec name="establishment.emp" />
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S2" submodel_id="2" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S3" submodel_id="3" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S4" submodel_id="4" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S5" submodel_id="5" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ERam0"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S6" submodel_id="6" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S7" submodel_id="7" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S8" submodel_id="8" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S9" submodel_id="9" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S10" submodel_id="10" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
+              </variable_list>
+            </equation>
+          </submodel>
+          <submodel hidden="Children" name="S11" submodel_id="11" type="submodel" inherit_parent_values="False">
+            <equation equation_id="1" name="disappeared" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.EAMctt_TC"/>
+                <variable_spec name="establishment.EAMctt_vp"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w6slope"/>
               </variable_list>
             </equation>
           </submodel>
@@ -2487,7 +3439,7 @@
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
-      </model>      
+      </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
@@ -2498,9 +3450,6 @@
         </selectable>
         <selectable name="person" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
         </selectable>
-	<!--
-        <selectable name="job" type="selectable">True</selectable>
-	-->
         <selectable name="establishment" type="selectable">True</selectable>
       </datasets_to_preload>
       <save_estimation_results type="boolean">True</save_estimation_results>
@@ -2554,27 +3503,32 @@
     <scenario executable="True" name="urbansim_zone_baseline" setexpanded="True" type="scenario">
       <base_year type="integer" field_identifier="Base Year">1999</base_year>
     </scenario>
+    <scenario executable="True" name="paris_zone_test" type="scenario">
+      <parent type="scenario_name">paris_zone</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="establishment_disappearance_model" type="selectable">True</selectable>
+        <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
+      </models_to_run>
+    </scenario>
     <scenario copyable="True" executable="True" name="paris_zone" type="scenario">
       <models_to_run config_name="models" type="selectable_list">
-      <!--
+        <selectable return_value="update_of_ctt_vp" type="selectable" name="update_of_ctt_vp_1">True</selectable>
+        <selectable return_value="update_of_ctt_tc" type="selectable" name="update_of_ctt_tc_1">True</selectable>
         <selectable return_value="development_project_transition_model" type="selectable" name="development_project_transition_model_1">True</selectable>
-        <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
         <selectable return_value="non_residential_development_project_location_choice_model" type="selectable" name="non_residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
         <selectable return_value="add_projects_to_buildings" type="selectable" name="add_projects_to_buildings_1">True</selectable>
-        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">True</selectable>
-        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model_1">True</selectable>
-        <selectable return_value="employment_location_choice_model" type="selectable" name="employment_location_choice_model_1">True<group_members type="string">non_home_based</group_members>
-        </selectable>
-        <selectable return_value="real_estate_price_model" type="selectable" name="real_estate_price_model_1">True</selectable>
-        <selectable return_value="update_of_departement" type="selectable" name="update_of_departement">True</selectable>
-	-->
+        <selectable type="selectable" name="establishment_disappearance_model">True</selectable>
+        <selectable type="selectable" name="establishment_evolution_model">True</selectable>
+        <selectable return_value="update_of_employment" type="selectable" name="update_of_employment_1">True</selectable>
+        <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
+        <selectable type="selectable" name="establishment_transition_model">True</selectable>
+        <selectable type="selectable" name="establishment_location_choice_model">True</selectable>
         <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
         <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
         <selectable return_value="household_location_choice_model" type="selectable" name="household_location_choice_model_1">True</selectable>
-        <selectable type="selectable" name="establishment_transition_model">True</selectable>
-        <selectable type="selectable" name="establishment_disappearance_model">True</selectable>
-        <selectable type="selectable" name="establishment_evolution_model">True</selectable>
-        <selectable type="selectable" name="establishment_location_choice_model">True</selectable>
+        <selectable return_value="real_estate_price_model" type="selectable" name="real_estate_price_model_1">True</selectable>
+        <selectable return_value="update_of_departement" type="selectable" name="update_of_departement_1">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <cache_latent_variables key_name="year" key_value="models" type="category_with_special_keys">
@@ -2588,7 +3542,7 @@
       <base_year type="integer">1999</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2000</firstyear>
-        <lastyear type="integer">2006</lastyear>
+        <lastyear type="integer">2020</lastyear>
       </years_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">paris_zone/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
@@ -2630,6 +3584,7 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <advanced type="category">
+        <seed type="integer" convert_blank_to_none="True">1</seed>
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
@@ -2670,6 +3625,78 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="jobs">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone">
+          <indicators>['total_job_spaces', 'vacant_job_spaces', 'total_emp']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>building</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+
+      <indicator_batch name="zgp">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone">
+          <indicators>['emp_s9', 'emp_s8', 'emp_s7', 'emp_s6', 'emp_s5', 'emp_s4', 'emp_s3', 'emp_s2', 'emp_s11', 'emp_s10', 'emp_s1', 'hh5', 'hh4', 'hh3', 'hh2', 'hh1', 'hh6', 'hh6g']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Building">
+          <indicators>['BNHH', 'BNResU', 'BLPrice']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>building</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Dept">
+          <indicators>[]</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>dept</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="zgp">
+          <indicators>['zgp_emp', 'zgp_pop']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgp</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="zemp">
+        <batch_visualization hidden="Children" type="batch_visualization" name="jobs_compo">
+          <indicators>['zemp']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zemp</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="emp_compo">
+        <batch_visualization hidden="Children" type="batch_visualization" name="emp_compo">
+          <indicators>['emp_s1', 'emp_s2', 'emp_s3', 'emp_s4', 'emp_s5', 'emp_s6', 'emp_s7', 'emp_s8', 'emp_s9', 'emp_s10', 'emp_s11']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="RU">
         <batch_visualization hidden="Children" type="batch_visualization" name="RU">
           <indicators>['CNRsUnitsH', 'CNRsUnitsF', 'CNRrUnitsH', 'CNRrUnitsF']</indicators>
@@ -2785,6 +3812,17 @@
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
+      <indicator_batch name="zgp">
+        <batch_visualization hidden="Children" type="batch_visualization" name="zgp">
+          <indicators>['zgp_emp', 'zgp_pop']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgp</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="zemp">
         <batch_visualization hidden="Children" type="batch_visualization" name="jobs_compo">
           <indicators>['zemp']</indicators>
@@ -2796,9 +3834,20 @@
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
+      <indicator_batch name="emp_compo">
+        <batch_visualization hidden="Children" type="batch_visualization" name="emp_compo">
+          <indicators>['emp_s1', 'emp_s2', 'emp_s3', 'emp_s4', 'emp_s5', 'emp_s6', 'emp_s7', 'emp_s8', 'emp_s9', 'emp_s10', 'emp_s11']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="jobs_compo">
         <batch_visualization hidden="Children" type="batch_visualization" name="jobs_compo">
-          <indicators>['jobs_s8', 'jobs_s7', 'jobs_s6', 'jobs_s5', 'jobs_s4', 'jobs_s3', 'jobs_s2', 'jobs_s1']</indicators>
+          <indicators>['jobs_s8', 'jobs_s7', 'jobs_s6', 'jobs_s5', 'jobs_s4', 'jobs_s3', 'jobs_s2', 'jobs_s1', 'jobs_s11', 'jobs_s9', 'jobs_s10']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">1</setting>
@@ -2808,8 +3857,6 @@
         </batch_visualization>
       </indicator_batch>
     </indicator_batches>
-    <simulation_runs name="Simulation Runs" setexpanded="True" type="all_source_data" followers="Results">
-      </simulation_runs>
   </results_manager>
 </opus_project>
 
