@@ -398,6 +398,103 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="setup_baseline_scenario" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.swap_datasets</class_module>
+            <class_name type="string">SwapDatasets</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SwapDatasets</name>
+          </init>
+          <run type="dictionary">
+            <argument name="suffix" type="string">"_baseline"</argument>
+            <argument name="alt_location" type="string">base_cache_storage</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="setup_baseline_traveltime" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.swap_datasets</class_module>
+            <class_name type="string">SwapDatasets</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SwapDatasets</name>
+          </init>
+          <run type="dictionary">
+            <argument name="suffix" type="string">"_baseline"</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="setup_low_impact_scenario" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.swap_datasets</class_module>
+            <class_name type="string">SwapDatasets</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SwapDatasets</name>
+          </init>
+          <run type="dictionary">
+            <argument name="suffix" type="string">"_low_impact"</argument>
+            <argument name="alt_location" type="string">base_cache_storage</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="setup_low_impact_traveltime" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.swap_datasets</class_module>
+            <class_name type="string">SwapDatasets</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SwapDatasets</name>
+          </init>
+          <run type="dictionary">
+            <argument name="suffix" type="string">"_low_impact"</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="setup_high_impact_scenario" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.swap_datasets</class_module>
+            <class_name type="string">SwapDatasets</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SwapDatasets</name>
+          </init>
+          <run type="dictionary">
+            <argument name="suffix" type="string">"_high_impact"</argument>
+            <argument name="alt_location" type="string">base_cache_storage</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="setup_high_impact_traveltime" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.swap_datasets</class_module>
+            <class_name type="string">SwapDatasets</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SwapDatasets</name>
+          </init>
+          <run type="dictionary">
+            <argument name="suffix" type="string">"_high_impact"</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+
       <model name="update_of_ctt_tcD" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -3403,7 +3500,7 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
-            <argument name="target_attribute_name" parser_action="quote_string" type="string">number_of_jobs</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_employments</argument>
             <argument name="sampling_filter" parser_action="quote_string" type="string">(establishment.disappeared == 1)*(paris.establishment.emp_250)</argument>
             <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1,'disappeared':0}</argument>
           </run>
@@ -3429,7 +3526,7 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
-            <argument name="target_attribute_name" parser_action="quote_string" type="string">number_of_jobs</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_employments</argument>
             <argument name="sampling_filter" parser_action="quote_string" type="string">paris.establishment.emp_250</argument>
             <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
           </run>
@@ -3925,6 +4022,84 @@
         <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
+    <scenario executable="True" name="paris_zone_baseline" type="scenario">
+      <parent type="scenario_name">paris_zone</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="setup_baseline_scenario" type="selectable">True</selectable>
+        <selectable name="setup_baseline_traveltime" type="selectable">True</selectable>
+        <selectable return_value="update_of_ctt_vpO" type="selectable" name="update_of_ctt_vpO">True</selectable>
+        <selectable return_value="update_of_ctt_tcO" type="selectable" name="update_of_ctt_tcO">True</selectable>
+        <selectable return_value="update_of_ctt_tcD" type="selectable" name="update_of_ctt_tcD">True</selectable>
+        <selectable return_value="update_of_ctt_vpD" type="selectable" name="update_of_ctt_vpD">True</selectable>
+        <selectable return_value="development_project_transition_model" type="selectable" name="development_project_transition_model_1">True</selectable>
+        <selectable return_value="non_residential_development_project_location_choice_model" type="selectable" name="non_residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="add_projects_to_buildings" type="selectable" name="add_projects_to_buildings_1">True</selectable>
+        <selectable type="selectable" name="establishment_disappearance_model">True</selectable>
+        <selectable type="selectable" name="establishment_evolution_model">True</selectable>
+        <selectable return_value="update_of_employment" type="selectable" name="update_of_employment_1">True</selectable>
+        <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
+        <selectable type="selectable" name="establishment_transition_model">True</selectable>
+        <selectable type="selectable" name="establishment_location_choice_model">True</selectable>
+        <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
+        <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
+        <selectable return_value="household_location_choice_model" type="selectable" name="household_location_choice_model_1">True</selectable>
+        <selectable return_value="real_estate_price_model" type="selectable" name="real_estate_price_model_1">True</selectable>
+        <selectable return_value="update_of_departement" type="selectable" name="update_of_departement_1">True</selectable>
+      </models_to_run>
+    </scenario>
+    <scenario executable="True" name="paris_zone_low_impact" type="scenario">
+      <parent type="scenario_name">paris_zone</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="setup_low_impact_scenario" type="selectable">True</selectable>
+        <selectable name="setup_low_impact_traveltime" type="selectable">True</selectable>
+        <selectable return_value="update_of_ctt_vpO" type="selectable" name="update_of_ctt_vpO">True</selectable>
+        <selectable return_value="update_of_ctt_tcO" type="selectable" name="update_of_ctt_tcO">True</selectable>
+        <selectable return_value="update_of_ctt_tcD" type="selectable" name="update_of_ctt_tcD">True</selectable>
+        <selectable return_value="update_of_ctt_vpD" type="selectable" name="update_of_ctt_vpD">True</selectable>
+        <selectable return_value="development_project_transition_model" type="selectable" name="development_project_transition_model_1">True</selectable>
+        <selectable return_value="non_residential_development_project_location_choice_model" type="selectable" name="non_residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="add_projects_to_buildings" type="selectable" name="add_projects_to_buildings_1">True</selectable>
+        <selectable type="selectable" name="establishment_disappearance_model">True</selectable>
+        <selectable type="selectable" name="establishment_evolution_model">True</selectable>
+        <selectable return_value="update_of_employment" type="selectable" name="update_of_employment_1">True</selectable>
+        <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
+        <selectable type="selectable" name="establishment_transition_model">True</selectable>
+        <selectable type="selectable" name="establishment_location_choice_model">True</selectable>
+        <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
+        <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
+        <selectable return_value="household_location_choice_model" type="selectable" name="household_location_choice_model_1">True</selectable>
+        <selectable return_value="real_estate_price_model" type="selectable" name="real_estate_price_model_1">True</selectable>
+        <selectable return_value="update_of_departement" type="selectable" name="update_of_departement_1">True</selectable>
+      </models_to_run>
+    </scenario>
+    <scenario executable="True" name="paris_zone_high_impact" type="scenario">
+      <parent type="scenario_name">paris_zone</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="setup_high_impact_scenario" type="selectable">True</selectable>
+        <selectable name="setup_high_impact_traveltime" type="selectable">True</selectable>
+        <selectable return_value="update_of_ctt_vpO" type="selectable" name="update_of_ctt_vpO">True</selectable>
+        <selectable return_value="update_of_ctt_tcO" type="selectable" name="update_of_ctt_tcO">True</selectable>
+        <selectable return_value="update_of_ctt_tcD" type="selectable" name="update_of_ctt_tcD">True</selectable>
+        <selectable return_value="update_of_ctt_vpD" type="selectable" name="update_of_ctt_vpD">True</selectable>
+        <selectable return_value="development_project_transition_model" type="selectable" name="development_project_transition_model_1">True</selectable>
+        <selectable return_value="non_residential_development_project_location_choice_model" type="selectable" name="non_residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
+        <selectable return_value="add_projects_to_buildings" type="selectable" name="add_projects_to_buildings_1">True</selectable>
+        <selectable type="selectable" name="establishment_disappearance_model">True</selectable>
+        <selectable type="selectable" name="establishment_evolution_model">True</selectable>
+        <selectable return_value="update_of_employment" type="selectable" name="update_of_employment_1">True</selectable>
+        <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
+        <selectable type="selectable" name="establishment_transition_model">True</selectable>
+        <selectable type="selectable" name="establishment_location_choice_model">True</selectable>
+        <selectable return_value="household_transition_model" type="selectable" name="household_transition_model_1">True</selectable>
+        <selectable return_value="household_relocation_model" type="selectable" name="household_relocation_model_1">True</selectable>
+        <selectable return_value="household_location_choice_model" type="selectable" name="household_location_choice_model_1">True</selectable>
+        <selectable return_value="real_estate_price_model" type="selectable" name="real_estate_price_model_1">True</selectable>
+        <selectable return_value="update_of_departement" type="selectable" name="update_of_departement_1">True</selectable>
+      </models_to_run>
+    </scenario>
     <scenario copyable="True" executable="True" name="paris_zone" type="scenario">
       <models_to_run config_name="models" type="selectable_list">
         <selectable return_value="update_of_ctt_vpO" type="selectable" name="update_of_ctt_vpO">True</selectable>
@@ -3959,7 +4134,7 @@
       <base_year type="integer">1999</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2000</firstyear>
-        <lastyear type="integer">2020</lastyear>
+        <lastyear type="integer">2050</lastyear>
       </years_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">paris_zone/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
