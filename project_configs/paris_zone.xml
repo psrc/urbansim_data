@@ -9,8 +9,10 @@
     </dataset_pool_configuration>
     <available_datasets type="list">['job','building','household_x_building','building_x_household','zone','faz','household','large_area','gridcell','city','county','zemp','zgp','alldata','dept']</available_datasets>
     <expression_library type="dictionary">
-      <variable use="both" source="expression" name="establishment.EBEwfl10" type="variable_definition">establishment.employment&lt;10</variable>
-      <variable use="both" source="expression" name="establishment.EBEwfb10_250" type="variable_definition">(establishment.employment&gt;9)*(establishment.employment&lt;250)</variable>
+      <variable use="both" source="expression" name="alldata.placed_emp" type="variable_definition">alldata.aggregate_all((establishment.employment)*(establishment.disappeared==0)*(establishment.building_id&gt;0))</variable>
+      <variable use="both" source="expression" name="alldata.unplaced_emp" type="variable_definition">alldata.aggregate_all((establishment.employment)*(establishment.disappeared==0)*(establishment.building_id&lt;=0))</variable>
+      <variable use="both" source="expression" name="establishment.EBEwfl10" type="variable_definition">establishment.employment_lag1&lt;10</variable>
+      <variable use="both" source="expression" name="establishment.EBEwfb10_250" type="variable_definition">(establishment.employment_lag1&gt;9)*(establishment.employment_lag1&lt;250)</variable>
       <variable use="both" source="expression" name="establishment.EBLCprice_EBEwfl10" type="variable_definition">establishment.ELPB * establishment.EBEwfl10</variable>
       <variable use="both" source="expression" name="establishment.EBLCprice_EBEwfb10_250" type="variable_definition">establishment.ELPB * establishment.EBEwfb10_250</variable>
       <variable use="both" source="expression" name="establishment.ECQRdstPop_EBEwfl10" type="variable_definition">establishment.ERRdensPop * establishment.EBEwfl10</variable>
@@ -54,9 +56,9 @@
       <variable use="both" source="expression" name="establishment.ENGtrainSt" type="variable_definition">establishment.disaggregate(building.CNGtrainSt)</variable>
       <variable use="both" source="expression" name="establishment.ENGsubwSP" type="variable_definition">establishment.disaggregate(building.CNGsubwSP)</variable>
       <variable use="both" source="expression" name="establishment.ENPAM0_M_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cnpam0_m))</variable>
-      <variable use="both" source="expression" name="establishment.ERam0" type="variable_definition">establishment.disaggregate(building.CPRam0)</variable>
-      <variable use="both" source="expression" name="establishment.EPBhghInc" type="variable_definition">establishment.disaggregate(building.CPBhghInc)</variable>
-      <variable use="both" source="expression" name="establishment.EPBlowInc" type="variable_definition">establishment.disaggregate(building.CPBlowInc)</variable>
+      <variable use="both" source="expression" name="establishment.ERam0" type="variable_definition">establishment.disaggregate(building.CPRam0)/100</variable>
+      <variable use="both" source="expression" name="establishment.EPBhghInc" type="variable_definition">establishment.disaggregate(building.CPBhghInc)/100</variable>
+      <variable use="both" source="expression" name="establishment.EPBlowInc" type="variable_definition">establishment.disaggregate(building.CPBlowInc)/100</variable>
       <variable use="both" source="expression" name="establishment.EPOORPC_M_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cpoorpc_m))</variable>
       <variable use="both" source="expression" name="establishment.Edensity_h" type="variable_definition">establishment.disaggregate(building.disaggregate(zone.cdensity))</variable>
       <variable use="model variable" source="expression" name="establishment.ERRdensPop" type="variable_definition">establishment.disaggregate(building.CRRdensPop)</variable>
@@ -106,31 +108,31 @@
       <variable use="both" source="expression" name="building.CLEsect3" type="variable_definition">ln_bounded(building.aggregate((job.sector_id==3)))</variable>
       <variable use="both" source="expression" name="building.CLEsect2" type="variable_definition">ln_bounded(building.aggregate((job.sector_id==2)))</variable>
       <variable use="both" source="expression" name="building.CLEsect1" type="variable_definition">ln_bounded( building.aggregate(job.sector_id==1) )</variable>
-      <variable use="both" source="expression" name="building.CLsector1_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector1_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector11_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector11_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector10_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector10_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector9_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector9_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector8_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector8_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector7_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector7_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector6_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector6_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector5_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector5_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector4_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector4_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector3_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector3_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLsector2_employment_lag2" type="variable_definition">ln_bounded(building.disaggregate(paris.zone.sector2_employment_lag2))</variable>
-      <variable use="both" source="expression" name="building.CLEmpTot_lag2" type="variable_definition">ln_bounded(building.disaggregate(zone.emptot_lag2))</variable>
+      <variable use="both" source="expression" name="building.CLsector1_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s1_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector11_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s11_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector10_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s10_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector9_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s9_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector8_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s8_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector7_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s7_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector6_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s6_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector5_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s5_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector4_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s4_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector3_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s3_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLsector2_employment_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emp_s2_lag1))</variable>
+      <variable use="both" source="expression" name="building.CLEmpTot_lag1" type="variable_definition">ln_bounded(building.disaggregate(zone.emptot_lag1))</variable>
       <variable use="model variable" source="expression" name="building.CLEemp" type="variable_definition">building.disaggregate(ln_bounded(zone.aggregate(building.number_of_agents(job))))</variable>
-      <variable use="both" source="expression" name="building.CQEsec1dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector1_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec2dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector2_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec3dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector3_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec4dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector4_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec5dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector5_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec6dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector6_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec7dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector7_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec8dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector8_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec9dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector9_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec10dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector10_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CQEsec11dst_lag2" type="variable_definition">building.disaggregate(paris.zone.sector11_employment_lag2/(1000*zone.CNOActPotSt))</variable>
-      <variable use="both" source="expression" name="building.CREdensEmp" type="variable_definition">building.disaggregate(zone.aggregate(establishment.employment,function=sum))/(1000*building.disaggregate(zone.careakm2))</variable>
+      <variable use="both" source="expression" name="building.CQEsec1dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s1_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec2dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s2_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec3dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s3_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec4dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s4_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec5dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s5_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec6dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s6_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec7dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s7_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec8dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s8_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec9dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s9_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec10dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s10_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CQEsec11dst_lag1" type="variable_definition">building.disaggregate(zone.emp_s11_lag1/(1000*zone.CNOActPotSt))</variable>
+      <variable use="both" source="expression" name="building.CREdensEmp" type="variable_definition">building.disaggregate(zone.emptot)/(1000*building.disaggregate(zone.careakm2))</variable>
       <variable use="both" source="expression" name="building.CREdensEmp_OK" type="variable_definition">building.disaggregate(zone.aggregate(building.number_of_agents(job),function=sum))/(1000*building.disaggregate(zone.careakm2))</variable>
       <variable use="both" source="expression" name="building.CTPNiv1" type="variable_definition">building.disaggregate(zone.ctpniv1)</variable>
       <variable use="both" source="expression" name="building.CTPNiv2" type="variable_definition">building.disaggregate(zone.ctpniv2)</variable>
@@ -138,15 +140,15 @@
       <variable use="both" source="expression" name="building.CTPNiv4" type="variable_definition">building.disaggregate(zone.ctpniv4)</variable>
       <variable use="both" source="expression" name="building.total_job_spaces" type="variable_definition">urbansim_zone.building.total_non_home_based_job_spaces</variable>
       <variable use="both" source="expression" name="building.vacant_job_spaces" type="variable_definition">paris.building.vacant_non_home_based_job_spaces</variable>
-      <variable use="both" source="primary attribute" name="building.BNResU" type="variable_definition">building.residential_units</variable>
-      <variable use="both" source="expression" name="building.CNRsUnitsH" type="variable_definition">building.residential_units</variable>
-      <variable use="both" source="expression" name="building.CNRsUnitsF" type="variable_definition">building.residential_units</variable>
-      <variable use="both" source="expression" name="building.CNRrUnitsH" type="variable_definition">building.residential_units</variable>
-      <variable use="both" source="expression" name="building.CNRrUnitsF" type="variable_definition">building.residential_units</variable>
-      <variable use="both" source="expression" name="building.CLRrUnitsH" type="variable_definition">ln_bounded(building.residential_units)</variable>
-      <variable use="both" source="expression" name="building.CLRrUnitsF" type="variable_definition">ln_bounded(building.residential_units)</variable>
-      <variable use="both" source="expression" name="building.CLRsUnitsF" type="variable_definition">ln_bounded(building.residential_units)</variable>
-      <variable use="both" source="expression" name="building.CLRsUnitsH" type="variable_definition">ln_bounded(building.residential_units)</variable>
+      <variable use="both" source="primary attribute" name="building.bnresu" type="variable_definition">building.residential_units</variable>
+      <variable use="both" source="expression" name="building.CNRsUnitsH" type="variable_definition">building.residential_units*(building.building_type_id == 1)</variable>
+      <variable use="both" source="expression" name="building.CNRsUnitsF" type="variable_definition">building.residential_units*(building.building_type_id == 2)</variable>
+      <variable use="both" source="expression" name="building.CNRrUnitsH" type="variable_definition">building.residential_units*(building.building_type_id == 3)</variable>
+      <variable use="both" source="expression" name="building.CNRrUnitsF" type="variable_definition">building.residential_units*(building.building_type_id == 4)</variable>
+      <variable use="both" source="expression" name="building.CLRrUnitsH" type="variable_definition">ln_bounded(building.CNRrUnitsH)</variable>
+      <variable use="both" source="expression" name="building.CLRrUnitsF" type="variable_definition">ln_bounded(building.CNRrUnitsF)</variable>
+      <variable use="both" source="expression" name="building.CLRsUnitsF" type="variable_definition">ln_bounded(building.CNRsUnitsF)</variable>
+      <variable use="both" source="expression" name="building.CLRsUnitsH" type="variable_definition">ln_bounded(building.CNRsUnitsH)</variable>
       <variable use="both" source="expression" name="building.CLRResUnts" type="variable_definition">ln_bounded(building.residential_units)</variable>
       <variable use="both" source="expression" name="building.CPRaft90" type="variable_definition">building.disaggregate(zone.cpraft90)</variable>
       <variable use="both" source="expression" name="building.CPRbef15" type="variable_definition">building.disaggregate(zone.cprbef15)</variable>
@@ -169,7 +171,6 @@
       <variable use="both" source="expression" name="building.CPOforest" type="variable_definition">building.disaggregate(zone.cpbois)</variable>
       <variable use="both" source="expression" name="building.CPOeduc" type="variable_definition">building.disaggregate(zone.cpequipem_enseign)</variable>
       <variable use="both" source="expression" name="building.CLOActPotSt" type="variable_definition">building.disaggregate(zone.CLOActPotSt)</variable>
-      <variable use="both" source="expression" name="building.BNHH" type="variable_definition">building.number_of_agents(household)</variable>
       <variable use="model variable" source="expression" name="building.CRRdensPop" type="variable_definition">building.disaggregate(zone.ZRRdensPop)</variable>
       <variable use="both" source="expression" name="building.CPRcar2g" type="variable_definition">building.disaggregate(zone.aggregate(household.cars&gt;=2, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
       <variable use="both" source="expression" name="building.CPRam2g" type="variable_definition">building.disaggregate(zone.aggregate(household.workers&gt;=2, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100</variable>
@@ -209,16 +210,17 @@
       <variable use="both" source="expression" name="building.CNRcar0" type="variable_definition">building.disaggregate(zone.aggregate(building.aggregate(household.cars==0)))</variable>
       <variable use="both" source="expression" name="building.CPGZFU" type="variable_definition">building.disaggregate(zone.czfu)</variable>
       <variable use="both" source="expression" name="building.CLPB" type="variable_definition">building.disaggregate(zone.ZCLPB)</variable>
-      <variable use="both" source="expression" name="building.BLPrice" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.clcspricef_h" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.clcrpricef_h" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.clcrpriceh_h" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.clcspriceh_h" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.CLCsPriceF" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.CLCrPriceF" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.CLCsPriceH" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.CLCrPriceH" type="variable_definition">ln_bounded(building.price)</variable>
-      <variable use="both" source="expression" name="building.CLCdwlgprice" type="variable_definition">ln_bounded(building.price)</variable>
+      <variable use="both" source="expression" name="building.bnhh" type="variable_definition">building.number_of_agents(household)</variable>
+      <variable use="both" source="expression" name="building.blprice" type="variable_definition">ln_bounded(building.price)</variable>
+      <variable use="both" source="expression" name="building.clcspricef_h" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 2)</variable>
+      <variable use="both" source="expression" name="building.clcrpricef_h" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 4)</variable>
+      <variable use="both" source="expression" name="building.clcrpriceh_h" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 3)</variable>
+      <variable use="both" source="expression" name="building.clcspriceh_h" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 1)</variable>
+      <variable use="both" source="expression" name="building.CLCsPriceF" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 2)</variable>
+      <variable use="both" source="expression" name="building.CLCrPriceF" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 4)</variable>
+      <variable use="both" source="expression" name="building.CLCsPriceH" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 1)</variable>
+      <variable use="both" source="expression" name="building.CLCrPriceH" type="variable_definition">ln_bounded(building.price)*(building.building_type_id == 3)</variable>
+      <variable use="both" source="expression" name="building.CLCdwlgprice" type="variable_definition">building.disaggregate(zone.CLCdwlgprice)</variable>
       <variable use="both" source="expression" name="building.ctdvpo" type="variable_definition">building.disaggregate(zone.ctdvpo)</variable>
       <variable use="both" source="expression" name="building.ctdtco" type="variable_definition">building.disaggregate(zone.ctdtco)</variable>
       <variable use="both" source="expression" name="building.ctdvpd" type="variable_definition">building.disaggregate(zone.ctdvpd)</variable>
@@ -305,29 +307,53 @@
       <variable use="both" source="expression" name="household_x_building.CPRam2_HBRam2" type="variable_definition">(household.workers==2)*(building.disaggregate(zone.aggregate(household.workers==2, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
       <variable use="both" source="expression" name="household_x_building.CPRam1_HBRam1" type="variable_definition">(household.workers==1)*(building.disaggregate(zone.aggregate(household.workers==1, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
       <variable use="both" source="expression" name="household_x_building.CPRam0_HBRam0" type="variable_definition">(household.workers==0)*(building.disaggregate(zone.aggregate(household.workers==0, intermediates = [building])/(zone.aggregate(building.number_of_agents(household),function=sum)))*100)</variable>
+      <variable use="both" source="expression" name="dept.dept_pop" type="variable_definition">dept.aggregate(building.aggregate(household.size),intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="dept.dept_emp" type="variable_definition">dept.aggregate(building.aggregate(establishment.employment * (establishment.disappeared == 0)),intermediates=[zone])</variable>
       <variable use="both" source="expression" name="dept.households" type="variable_definition">dept.number_of_agents(household)</variable>
       <variable use="both" source="expression" name="dept.units" type="variable_definition">dept.aggregate(building.residential_units)</variable>
       <variable use="both" source="expression" name="dept.vacancy_rates" type="variable_definition">safe_array_divide(dept.aggregate(building.residential_units)-dept.number_of_agents(household), dept.aggregate(building.residential_units))</variable>
+      <variable use="both" source="expression" name="dept.priceho" type="variable_definition">dept.aggregate(building.residential_units *(building.price)*(building.building_type_id == 1), intermediates=[zone])/dept.aggregate(building.residential_units * (building.building_type_id == 1), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="dept.pricefo" type="variable_definition">dept.aggregate(building.residential_units *(building.price)*(building.building_type_id == 2), intermediates=[zone])/dept.aggregate(building.residential_units * (building.building_type_id == 2), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="dept.pricehr" type="variable_definition">dept.aggregate(building.residential_units *(building.price)*(building.building_type_id == 3), intermediates=[zone])/dept.aggregate(building.residential_units * (building.building_type_id == 3), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="dept.pricefr" type="variable_definition">dept.aggregate(building.residential_units *(building.price)*(building.building_type_id == 4), intermediates=[zone])/dept.aggregate(building.residential_units * (building.building_type_id == 4), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="dept.pricebu" type="variable_definition">dept.aggregate(building.non_residential_sqft *(building.price)*(building.building_type_id == 6), intermediates=[zone])/dept.aggregate(building.non_residential_sqft * (building.building_type_id == 6), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.priceho" type="variable_definition">zgp.aggregate(building.residential_units *(building.price)*(building.building_type_id == 1), intermediates=[zone])/zgp.aggregate(building.residential_units * (building.building_type_id == 1), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.pricefo" type="variable_definition">zgp.aggregate(building.residential_units *(building.price)*(building.building_type_id == 2), intermediates=[zone])/zgp.aggregate(building.residential_units * (building.building_type_id == 2), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.pricehr" type="variable_definition">zgp.aggregate(building.residential_units *(building.price)*(building.building_type_id == 3), intermediates=[zone])/zgp.aggregate(building.residential_units * (building.building_type_id == 3), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.pricefr" type="variable_definition">zgp.aggregate(building.residential_units *(building.price)*(building.building_type_id == 4), intermediates=[zone])/zgp.aggregate(building.residential_units * (building.building_type_id == 4), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.pricebu" type="variable_definition">zgp.aggregate(building.non_residential_sqft *(building.price)*(building.building_type_id == 6), intermediates=[zone])/zgp.aggregate(building.non_residential_sqft * (building.building_type_id == 6), intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.zgp_units" type="variable_definition">zgp.aggregate(zone.aggregate(building.residential_units, function=sum),function=sum)</variable>
+      <variable use="both" source="expression" name="zgp.zgp_households" type="variable_definition">zgp.aggregate(zone.aggregate(building.number_of_agents(household),function=sum),function=sum)</variable>
+      <variable use="both" source="expression" name="zgp.zgp_pop" type="variable_definition">zgp.aggregate(building.aggregate(household.size) , intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgp.zgp_emp" type="variable_definition">zgp.aggregate(building.aggregate(establishment.employment * (establishment.disappeared == 0)),intermediates=[zone])</variable>
       <variable use="both" source="expression" name="zemp.zemp" type="variable_definition">zemp.aggregate(zone.aggregate(building.number_of_agents(job),function=sum),function=sum)</variable>
-      <variable use="both" source="expression" name="dept.dept_emp" type="variable_definition">dept.aggregate(establishment.employment,intermediates=[zone])</variable>
-      <variable use="both" source="expression" name="zgp.zgp_pop" type="variable_definition">zgp.aggregate(zone.aggregate(household.size,intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="zgp.zgp_emp" type="variable_definition">zgp.aggregate(establishment.employment,intermediates=[zone])</variable>
-      <variable use="both" source="expression" name="zgp.zgp_emp" type="variable_definition">zgp.aggregate(zone.aggregate(establishment.employment,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="zone.sector2_employment_lag2" type="variable_definition">paris.zone.sector2_employment_lag2</variable>
       <variable use="both" source="expression" name="zone.Zsector2_employment_lag2" type="variable_definition">paris.zone.sector2_employment_lag2</variable>
       <variable use="both" source="expression" name="zone.Ejobs_s1" type="variable_definition">zone.aggregate(establishment.employment,function=sum)</variable>
-      <variable use="both" source="expression" name="zone.emp_s11" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==11),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s10" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==10),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s9" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==9),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s8" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==8),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s7" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==7),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s6" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==6),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s5" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==5),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s4" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==4),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s3" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==3),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s2" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==2),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emp_s1" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==1),intermediates=[building])</variable>
-      <variable use="both" source="expression" name="zone.emptot_lag2" type="variable_definition">zone.aggregate(establishment.employment_lag2*(establishment.disappeared_lag2==0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s11" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==11) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s10" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==10) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s9" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==9) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s8" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==8) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s7" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==7) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s6" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==6) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s5" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==5) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s4" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==4) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s3" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==3) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s2" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==2) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s1" type="variable_definition">zone.aggregate(establishment.employment*(establishment.sector_id==1) * (establishment.disappeared == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s11_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 11),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s10_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 10),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s9_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 9),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s8_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 8),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s7_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 7),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s6_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 6),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s5_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 5),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s4_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 4),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s3_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 3),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s2_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 2),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emp_s1_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0)*(establishment.sector_id_lag1 == 1),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emptot_lag1" type="variable_definition">zone.aggregate(establishment.employment_lag1*(establishment.disappeared_lag1 == 0),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="zone.emptot" type="variable_definition">zone.aggregate(establishment.employment*(establishment.disappeared == 0),intermediates=[building])</variable>
       <variable use="both" source="expression" name="zone.emp" type="variable_definition">zone.aggregate(building.number_of_agents(job),function=sum)</variable>
       <variable use="both" source="expression" name="zone.jobs_s11" type="variable_definition">zone.aggregate(building.aggregate(job.sector_id==11))</variable>
       <variable use="both" source="expression" name="zone.jobs_s10" type="variable_definition">zone.aggregate(building.aggregate(job.sector_id==10))</variable>
@@ -391,6 +417,7 @@
       <variable use="both" source="expression" name="zone.ZPBhghInc" type="variable_definition">100*(zone.aggregate(household.lincomepc&gt;10.3)/(zone.CNRhh))</variable>
       <variable use="both" source="expression" name="zone.CPRchld111g" type="variable_definition">100*((zone.aggregate(household.children11&gt;=1, intermediates = [building]))/(zone.CNRhh))</variable>
       <variable use="both" source="expression" name="zone.ZCLPB" type="variable_definition">ln_bounded(zone.aggregate(building.price*(building.building_type_id==6), function=sum)/zone.aggregate((building.building_type_id==6), function=sum))</variable>
+	  <variable use="both" source="expression" name="zone.CLCdwlgprice" type="variable_definition">ln_bounded(zone.aggregate(building.price * building.residential_units * (building.building_type_id&lt;=4))/zone.aggregate(building.residential_units * (building.building_type_id&lt;=4)))</variable>
       <variable use="both" source="expression" name="zone.ZLGarea" type="variable_definition">ln_bounded(zone.careakm2)</variable>
       <variable use="both" source="expression" name="zone.CNOActPotSt" type="variable_definition">1.0*zone.project99st</variable>
       <variable use="both" source="expression" name="zone.CLOActPotSt" type="variable_definition">ln_bounded(zone.CNOActPotSt)</variable>
@@ -494,7 +521,6 @@
         </structure>
         <specification type="dictionary"/>
       </model>
-
       <model name="update_of_ctt_tcD" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -562,7 +588,7 @@
             <argument name="dataset" type="string">establishment</argument>
             <argument name="expression" parser_action="quote_string" type="string">paris.establishment.emp_pred</argument>
             <argument convert_blank_to_none="True" name="outcome_attribute" parser_action="quote_string" type="string">employment</argument>
-            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">establishment.disappeared == 0</argument>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">(establishment.disappeared == 0)*(establishment.building_id&gt;0)*(paris.establishment.year_lag1 != paris.establishment.year)*(paris.establishment.emp_250_lag1)</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -1282,9 +1308,6 @@
           <init type="dictionary">
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">100</key>
-	      <!--
-              <key convert_blank_to_none="True" name="weights_for_simulation_string" type="string">building.aggregate(establishment.employment)</key>
-	      -->
               <key name="sample_size_locations" type="integer">10</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
@@ -1366,9 +1389,6 @@
             <argument name="run_config" type="dictionary">
               <key name="compute_capacity_flag" type="boolean">True</key>
               <key convert_blank_to_none="True" name="capacity_string" parser_action="quote_string" type="string">urbansim_zone.building.vacant_residential_units</key>
-	      <!--
-              <key name="is_choice_overfilled_string" convert_blank_to_none="True" type="string">(building.residential_units - urbansim_zone.building.number_of_households) &lt; 0 </key>
-	      -->
               <key name="lottery_max_iterations" type="integer">5</key>
               <key name="sample_alternatives_by_submodel" type="boolean">True</key>
             </argument>
@@ -2519,26 +2539,19 @@
             <argument name="run_config" type="dictionary">
               <key name="sample_size_locations" type="integer">50</key>
               <key name="compute_capacity_flag" type="string">True</key>
-              <!--
-              <key name="capacity_string" type="string">urbansim_zone.building.total_non_home_based_job_spaces</key>
-              <key name="sample_alternatives_by_submodel" type="string">True</key>
-              <key name="weights_for_simulation_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces</key>
-              <key name="weights_for_simulation_string" type="string">establishment.employment &lt; urbansim_zone.building.vacant_non_home_based_job_spaces</key>
-              <key name="weights_for_simulation_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces &gt; 0</key>
-              <key name="chunk_specification_for_sampling" type="string">{'records_per_chunk':100000}</key>
-              -->
               <key name="capacity_string" type="string">paris.building.vacant_non_home_based_job_spaces</key>
+	      <!--
               <key name="number_of_units_string" type="string">paris.building.vacant_non_home_based_job_spaces</key>
-              <key name="number_of_agents_string" type="string">building.aggregate(establishment.employment)</key>
-              <key convert_blank_to_none="True" name="agent_units_string" type="string">establishment.employment</key>
+              <key name="number_of_agents_string" type="string">building.aggregate((establishment.employment)*(establishment.disappeared==0))</key>
+	      -->
+              <key convert_blank_to_none="True" name="agent_units_string" type="string">(establishment.employment)*(establishment.disappeared==0)</key>
               <key name="weights_for_simulation_string" type="string">urbansim_zone.building.vacant_non_home_based_job_spaces</key>
               <key name="compute_capacity_flag" type="string">True</key>
               <key name="lottery_max_iterations" type="integer">3</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
-              <!-- The 50 as sample size is too much -->
-			  <key name="sample_size_locations" type="integer">50</key>
+              <key name="sample_size_locations" type="integer">50</key>
               <key name="weights_for_estimation_string" type="string">building.building_id &gt; 0</key>
               <key name="sample_alternatives_by_submodel" type="string">True</key>
               <key name="chunk_specification_for_sampling" type="string">{'records_per_chunk':10000}</key>
@@ -2554,21 +2567,19 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string">establishment</argument>
-	    <!--
-            <argument name="agents_filter" parser_action="quote_string" type="string">paris.establishment.emp_250</argument>
-	    -->
+            <argument name="agents_filter" type="string" parser_action="quote_string">(establishment.disappeared==0)*(establishment.building_id &lt;= 0)</argument>
             <argument hidden="True" name="specification" type="string">specification</argument>
             <argument hidden="True" name="coefficients" type="string">coefficients</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
             <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
-            <argument name="maximum_runs" type="integer">1</argument>
+            <argument name="maximum_runs" type="integer">3</argument>
           </run>
           <prepare_for_estimate type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_estimate</name>
             <output hidden="True" name="output" type="string">(specification, index)</output>
             <argument name="agent_set" type="string">establishment</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(paris.establishment.year_lag2 == paris.establishment.year)*(paris.establishment.emp_250)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(paris.establishment.year_lag1 == paris.establishment.year)*(paris.establishment.emp_250)</argument>
             <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">establishment</argument>
             <argument name="data_objects" type="string">datasets</argument>
@@ -2587,12 +2598,12 @@
           <submodel name="S1" submodel_id="1" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">submodel1</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec4dst_lag2"/>
-              <variable_spec name="building.CQEsec5dst_lag2"/>
-              <variable_spec name="building.CQEsec8dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec4dst_lag1"/>
+              <variable_spec name="building.CQEsec5dst_lag1"/>
+              <variable_spec name="building.CQEsec8dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CDGhighw"/>
@@ -2604,12 +2615,12 @@
           <submodel hidden="Children" name="S2" submodel_id="2" type="submodel" inherit_parent_values="False">
             <description type="string">2</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec4dst_lag2"/>
-              <variable_spec name="building.CQEsec5dst_lag2"/>
-              <variable_spec name="building.CQEsec8dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec4dst_lag1"/>
+              <variable_spec name="building.CQEsec5dst_lag1"/>
+              <variable_spec name="building.CQEsec8dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CDGhighw"/>
@@ -2625,11 +2636,11 @@
           <submodel hidden="Children" name="S3" submodel_id="3" type="submodel" inherit_parent_values="False">
             <description type="string">3</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec4dst_lag2"/>
-              <variable_spec name="building.CQEsec7dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec4dst_lag1"/>
+              <variable_spec name="building.CQEsec7dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CDGhighw"/>
@@ -2646,12 +2657,12 @@
           <submodel hidden="Children" name="S4" submodel_id="4" type="submodel" inherit_parent_values="False">
             <description type="string">4</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec4dst_lag2"/>
-              <variable_spec name="building.CQEsec6dst_lag2"/>
-              <variable_spec name="building.CQEsec9dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec4dst_lag1"/>
+              <variable_spec name="building.CQEsec6dst_lag1"/>
+              <variable_spec name="building.CQEsec9dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CPBhghInc"/>
               <variable_spec name="building.CPBlowInc"/>
@@ -2673,10 +2684,10 @@
           <submodel hidden="Children" name="S5" submodel_id="5" type="submodel" inherit_parent_values="False">
             <description type="string">5</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec5dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec5dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CBADefense"/>
               <variable_spec name="building.CBAnwCty"/>
@@ -2691,12 +2702,12 @@
           <submodel hidden="Children" name="S6" submodel_id="6" type="submodel" inherit_parent_values="False">
             <description type="string">6</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec4dst_lag2"/>
-              <variable_spec name="building.CQEsec6dst_lag2"/>
-              <variable_spec name="building.CQEsec7dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec4dst_lag1"/>
+              <variable_spec name="building.CQEsec6dst_lag1"/>
+              <variable_spec name="building.CQEsec7dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CPBhghInc"/>
               <variable_spec name="building.CLPB"/>
@@ -2715,12 +2726,12 @@
           <submodel hidden="Children" name="S7" submodel_id="7" type="submodel" inherit_parent_values="False">
             <description type="string">7</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec6dst_lag2"/>
-              <variable_spec name="building.CQEsec7dst_lag2"/>
-              <variable_spec name="building.CQEsec8dst_lag2"/>
-              <variable_spec name="building.CQEsec9dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec6dst_lag1"/>
+              <variable_spec name="building.CQEsec7dst_lag1"/>
+              <variable_spec name="building.CQEsec8dst_lag1"/>
+              <variable_spec name="building.CQEsec9dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CPBhghInc"/>
               <variable_spec name="building.CLPB"/>
@@ -2739,10 +2750,10 @@
           <submodel hidden="Children" name="S8" submodel_id="8" type="submodel" inherit_parent_values="False">
             <description type="string">8</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec7dst_lag2"/>
-              <variable_spec name="building.CQEsec8dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec7dst_lag1"/>
+              <variable_spec name="building.CQEsec8dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CPRam0"/>
               <variable_spec name="building.CPBhghInc"/>
@@ -2764,9 +2775,9 @@
           <submodel hidden="Children" name="S9" submodel_id="9" type="submodel" inherit_parent_values="False">
             <description type="string">9</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec4dst_lag2"/>
-              <variable_spec name="building.CQEsec9dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec4dst_lag1"/>
+              <variable_spec name="building.CQEsec9dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CPRam0"/>
               <variable_spec name="building.CPBhghInc"/>
@@ -2790,13 +2801,13 @@
           <submodel hidden="Children" name="S10" submodel_id="10" type="submodel" inherit_parent_values="False">
             <description type="string">10</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec2dst_lag2"/>
-              <variable_spec name="building.CQEsec3dst_lag2"/>
-              <variable_spec name="building.CQEsec5dst_lag2"/>
-              <variable_spec name="building.CQEsec6dst_lag2"/>
-              <variable_spec name="building.CQEsec10dst_lag2"/>
-              <variable_spec name="building.CQEsec11dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec2dst_lag1"/>
+              <variable_spec name="building.CQEsec3dst_lag1"/>
+              <variable_spec name="building.CQEsec5dst_lag1"/>
+              <variable_spec name="building.CQEsec6dst_lag1"/>
+              <variable_spec name="building.CQEsec10dst_lag1"/>
+              <variable_spec name="building.CQEsec11dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CPRam0"/>
               <variable_spec name="building.CPBhghInc"/>
@@ -2816,10 +2827,10 @@
           <submodel hidden="Children" name="S11" submodel_id="11" type="submodel" inherit_parent_values="False">
             <description type="string">11</description>
             <variable_list type="variable_list">
-              <variable_spec name="building.CQEsec9dst_lag2"/>
-              <variable_spec name="building.CQEsec10dst_lag2"/>
-              <variable_spec name="building.CQEsec11dst_lag2"/>
-              <variable_spec name="building.CLEmpTot_lag2"/>
+              <variable_spec name="building.CQEsec9dst_lag1"/>
+              <variable_spec name="building.CQEsec10dst_lag1"/>
+              <variable_spec name="building.CQEsec11dst_lag1"/>
+              <variable_spec name="building.CLEmpTot_lag1"/>
               <variable_spec name="building.CRRdensPop"/>
               <variable_spec name="building.CLPB"/>
               <variable_spec name="building.CBADefense"/>
@@ -2845,7 +2856,7 @@
           </run>
           <init type="dictionary">
             <name name="name" type="string">EstablishmentEvolutionModel</name>
-            <argument name="filter_attribute" parser_action="quote_string" type="string">(paris.establishment.year_lag2 != paris.establishment.year)*(paris.establishment.emp_250)</argument>
+            <argument name="filter_attribute" parser_action="quote_string" type="string">(paris.establishment.year_lag1 != paris.establishment.year)*(paris.establishment.emp_250_lag1)*(establishment.building_id&gt;0)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">paris.establishment.ln_emp_ratio</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string">sector_id</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
@@ -2893,7 +2904,6 @@
               <variable_spec name="establishment.w10"/>
               <variable_spec name="establishment.w20"/>
               <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
               <variable_spec name="establishment.w3slope"/>
               <variable_spec name="establishment.w6slope"/>
               <variable_spec name="establishment.w100slope"/>
@@ -2915,9 +2925,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfl10"/>
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S2" submodel_id="2" type="submodel" inherit_parent_values="False">
@@ -2965,9 +2972,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S3" submodel_id="3" type="submodel" inherit_parent_values="False">
@@ -3011,9 +3015,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S4" submodel_id="4" type="submodel" inherit_parent_values="False">
@@ -3065,9 +3066,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S5" submodel_id="5" type="submodel" inherit_parent_values="False">
@@ -3111,9 +3109,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S6" submodel_id="6" type="submodel" inherit_parent_values="False">
@@ -3163,9 +3158,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S7" submodel_id="7" type="submodel" inherit_parent_values="False">
@@ -3215,9 +3207,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S8" submodel_id="8" type="submodel" inherit_parent_values="False">
@@ -3265,9 +3254,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S9" submodel_id="9" type="submodel" inherit_parent_values="False">
@@ -3313,9 +3299,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S10" submodel_id="10" type="submodel" inherit_parent_values="False">
@@ -3361,9 +3344,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S11" submodel_id="11" type="submodel" inherit_parent_values="False">
@@ -3411,9 +3391,6 @@
               <variable_spec name="establishment.ECTDVpD_EBEwfb10_250"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfl10"/>
               <variable_spec name="establishment.ECRFproTax_EBEwfb10_250"/>
-              <!--
-              <variable_spec name="constant"/>
-              -->
             </variable_list>
           </submodel>
         </specification>
@@ -3499,6 +3476,7 @@
               <variable_spec name="building.CBADefense"/>
               <variable_spec name="building.CBAPC"/>
               <variable_spec name="building.CBAparis"/>
+              <variable_spec name="building.CBAnwCty"/>
               <variable_spec name="building.CNGsubwSP"/>
               <variable_spec name="building.CPBlowInc"/>
               <variable_spec name="building.CPRaft90"/>
@@ -3597,15 +3575,12 @@
             <argument name="agents_index" type="string">cm_index</argument>
             <argument name="specification" type="string">specification</argument>
             <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
-	    <!--
-            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bfgs_mnl_estimation</argument>
-	    -->
           </estimate>
           <prepare_for_estimate type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_estimate</name>
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
             <argument name="join_datasets" type="string">True</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(paris.establishment.year_lag2 != paris.establishment.year)*(paris.establishment.emp_250)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(paris.establishment.year_lag1 != paris.establishment.year)*(paris.establishment.emp_250)</argument>
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">establishment_disappeared_97_01</argument>
@@ -3616,365 +3591,341 @@
           <submodel hidden="Children" name="S1" submodel_id="1" type="submodel" inherit_parent_values="False">
             <description type="string">Agriculture</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-	      <!--
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv1"/>
-              <variable_spec name="establishment.ETPNiv2"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-	      -->
-              <variable_spec name="constant"/>
-              <variable_spec name="establishment.emp"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="constant"/>
+                <variable_spec name="establishment.emp"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S2" submodel_id="2" type="submodel" inherit_parent_values="False">
             <description type="string">Industry</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv1"/>
-              <variable_spec name="establishment.ETPNiv2"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S3" submodel_id="3" type="submodel" inherit_parent_values="False">
             <description type="string">Construction</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv1"/>
-              <variable_spec name="establishment.ETPNiv2"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S4" submodel_id="4" type="submodel" inherit_parent_values="False">
             <description type="string">Commerce</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv1"/>
-              <variable_spec name="establishment.ETPNiv2"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EPBhghInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S5" submodel_id="5" type="submodel" inherit_parent_values="False">
             <description type="string">Transport</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv1"/>
-              <variable_spec name="establishment.ETPNiv2"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.ERam0"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EPBhghInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv1"/>
+                <variable_spec name="establishment.ETPNiv2"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.ERam0"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S6" submodel_id="6" type="submodel" inherit_parent_values="False">
             <description type="string">Financial activities</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv3"/>
-              <variable_spec name="establishment.ETPNiv4"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBADefense"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S7" submodel_id="7" type="submodel" inherit_parent_values="False">
             <description type="string">Real estate activities</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv3"/>
-              <variable_spec name="establishment.ETPNiv4"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBADefense"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S8" submodel_id="8" type="submodel" inherit_parent_values="False">
             <description type="string">Business services</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv3"/>
-              <variable_spec name="establishment.ETPNiv4"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBADefense"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S9" submodel_id="9" type="submodel" inherit_parent_values="False">
             <description type="string">Personal services</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EPBhghInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S10" submodel_id="10" type="submodel" inherit_parent_values="False">
             <description type="string">Education, health, social actions</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EPBhghInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EPBhghInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
           <submodel hidden="Children" name="S11" submodel_id="11" type="submodel" inherit_parent_values="False">
             <description type="string">Administration</description>
             <equation equation_id="1" name="disappeared" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="establishment.w2"/>
-              <variable_spec name="establishment.w3"/>
-              <variable_spec name="establishment.w6"/>
-              <variable_spec name="establishment.w10"/>
-              <variable_spec name="establishment.w20"/>
-              <variable_spec name="establishment.w50"/>
-              <variable_spec name="establishment.w100"/>
-              <variable_spec name="establishment.w3slope"/>
-              <variable_spec name="establishment.w6slope"/>
-              <variable_spec name="establishment.w10slope"/>
-              <variable_spec name="establishment.w20slope"/>
-              <variable_spec name="establishment.w50slope"/>
-              <variable_spec name="establishment.w100slope"/>
-              <variable_spec name="establishment.ETPNiv3"/>
-              <variable_spec name="establishment.ETPNiv4"/>
-              <variable_spec name="establishment.ELPB"/>
-              <variable_spec name="establishment.ERRdensPop"/>
-              <variable_spec name="establishment.EPBlowInc"/>
-              <variable_spec name="establishment.EBAnwCty"/>
-              <variable_spec name="establishment.EBADefense"/>
-              <variable_spec name="establishment.EBAparis"/>
-              <variable_spec name="establishment.ENGtrainSt"/>
-              <variable_spec name="establishment.ENGsubwSP"/>
-              <variable_spec name="establishment.ECTDTcD"/>
-              <variable_spec name="establishment.ECTDVpD"/>
-              <variable_spec name="establishment.ERItaxPro"/>
-              <variable_spec name="constant"/>
-            </variable_list>
+              <variable_list type="variable_list">
+                <variable_spec name="establishment.w2"/>
+                <variable_spec name="establishment.w3"/>
+                <variable_spec name="establishment.w6"/>
+                <variable_spec name="establishment.w10"/>
+                <variable_spec name="establishment.w20"/>
+                <variable_spec name="establishment.w50"/>
+                <variable_spec name="establishment.w100"/>
+                <variable_spec name="establishment.w3slope"/>
+                <variable_spec name="establishment.w6slope"/>
+                <variable_spec name="establishment.w10slope"/>
+                <variable_spec name="establishment.w20slope"/>
+                <variable_spec name="establishment.w50slope"/>
+                <variable_spec name="establishment.w100slope"/>
+                <variable_spec name="establishment.ETPNiv3"/>
+                <variable_spec name="establishment.ETPNiv4"/>
+                <variable_spec name="establishment.ELPB"/>
+                <variable_spec name="establishment.ERRdensPop"/>
+                <variable_spec name="establishment.EPBlowInc"/>
+                <variable_spec name="establishment.EBAnwCty"/>
+                <variable_spec name="establishment.EBADefense"/>
+                <variable_spec name="establishment.EBAparis"/>
+                <variable_spec name="establishment.ENGtrainSt"/>
+                <variable_spec name="establishment.ENGsubwSP"/>
+                <variable_spec name="establishment.ECTDTcD"/>
+                <variable_spec name="establishment.ECTDVpD"/>
+                <variable_spec name="establishment.ERItaxPro"/>
+                <variable_spec name="constant"/>
+              </variable_list>
             </equation>
           </submodel>
         </specification>
@@ -4225,7 +4176,6 @@
           <selectable name="person" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="establishment" type="selectable">True</selectable>
-          <selectable name="job" type="selectable">True</selectable>
           <selectable name="building_type" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
           <selectable name="travel_data" type="selectable">False</selectable>
@@ -4248,6 +4198,14 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="unplaced_emp">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone">
+          <indicators>['placed_emp', 'unplaced_emp']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="jobs">
         <batch_visualization hidden="Children" type="batch_visualization" name="Zone">
           <indicators>['total_job_spaces', 'vacant_job_spaces', 'BNEjobtot']</indicators>
@@ -4256,44 +4214,6 @@
             <setting name="output_style">1</setting>
           </settings>
           <dataset_name>building</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="zgp">
-        <batch_visualization hidden="Children" type="batch_visualization" name="Zone">
-          <indicators>['emp_s9', 'emp_s8', 'emp_s7', 'emp_s6', 'emp_s5', 'emp_s4', 'emp_s3', 'emp_s2', 'emp_s11', 'emp_s10', 'emp_s1', 'hh5', 'hh4', 'hh3', 'hh2', 'hh1', 'hh6', 'hh6g']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>zone</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="Building">
-          <indicators>['BNHH', 'BNResU', 'BLPrice']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>building</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="Dept">
-          <indicators>[]</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>dept</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="zgp">
-          <indicators>['zgp_emp', 'zgp_pop']</indicators>
-          <output_type>tab</output_type>
-          <settings>
-            <setting name="output_style">1</setting>
-          </settings>
-          <dataset_name>zgp</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
@@ -4435,8 +4355,44 @@
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="zgp">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone_hh">
+          <indicators>['hh6g', 'hh6', 'hh5', 'hh4', 'hh3', 'hh2', 'hh1']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Zone_emp">
+          <indicators>['emp_s11', 'emp_s10', 'emp_s9', 'emp_s8', 'emp_s7', 'emp_s6', 'emp_s5', 'emp_s4', 'emp_s3', 'emp_s2', 'emp_s1']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Building">
+          <indicators>['bnhh', 'bnresu', 'blprice']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>building</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Dept">
+          <indicators>['dept_pop', 'households', 'units', 'vacancy_rates', 'dept_emp', 'priceho', 'pricefo', 'pricehr', 'pricefr', 'pricebu']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>dept</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
         <batch_visualization hidden="Children" type="batch_visualization" name="zgp">
-          <indicators>['zgp_emp', 'zgp_pop']</indicators>
+          <indicators>['zgp_pop', 'zgp_emp', 'zgp_units', 'zgp_households', 'priceho', 'pricefo', 'pricehr', 'pricefr', 'pricebu']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">1</setting>
