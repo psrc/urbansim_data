@@ -83,8 +83,6 @@
             <description type="string">sf-detached</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
-              <variable_spec name="residential_unit.in_san_francisco"/>
-              <variable_spec name="residential_unit.in_santa_clara_county"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
@@ -94,8 +92,6 @@
             <description type="string">sf-attached</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
-              <variable_spec name="residential_unit.in_san_francisco"/>
-              <variable_spec name="residential_unit.in_santa_clara_county"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
@@ -105,8 +101,6 @@
             <description type="string">multifamily</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
-              <variable_spec name="residential_unit.in_san_francisco"/>
-              <variable_spec name="residential_unit.in_santa_clara_county"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
@@ -115,10 +109,7 @@
           <submodel hidden="Children" name="mixed-use" submodel_id="4" type="submodel">
             <description type="string">mixed-use</description>
             <variable_list type="variable_list">
-              <variable_spec name="residential_unit.built_pre_1930"/>
               <variable_spec name="constant"/>
-              <variable_spec name="residential_unit.in_san_francisco"/>
-              <variable_spec name="residential_unit.in_santa_clara_county"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
