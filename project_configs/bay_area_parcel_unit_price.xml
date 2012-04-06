@@ -5,9 +5,12 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable use="both" source="expression" name="residential_unit.avgyrbuilt_within_500m" type="variable_definition">residential_unit.disaggregate(node.avgyrbuilt_query,intermediates=[parcel,building])</variable>
-      <variable use="both" source="expression" name="residential_unit.avgfloors_within_500m" type="variable_definition">residential_unit.disaggregate(node.avgfloors_query,intermediates=[parcel,building])</variable>
-      <variable use="both" source="expression" name="residential_unit.units_within_500m" type="variable_definition">residential_unit.disaggregate(node.resunits_query,intermediates=[parcel,building])</variable>
+     <variable use="both" source="expression" name="residential_unit.sum_non_residential_sqft_within_500_meters" type="variable_definition">residential_unit.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="residential_unit.sum_residential_units_within_250_meters" type="variable_definition">residential_unit.disaggregate(bayarea.node.sum_residential_units_within_250_meters,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="residential_unit.sum_income_within_100_meters" type="variable_definition">residential_unit.disaggregate(bayarea.node.sum_income_within_100_meters_from_household_dataset,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="residential_unit.sum_workers_within_500_meters" type="variable_definition">residential_unit.disaggregate(bayarea.node.sum_workers_within_500_meters_from_household_dataset,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="residential_unit.average_income_within_500_meters" type="variable_definition">residential_unit.disaggregate(bayarea.node.average_income_within_500_meters_from_household_dataset,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="residential_unit.average_stories_within_500_meters" type="variable_definition">residential_unit.disaggregate(bayarea.node.average_stories_within_500_meters,intermediates=[parcel,building])</variable>
       <variable use="both" source="expression" name="residential_unit.ln_unit_sqft_in_san_francisco" type="variable_definition">residential_unit.disaggregate(parcel.county_id==38,intermediates=[building])*ln_bounded(residential_unit.unit_sqft)</variable>
       <variable use="both" source="primary attribute" name="residential_unit.ln_unit_sqft" type="variable_definition">ln_bounded(residential_unit.unit_sqft)</variable>
       <variable use="both" source="expression" name="residential_unit.year_built" type="variable_definition">residential_unit.disaggregate(building.year_built*(building.year_built&gt;1930)*(building.year_built&lt;2012))</variable>
@@ -89,9 +92,7 @@
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
-              <variable_spec name="residential_unit.avgfloors_within_500m"/>
-              <variable_spec name="residential_unit.avgyrbuilt_within_500m"/>
-              <variable_spec name="residential_unit.units_within_500m"/>
+              <variable_spec name="residential_unit.average_income_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="sf-attached" submodel_id="2" type="submodel">
@@ -101,6 +102,7 @@
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
+              <variable_spec name="residential_unit.average_stories_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="multifamily" submodel_id="3" type="submodel">
@@ -180,6 +182,7 @@
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
+              <variable_spec name="residential_unit.sum_residential_units_within_250_meters"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="sf-attached" submodel_id="2" type="submodel">
@@ -187,8 +190,8 @@
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
               <variable_spec name="residential_unit.unit_bedrooms"/>
+              <variable_spec name="residential_unit.sum_workers_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="multifamily" submodel_id="3" type="submodel">
