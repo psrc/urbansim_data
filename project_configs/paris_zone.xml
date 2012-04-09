@@ -7,7 +7,7 @@
     <dataset_pool_configuration type="class">
       <argument name="package_order" type="list">['paris', 'urbansim_zone', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['job','building','household_x_building','building_x_household','zone','faz','household','large_area','gridcell','city','county','zemp','zgp','alldata','dept']</available_datasets>
+    <available_datasets type="list">['job','building','household_x_building','building_x_household','zone','faz','household','large_area','gridcell','city','county','zemp','zgp','zgpgroup', 'alldata','dept']</available_datasets>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="alldata.placed_emp" type="variable_definition">alldata.aggregate_all((establishment.employment)*(establishment.disappeared==0)*(establishment.building_id&gt;0))</variable>
       <variable use="both" source="expression" name="alldata.unplaced_emp" type="variable_definition">alldata.aggregate_all((establishment.employment)*(establishment.disappeared==0)*(establishment.building_id&lt;=0))</variable>
@@ -96,6 +96,20 @@
       <variable use="both" source="expression" name="establishment.w100" type="variable_definition">paris.establishment.w100</variable>
       <variable use="both" source="expression" name="establishment.w10" type="variable_definition">paris.establishment.w10</variable>
       <variable use="both" source="expression" name="establishment.w2" type="variable_definition">paris.establishment.w2</variable>
+      <variable use="both" source="expression" name="establishment.stable" type="variable_definition">(establishment.disappeared == 0) * (establishment.establishment_id == establishment.ere_id) * (establishment.building_id == establishment.building_id_lag7) * (paris.establishment.year != paris.establishment.year_lag7)</variable>
+
+      <variable use="both" source="expression" name="building.clichy_montfermeil" type="variable_definition">paris.building.zgp_id==21</variable>
+      <variable use="both" source="expression" name="building.biotech" type="variable_definition">paris.building.zgp_id==22</variable>
+      <variable use="both" source="expression" name="building.confluence" type="variable_definition">paris.building.zgp_id==23</variable>
+      <variable use="both" source="expression" name="building.descates" type="variable_definition">paris.building.zgp_id==24</variable>
+      <variable use="both" source="expression" name="building.la_defense" type="variable_definition">paris.building.zgp_id==25</variable>
+      <variable use="both" source="expression" name="building.le_bourget" type="variable_definition">paris.building.zgp_id==26</variable>
+      <variable use="both" source="expression" name="building.pleyel" type="variable_definition">paris.building.zgp_id==47</variable>
+      <variable use="both" source="expression" name="building.roissy" type="variable_definition">paris.building.zgp_id==48</variable>
+      <variable use="both" source="expression" name="building.saclay" type="variable_definition">paris.building.zgp_id==49</variable>
+      <variable use="both" source="expression" name="building.val_de_france_gonesse" type="variable_definition">paris.building.zgp_id==50</variable>
+      <variable use="both" source="expression" name="building.paris_pole" type="variable_definition">(paris.building.zgp_id&gt;=27)*(paris.building.zgp_id&lt;=46) </variable>
+
       <variable use="both" source="expression" name="building.BNEjobtot" type="variable_definition">paris.building.number_of_non_home_based_jobs</variable>
       <variable use="both" source="expression" name="building.CLEsect11" type="variable_definition">ln_bounded(building.aggregate((job.sector_id==11)))</variable>
       <variable use="both" source="expression" name="building.CLEsect10" type="variable_definition">ln_bounded(building.aggregate((job.sector_id==10)))</variable>
@@ -326,6 +340,38 @@
       <variable use="both" source="expression" name="zgp.zgp_households" type="variable_definition">zgp.aggregate(zone.aggregate(building.number_of_agents(household),function=sum),function=sum)</variable>
       <variable use="both" source="expression" name="zgp.zgp_pop" type="variable_definition">zgp.aggregate(building.aggregate(household.size) , intermediates=[zone])</variable>
       <variable use="both" source="expression" name="zgp.zgp_emp" type="variable_definition">zgp.aggregate(building.aggregate(establishment.employment * (establishment.disappeared == 0)),intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="zgpgroup.priceho" type="variable_definition">zgpgroup.aggregate(building.residential_units *(building.price)*(building.building_type_id == 1), intermediates=[zone, zgp])/zgpgroup.aggregate(building.residential_units * (building.building_type_id == 1), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.pricefo" type="variable_definition">zgpgroup.aggregate(building.residential_units *(building.price)*(building.building_type_id == 2), intermediates=[zone, zgp])/zgpgroup.aggregate(building.residential_units * (building.building_type_id == 2), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.pricehr" type="variable_definition">zgpgroup.aggregate(building.residential_units *(building.price)*(building.building_type_id == 3), intermediates=[zone, zgp])/zgpgroup.aggregate(building.residential_units * (building.building_type_id == 3), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.pricefr" type="variable_definition">zgpgroup.aggregate(building.residential_units *(building.price)*(building.building_type_id == 4), intermediates=[zone, zgp])/zgpgroup.aggregate(building.residential_units * (building.building_type_id == 4), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.pricebu" type="variable_definition">zgpgroup.aggregate(building.non_residential_sqft *(building.price)*(building.building_type_id == 6), intermediates=[zone, zgp])/zgpgroup.aggregate(building.non_residential_sqft * (building.building_type_id == 6), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.units" type="variable_definition">zgpgroup.aggregate(zgp.zgp_units)</variable>
+      <variable use="both" source="expression" name="zgpgroup.households" type="variable_definition">zgpgroup.aggregate(zgp.zgp_households)</variable>
+      <variable use="both" source="expression" name="zgpgroup.pop" type="variable_definition">zgpgroup.aggregate(zgp.zgp_pop)</variable>
+      <variable use="both" source="expression" name="zgpgroup.totemp" type="variable_definition">zgpgroup.aggregate((establishment.employment) * (establishment.disappeared == 0), intermediates=[building,zone,zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.name" type="variable_definition">zgpgroup.zgpgroup_name</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec1" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 1) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec1" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 1) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec2" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 2) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec2" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 2) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec3" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 3) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec3" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 3) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec4" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 4) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec4" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 4) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec5" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 5) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec5" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 5) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec6" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 6) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec6" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 6) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec7" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 7) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec7" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 7) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec8" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 8) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec8" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 8) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec9" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 9) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec9" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 9) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec10" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 10) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec10" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 10) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.stable_sec11" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 11) * establishment.stable), intermediates=[zone, zgp])</variable>
+      <variable use="both" source="expression" name="zgpgroup.movin_sec11" type="variable_definition">zgpgroup.aggregate(building.aggregate(establishment.employment*(establishment.sector_id == 11) * (establishment.disappeared == 0) * (establishment.stable == 0)), intermediates=[zone, zgp])</variable>
       <variable use="both" source="expression" name="zemp.zemp" type="variable_definition">zemp.aggregate(zone.aggregate(building.number_of_agents(job),function=sum),function=sum)</variable>
       <variable use="both" source="expression" name="zone.sector2_employment_lag2" type="variable_definition">paris.zone.sector2_employment_lag2</variable>
       <variable use="both" source="expression" name="zone.Zsector2_employment_lag2" type="variable_definition">paris.zone.sector2_employment_lag2</variable>
@@ -588,7 +634,7 @@
             <argument name="dataset" type="string">establishment</argument>
             <argument name="expression" parser_action="quote_string" type="string">paris.establishment.emp_pred</argument>
             <argument convert_blank_to_none="True" name="outcome_attribute" parser_action="quote_string" type="string">employment</argument>
-            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">(establishment.disappeared == 0)*(establishment.building_id&gt;0)*(paris.establishment.year_lag1 != paris.establishment.year)*(paris.establishment.emp_250_lag1)</argument>
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">(establishment.disappeared == 0)*(establishment.building_id&gt;0)*(paris.establishment.year_lag1 != pari.establishment.year)*(paris.establishment.emp_250_lag1)</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -2610,6 +2656,19 @@
               <variable_spec name="building.CNGtrainSt"/>
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
+	      <!--
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.confluence"/>
+	      -->
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S2" submodel_id="2" type="submodel" inherit_parent_values="False">
@@ -2631,6 +2690,17 @@
               <variable_spec name="building.CNGsubwSP"/>
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S3" submodel_id="3" type="submodel" inherit_parent_values="False">
@@ -2652,6 +2722,17 @@
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
               <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S4" submodel_id="4" type="submodel" inherit_parent_values="False">
@@ -2679,6 +2760,17 @@
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
               <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S5" submodel_id="5" type="submodel" inherit_parent_values="False">
@@ -2697,6 +2789,17 @@
               <variable_spec name="building.CNGsubwSP"/>
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S6" submodel_id="6" type="submodel" inherit_parent_values="False">
@@ -2721,6 +2824,17 @@
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
               <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S7" submodel_id="7" type="submodel" inherit_parent_values="False">
@@ -2745,6 +2859,17 @@
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
               <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S8" submodel_id="8" type="submodel" inherit_parent_values="False">
@@ -2770,6 +2895,17 @@
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
               <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S9" submodel_id="9" type="submodel" inherit_parent_values="False">
@@ -2796,6 +2932,17 @@
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
               <variable_spec name="building.CRItaxPro"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S10" submodel_id="10" type="submodel" inherit_parent_values="False">
@@ -2822,6 +2969,17 @@
               <variable_spec name="building.CNGsubwSP"/>
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="S11" submodel_id="11" type="submodel" inherit_parent_values="False">
@@ -2840,6 +2998,17 @@
               <variable_spec name="building.CNGsubwSP"/>
               <variable_spec name="building.ctdtcd"/>
               <variable_spec name="building.ctdvpd"/>
+              <variable_spec name="building.clichy_montfermeil"/>
+              <variable_spec name="building.biotech"/>
+              <variable_spec name="building.descates"/>
+              <variable_spec name="building.la_defense"/>
+              <variable_spec name="building.le_bourget"/>
+              <variable_spec name="building.pleyel"/>
+              <variable_spec name="building.saclay"/>
+              <variable_spec name="building.val_de_france_gonesse"/>
+              <variable_spec name="building.paris_pole"/>
+              <variable_spec name="building.roissy"/>
+              <variable_spec name="building.confluence"/>
             </variable_list>
           </submodel>
         </specification>
@@ -3517,7 +3686,7 @@
       <model name="establishment_transition_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module>urbansim.models.transition_model</class_module>
+            <class_module>paris.models.transition_model</class_module>
             <class_name>TransitionModel</class_name>
           </import>
           <init type="dictionary">
@@ -3537,6 +3706,7 @@
             <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_employments</argument>
             <argument name="sampling_filter" parser_action="quote_string" type="string">paris.establishment.emp_250</argument>
             <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+            <argument name="reset_to_be_removed" type="string">{'disappeared':1}</argument>
           </run>
         </structure>
       </model>
@@ -4004,6 +4174,13 @@
         <selectable name="establishment_reappearance_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
+    <scenario executable="True" name="paris_zone_calibration" type="scenario">
+      <parent type="scenario_name">paris_zone_baseline</parent>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2000</firstyear>
+        <lastyear type="integer">2006</lastyear>
+      </years_to_run>
+    </scenario>
     <scenario executable="True" name="paris_zone_baseline" type="scenario">
       <parent type="scenario_name">paris_zone</parent>
       <models_to_run config_name="models" type="selectable_list">
@@ -4400,7 +4577,64 @@
           <dataset_name>zgp</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="zgpgroup">
+          <indicators>['totemp', 'pop', 'units', 'households', 'priceho', 'pricefo', 'pricehr', 'pricefr', 'pricebu']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgpgroup</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
       </indicator_batch>
+      <indicator_batch name="zgpgroup">
+        <batch_visualization hidden="Children" type="batch_visualization" name="zgpgroup">
+          <indicators>['totemp']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgpgroup</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="stable1">
+          <indicators>['stable_sec1', 'stable_sec2', 'stable_sec3', 'stable_sec4', 'stable_sec5']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgpgroup</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="stable2">
+          <indicators>['stable_sec6', 'stable_sec7', 'stable_sec8', 'stable_sec9', 'stable_sec10', 'stable_sec11']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgpgroup</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="movin1">
+          <indicators>['movin_sec1', 'movin_sec2', 'movin_sec3', 'movin_sec4', 'movin_sec5']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgpgroup</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="movin2">
+          <indicators>['movin_sec6', 'movin_sec7', 'movin_sec8', 'movin_sec9', 'movin_sec10', 'movin_sec11']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>zgpgroup</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+
       <indicator_batch name="zemp">
         <batch_visualization hidden="Children" type="batch_visualization" name="jobs_compo">
           <indicators>['zemp']</indicators>
