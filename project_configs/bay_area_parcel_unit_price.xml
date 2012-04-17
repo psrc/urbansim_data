@@ -10,7 +10,8 @@
       <variable use="both" source="expression" name="submarket.ln_avg_sale_price" type="variable_definition">ln(safe_array_divide(submarket.aggregate(residential_unit.sale_price,intermediates=[building]),submarket.aggregate(residential_unit.sale_price&gt;0,intermediates=[building])))</variable>
       <variable use="both" source="expression" name="household_x_submarket.hh_cars_x_single_family_detached" type="variable_definition">(household.cars)*(submarket.building_type==1)</variable>
       <variable use="both" source="expression" name="household_x_submarket.young_head_of_hh_x_multifamily" type="variable_definition">(household.age_of_head&lt;35)*(submarket.building_type==3)</variable>
-      <variable use="both" source="expression" name="submarket.san_francisco_submarket" type="variable_definition">submarket.superd&lt;5</variable>
+      <!--<variable use="both" source="expression" name="submarket.san_francisco_submarket" type="variable_definition">submarket.superdistrict_id&lt;5</variable>-->
+      <variable use="both" source="expression" name="submarket.san_francisco_submarket" type="variable_definition">submarket.county_id==38</variable>
       <variable use="both" source="expression" name="submarket.avg_sale_price" type="variable_definition">safe_array_divide(submarket.aggregate(residential_unit.sale_price,intermediates=[building]),submarket.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="submarket.avg_rent" type="variable_definition">safe_array_divide(submarket.aggregate(residential_unit.rent,intermediates=[building]),submarket.aggregate(residential_unit.rent&gt;0,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="submarket.avg_zonal_sale_price" type="variable_definition">submarket.aggregate(building.disaggregate(zone.aggregate(residential_unit.sale_price,intermediates=[building,parcel],function=median),intermediates=[parcel]),function=mean)</variable>
@@ -44,13 +45,16 @@
       <variable use="both" source="primary attribute" name="residential_unit.unit_sqft" type="variable_definition">residential_unit.unit_sqft</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_bedrooms" type="variable_definition">residential_unit.bedrooms</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_sale_price" type="variable_definition">residential_unit.sale_price</variable>
+      <variable use="model variable" source="expression" name="submarket.iv_price_residual" type="variable_definition">bayarea.submarket.price_residual</variable>
+      <variable use="model variable" source="expression" name="submarket.iv_ln_price_residual" type="variable_definition">bayarea.submarket.ln_price_residual</variable>
+      <variable use="model variable" source="expression" name="submarket.iv_ln_rent_residual" type="variable_definition">bayarea.submarket.ln_rent_residual</variable>
     </expression_library>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket']</available_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node']</spatial_datasets>
   </general>
   <model_manager>
@@ -319,8 +323,9 @@
           <submodel name="lowinc_hhs1" submodel_id="1" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
@@ -341,12 +346,14 @@
               <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
               <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs1" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -360,6 +367,7 @@
             <description type="string">highinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -373,6 +381,7 @@
             <description type="string">lowinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -386,6 +395,7 @@
             <description type="string">lowmidinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -398,6 +408,7 @@
             <description type="string">highmidinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -411,6 +422,7 @@
             <description type="string">highinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -423,6 +435,7 @@
             <description type="string">lowinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -437,6 +450,7 @@
             <description type="string">lowmidinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -450,6 +464,7 @@
             <description type="string">highmidinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -464,6 +479,7 @@
             <description type="string">highinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -550,6 +566,7 @@
             <description type="string">lowinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="household_x_submarket.hh_income_x_average_unit_size"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
@@ -562,6 +579,7 @@
             <description type="string">lowmidinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -573,6 +591,7 @@
             <description type="string">highmidinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -583,6 +602,7 @@
             <description type="string">highinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -595,6 +615,7 @@
             <description type="string">lowinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="household_x_submarket.hh_income_x_average_unit_size"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
@@ -606,6 +627,7 @@
             <description type="string">lowmidinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="household_x_submarket.hh_income_x_average_unit_size"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
@@ -619,6 +641,7 @@
             <description type="string">highmidinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="household_x_submarket.hh_income_x_average_unit_size"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
@@ -631,6 +654,7 @@
             <description type="string">highinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -643,6 +667,7 @@
             <description type="string">lowinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -654,6 +679,7 @@
             <description type="string">lowmidinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="household_x_submarket.hh_income_x_average_unit_size"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
@@ -666,6 +692,7 @@
             <description type="string">highmidinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="household_x_submarket.hh_income_x_average_unit_size"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
@@ -679,6 +706,7 @@
             <description type="string">highinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.ln_avg_rent"/>
+              <variable_spec name="submarket.iv_ln_rent_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
               <variable_spec name="submarket.median_stories"/>
@@ -693,9 +721,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable">True</selectable>
-        <selectable name="household" type="selectable">True</selectable>
-        <selectable name="job" type="selectable">False</selectable>
+        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
