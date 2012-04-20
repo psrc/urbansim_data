@@ -39,8 +39,11 @@
       <variable use="both" source="expression" name="residential_unit.in_santa_clara_county" type="variable_definition">residential_unit.disaggregate(parcel.county_id==43,intermediates=[building])</variable>
       <variable use="both" source="expression" name="residential_unit.in_san_francisco" type="variable_definition">residential_unit.disaggregate(parcel.county_id==38,intermediates=[building])</variable>
       <variable use="both" source="expression" name="residential_unit.residential_units_in_building" type="variable_definition">residential_unit.disaggregate(building.residential_units)</variable>
-      <variable use="both" source="expression" name="residential_unit.unit_building_type" type="variable_definition">residential_unit.disaggregate(building.building_type_id)</variable>
+      <variable use="both" source="expression" name="residential_unit.unit_building_type" type="variable_definition">residential_unit.disaggregate(building.building_type_id)</variable> 
+      <!--
       <variable use="both" source="expression" name="residential_unit.residential_building_type" type="variable_definition">1*(residential_unit.disaggregate(building.building_type_id)==1) + 2*(residential_unit.disaggregate(building.building_type_id)==2) + 3*(residential_unit.disaggregate(building.building_type_id)==3) + 4*(residential_unit.disaggregate(building.building_type_id)&gt;3)</variable>
+      -->
+      <variable use="both" source="expression" name="residential_unit.residential_building_type" type="variable_definition">1*(residential_unit.unit_building_type==1) + 2*(residential_unit.unit_building_type==2) + 3*(residential_unit.unit_building_type==3) + 4*(residential_unit.unit_building_type&gt;3)</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_sqft" type="variable_definition">residential_unit.unit_sqft</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_bedrooms" type="variable_definition">residential_unit.bedrooms</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_sale_price" type="variable_definition">residential_unit.sale_price</variable>
