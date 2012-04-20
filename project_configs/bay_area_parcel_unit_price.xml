@@ -10,7 +10,6 @@
       <variable use="both" source="expression" name="submarket.ln_avg_sale_price" type="variable_definition">ln(safe_array_divide(submarket.aggregate(residential_unit.sale_price,intermediates=[building]),submarket.aggregate(residential_unit.sale_price&gt;0,intermediates=[building])))</variable>
       <variable use="both" source="expression" name="household_x_submarket.hh_cars_x_single_family_detached" type="variable_definition">(household.cars)*(submarket.building_type==1)</variable>
       <variable use="both" source="expression" name="household_x_submarket.young_head_of_hh_x_multifamily" type="variable_definition">(household.age_of_head&lt;35)*(submarket.building_type==3)</variable>
-      <!--<variable use="both" source="expression" name="submarket.san_francisco_submarket" type="variable_definition">submarket.superdistrict_id&lt;5</variable>-->
       <variable use="both" source="expression" name="submarket.san_francisco_submarket" type="variable_definition">submarket.county_id==38</variable>
       <variable use="both" source="expression" name="submarket.avg_sale_price" type="variable_definition">safe_array_divide(submarket.aggregate(residential_unit.sale_price,intermediates=[building]),submarket.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="submarket.avg_rent" type="variable_definition">safe_array_divide(submarket.aggregate(residential_unit.rent,intermediates=[building]),submarket.aggregate(residential_unit.rent&gt;0,intermediates=[building]))</variable>
@@ -269,7 +268,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">submarket.tenure_id==1</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.neighborhood_type&lt;6)*(submarket.schooldistrict&lt;99)</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -511,7 +510,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">submarket.tenure_id==2</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.neighborhood_type&lt;6)*(submarket.schooldistrict&lt;99)</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -721,9 +720,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
