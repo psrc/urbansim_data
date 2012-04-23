@@ -207,7 +207,14 @@
         </estimation_config>
         <structure type="dictionary">
           <init type="dictionary">
-            <argument name="estimation_weight_string" parser_action="quote_string" type="string">building.residential_units&gt;0</argument>
+	    <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">0.1</argument>
+	    <argument name="estimation_weight_string" parser_action="quote_string" type="string">numpy.in1d(building.building_type_id, (3,9,5))</argument>
+            <argument name="filter" parser_action="quote_string" type="string">numpy.in1d(building.building_type_id, (3,9,5))</argument>
+	    <!--
+            <argument name="estimation_weight_string" parser_action="quote_string" type="string">numpy.in1d(building.building_type_id, (3,9))</argument>
+	    -->
+            <argument name="availability" parser_action="quote_string" type="string">availability=building.residential_units&gt;0</argument>
+	    <argument name="sampler" convert_blank_to_none="True" parser_action="quote_string" type="string"></argument>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="index_to_unplace" type="string">None</argument>

@@ -160,7 +160,10 @@
             <name name="name" type="string">prepare_for_run</name>
           </prepare_for_run>
           <run type="dictionary">
-            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':5000000}</argument>
+	    <!--
+            <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
+	    -->
             <argument name="agent_set" type="string">job</argument>
             <argument name="specification" type="string">specification</argument>
             <argument name="maximum_runs" type="integer">3</argument>
@@ -383,12 +386,15 @@
           </run>
           <init type="dictionary">
             <argument convert_blank_to_none="True" name="submodel_string" type="string">'household.income_4'</argument>
+	    <!--
             <argument name="capacity_string" parser_action="quote_string" type="string">building.residential_units-building.number_of_agents(household)</argument>
             <argument name="filter" parser_action="quote_string" type="string">building.residential_units&gt;0</argument>
+	    -->
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">building.residential_units</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.005</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string">building.residential_units</argument>
             <argument name="sample_size_locations" type="integer">50</argument>
+	    <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
           </init>
           <prepare_for_estimate type="dictionary">
             <argument name="index_to_unplace" type="string">None</argument>
@@ -801,6 +807,9 @@
   <scenario_manager>
     <scenario copyable="True" executable="True" name="bay_area_baseline" type="scenario">
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="household_relocation_model" type="selectable">True</selectable>
+        <selectable name="household_location_choice_model" type="selectable">True</selectable>
+        <!--
         <selectable name="real_estate_price_model" type="selectable">True</selectable>
         <selectable name="household_transition_model" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
@@ -813,12 +822,13 @@
         <selectable return_value="residential_development_project_location_choice_model" type="selectable" name="residential_development_project_location_choice_model_1">True</selectable>
         <selectable return_value="non_residential_development_project_location_choice_model" type="selectable" name="non_residential_development_project_location_choice_model_1">True</selectable>
         <selectable return_value="add_projects_to_buildings" type="selectable" name="add_projects_to_buildings_1">True</selectable>
+	-->
       </models_to_run>
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2001</firstyear>
-        <lastyear type="integer">2040</lastyear>
+        <lastyear type="integer">2004</lastyear>
       </years_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_zone/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
@@ -1106,7 +1116,7 @@
         <scenario_name type="string">bay_area_baseline</scenario_name>
         <cache_directory type="string">C:\opus\data\bay_area_zone\runs\run_4.urb3_p11b_transt_2011_07_27_16_47</cache_directory>
         <start_year type="integer">2000</start_year>
-        <end_year type="integer">2040</end_year>
+        <end_year type="integer">2004</end_year>
       </run>
       <run hidden="Children" type="source_data" name="urb3_p11b_transit_2011_07_26_16_18" run_id="None">
         <scenario_name type="string">bay_area_baseline</scenario_name>
