@@ -5,6 +5,16 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="residential_unit.transit_within_quarter_mile" type="variable_definition">residential_unit.disaggregate(bayarea.node.transit_within_400_meters)</variable>
+      <variable use="both" source="expression" name="submarket.ln_median_lot_sqft" type="variable_definition">ln_bounded(submarket.aggregate((building.disaggregate(parcel.shape_area)/building.residential_units),function=median))</variable>
+      <variable use="both" source="expression" name="submarket.ln_median_sqft" type="variable_definition">ln_bounded(submarket.aggregate(residential_unit.unit_sqft,intermediates=[building], function=median))</variable>
+      <variable use="both" source="expression" name="submarket.ln_median_income" type="variable_definition">ln_bounded(submarket.aggregate(household.income, function=median))</variable>
+      <variable use="both" source="expression" name="submarket.ln_residential_units" type="variable_definition">ln_bounded(submarket.aggregate(building.residential_units))</variable>
+      <variable use="both" source="expression" name="residential_unit.stories_5" type="variable_definition">residential_unit.disaggregate(building.stories)&gt;4</variable>
+      <variable use="both" source="expression" name="residential_unit.ln_lot_sqft" type="variable_definition">ln_bounded(residential_unit.disaggregate(building.disaggregate(parcel.shape_area)))</variable>
+      <variable use="both" source="expression" name="residential_unit.stories" type="variable_definition">residential_unit.disaggregate(building.stories)</variable>
+      <variable use="both" source="expression" name="residential_unit.ln_average_income_within_500_meters" type="variable_definition">ln_bounded(residential_unit.disaggregate(bayarea.node.average_income_within_500_meters_from_household_dataset,intermediates=[parcel,building]))</variable>
+      <variable use="both" source="expression" name="residential_unit.ln_sum_non_residential_sqft_within_500_meters" type="variable_definition">ln_bounded(residential_unit.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building]))</variable>
       <variable use="both" source="expression" name="household_x_submarket.hh_income_x_average_unit_size" type="variable_definition">household.income*(submarket.aggregate(building.building_sqft - building.non_residential_sqft)*1.0)/submarket.aggregate(building.residential_units)</variable>
       <variable use="both" source="expression" name="submarket.ln_avg_rent" type="variable_definition">ln(safe_array_divide(submarket.aggregate(residential_unit.rent,intermediates=[building]),submarket.aggregate(residential_unit.rent&gt;0,intermediates=[building])))</variable>
       <variable use="both" source="expression" name="submarket.ln_avg_sale_price" type="variable_definition">ln(safe_array_divide(submarket.aggregate(residential_unit.sale_price,intermediates=[building]),submarket.aggregate(residential_unit.sale_price&gt;0,intermediates=[building])))</variable>
@@ -39,10 +49,7 @@
       <variable use="both" source="expression" name="residential_unit.in_santa_clara_county" type="variable_definition">residential_unit.disaggregate(parcel.county_id==43,intermediates=[building])</variable>
       <variable use="both" source="expression" name="residential_unit.in_san_francisco" type="variable_definition">residential_unit.disaggregate(parcel.county_id==38,intermediates=[building])</variable>
       <variable use="both" source="expression" name="residential_unit.residential_units_in_building" type="variable_definition">residential_unit.disaggregate(building.residential_units)</variable>
-      <variable use="both" source="expression" name="residential_unit.unit_building_type" type="variable_definition">residential_unit.disaggregate(building.building_type_id)</variable> 
-      <!--
-      <variable use="both" source="expression" name="residential_unit.residential_building_type" type="variable_definition">1*(residential_unit.disaggregate(building.building_type_id)==1) + 2*(residential_unit.disaggregate(building.building_type_id)==2) + 3*(residential_unit.disaggregate(building.building_type_id)==3) + 4*(residential_unit.disaggregate(building.building_type_id)&gt;3)</variable>
-      -->
+      <variable use="both" source="expression" name="residential_unit.unit_building_type" type="variable_definition">residential_unit.disaggregate(building.building_type_id)</variable>
       <variable use="both" source="expression" name="residential_unit.residential_building_type" type="variable_definition">1*(residential_unit.unit_building_type==1) + 2*(residential_unit.unit_building_type==2) + 3*(residential_unit.unit_building_type==3) + 4*(residential_unit.unit_building_type&gt;3)</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_sqft" type="variable_definition">residential_unit.unit_sqft</variable>
       <variable use="both" source="primary attribute" name="residential_unit.unit_bedrooms" type="variable_definition">residential_unit.bedrooms</variable>
@@ -71,7 +78,7 @@
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit.residential_building_type</argument>
             <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_unit_price=ln(residential_unit.sale_price)</argument>
-            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit.sale_price&gt;0</argument>
+            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">(residential_unit.sale_price&gt;10000)*(residential_unit.sale_price&lt;2000000)</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
           </init>
@@ -114,38 +121,39 @@
           <submodel hidden="Children" name="sf-detached" submodel_id="1" type="submodel">
             <description type="string">sf-detached</description>
             <variable_list type="variable_list">
-              <variable_spec name="residential_unit.average_income_within_500_meters"/>
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
+              <variable_spec name="residential_unit.ln_lot_sqft"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="sf-attached" submodel_id="2" type="submodel">
             <description type="string">sf-attached</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
+              <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="multifamily" submodel_id="3" type="submodel">
             <description type="string">multifamily</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
+              <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
+              <variable_spec name="residential_unit.stories"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="mixed-use" submodel_id="4" type="submodel">
             <description type="string">mixed-use</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
+              <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
+              <variable_spec name="residential_unit.stories"/>
             </variable_list>
           </submodel>
         </specification>
@@ -204,35 +212,34 @@
             <description type="string">sf-detached</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.residential_units_per_acre_in_zone"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
-              <variable_spec name="residential_unit.sum_residential_units_within_250_meters"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="sf-attached" submodel_id="2" type="submodel">
             <description type="string">sf-attached</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
-              <variable_spec name="residential_unit.sum_workers_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="multifamily" submodel_id="3" type="submodel">
             <description type="string">multifamily</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
+              <variable_spec name="residential_unit.stories"/>
+              <variable_spec name="residential_unit.year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="mixed-use" submodel_id="4" type="submodel">
             <description type="string">mixed-use</description>
             <variable_list type="variable_list">
               <variable_spec name="constant"/>
+              <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
-              <variable_spec name="residential_unit.unit_bedrooms"/>
             </variable_list>
           </submodel>
         </specification>
@@ -282,7 +289,7 @@
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string">submarket.residential_units</argument>
             <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation_with_diagnose</argument>
-            <argument name="sample_size_locations" type="integer">50</argument>
+            <argument name="sample_size_locations" type="integer">100</argument>
             <argument name="estimate_config" type="string">Resources({})</argument>
             <name name="name" type="string">HouseholdLocationChoiceModel</name>
           </init>
@@ -328,10 +335,12 @@
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
               <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.number_of_households"/>
               <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
               <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
@@ -340,153 +349,158 @@
           <submodel name="lowmidinc_hhs1" submodel_id="2" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
-              <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
-              <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
               <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
+              <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs1" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs1" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs2" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs2" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs2" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
               <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs2" submodel_id="8" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs3plus" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs3plus" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs3plus" submodel_id="12" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.ln_avg_sale_price"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="household_x_submarket.hh_cars_x_single_family_detached"/>
-              <variable_spec name="submarket.ln_nonresidential_sqft_within_6miles"/>
+              <variable_spec name="submarket.iv_ln_price_residual"/>
+              <variable_spec name="submarket.ln_avg_sale_price"/>
+              <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
+              <variable_spec name="submarket.ln_median_sqft"/>
+              <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.number_of_households"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -723,9 +737,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable">True</selectable>
-        <selectable name="household" type="selectable">True</selectable>
-        <selectable name="job" type="selectable">False</selectable>
+        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
