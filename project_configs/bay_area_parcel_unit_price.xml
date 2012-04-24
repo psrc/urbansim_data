@@ -5,7 +5,18 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable use="both" source="expression" name="residential_unit.transit_within_quarter_mile" type="variable_definition">residential_unit.disaggregate(bayarea.node.transit_within_400_meters)</variable>
+      <variable use="both" source="expression" name="submarket.ratio_submarket_avg_transit_to_auto_peak_total_access" type="variable_definition">submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.transitpeaktotal)),function=mean)/submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)</variable>
+      <variable use="both" source="expression" name="submarket.submarket_avg_nonmotorized_retail_access" type="variable_definition">submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.nonmotorizedretail)),function=mean)</variable>
+      <variable use="both" source="expression" name="submarket.proportion_units_transit_within_two_thirds_mile" type="variable_definition">submarket.aggregate(residential_unit.disaggregate(bayarea.node.transit_within_1072_meters,intermediates=[parcel,building]),intermediates=[building])/submarket.residential_units</variable>
+      <variable use="both" source="expression" name="submarket.proportion_units_transit_within_third_mile" type="variable_definition">submarket.aggregate(residential_unit.disaggregate(bayarea.node.transit_within_536_meters,intermediates=[parcel,building]),intermediates=[building])/submarket.residential_units</variable>
+      <variable use="both" source="expression" name="submarket.submarket_avg_transit_peak_total_access" type="variable_definition">submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.transitpeaktotal)),function=mean)</variable>
+      <variable use="both" source="expression" name="submarket.submarket_avg_auto_peak_total_access" type="variable_definition">submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)</variable>
+      <variable use="both" source="expression" name="submarket.proportion_units_transit_within_quarter_mile" type="variable_definition">submarket.aggregate(residential_unit.disaggregate(bayarea.node.transit_within_400_meters,intermediates=[parcel,building]),intermediates=[building])/submarket.residential_units</variable>
+      <variable use="both" source="expression" name="zone.avg_auto_peak_total_access" type="variable_definition">zone.disaggregate(zone_accessibility.autopeaktotal)</variable>
+      <variable use="both" source="expression" name="submarket.num_transit_within_quarter_mile" type="variable_definition">submarket.aggregate(residential_unit.disaggregate(bayarea.node.transit_within_400_meters,intermediates=[parcel,building]),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="submarket.proportion_single_person_households" type="variable_definition">(safe_array_divide(submarket.aggregate(household.persons==1), submarket.number_of_agents(household)))</variable>
+      <variable use="both" source="expression" name="submarket.proportion_hh_where_workers_exceed_cars" type="variable_definition">(safe_array_divide(submarket.aggregate(household.workers&gt;household.cars), submarket.number_of_agents(household)))</variable>
+      <variable use="both" source="expression" name="residential_unit.transit_within_quarter_mile" type="variable_definition">residential_unit.disaggregate(bayarea.node.transit_within_400_meters,intermediates=[parcel,building])</variable>
       <variable use="both" source="expression" name="submarket.ln_median_lot_sqft" type="variable_definition">ln_bounded(submarket.aggregate((building.disaggregate(parcel.shape_area)/building.residential_units),function=median))</variable>
       <variable use="both" source="expression" name="submarket.ln_median_sqft" type="variable_definition">ln_bounded(submarket.aggregate(residential_unit.unit_sqft,intermediates=[building], function=median))</variable>
       <variable use="both" source="expression" name="submarket.ln_median_income" type="variable_definition">ln_bounded(submarket.aggregate(household.income, function=median))</variable>
@@ -63,7 +74,7 @@
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station']</available_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node']</spatial_datasets>
   </general>
   <model_manager>
@@ -125,6 +136,7 @@
               <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
               <variable_spec name="residential_unit.ln_lot_sqft"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
+              <variable_spec name="residential_unit.transit_within_quarter_mile"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="sf-attached" submodel_id="2" type="submodel">
@@ -134,6 +146,7 @@
               <variable_spec name="residential_unit.ln_average_income_within_500_meters"/>
               <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
+              <variable_spec name="residential_unit.transit_within_quarter_mile"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="multifamily" submodel_id="3" type="submodel">
@@ -144,6 +157,7 @@
               <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.stories"/>
+              <variable_spec name="residential_unit.transit_within_quarter_mile"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="mixed-use" submodel_id="4" type="submodel">
@@ -154,6 +168,7 @@
               <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.stories"/>
+              <variable_spec name="residential_unit.transit_within_quarter_mile"/>
             </variable_list>
           </submodel>
         </specification>
@@ -231,6 +246,7 @@
               <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
               <variable_spec name="residential_unit.stories"/>
+              <variable_spec name="residential_unit.transit_within_quarter_mile"/>
               <variable_spec name="residential_unit.year_built"/>
             </variable_list>
           </submodel>
@@ -240,6 +256,7 @@
               <variable_spec name="constant"/>
               <variable_spec name="residential_unit.ln_sum_non_residential_sqft_within_500_meters"/>
               <variable_spec name="residential_unit.ln_unit_sqft"/>
+              <variable_spec name="residential_unit.transit_within_quarter_mile"/>
             </variable_list>
           </submodel>
         </specification>
@@ -341,8 +358,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -357,6 +373,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -372,6 +389,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -386,6 +404,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -400,6 +419,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -414,6 +434,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -428,7 +449,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.proportion_hh_where_cars_exceed_persons"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -443,6 +464,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -458,6 +480,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -472,6 +495,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -501,6 +525,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -589,6 +614,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -603,6 +630,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -617,6 +646,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs1" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -630,6 +661,8 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs2" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -644,6 +677,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs2" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -658,7 +693,8 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs2" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -672,6 +708,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -687,7 +725,8 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -701,6 +740,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs3plus" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -714,6 +755,8 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs3plus" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -728,6 +771,8 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs3plus" submodel_id="12" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -742,6 +787,8 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.proportion_hh_where_workers_exceed_cars"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
         </specification>
