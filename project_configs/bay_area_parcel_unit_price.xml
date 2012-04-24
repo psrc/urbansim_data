@@ -358,7 +358,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -373,7 +373,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -389,7 +389,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -404,7 +404,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -419,7 +419,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -434,7 +434,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -449,7 +449,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -464,7 +464,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -480,7 +480,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -495,7 +495,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -511,6 +511,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -525,7 +526,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.proportion_units_transit_within_third_mile"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
