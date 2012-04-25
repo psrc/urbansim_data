@@ -208,8 +208,8 @@
         <structure type="dictionary">
           <init type="dictionary">
 	    <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">0.1</argument>
-	    <argument name="estimation_weight_string" parser_action="quote_string" type="string">numpy.in1d(building.building_type_id, (3,9,5))</argument>
-            <argument name="filter" parser_action="quote_string" type="string">numpy.in1d(building.building_type_id, (3,9,5))</argument>
+	    <argument name="estimation_weight_string" parser_action="quote_string" type="string">ismember(building.building_type_id, (3,9,5))</argument>
+            <argument name="filter" parser_action="quote_string" type="string">ismember(building.building_type_id, (3,9,5))</argument>
 	    <!--
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">numpy.in1d(building.building_type_id, (3,9))</argument>
 	    -->
