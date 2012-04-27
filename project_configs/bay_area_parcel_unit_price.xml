@@ -1098,6 +1098,7 @@
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">(sector_id-618312)</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">bayarea.establishment.employment_submarket_id</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">'clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/250)-employment_submarket.aggregate(building.aggregate(establishment.employees)))'</argument>
             <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">'employment_submarket.aggregate(building.non_residential_sqft)'</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">AgentLocationChoiceModel</argument>
