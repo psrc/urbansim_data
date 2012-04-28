@@ -5,6 +5,7 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="submarket.submarket_close_to_transit" type="variable_definition">submarket.within_half_mile_transit==1</variable>
       <variable use="both" source="expression" name="establishment_x_employment_submarket.establishment_size_x_esubmarket_close_to_transit" type="variable_definition">establishment.employees*bayarea.employment_submarket.within_half_mile_transit==1</variable>
       <variable use="both" source="expression" name="employment_submarket.esubmarket_close_to_transit" type="variable_definition">employment_submarket.within_half_mile_transit==1</variable>
       <variable use="both" source="expression" name="employment_submarket.esubmarket_ln_rent" type="variable_definition">employment_submarket.aggregate(building.ln_rent, function=median)</variable>
@@ -451,7 +452,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.neighborhood_type&lt;6)*(submarket.schooldistrict&lt;99)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -709,7 +710,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.neighborhood_type&lt;6)*(submarket.schooldistrict&lt;99)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -772,7 +773,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -788,7 +789,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -804,7 +805,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs1" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -819,7 +820,7 @@
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs2" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -836,6 +837,7 @@
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
               <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs2" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -851,7 +853,7 @@
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs2" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -866,7 +868,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
               <variable_spec name="household_x_submarket.young_head_of_hh_x_multifamily"/>
             </variable_list>
           </submodel>
@@ -883,7 +885,7 @@
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -898,7 +900,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs3plus" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -913,7 +915,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs3plus" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -929,7 +931,7 @@
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs3plus" submodel_id="12" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -945,7 +947,7 @@
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.proportion_units_transit_within_half_mile"/>
+              <variable_spec name="submarket.submarket_close_to_transit"/>
             </variable_list>
           </submodel>
         </specification>
