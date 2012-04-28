@@ -5,6 +5,8 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="establishment_x_employment_submarket.establishment_size_x_esubmarket_close_to_transit" type="variable_definition">establishment.employees*bayarea.employment_submarket.within_half_mile_transit==1</variable>
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_close_to_transit" type="variable_definition">employment_submarket.within_half_mile_transit==1</variable>
       <variable use="both" source="expression" name="employment_submarket.esubmarket_ln_rent" type="variable_definition">employment_submarket.aggregate(building.ln_rent, function=median)</variable>
       <variable use="both" source="expression" name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance" type="variable_definition">ln(employment_submarket.aggregate(building.disaggregate(bayarea.node.sum_residential_units_within_800_meters,intermediates=[parcel]),function=mean))</variable>
       <variable use="both" source="expression" name="employment_submarket.esubmarket_median_stories" type="variable_definition">employment_submarket.aggregate(building.stories, function=median)</variable>
@@ -98,7 +100,7 @@
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar']</available_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node']</spatial_datasets>
   </general>
   <model_manager>
@@ -1321,7 +1323,7 @@
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
-              <variable_spec name="employment_submarket.esubmarket_median_stories"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
@@ -1329,190 +1331,261 @@
           <submodel hidden="Children" name="fire" submodel_id="2" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serv_bus" submodel_id="3" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ag" submodel_id="4" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="natres" submodel_id="5" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="art_rec" submodel_id="6" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="gov" submodel_id="7" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_oth" submodel_id="8" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ret_reg" submodel_id="9" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="eat" submodel_id="10" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="logis" submodel_id="11" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="lease" submodel_id="12" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serve_soc" submodel_id="13" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_hvy" submodel_id="14" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ret_loc" submodel_id="15" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
+              <variable_spec name="employment_submarket.esubmarket_median_stories"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="health" submodel_id="16" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="transp" submodel_id="17" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_high" submodel_id="18" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="util" submodel_id="19" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="constr" submodel_id="20" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_bio" submodel_id="21" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_lgt" submodel_id="22" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="info" submodel_id="23" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="hotel" submodel_id="24" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_tech" submodel_id="25" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serv_pers" submodel_id="26" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="unclass" submodel_id="27" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_k12" submodel_id="28" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
+              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
         </specification>
