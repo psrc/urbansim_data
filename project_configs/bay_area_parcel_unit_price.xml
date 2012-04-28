@@ -5,6 +5,19 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_ln_rent" type="variable_definition">employment_submarket.aggregate(building.ln_rent, function=median)</variable>
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance" type="variable_definition">ln(employment_submarket.aggregate(building.disaggregate(bayarea.node.sum_residential_units_within_800_meters,intermediates=[parcel]),function=mean))</variable>
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_median_stories" type="variable_definition">employment_submarket.aggregate(building.stories, function=median)</variable>
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_avg_transit_peak_total_access" type="variable_definition">employment_submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.transitpeaktotal)),function=mean)</variable>
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_avg_auto_peak_total_access" type="variable_definition">employment_submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)</variable>
+      <variable use="both" source="expression" name="building.bldg_ln_average_income_within_500_meters" type="variable_definition">ln_bounded(building.disaggregate(bayarea.node.average_income_within_500_meters_from_household_dataset,intermediates=[parcel,building]))</variable>
+      <variable use="both" source="expression" name="building.bldg_average_income_within_500_meters" type="variable_definition">building.disaggregate(bayarea.node.average_income_within_500_meters_from_household_dataset,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="building.blldg_ln_sum_non_residential_sqft_within_500_meters" type="variable_definition">ln_bounded(building.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building]))</variable>
+      <variable use="both" source="expression" name="building.bldg_avg_transit_peak_total_access" type="variable_definition">building.disaggregate(zone_accessibility.transitpeaktotal)</variable>
+      <variable use="both" source="expression" name="building.bldg_avg_auto_peak_total_access" type="variable_definition">building.disaggregate(zone_accessibility.autopeaktotal)</variable>
+      <variable use="both" source="expression" name="building.bldg_transit_within_half_mile" type="variable_definition">building.disaggregate(bayarea.node.transit_type_1_within_800_meters,intermediates=[parcel,building])</variable>
+      <variable use="both" source="expression" name="building.bldg_average_stories_within_500_meters" type="variable_definition">building.disaggregate(bayarea.node.average_stories_within_500_meters,intermediates=[parcel,building])</variable>
+      <variable use="both" source="primary attribute" name="building.stories" type="variable_definition">building.stories</variable>
       <variable use="both" source="primary attribute" name="household.ln_hh_income" type="variable_definition">ln_bounded(household.income)</variable>
       <variable use="both" source="expression" name="household.hh_head_age" type="variable_definition">household.age_of_head</variable>
       <variable use="both" source="primary attribute" name="household.hh_cars" type="variable_definition">household.cars</variable>
@@ -85,7 +98,7 @@
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility']</available_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node']</spatial_datasets>
   </general>
   <model_manager>
@@ -237,78 +250,79 @@
           <submodel hidden="Children" name="office" submodel_id="4" type="submodel">
             <description type="string">office</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_average_stories_within_500_meters"/>
+              <variable_spec name="building.bldg_avg_transit_peak_total_access"/>
+              <variable_spec name="building.bldg_ln_average_income_within_500_meters"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="hotel" submodel_id="5" type="submodel">
             <description type="string">hotel</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_average_stories_within_500_meters"/>
+              <variable_spec name="building.bldg_avg_transit_peak_total_access"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
-            </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="school" submodel_id="6" type="submodel">
-            <description type="string">school</description>
-            <variable_list type="variable_list">
-              <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="light-industrial" submodel_id="7" type="submodel">
             <description type="string">light-industrial</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_average_stories_within_500_meters"/>
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="warehouse-industrial" submodel_id="8" type="submodel">
             <description type="string">warehouse-industrial</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="heavy-industrial" submodel_id="9" type="submodel">
             <description type="string">heavy-industrial</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="strip_mall_retail" submodel_id="10" type="submodel">
             <description type="string">strip_mall_retail</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
+              <variable_spec name="building.bldg_ln_average_income_within_500_meters"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="big_box_retail" submodel_id="11" type="submodel">
             <description type="string">big_box_retail</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="residential-focused mix" submodel_id="12" type="submodel">
             <description type="string">residential-focused mix</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
+              <variable_spec name="building.bldg_ln_average_income_within_500_meters"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="retail-focused mix" submodel_id="13" type="submodel">
             <description type="string">retail-focused mix</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_avg_auto_peak_total_access"/>
+              <variable_spec name="building.bldg_ln_average_income_within_500_meters"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="employment-focused mix" submodel_id="14" type="submodel">
             <description type="string">employment-focused mix</description>
             <variable_list type="variable_list">
+              <variable_spec name="building.bldg_ln_average_income_within_500_meters"/>
               <variable_spec name="constant"/>
-              <variable_spec name="building.building_year_built"/>
+              <variable_spec name="building.stories"/>
             </variable_list>
           </submodel>
         </specification>
@@ -1306,8 +1320,10 @@
           <submodel hidden="Children" name="prof" submodel_id="1" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_median_stories"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="fire" submodel_id="2" type="submodel">
