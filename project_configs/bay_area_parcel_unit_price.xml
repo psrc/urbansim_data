@@ -1814,30 +1814,34 @@
     <travel_model_configuration type="dictionary">
       <travel_model_base_directory type="string">/path/to/travel_model/</travel_model_base_directory>
       <urbansim_to_tm_variable_mapping type="dictionary">
-        <variable_list type="variable_list" name="TazData">
-          <variable name="zone.zone_id">TAZ</variable>
-          <variable name="zone.number_of_households">TOTHH</variable>
-          <variable name="zone.household_population">HHPOP</variable>
+        <variable_list type="dictionary" name="TazData">
+          <variable name="zone.zone_id" type="string">TAZ</variable>
+	  <variable name="zone.aggregate(household.building_id&gt;0)" type="string">TOTHH</variable>
+	  <variable name="zone.aggregate(household.persons)" type="string">HHPOP</variable>
         </variable_list>
-        <variable_list type="variable_list" name="PopSynHousehold">
-          <variable name="household.household_id">HHID</variable>
-          <variable name="household.zone_id">TAZ</variable>
-          <variable name="household.serialno">SERIALNO</variable>
-          <variable name="household.household_type">HHT</variable>
-          <variable name="household.income">HINC</variable>
-          <variable name="household.cars">NOC</variable>
+        <variable_list type="dictionary" name="PopSynHousehold">
+          <variable name="household.household_id" type="string">HHID</variable>
+          <variable name="urbansim_parcel.household.zone_id" type="string">TAZ</variable>
+	  <!--
+          <variable name="household.serialno" type="string">SERIALNO</variable>
+          <variable name="household.household_type" type="string">HHT</variable>
+          <variable name="household.cars" type="string">NOC</variable>
+	  -->
+          <variable name="household.income" type="string">HINC</variable>
         </variable_list>
-        <variable_list type="variable_list" name="PopSynPerson">
-          <variable name="person.household_id">HHID</variable>
-          <variable name="person.person_id">PERID</variable>
-          <variable name="person.age">AGE</variable>
-          <variable name="person.relate">RELATE</variable>
+	<!--
+        <variable_list type="dictionary" name="PopSynPerson">
+          <variable name="person.household_id" type="string">HHID</variable>
+          <variable name="person.person_id" type="string">PERID</variable>
+          <variable name="person.age" type="string">AGE</variable>
+          <variable name="person.relate" type="string">RELATE</variable>
         </variable_list>
-        <variable_list type="variable_list" name="WalkAccessBuffers">
-          <variable name="zone.zone_id">TAZ</variable>
-          <variable name="zone.shrt">SHRT</variable>
-          <variable name="zone.long">LONG</variable>
+        <variable_list type="dictionary" name="WalkAccessBuffers">
+          <variable name="zone.zone_id" type="string">TAZ</variable>
+          <variable name="zone.shrt" type="string">SHRT</variable>
+          <variable name="zone.long" type="string">LONG</variable>
         </variable_list>
+	-->
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
       </tm_to_urbansim_variable_mapping>
@@ -1941,22 +1945,22 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">D:\transcad_e5</travel_model_base_directory>
+        <travel_model_base_directory type="string">/tmp/test_bayarea_tm</travel_model_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2000</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2001</data_exchange_dir>
+	    <data_exchange_dir type="string">urbansim/2001</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
-            <year type="integer">2020</year>
+            <year type="integer">2010</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2020</data_exchange_dir>
+	    <data_exchange_dir type="string">urbansim/2010</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim\\2035</data_exchange_dir>
+	    <data_exchange_dir type="string">urbansim/2035</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
