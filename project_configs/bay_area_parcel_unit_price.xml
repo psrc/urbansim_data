@@ -345,9 +345,6 @@
             <argument name="specification" type="string">specification</argument>
             <argument name="maximum_runs" type="integer">3</argument>
             <argument name="agents_filter" type="string" parser_action="quote_string">household.household_id % 10 == 0 </argument>
-	    <!--
-            <argument name="agents_index" type="string">hrm_index</argument>
-	    -->
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="coefficients" type="string">coefficients</argument>
@@ -362,16 +359,10 @@
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
-	    <!--
-            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
-	    -->
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_sale_price</key>
-	      <!--
-              <key name="price_variable_name" type="string">ln_avg_sale_price</key>
-	      -->
             </argument>
             <argument name="location_set" type="string">submarket</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
@@ -409,7 +400,7 @@
             <argument name="agent_set" type="string">household</argument>
             <argument name="index_to_unplace" type="string">None</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument convert_blank_to_none="True" name="filter" type="string">'household.tenure==1'</argument>
+            <argument convert_blank_to_none="True" name="filter" type="string">'household.tenure==2'</argument>
             <argument name="join_datasets" type="boolean">False</argument>
             <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
             <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
@@ -606,9 +597,6 @@
             <argument name="specification" type="string">specification</argument>
             <argument name="maximum_runs" type="integer">3</argument>
             <argument name="agents_filter" type="string" parser_action="quote_string">household.household_id % 10 == 0 </argument>
-	    <!--
-            <argument name="agents_index" type="string">hrm_index</argument>
-	    -->
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="coefficients" type="string">coefficients</argument>
@@ -623,16 +611,10 @@
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
-	    <!--
-            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
-	    -->
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_rent</key>
-	      <!--
-              <key name="price_variable_name" type="string">ln_avg_sale_price</key>
-	      -->
             </argument>
             <argument name="location_set" type="string">submarket</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
@@ -670,7 +652,7 @@
             <argument name="agent_set" type="string">household</argument>
             <argument name="index_to_unplace" type="string">None</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument convert_blank_to_none="True" name="filter" type="string">'household.tenure==2'</argument>
+            <argument convert_blank_to_none="True" name="filter" type="string">'household.tenure==1'</argument>
             <argument name="join_datasets" type="boolean">False</argument>
             <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
             <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
@@ -1793,30 +1775,30 @@
     <travel_model_configuration type="dictionary">
       <travel_model_base_directory type="string">/path/to/travel_model/</travel_model_base_directory>
       <urbansim_to_tm_variable_mapping type="dictionary">
-          <variable_list type="variable_list" name="TazData">
-	    <variable name="zone.zone_id">TAZ</variable>
-	    <variable name="zone.number_of_households">TOTHH</variable>
-	    <variable name="zone.household_population">HHPOP</variable>
-          </variable_list>
-          <variable_list type="variable_list" name="PopSynHousehold">
-            <variable name="household.household_id">HHID</variable>
-	    <variable name="household.zone_id">TAZ</variable>
-	    <variable name="household.serialno">SERIALNO</variable>
-	    <variable name="household.household_type">HHT</variable>
-	    <variable name="household.income">HINC</variable>
-	    <variable name="household.cars">NOC</variable>
-          </variable_list>
-          <variable_list type="variable_list" name="PopSynPerson">
-            <variable name="person.household_id">HHID</variable>
-	    <variable name="person.person_id">PERID</variable>
-	    <variable name="person.age">AGE</variable>
-	    <variable name="person.relate">RELATE</variable>
-          </variable_list>
-          <variable_list type="variable_list" name="WalkAccessBuffers">
-	    <variable name="zone.zone_id">TAZ</variable>
-	    <variable name="zone.shrt">SHRT</variable>
-	    <variable name="zone.long">LONG</variable>
-          </variable_list>
+        <variable_list type="variable_list" name="TazData">
+          <variable name="zone.zone_id">TAZ</variable>
+          <variable name="zone.number_of_households">TOTHH</variable>
+          <variable name="zone.household_population">HHPOP</variable>
+        </variable_list>
+        <variable_list type="variable_list" name="PopSynHousehold">
+          <variable name="household.household_id">HHID</variable>
+          <variable name="household.zone_id">TAZ</variable>
+          <variable name="household.serialno">SERIALNO</variable>
+          <variable name="household.household_type">HHT</variable>
+          <variable name="household.income">HINC</variable>
+          <variable name="household.cars">NOC</variable>
+        </variable_list>
+        <variable_list type="variable_list" name="PopSynPerson">
+          <variable name="person.household_id">HHID</variable>
+          <variable name="person.person_id">PERID</variable>
+          <variable name="person.age">AGE</variable>
+          <variable name="person.relate">RELATE</variable>
+        </variable_list>
+        <variable_list type="variable_list" name="WalkAccessBuffers">
+          <variable name="zone.zone_id">TAZ</variable>
+          <variable name="zone.shrt">SHRT</variable>
+          <variable name="zone.long">LONG</variable>
+        </variable_list>
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
       </tm_to_urbansim_variable_mapping>
@@ -1826,7 +1808,6 @@
         <selectable name="washtenaw.transcad.get_transcad_data_into_cache" type="selectable">True</selectable>
       </models>
     </travel_model_configuration>
- 
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="Baseline" type="scenario">
