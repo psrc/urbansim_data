@@ -344,7 +344,10 @@
             <argument name="agent_set" type="string">household</argument>
             <argument name="specification" type="string">specification</argument>
             <argument name="maximum_runs" type="integer">3</argument>
+            <argument name="agents_filter" type="string" parser_action="quote_string">household.household_id % 10 == 0 </argument>
+	    <!--
             <argument name="agents_index" type="string">hrm_index</argument>
+	    -->
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="coefficients" type="string">coefficients</argument>
@@ -358,16 +361,17 @@
             <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
 	    <!--
-            <argument name="choices" parser_action="quote_string" type="string">urbansim.upc.equilibration_choices</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
 	    -->
-            <argument name="choices" parser_action="quote_string" type="string">urbansim.upc.lottery_choices</argument>
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
-            <argument name="run_config" type="string">Resources({'lottery_max_iterations': 3, })</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
-              <key name="price_coef_name" type="string">price</key>
-              <key name="price_variable_name" type="string">price</key>
+              <key name="price_coef_name" type="string">ln_avg_sale_price</key>
+	      <!--
+              <key name="price_variable_name" type="string">ln_avg_sale_price</key>
+	      -->
             </argument>
             <argument name="location_set" type="string">submarket</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
@@ -394,14 +398,14 @@
             <output name="output" type="string">(specification, coefficients)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string">household_location_choice_model_coefficients</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">submarket_household_location_choice_model_owner_coefficients</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">submarket_household_location_choice_model_owner_specification</argument>
             <name name="name" type="string">prepare_for_run</name>
           </prepare_for_run>
           <prepare_for_estimate type="dictionary">
             <output name="output" type="string">(specification, index)</output>
             <argument name="portion_to_unplace" type="float">0.333333333333</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">submarket_household_location_choice_model_owner_specification</argument>
             <argument name="agent_set" type="string">household</argument>
             <argument name="index_to_unplace" type="string">None</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
@@ -601,7 +605,10 @@
             <argument name="agent_set" type="string">household</argument>
             <argument name="specification" type="string">specification</argument>
             <argument name="maximum_runs" type="integer">3</argument>
+            <argument name="agents_filter" type="string" parser_action="quote_string">household.household_id % 10 == 0 </argument>
+	    <!--
             <argument name="agents_index" type="string">hrm_index</argument>
+	    -->
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="coefficients" type="string">coefficients</argument>
@@ -615,9 +622,18 @@
             <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)*submarket.avg_rent&gt;0</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
-            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
+	    <!--
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
+	    -->
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
-            <argument name="run_config" type="string">Resources({'lottery_max_iterations': 3, })</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="lottery_max_iterations" type="integer">3</key>
+              <key name="price_coef_name" type="string">ln_avg_rent</key>
+	      <!--
+              <key name="price_variable_name" type="string">ln_avg_sale_price</key>
+	      -->
+            </argument>
             <argument name="location_set" type="string">submarket</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
@@ -643,14 +659,14 @@
             <output name="output" type="string">(specification, coefficients)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string">household_location_choice_model_coefficients</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">submarket_household_location_choice_model_renter_coefficients</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">submarket_household_location_choice_model_renter_specification</argument>
             <name name="name" type="string">prepare_for_run</name>
           </prepare_for_run>
           <prepare_for_estimate type="dictionary">
             <output name="output" type="string">(specification, index)</output>
             <argument name="portion_to_unplace" type="float">0.333333333333</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string">household_location_choice_model_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">submarket_household_location_choice_model_renter_specification</argument>
             <argument name="agent_set" type="string">household</argument>
             <argument name="index_to_unplace" type="string">None</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
@@ -1833,10 +1849,9 @@
         <selectable name="employment_location_choice_model" type="model_choice">False<group_members type="string">non_home_based</group_members>
         </selectable>
         <selectable name="distribute_unplaced_jobs_model" type="model_choice">False</selectable>
-        <selectable return_value="submarket_household_location_choice_model" type="selectable" name="submarket_household_location_choice_model_1">False</selectable>
-        <selectable return_value="submarket_household_location_choice_model_no_submodel" type="selectable" name="submarket_household_location_choice_model_no_submodel_1">False</selectable>
-        <selectable name="submarket_household_location_choice_model_no_submodel" type="model_choice">False</selectable>
-        <selectable return_value="developer_model" type="selectable" name="developer_model_1">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable return_value="developer_model" type="selectable" name="developer_model_1">False</selectable>
       </models_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
@@ -1938,7 +1953,7 @@
         <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
           <selectable name="zone" type="selectable">False</selectable>
-          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="household" type="selectable">True</selectable>
           <selectable name="building" type="selectable">True</selectable>
           <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
@@ -1951,7 +1966,7 @@
           <selectable name="job" type="selectable">False</selectable>
           <selectable name="building_type" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
-          <selectable name="submarket" type="selectable">False</selectable>
+          <selectable name="submarket" type="selectable">True</selectable>
           <selectable name="node" type="selectable">False</selectable>
           <selectable name="residential_unit" type="selectable">False</selectable>
         </datasets_to_preload>
