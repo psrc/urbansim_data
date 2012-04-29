@@ -128,7 +128,7 @@
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket']</available_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket','establishment']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node']</spatial_datasets>
   </general>
   <model_manager>
@@ -142,8 +142,8 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_unit_price=ln(residential_unit.sale_price)</argument>
-            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">(residential_unit.sale_price&gt;10000)*(residential_unit.sale_price&lt;2000000)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_sale_price=ln(residential_unit.sale_price)</argument>
+            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit_id&gt;0</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
           </init>
@@ -166,14 +166,14 @@
             <name hidden="True" name="name" type="string">prepare_for_estimate</name>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">residential_unit_sale_price_model_specification</argument>
-            <argument name="filter_variable" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit.sale_price&gt;0</argument>
+            <argument name="filter_variable" parser_action="quote_string" type="string" model_dependency_type="variable">(residential_unit.sale_price&gt;10000)*(residential_unit.sale_price&lt;2000000)</argument>
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
             <argument name="threshold" type="integer">0</argument>
             <output hidden="True" name="output" type="string">(specification, index)</output>
           </prepare_for_estimate>
           <estimate type="dictionary">
             <argument hidden="True" name="specification" type="string">specification</argument>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_unit_price=ln(residential_unit.sale_price)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_sale_price=ln(residential_unit.sale_price)</argument>
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
             <argument hidden="True" name="index" type="string">index</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
@@ -208,7 +208,7 @@
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(building.disaggregate(parcel.aggregate(costar.averageweightedrent,function=mean)))</argument>
-            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">building.disaggregate(parcel.aggregate(costar.averageweightedrent,function=mean))&gt;0</argument>
+            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">building.building_type_id&gt;3</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
           </init>
@@ -273,8 +273,8 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_unit_price=ln(residential_unit.rent)</argument>
-            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit.rent&gt;0</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(residential_unit.rent)</argument>
+            <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit_id&gt;0</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
           </init>
@@ -304,7 +304,7 @@
           </prepare_for_estimate>
           <estimate type="dictionary">
             <argument hidden="True" name="specification" type="string">specification</argument>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_unit_price=ln(residential_unit.rent)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(residential_unit.rent)</argument>
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
             <argument hidden="True" name="index" type="string">index</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
@@ -342,7 +342,7 @@
       </model>
       <model name="submarket_household_location_choice_model_owner" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+          <config_override config_name="models" name="Models to run before estimation" type="list">['residential_unit_sale_price_model']</config_override>
         </estimation_config>
         <structure type="dictionary">
           <run type="dictionary">
@@ -594,7 +594,7 @@
       </model>
       <model name="submarket_household_location_choice_model_renter" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+          <config_override config_name="models" name="Models to run before estimation" type="list">['residential_unit_rent_model']</config_override>
         </estimation_config>
         <structure type="dictionary">
           <run type="dictionary">
@@ -1728,6 +1728,57 @@
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
       </model>
+      <model name="business_transition_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">establishment</argument>
+            <argument name="dataset_accounting_attribute" parser_action="quote_string" type="string">employees</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Business Transition Model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">BTM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_business_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_jobs</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="business_relocation_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_relocation_model</class_module>
+            <class_name>AgentRelocationModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">AgentRelocationModel</name>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Business Relocation Model</argument>
+            <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">bayarea.datasets.business_relocation_probabilities</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">brm_resources</output>
+            <argument name="rate_storage" type="string">base_cache_storage</argument>
+            <argument name="rate_table" parser_action="quote_string" type="string">annual_relocation_rates_for_businesses</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <output hidden="True" name="output" type="string">brm_index</output>
+            <argument name="agent_set" type="string">establishment</argument>
+            <argument name="resources" type="string">brm_resources</argument>
+          </run>
+        </structure>
+      </model>
     </models>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
@@ -1938,6 +1989,7 @@
           <selectable name="submarket" type="selectable">True</selectable>
           <selectable name="node" type="selectable">False</selectable>
           <selectable name="residential_unit" type="selectable">False</selectable>
+          <selectable name="establishment" type="selectable">True</selectable>
         </datasets_to_preload>
       </advanced>
     </scenario>
