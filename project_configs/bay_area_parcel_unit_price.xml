@@ -5,6 +5,12 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="submarket.submarket_median_sum_residential_units_within_500_meters" type="variable_definition">submarket.aggregate(building.disaggregate(bayarea.node.sum_residential_units_within_500_meters,intermediates=[parcel,building]), function=median)</variable>
+      <variable use="both" source="expression" name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters" type="variable_definition">submarket.aggregate(building.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building]), function=median)</variable>
+      <variable use="both" source="expression" name="submarket.num_transit_within_one_mile" type="variable_definition">submarket.aggregate(residential_unit.disaggregate(bayarea.node.transit_within_1500_meters,intermediates=[parcel,building]),intermediates=[building])</variable>
+      <variable use="both" source="expression" name="submarket.submarket_avg_auto_peak_total_access_up_to_5" type="variable_definition">submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)*(submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)&lt;5)</variable>
+      <variable use="both" source="expression" name="submarket.submarket_avg_auto_peak_total_access_gt_5" type="variable_definition">(submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean))*(submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)&gt;5)</variable>
+      <variable use="both" source="expression" name="submarket.submarket_avg_auto_peak_total_access_between_1_and_5" type="variable_definition">submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)*(submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)&lt;5)*(submarket.aggregate(building.disaggregate(zone.disaggregate(zone_accessibility.autopeaktotal)),function=mean)&gt;1)</variable>
       <variable use="both" source="expression" name="building.bdlg_in_san_francisco" type="variable_definition">building.disaggregate(parcel.county_id==38)</variable>
       <variable use="both" source="expression" name="building.bldg_transit_within_quarter_mile" type="variable_definition">numpy.logical_or(building.disaggregate(bayarea.node.transit_type_0_within_400_meters,intermediates=[parcel,building]),building.disaggregate(bayarea.node.transit_type_1_within_400_meters,intermediates=[parcel,building]))</variable>
       <variable use="both" source="expression" name="building.bldg_bart_within_half_mile" type="variable_definition">building.disaggregate(bayarea.node.transit_type_1_within_800_meters,intermediates=[parcel,building])</variable>
@@ -365,11 +371,11 @@
               <key name="price_coef_name" type="string">ln_avg_sale_price</key>
             </argument>
             <argument name="location_set" type="string">submarket</argument>
-            <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.03</argument>
+            <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string">submarket.residential_units</argument>
             <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation_with_diagnose</argument>
-            <argument name="sample_size_locations" type="integer">100</argument>
+            <argument name="sample_size_locations" type="integer">50</argument>
             <argument name="estimate_config" type="string">Resources({})</argument>
             <name name="name" type="string">HouseholdLocationChoiceModel</name>
           </init>
@@ -418,9 +424,10 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs1" submodel_id="2" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -432,152 +439,155 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs1" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs1" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs2" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs2" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs2" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs2" submodel_id="8" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs2</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs3plus" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs3plus" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs3plus" submodel_id="12" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs3plus</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.median_age_of_head"/>
+              <variable_spec name="submarket.median_household_size"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
         </specification>
@@ -660,200 +670,182 @@
           <submodel name="lowinc_hhs1" submodel_id="1" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_transit_peak_total_access"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
+              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs1" submodel_id="2" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_transit_peak_total_access"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
+              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs1" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.submarket_avg_transit_peak_total_access"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
+              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs1" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs1</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_transit_peak_total_access"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
+              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs2" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_avg_transit_peak_total_access"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs2" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs2" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs2" submodel_id="8" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs2</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs3plus" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">lowmidinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs3plus" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highmidinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs3plus" submodel_id="12" type="submodel" hidden="Children" inherit_parent_values="False">
             <description type="string">highinc_hhs3plus</description>
             <variable_list type="variable_list">
-              <variable_spec name="submarket.is_not_single_family_submarket"/>
+              <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_age_of_head"/>
-              <variable_spec name="submarket.median_household_size"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.submarket_close_to_transit"/>
-              <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
+              <variable_spec name="submarket.num_transit_within_one_mile"/>
             </variable_list>
           </submodel>
         </specification>
