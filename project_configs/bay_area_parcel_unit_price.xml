@@ -355,7 +355,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)*submarket.avg_sale_price&gt;0</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
@@ -365,11 +365,11 @@
               <key name="price_coef_name" type="string">ln_avg_sale_price</key>
             </argument>
             <argument name="location_set" type="string">submarket</argument>
-            <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
+            <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.03</argument>
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="simulation_weight_string" type="string">submarket.residential_units</argument>
             <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation_with_diagnose</argument>
-            <argument name="sample_size_locations" type="integer">50</argument>
+            <argument name="sample_size_locations" type="integer">100</argument>
             <argument name="estimate_config" type="string">Resources({})</argument>
             <name name="name" type="string">HouseholdLocationChoiceModel</name>
           </init>
@@ -413,15 +413,12 @@
             <description type="string">lowinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.san_francisco_submarket"/>
-              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
               <variable_spec name="submarket.submarket_close_to_transit"/>
               <variable_spec name="submarket.submarket_low_avg_transit_peak_total_access"/>
             </variable_list>
@@ -430,7 +427,6 @@
             <description type="string">lowmidinc_hhs1</description>
             <variable_list type="variable_list">
               <variable_spec name="submarket.is_single_family_submarket"/>
-              <variable_spec name="submarket.iv_ln_price_residual"/>
               <variable_spec name="submarket.ln_avg_sale_price"/>
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_lot_sqft"/>
