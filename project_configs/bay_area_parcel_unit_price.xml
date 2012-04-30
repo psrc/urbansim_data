@@ -678,9 +678,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
-              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs1" submodel_id="2" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -694,10 +692,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
-              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs1" submodel_id="3" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -710,11 +705,7 @@
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
-              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
-              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs1" submodel_id="4" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -726,10 +717,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
-              <variable_spec name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters"/>
-              <variable_spec name="submarket.submarket_median_sum_residential_units_within_500_meters"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs2" submodel_id="5" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -743,8 +731,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs2" submodel_id="6" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -757,8 +744,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs2" submodel_id="7" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -772,8 +758,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs2" submodel_id="8" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -787,8 +772,6 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.proportion_single_person_households"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -802,8 +785,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
-              <variable_spec name="submarket.submarket_avg_nonmotorized_retail_access"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowmidinc_hhs3plus" submodel_id="10" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -817,7 +799,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highmidinc_hhs3plus" submodel_id="11" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -831,7 +813,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="highinc_hhs3plus" submodel_id="12" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -845,7 +827,7 @@
               <variable_spec name="submarket.ln_residential_units"/>
               <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
-              <variable_spec name="submarket.num_transit_within_one_mile"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
         </specification>
@@ -1764,7 +1746,6 @@
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
             <argument name="model_name" parser_action="quote_string" type="string">Business Relocation Model</argument>
             <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
-            <argument name="probabilities" parser_action="quote_string" type="string">bayarea.datasets.business_relocation_probabilities</argument>
           </init>
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
@@ -1816,32 +1797,14 @@
       <urbansim_to_tm_variable_mapping type="dictionary">
         <variable_list type="dictionary" name="TazData">
           <variable name="zone.zone_id" type="string">TAZ</variable>
-	  <variable name="zone.aggregate(household.building_id&gt;0)" type="string">TOTHH</variable>
-	  <variable name="zone.aggregate(household.persons)" type="string">HHPOP</variable>
+          <variable name="zone.aggregate(household.building_id&gt;0)" type="string">TOTHH</variable>
+          <variable name="zone.aggregate(household.persons)" type="string">HHPOP</variable>
         </variable_list>
         <variable_list type="dictionary" name="PopSynHousehold">
           <variable name="household.household_id" type="string">HHID</variable>
           <variable name="urbansim_parcel.household.zone_id" type="string">TAZ</variable>
-	  <!--
-          <variable name="household.serialno" type="string">SERIALNO</variable>
-          <variable name="household.household_type" type="string">HHT</variable>
-          <variable name="household.cars" type="string">NOC</variable>
-	  -->
           <variable name="household.income" type="string">HINC</variable>
         </variable_list>
-	<!--
-        <variable_list type="dictionary" name="PopSynPerson">
-          <variable name="person.household_id" type="string">HHID</variable>
-          <variable name="person.person_id" type="string">PERID</variable>
-          <variable name="person.age" type="string">AGE</variable>
-          <variable name="person.relate" type="string">RELATE</variable>
-        </variable_list>
-        <variable_list type="dictionary" name="WalkAccessBuffers">
-          <variable name="zone.zone_id" type="string">TAZ</variable>
-          <variable name="zone.shrt" type="string">SHRT</variable>
-          <variable name="zone.long" type="string">LONG</variable>
-        </variable_list>
-	-->
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
       </tm_to_urbansim_variable_mapping>
@@ -1951,17 +1914,17 @@
           <run_description type="dictionary">
             <year type="integer">2000</year>
             <data_dir type="string"/>
-	    <data_exchange_dir type="string">urbansim/2001</data_exchange_dir>
+            <data_exchange_dir type="string">urbansim/2001</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2010</year>
             <data_dir type="string"/>
-	    <data_exchange_dir type="string">urbansim/2010</data_exchange_dir>
+            <data_exchange_dir type="string">urbansim/2010</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string"/>
-	    <data_exchange_dir type="string">urbansim/2035</data_exchange_dir>
+            <data_exchange_dir type="string">urbansim/2035</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
