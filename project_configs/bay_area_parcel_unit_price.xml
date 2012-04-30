@@ -5,6 +5,16 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="employment_submarket.san_francisco_esubmarket" type="variable_definition">employment_submarket.county_id==38</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_avg_nonres_rent" type="variable_definition">ln_bounded(safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0)))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_7" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==7),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_6" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==6),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_5" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==5),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_4" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==4),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_3" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==3),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_2" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==2),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_1" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==1),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.avg_nonres_rent" type="variable_definition">safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0))</variable>
       <variable use="both" source="expression" name="submarket.submarket_median_sum_residential_units_within_500_meters" type="variable_definition">submarket.aggregate(building.disaggregate(bayarea.node.sum_residential_units_within_500_meters,intermediates=[parcel,building]), function=median)</variable>
       <variable use="both" source="expression" name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters" type="variable_definition">submarket.aggregate(building.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building]), function=median)</variable>
       <variable use="both" source="expression" name="submarket.num_transit_within_one_mile" type="variable_definition">submarket.aggregate(residential_unit.disaggregate(bayarea.node.transit_within_1500_meters,intermediates=[parcel,building]),intermediates=[building])</variable>
@@ -44,7 +54,7 @@
       <variable use="both" source="expression" name="building.bldg_average_income_within_500_meters" type="variable_definition">building.disaggregate(bayarea.node.average_income_within_500_meters_from_household_dataset,intermediates=[parcel,building])</variable>
       <variable use="both" source="expression" name="building.bldg_ln_sum_non_residential_sqft_within_500_meters" type="variable_definition">ln_bounded(building.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building]))</variable>
       <variable use="both" source="expression" name="building.bldg_avg_transit_peak_total_access" type="variable_definition">building.disaggregate(zone_accessibility.transitpeaktotal)</variable>
-      <variable use="both" source="expression" name="building.bldg_avg_auto_peak_total_access" type="variable_definition">building.disaggregate(zone_accessibility.autopeaktotal)</variable>
+      <variable use="both" source="expression" name="building.bldg_avg_auto_peak_total_access" type="variable_definition">building.disaggregate(zone_accessibility.autopeaktotal,intermediates=[zone])</variable>
       <variable use="both" source="expression" name="building.bldg_transit_within_half_mile" type="variable_definition">numpy.logical_or(building.disaggregate(bayarea.node.transit_type_0_within_800_meters,intermediates=[parcel,building]),building.disaggregate(bayarea.node.transit_type_1_within_800_meters,intermediates=[parcel,building]))</variable>
       <variable use="both" source="expression" name="building.bldg_average_stories_within_500_meters" type="variable_definition">building.disaggregate(bayarea.node.average_stories_within_500_meters,intermediates=[parcel,building])</variable>
       <variable use="both" source="primary attribute" name="building.stories" type="variable_definition">building.stories</variable>
@@ -207,7 +217,7 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(building.disaggregate(parcel.aggregate(costar.averageweightedrent,function=mean)))</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(building.non_residential_rent)</argument>
             <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">building.building_type_id&gt;3</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
@@ -1198,7 +1208,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_1"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="fire" submodel_id="2" type="submodel">
@@ -1207,7 +1220,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_2"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serv_bus" submodel_id="3" type="submodel">
@@ -1216,7 +1232,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_3"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ag" submodel_id="4" type="submodel">
@@ -1225,7 +1244,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_4"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="natres" submodel_id="5" type="submodel">
@@ -1234,7 +1256,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_5"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="art_rec" submodel_id="6" type="submodel">
@@ -1243,7 +1268,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_6"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="gov" submodel_id="7" type="submodel">
@@ -1252,7 +1280,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_sector_7"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_oth" submodel_id="8" type="submodel">
@@ -1798,14 +1829,11 @@
         </variable_list>
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
-	<variable_list type="string" name="zone_accessibility">skims/accessibility.csv</variable_list>
+        <variable_list type="string" name="zone_accessibility">skims/accessibility.csv</variable_list>
       </tm_to_urbansim_variable_mapping>
       <models type="selectable_list">
         <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
         <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
-	<!--
-        <selectable name="bayarea.travel.run_travel_model" type="selectable">True</selectable>
-	-->
         <selectable name="bayarea.travel.import_travel_model_data" type="selectable">True</selectable>
       </models>
     </travel_model_configuration>
@@ -1903,10 +1931,7 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
-	<!--
-        <travel_model_base_directory type="string">/mnt/2010_studio_run</travel_model_base_directory>
-	-->
-	<travel_model_base_directory type="string">/tmp/test_bayarea_tm</travel_model_base_directory>
+        <travel_model_base_directory type="string">/tmp/test_bayarea_tm</travel_model_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2000</year>
