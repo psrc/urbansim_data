@@ -1181,6 +1181,7 @@
               <key convert_blank_to_none="True" name="number_of_units_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.non_residential_sqft)/250</key>
               <key convert_blank_to_none="True" name="number_of_agents_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.aggregate(establishment.employees))</key>
               <key name="lottery_max_iterations" type="integer">3</key>
+              <key name="price_coef_name" type="string">ln_avg_nonres_rent</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string" model_dependency_type="variable"/>
