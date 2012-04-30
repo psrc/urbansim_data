@@ -342,7 +342,7 @@
       </model>
       <model name="submarket_household_location_choice_model_owner" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">['residential_unit_sale_price_model']</config_override>
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
         <structure type="dictionary">
           <run type="dictionary">
@@ -594,7 +594,7 @@
       </model>
       <model name="submarket_household_location_choice_model_renter" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">['residential_unit_rent_model']</config_override>
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
         <structure type="dictionary">
           <run type="dictionary">
@@ -676,7 +676,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -690,7 +689,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -704,7 +702,7 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
+              <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
@@ -714,8 +712,8 @@
               <variable_spec name="submarket.is_single_family_submarket"/>
               <variable_spec name="submarket.ln_avg_rent"/>
               <variable_spec name="submarket.ln_median_income"/>
+              <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -729,7 +727,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -742,7 +739,6 @@
               <variable_spec name="submarket.ln_median_income"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -756,7 +752,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -770,8 +765,8 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
+              <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
           </submodel>
           <submodel name="lowinc_hhs3plus" submodel_id="9" type="submodel" hidden="Children" inherit_parent_values="False">
@@ -783,7 +778,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -797,7 +791,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -811,7 +804,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
@@ -825,7 +817,6 @@
               <variable_spec name="submarket.ln_median_lot_sqft"/>
               <variable_spec name="submarket.ln_median_sqft"/>
               <variable_spec name="submarket.ln_residential_units"/>
-              <variable_spec name="submarket.median_stories"/>
               <variable_spec name="submarket.median_year_built"/>
               <variable_spec name="submarket.submarket_avg_auto_peak_total_access"/>
             </variable_list>
