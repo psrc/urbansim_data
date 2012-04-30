@@ -886,7 +886,7 @@
             <argument convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">'employment_submarket.aggregate(building.aggregate(establishment.employees))'</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">(establishment.sector_id-618312)</argument>
             <argument name="dataset_pool" type="string" hidden="True">dataset_pool</argument>
-            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="filter" type="string" model_dependency_type="variable"/>
             <argument name="variable_package" parser_action="quote_string" type="string">bayarea</argument>
             <argument name="run_config" type="dictionary">
