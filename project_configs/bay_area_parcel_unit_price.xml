@@ -1224,7 +1224,7 @@
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
             <argument convert_blank_to_none="True" name="agents_index" type="string"/>
-            <argument name="chunk_specification" type="string">{'records_per_chunk':100000}</argument>
+            <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
             <argument name="coefficients" type="string">alcm_coefficients</argument>
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
