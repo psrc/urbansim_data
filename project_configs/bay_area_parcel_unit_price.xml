@@ -5,16 +5,46 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_28" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==28),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_27" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==27),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_26" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==26),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_25" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==25),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_24" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==24),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_23" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==23),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_22" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==22),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_21" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==21),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_20" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==20),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_19" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==19),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_18" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==18),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_17" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==17),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_16" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==16),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_15" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==15),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_14" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==14),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_13" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==13),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_12" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==12),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_11" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==11),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_10" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==10),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_9" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==9),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_8" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==8),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_7" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==7),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_6" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==6),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_5" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==5),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_4" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==4),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_3" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==3),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_2" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==2),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_1" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==1),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_7" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==7),intermediates=[building,parcel])))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_6" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==6),intermediates=[building,parcel])))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_5" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==5),intermediates=[building,parcel])))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_4" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==4),intermediates=[building,parcel])))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_3" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==3),intermediates=[building,parcel])))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_2" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==2),intermediates=[building,parcel])))</variable>
+      <variable use="both" source="expression" name="employment_submarket.esubmarket_ln_median_income" type="variable_definition">ln_bounded(employment_submarket.aggregate(household.income,intermediates=[building],function=median))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_in_jurisdiction" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel])))</variable>
       <variable use="both" source="expression" name="employment_submarket.jobs_in_jurisdiction" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
       <variable use="both" source="expression" name="employment_submarket.san_francisco_esubmarket" type="variable_definition">employment_submarket.county_id==38</variable>
       <variable use="both" source="expression" name="employment_submarket.ln_avg_nonres_rent" type="variable_definition">ln_bounded(safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0)))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_7" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==7),intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_6" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==6),intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_5" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==5),intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_4" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==4),intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_3" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==3),intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_2" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==2),intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_1" type="variable_definition">ln_bounded(employment_submarket.aggregate(establishment.employees*((establishment.sector_id-618312)==1),intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="employment_submarket.ln_jobs_sector_1" type="variable_definition">ln_bounded(employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==1),intermediates=[building,parcel])))</variable>
       <variable use="both" source="expression" name="employment_submarket.avg_nonres_rent" type="variable_definition">safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0))</variable>
       <variable use="both" source="expression" name="submarket.submarket_median_sum_residential_units_within_500_meters" type="variable_definition">submarket.aggregate(building.disaggregate(bayarea.node.sum_residential_units_within_500_meters,intermediates=[parcel,building]), function=median)</variable>
       <variable use="both" source="expression" name="submarket.submarket_median_sum_non_residential_sqft_within_500_meters" type="variable_definition">submarket.aggregate(building.disaggregate(bayarea.node.sum_non_residential_sqft_within_500_meters,intermediates=[parcel,building]), function=median)</variable>
@@ -1133,7 +1163,7 @@
             <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
             <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
-            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0))&gt;0</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">(sector_id-618312)</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">bayarea.establishment.employment_submarket_id</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">'clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/250)-employment_submarket.aggregate(building.aggregate(establishment.employees)))'</argument>
@@ -1210,9 +1240,9 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_1"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_1"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="fire" submodel_id="2" type="submodel">
@@ -1222,9 +1252,9 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_2"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_2"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serv_bus" submodel_id="3" type="submodel">
@@ -1234,21 +1264,21 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_3"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_3"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ag" submodel_id="4" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_4"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_4"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="natres" submodel_id="5" type="submodel">
@@ -1258,9 +1288,9 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_5"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_5"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="art_rec" submodel_id="6" type="submodel">
@@ -1270,9 +1300,9 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_6"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_6"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="gov" submodel_id="7" type="submodel">
@@ -1282,9 +1312,9 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
               <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
-              <variable_spec name="employment_submarket.ln_jobs_sector_7"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
-              <variable_spec name="employment_submarket.san_francisco_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_7"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_oth" submodel_id="8" type="submodel">
@@ -1293,7 +1323,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_8"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ret_reg" submodel_id="9" type="submodel">
@@ -1302,7 +1335,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_9"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="eat" submodel_id="10" type="submodel">
@@ -1310,9 +1346,11 @@
             <variable_list type="variable_list">
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
-              <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_10"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="logis" submodel_id="11" type="submodel">
@@ -1321,7 +1359,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_11"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="lease" submodel_id="12" type="submodel">
@@ -1330,7 +1371,10 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_12"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serve_soc" submodel_id="13" type="submodel">
@@ -1340,16 +1384,22 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_13"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_hvy" submodel_id="14" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_14"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ret_loc" submodel_id="15" type="submodel">
@@ -1358,9 +1408,11 @@
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
-              <variable_spec name="employment_submarket.esubmarket_median_stories"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_15"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="health" submodel_id="16" type="submodel">
@@ -1370,7 +1422,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_16"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="transp" submodel_id="17" type="submodel">
@@ -1380,7 +1435,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_17"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_high" submodel_id="18" type="submodel">
@@ -1390,7 +1448,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_18"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="util" submodel_id="19" type="submodel">
@@ -1400,17 +1461,23 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_19"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="constr" submodel_id="20" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_20"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_bio" submodel_id="21" type="submodel">
@@ -1420,17 +1487,23 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_21"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_lgt" submodel_id="22" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
+              <variable_spec name="employment_submarket.esubmarket_avg_auto_peak_total_access"/>
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_22"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="info" submodel_id="23" type="submodel">
@@ -1440,7 +1513,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_23"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="hotel" submodel_id="24" type="submodel">
@@ -1450,7 +1526,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_24"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="man_tech" submodel_id="25" type="submodel">
@@ -1460,7 +1539,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_25"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="serv_pers" submodel_id="26" type="submodel">
@@ -1470,7 +1552,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_26"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="unclass" submodel_id="27" type="submodel">
@@ -1480,7 +1565,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_27"/>
             </variable_list>
           </submodel>
           <submodel hidden="Children" name="ed_k12" submodel_id="28" type="submodel">
@@ -1490,7 +1578,10 @@
               <variable_spec name="employment_submarket.esubmarket_close_to_transit"/>
               <variable_spec name="employment_submarket.esubmarket_ln_residential_units_within_walking_distance"/>
               <variable_spec name="employment_submarket.is_office_esubmarket"/>
+              <variable_spec name="employment_submarket.ln_avg_nonres_rent"/>
+              <variable_spec name="employment_submarket.ln_jobs_in_jurisdiction"/>
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
+              <variable_spec name="employment_submarket.share_jobs_sector_28"/>
             </variable_list>
           </submodel>
         </specification>
@@ -1787,9 +1878,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable">True</selectable>
-        <selectable name="household" type="selectable">True</selectable>
-        <selectable name="job" type="selectable">False</selectable>
+        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
