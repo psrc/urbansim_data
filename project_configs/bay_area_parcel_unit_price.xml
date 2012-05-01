@@ -914,7 +914,7 @@
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
             <argument name="specification" type="string" hidden="True">specification</argument>
             <argument name="maximum_runs" type="integer">5</argument>
-            <argument name="agents_index" type="string" hidden="True">erm_index</argument>
+            <argument name="agents_index" type="string" hidden="True">brm_index</argument>
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string" hidden="True">debuglevel</argument>
             <argument name="coefficients" type="string">coefficients</argument>
@@ -1224,7 +1224,7 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
-            <argument convert_blank_to_none="True" name="agents_index" type="string"/>
+            <argument hidden="True" name="agents_index" convert_blank_to_none="True" type="string">brm_index</argument>
             <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
             <argument name="coefficients" type="string">alcm_coefficients</argument>
             <argument name="data_objects" type="string">datasets</argument>
@@ -1726,7 +1726,7 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
-            <argument hidden="True" name="agents_index" type="string">erm_index</argument>
+            <argument hidden="True" name="agents_index" convert_blank_to_none="True" type="string">brm_index</argument>
             <argument name="chunk_specification" type="string">None</argument>
             <argument hidden="True" name="coefficients" type="string">_coefficients</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
