@@ -451,7 +451,10 @@
             <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)*submarket.avg_sale_price&gt;0</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
+	    <!--
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
+	    -->
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
@@ -703,7 +706,10 @@
             <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)*submarket.avg_rent&gt;0</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
+	    <!--
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
+	    -->
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
@@ -932,7 +938,10 @@
             <argument convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">'employment_submarket.aggregate(building.aggregate(establishment.employees))'</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">(establishment.sector_id-618312)</argument>
             <argument name="dataset_pool" type="string" hidden="True">dataset_pool</argument>
+	    <!--
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
+	    -->
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
             <argument convert_blank_to_none="True" parser_action="quote_string" name="filter" type="string" model_dependency_type="variable"/>
             <argument name="variable_package" parser_action="quote_string" type="string">bayarea</argument>
             <argument name="run_config" type="dictionary">
@@ -1208,7 +1217,10 @@
             <argument convert_blank_to_none="True" name="sampler" parser_action="quote_string" type="string"/>
             <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
             <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+	    <!--
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
+	    -->
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0))&gt;0</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">(sector_id-618312)</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">bayarea.establishment.employment_submarket_id</argument>
@@ -2032,10 +2044,7 @@
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list" />
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/tmp/2010_studio_run</travel_model_base_directory>
-	<!--
         <travel_model_base_directory type="string">/mnt/2010_studio_run</travel_model_base_directory>
-	-->
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2010</year>
@@ -2050,24 +2059,22 @@
       <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <lastyear type="integer">2035</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="real_estate_price_model" type="model_choice">False</selectable>
+        <selectable name="real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="expected_sale_price_model" type="model_choice">False</selectable>
         <selectable name="development_proposal_choice_model" type="model_choice">False</selectable>
         <selectable name="building_construction_model" type="model_choice">False</selectable>
-        <selectable name="household_transition_model" type="model_choice">False</selectable>
-        <selectable name="employment_transition_model" type="model_choice">False</selectable>
-        <selectable name="household_relocation_model" type="model_choice">False</selectable>
-        <selectable name="household_location_choice_model" type="model_choice">False</selectable>
-        <selectable name="employment_relocation_model" type="model_choice">False</selectable>
-        <selectable name="employment_location_choice_model" type="model_choice">False<group_members type="string">non_home_based</group_members>
+        <selectable name="household_transition_model" type="model_choice">True</selectable>
+        <selectable name="employment_transition_model" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="employment_relocation_model" type="model_choice">True</selectable>
+        <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="model_choice">False</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
-        <selectable return_value="developer_model" type="selectable" name="developer_model_1">False</selectable>
+        <selectable return_value="developer_model" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
@@ -2137,22 +2144,17 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/tmp/test_bayarea_tm</travel_model_base_directory>
+        <travel_model_base_directory type="string">/mnt/2010_studio_run/</travel_model_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2000</year>
+            <year type="integer">2018</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim/2001</data_exchange_dir>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2010</year>
-            <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim/2010</data_exchange_dir>
+            <data_exchange_dir type="string">urbansim/2018</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim/2035</data_exchange_dir>
+            <data_exchange_dir type="string">urbansim/2025</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
