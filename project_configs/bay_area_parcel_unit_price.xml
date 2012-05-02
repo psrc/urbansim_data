@@ -5,6 +5,29 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="zone.zone_employment_retail" type="variable_definition">zone.aggregate(establishment.employees*establishment.sector_id==618327,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_65_plus" type="variable_definition">zone.aggregate((person.age&gt;64),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_45_to_64" type="variable_definition">zone.aggregate((person.age&gt;44)*(person.age&lt;65),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_20_to_44" type="variable_definition">zone.aggregate((person.age&gt;19)*(person.age&lt;45),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_5_to_19" type="variable_definition">zone.aggregate((person.age&gt;5)*(person.age&lt;20),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_0_to_4" type="variable_definition">zone.aggregate(person.age&lt;5,intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_households_income_4" type="variable_definition">zone.aggregate(household.income&gt;100000,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_households_income_3" type="variable_definition">zone.aggregate((household.income&gt;59999)*(household.income&lt;100000),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_households_income_2" type="variable_definition">zone.aggregate((household.income&gt;29999)*(household.income&lt;60000),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_households_income_1" type="variable_definition">zone.aggregate(household.income&lt;30000,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employment" type="variable_definition">zone.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_share_population_62p" type="variable_definition">zone.aggregate(person.age&gt;61,intermediates=[household,building,parcel])/zone.aggregate(household.persons,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_commercial_industrial_acres" type="variable_definition">zone.aggregate(parcel.shape_area/43560*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
+      <variable use="both" source="expression" name="zone.zone_residential_acres" type="variable_definition">zone.aggregate(parcel.shape_area/43560*parcel.aggregate(building.residential_units&gt;0))</variable>
+      <variable use="both" source="primary attribute" name="zone.zone_acres" type="variable_definition">zone.acres</variable>
+      <variable use="both" source="expression" name="zone.zone_multi_family_dwelling_units" type="variable_definition">zone.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_single_family_dwelling_units" type="variable_definition">zone.aggregate(building.residential_units*building.building_type_id&lt;3,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employed_residents" type="variable_definition">zone.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_household_population" type="variable_definition">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_households" type="variable_definition">zone.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
+      <variable use="both" source="primary attribute" name="zone.zone_district" type="variable_definition">zone.superd</variable>
+      <variable use="both" source="expression" name="building.bldg_ln_residential_units_1" type="variable_definition">ln_bounded(building.residential_units)</variable>
+      <variable use="both" source="primary attribute" name="building.bldg_residential_units" type="variable_definition">building.residential_units</variable>
       <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_28" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==28),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
       <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_27" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==27),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
       <variable use="both" source="expression" name="employment_submarket.share_jobs_sector_26" type="variable_definition">employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees*((establishment.sector_id-618312)==26),intermediates=[building,parcel]))/employment_submarket.disaggregate(jurisdiction.aggregate(establishment.employees,intermediates=[building,parcel]))</variable>
@@ -1904,9 +1927,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -1935,7 +1958,8 @@
     <travel_model_configuration type="dictionary">
       <travel_model_base_directory type="string">/path/to/travel_model/</travel_model_base_directory>
       <urbansim_to_tm_variable_mapping type="dictionary">
-        <variable_list type="dictionary" name="TazData">
+        <variable_list type="dictionary" name="ABAGData">
+          <variable name="Copy of zone.zone_id" type="string">TAZ</variable>
           <variable name="zone.zone_id" type="string">TAZ</variable>
           <variable name="zone.aggregate(household.building_id&gt;0)" type="string">TOTHH</variable>
           <variable name="zone.aggregate(household.persons)" type="string">HHPOP</variable>
@@ -2104,7 +2128,8 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      </indicator_batches>
+      <indicator_batch name="zone_data"/>
+    </indicator_batches>
   </results_manager>
 </opus_project>
 
