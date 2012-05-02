@@ -1994,22 +1994,22 @@
           <variable name="zone.aggregate(household.income&lt;30000,intermediates=[building,parcel])" type="string">HHINCQ1</variable>
           <variable name="zone.aggregate((household.income&gt;29999)*(household.income&lt;60000),intermediates=[building,parcel])" type="string">HHINCQ2</variable>
           <variable name="zone.aggregate((household.income&gt;59999)*(household.income&lt;100000),intermediates=[building,parcel])" type="string">HHINCQ3</variable>
-          <variable name="zone.zone_household_income_4" type="string">HHINCQ4</variable>
-          <variable name="zone.zone_total_acres" type="string">TOTACRE</variable>
-          <variable name="zone.zone_residential_acres" type="string">RESACRE</variable>
-          <variable name="zone.zone_commercial_industrial_acres" type="string">CIACRE</variable>
-          <variable name="zone.zone_share_population_62p" type="string">SHRPOP62P</variable>
-          <variable name="zone.zone_employment" type="string">TOTEMP</variable>
-          <variable name="zone.zone_population_age_0_to_4" type="string">AGE0004</variable>
-          <variable name="zone.zone_population_age_5_to_19" type="string">AGE0519</variable>
-          <variable name="zone.zone_population_age_20_to_44" type="string">AGE2044</variable>
-          <variable name="zone.zone_population_age_45_to_64" type="string">AGE4564</variable>
-          <variable name="zone.zone_population_age_65_plus" type="string">AGE65UP</variable>
-          <variable name="zone.zone_employment_retail" type="string">RETEMPN</variable>
-          <variable name="zone.zone_employment_finance_professional" type="string">FPEMPN</variable>
-          <variable name="zone.zone_employment_health_education" type="string">HEREEMPN</variable>
-          <variable name="zone.zone_employment_agriculture" type="string">AGREMPN</variable>
-          <variable name="zone.zone_employment_other" type="string">OTHEMPN</variable>
+          <variable name="zone.aggregate(household.income&gt;100000,intermediates=[building,parcel])" type="string">HHINCQ4</variable>
+          <variable name="zone.acres" type="string">TOTACRE</variable>
+          <variable name="zone.aggregate((parcel.shape_area/43560)*(parcel.shape_area/43560&lt;5)*parcel.aggregate(building.residential_units&gt;0))" type="string">RESACRE</variable>
+          <variable name="zone.aggregate(parcel.shape_area/43560*parcel.aggregate(building.non_residential_sqft&gt;0))" type="string">CIACRE</variable>
+          <variable name="zone.aggregate(person.age&gt;61,intermediates=[household,building,parcel])/zone.aggregate(household.persons,intermediates=[building,parcel])" type="string">SHRPOP62P</variable>
+          <variable name="zone.aggregate(establishment.employees,intermediates=[building,parcel])" type="string">TOTEMP</variable>
+          <variable name="zone.aggregate(person.age&lt;5,intermediates=[household,building,parcel])" type="string">AGE0004</variable>
+          <variable name="zone.aggregate((person.age&gt;5)*(person.age&lt;20),intermediates=[household,building,parcel])" type="string">AGE0519</variable>
+          <variable name="zone.aggregate((person.age&gt;19)*(person.age&lt;45),intermediates=[household,building,parcel])" type="string">AGE2044</variable>
+          <variable name="zone.aggregate((person.age&gt;44)*(person.age&lt;65),intermediates=[household,building,parcel])" type="string">AGE4564</variable>
+          <variable name="zone.aggregate((person.age&gt;64),intermediates=[household,building,parcel])" type="string">AGE65UP</variable>
+          <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [9, 15]),intermediates=[building,parcel])" type="string">RETEMPN</variable>
+          <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [1, 2, 3]),intermediates=[building,parcel])" type="string">FPEMPN</variable>
+          <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])" type="string">HEREEMPN</variable>
+          <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])" type="string">AGREMPN</variable>
+          <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])" type="string">OTHEMPN</variable>
         </variable_list>
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
@@ -2023,6 +2023,28 @@
     </travel_model_configuration>
   </model_manager>
   <scenario_manager>
+    <scenario executable="True" name="test_tm_interface" type="scenario">
+      <parent type="scenario_name">Baseline</parent>
+      <base_year type="integer">2010</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2010</firstyear>
+        <lastyear type="integer">2010</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list" />
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">/tmp/2010_studio_run</travel_model_base_directory>
+	<!--
+        <travel_model_base_directory type="string">/mnt/2010_studio_run</travel_model_base_directory>
+	-->
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2010</year>
+            <data_dir type="string"/>
+            <data_exchange_dir type="string">urbansim/2010</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
     <scenario executable="True" name="Baseline" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2010</base_year>
