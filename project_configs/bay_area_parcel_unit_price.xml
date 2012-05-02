@@ -1983,17 +1983,17 @@
       <urbansim_to_tm_variable_mapping type="dictionary">
         <variable_list type="dictionary" name="ABAGData">
           <variable name="zone.zone_id" type="string">ZONE</variable>
-          <variable name="zone.zone_district" type="string">DISTRICT</variable>
-          <variable name="zone.zone_county" type="string">COUNTY</variable>
-          <variable name="zone.zone_households" type="string">TOTHH</variable>
-          <variable name="zone.zone_household_population" type="string">HHPOP</variable>
-          <variable name="zone.zone_total_population" type="string">TOTPOP</variable>
-          <variable name="zone.zone_employed_residents" type="string">EMPRES</variable>
-          <variable name="zone.zone_single_family_dwelling_units" type="string">SFDU</variable>
-          <variable name="zone.zone_multi_family_dwelling_units" type="string">MFDU</variable>
-          <variable name="zone.zone_household_income_1" type="string">HHINCQ1</variable>
-          <variable name="zone.zone_household_income_2" type="string">HHINCQ2</variable>
-          <variable name="zone.zone_household_income_3" type="string">HHINCQ3</variable>
+          <variable name="zone.superd" type="string">SD</variable>
+          <variable name="zone.county_mtc" type="string">COUNTY</variable>
+          <variable name="zone.aggregate(building.number_of_agents(household),intermediates=[parcel])" type="string">TOTHH</variable>
+          <variable name="zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])" type="string">HHPOP</variable>
+          <variable name="zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])+zone.gqpop" type="string">TOTPOP</variable>
+          <variable name="zone.aggregate(building.aggregate(household.workers),intermediates=[parcel])" type="string">EMPRES</variable>
+          <variable name="zone.aggregate(building.residential_units*building.building_type_id&lt;3,intermediates=[parcel])" type="string">SFDU</variable>
+          <variable name="zone.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])" type="string">MFDU</variable>
+          <variable name="zone.aggregate(household.income&lt;30000,intermediates=[building,parcel])" type="string">HHINCQ1</variable>
+          <variable name="zone.aggregate((household.income&gt;29999)*(household.income&lt;60000),intermediates=[building,parcel])" type="string">HHINCQ2</variable>
+          <variable name="zone.aggregate((household.income&gt;59999)*(household.income&lt;100000),intermediates=[building,parcel])" type="string">HHINCQ3</variable>
           <variable name="zone.zone_household_income_4" type="string">HHINCQ4</variable>
           <variable name="zone.zone_total_acres" type="string">TOTACRE</variable>
           <variable name="zone.zone_residential_acres" type="string">RESACRE</variable>
