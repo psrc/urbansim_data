@@ -1924,7 +1924,7 @@
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <output hidden="True" name="output" type="string">brm_resources</output>
             <argument name="rate_storage" type="string">base_cache_storage</argument>
-            <argument name="rate_table" parser_action="quote_string" type="string">annual_relocation_rates_for_businesses</argument>
+            <argument name="rate_table" parser_action="quote_string" type="string">annual_business_relocation_rates</argument>
           </prepare_for_run>
           <run type="dictionary">
             <output hidden="True" name="output" type="string">brm_index</output>
@@ -2103,8 +2103,7 @@
           <tables_to_cache type="selectable_list">
             <selectable name="annual_employment_control_totals" type="selectable">False</selectable>
             <selectable name="annual_household_control_totals" type="selectable">False</selectable>
-            <selectable name="annual_relocation_rates_for_households" type="selectable">False</selectable>
-            <selectable name="annual_relocation_rates_for_jobs" type="selectable">False</selectable>
+            <selectable name="annual_household_relocation_rates" type="selectable">False</selectable>
             <selectable name="building_sqft_per_job" type="selectable">False</selectable>
             <selectable name="building_types" type="selectable">False</selectable>
             <selectable name="buildings" type="selectable">True</selectable>
