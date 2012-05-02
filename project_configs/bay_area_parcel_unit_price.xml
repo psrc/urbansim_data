@@ -246,6 +246,7 @@
             <argument hidden="True" name="specification" type="string">specification</argument>
             <argument hidden="True" name="coefficients" type="string">coefficients</argument>
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
+            <argument name="outcome_with_inital_error" type="string">False</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
             <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
           </run>
@@ -311,6 +312,7 @@
             <argument hidden="True" name="specification" type="string">specification</argument>
             <argument hidden="True" name="coefficients" type="string">coefficients</argument>
             <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="outcome_with_inital_error" type="string">False</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
             <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
           </run>
@@ -377,6 +379,7 @@
             <argument hidden="True" name="specification" type="string">specification</argument>
             <argument hidden="True" name="coefficients" type="string">coefficients</argument>
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
+            <argument name="outcome_with_inital_error" type="string">False</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
             <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
           </run>
@@ -1283,7 +1286,7 @@
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">establishment</argument>
             <argument hidden="True" name="agents_index" convert_blank_to_none="True" type="string">brm_index</argument>
-            <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
+            <argument name="chunk_specification" type="string">{'nchunks':4}</argument>
             <argument name="coefficients" type="string">alcm_coefficients</argument>
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
@@ -1925,6 +1928,7 @@
             <output hidden="True" name="output" type="string">brm_resources</output>
             <argument name="rate_storage" type="string">base_cache_storage</argument>
             <argument name="rate_table" parser_action="quote_string" type="string">annual_business_relocation_rates</argument>
+	    <argument name="probability_attribute" parser_action="quote_string" type="string">business_relocation_probability</argument>
           </prepare_for_run>
           <run type="dictionary">
             <output hidden="True" name="output" type="string">brm_index</output>
