@@ -5,7 +5,14 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable use="both" source="expression" name="zone.zone_employment_retail" type="variable_definition">zone.aggregate(establishment.employees*establishment.sector_id==618327,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employment_health_education" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employment_other" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employment_manufacturing" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [11, 14, 17, 19, 21, 22, 25]),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employment_agriculture" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_employment_finance_professional" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [1, 2, 3]),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_total_population" type="variable_definition">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])+zone.gqpop</variable>
+      <variable use="both" source="expression" name="zone.zone_county" type="variable_definition">zone.county_mtc</variable>
+      <variable use="both" source="expression" name="zone.zone_employment_retail" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [9, 15]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_population_age_65_plus" type="variable_definition">zone.aggregate((person.age&gt;64),intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_population_age_45_to_64" type="variable_definition">zone.aggregate((person.age&gt;44)*(person.age&lt;65),intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_population_age_20_to_44" type="variable_definition">zone.aggregate((person.age&gt;19)*(person.age&lt;45),intermediates=[household,building,parcel])</variable>
@@ -18,7 +25,7 @@
       <variable use="both" source="expression" name="zone.zone_employment" type="variable_definition">zone.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_share_population_62p" type="variable_definition">zone.aggregate(person.age&gt;61,intermediates=[household,building,parcel])/zone.aggregate(household.persons,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_commercial_industrial_acres" type="variable_definition">zone.aggregate(parcel.shape_area/43560*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
-      <variable use="both" source="expression" name="zone.zone_residential_acres" type="variable_definition">zone.aggregate(parcel.shape_area/43560*parcel.aggregate(building.residential_units&gt;0))</variable>
+      <variable use="both" source="expression" name="zone.zone_residential_acres" type="variable_definition">zone.aggregate((parcel.shape_area/43560)*(parcel.shape_area/43560&lt;5)*parcel.aggregate(building.residential_units&gt;0))</variable>
       <variable use="both" source="primary attribute" name="zone.zone_acres" type="variable_definition">zone.acres</variable>
       <variable use="both" source="expression" name="zone.zone_multi_family_dwelling_units" type="variable_definition">zone.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_single_family_dwelling_units" type="variable_definition">zone.aggregate(building.residential_units*building.building_type_id&lt;3,intermediates=[parcel])</variable>
@@ -195,6 +202,22 @@
     <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket','establishment','jurisdiction']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node']</spatial_datasets>
   </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <params>
+            <param name="database_server_connection" param_type="db_connection_hook" required="True">estimation_database_server</param>
+            <param name="database_name" param_type="string" required="True">bayarea</param>
+            <param name="table_name" param_type="string" required="True">zones</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/workspace/opus/data/bay_area_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2010</param>
+            <param name="overwrite" param_type="boolean" required="True">True</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
       <model name="residential_unit_sale_price_model" type="model">
@@ -1927,9 +1950,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable">True</selectable>
-        <selectable name="household" type="selectable">True</selectable>
-        <selectable name="job" type="selectable">False</selectable>
+        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -1959,15 +1982,34 @@
       <travel_model_base_directory type="string">/path/to/travel_model/</travel_model_base_directory>
       <urbansim_to_tm_variable_mapping type="dictionary">
         <variable_list type="dictionary" name="ABAGData">
-          <variable name="Copy of zone.zone_id" type="string">TAZ</variable>
-          <variable name="zone.zone_id" type="string">TAZ</variable>
-          <variable name="zone.aggregate(household.building_id&gt;0)" type="string">TOTHH</variable>
-          <variable name="zone.aggregate(household.persons)" type="string">HHPOP</variable>
-        </variable_list>
-        <variable_list type="dictionary" name="PopSynHousehold">
-          <variable name="household.household_id" type="string">HHID</variable>
-          <variable name="urbansim_parcel.household.zone_id" type="string">TAZ</variable>
-          <variable name="household.income" type="string">HINC</variable>
+          <variable name="zone.zone_id" type="string">ZONE</variable>
+          <variable name="zone.zone_district" type="string">DISTRICT</variable>
+          <variable name="zone.zone_county" type="string">COUNTY</variable>
+          <variable name="zone.zone_households" type="string">TOTHH</variable>
+          <variable name="zone.zone_household_population" type="string">HHPOP</variable>
+          <variable name="zone.zone_total_population" type="string">TOTPOP</variable>
+          <variable name="zone.zone_employed_residents" type="string">EMPRES</variable>
+          <variable name="zone.zone_single_family_dwelling_units" type="string">SFDU</variable>
+          <variable name="zone.zone_multi_family_dwelling_units" type="string">MFDU</variable>
+          <variable name="zone.zone_household_income_1" type="string">HHINCQ1</variable>
+          <variable name="zone.zone_household_income_2" type="string">HHINCQ2</variable>
+          <variable name="zone.zone_household_income_3" type="string">HHINCQ3</variable>
+          <variable name="zone.zone_household_income_4" type="string">HHINCQ4</variable>
+          <variable name="zone.zone_total_acres" type="string">TOTACRE</variable>
+          <variable name="zone.zone_residential_acres" type="string">RESACRE</variable>
+          <variable name="zone.zone_commercial_industrial_acres" type="string">CIACRE</variable>
+          <variable name="zone.zone_share_population_62p" type="string">SHRPOP62P</variable>
+          <variable name="zone.zone_employment" type="string">TOTEMP</variable>
+          <variable name="zone.zone_population_age_0_to_4" type="string">AGE0004</variable>
+          <variable name="zone.zone_population_age_5_to_19" type="string">AGE0519</variable>
+          <variable name="zone.zone_population_age_20_to_44" type="string">AGE2044</variable>
+          <variable name="zone.zone_population_age_45_to_64" type="string">AGE4564</variable>
+          <variable name="zone.zone_population_age_65_plus" type="string">AGE65UP</variable>
+          <variable name="zone.zone_employment_retail" type="string">RETEMPN</variable>
+          <variable name="zone.zone_employment_finance_professional" type="string">FPEMPN</variable>
+          <variable name="zone.zone_employment_health_education" type="string">HEREEMPN</variable>
+          <variable name="zone.zone_employment_agriculture" type="string">AGREMPN</variable>
+          <variable name="zone.zone_employment_other" type="string">OTHEMPN</variable>
         </variable_list>
       </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
