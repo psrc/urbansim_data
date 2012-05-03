@@ -2228,7 +2228,7 @@
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="regional_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="regional_totals">
-          <indicators>[]</indicators>
+          <indicators>["region_non_residential_sqft", "region_establishments", "region_employment", "region_households", "region_dwelling_units", "region_population"]</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">1</setting>
