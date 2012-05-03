@@ -1916,7 +1916,7 @@
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
             <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_jobs</argument>
-            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1, 'employment_submarket_id':-1}</argument>
           </run>
         </structure>
       </model>
@@ -1930,7 +1930,7 @@
             <name hidden="True" name="name" type="string">AgentRelocationModel</name>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
             <argument name="model_name" parser_action="quote_string" type="string">Business Relocation Model</argument>
-            <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="location_id_name" parser_action="quote_string" type="string">employment_submarket_id</argument>
           </init>
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
@@ -1966,7 +1966,7 @@
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
             <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_households</argument>
-            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1, 'submarket_id':-1}</argument>
             <argument name="sync_dataset" type="string">person</argument>
           </run>
         </structure>
@@ -2034,6 +2034,7 @@
           <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [1, 2, 3]),intermediates=[building,parcel])" type="string">FPSEMPN</variable>
           <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])" type="string">HEREMPN</variable>
           <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])" type="string">AGREMPN</variable>
+          <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [11, 14, 17, 19, 21, 22, 25]),intermediates=[building,parcel])" type="string">MWTEMPN</variable>
           <variable name="zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])" type="string">OTHEMPN</variable>
         </variable_list>
       </urbansim_to_tm_variable_mapping>
@@ -2078,7 +2079,7 @@
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
-        <selectable name="household_transition_model" type="model_choice">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
         <selectable name="household_relocation_model" type="model_choice">True</selectable>
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
