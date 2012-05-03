@@ -1920,6 +1920,16 @@
           </run>
         </structure>
       </model>
+      <model name="household_relocation_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">AgentRelocationModel</name>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Household Relocation Model</argument>
+            <argument name="location_id_name" parser_action="quote_string" type="string">submarket_id</argument>
+          </init>
+        </structure>
+      </model>
       <model name="business_relocation_model" type="model">
         <structure type="dictionary">
           <import hidden="True" name="import" type="dictionary">
