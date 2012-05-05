@@ -2059,21 +2059,32 @@
     </travel_model_configuration>
   </model_manager>
   <scenario_manager>
+    <scenario executable="True" name="test_developer_model" type="scenario">
+      <parent type="scenario_name">Baseline</parent>
+      <base_year type="integer">2011</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2012</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable return_value="developer_model" type="selectable" name="developer_model_1">True</selectable>
+      </models_to_run>
+    </scenario>
     <scenario executable="True" name="test_tm_interface" type="scenario">
       <parent type="scenario_name">Baseline</parent>
-      <base_year type="integer">2010</base_year>
+      <base_year type="integer">2011</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2010</firstyear>
-        <lastyear type="integer">2010</lastyear>
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2011</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list"/>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/tmp/2010_studio_run</travel_model_base_directory>
+        <travel_model_base_directory type="string">/tmp</travel_model_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2010</year>
-            <data_dir type="string"/>
-            <data_exchange_dir type="string">urbansim/2010</data_exchange_dir>
+            <year type="integer">2011</year>
+	    <data_dir type="string">2011_studio</data_dir>
+	    <data_exchange_dir type="string">2011_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2083,7 +2094,7 @@
       <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2010</firstyear>
-        <lastyear type="integer">2012</lastyear>
+        <lastyear type="integer">2035</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
@@ -2180,13 +2191,13 @@
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2018</year>
-            <data_dir type="string">2025_studio</data_dir>
-            <data_exchange_dir type="string">2025_studio</data_exchange_dir>
+            <data_dir type="string">2020_studio</data_dir>
+	    <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string">2035_studio</data_dir>
-            <data_exchange_dir type="string">2035_studio</data_exchange_dir>
+	    <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
