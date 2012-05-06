@@ -2067,6 +2067,12 @@
         <lastyear type="integer">2012</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+
         <selectable return_value="developer_model" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
     </scenario>
