@@ -5,6 +5,45 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_warehouse_industrial" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==8),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_strip_mall_retail" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==10),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_school" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==6),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_retail_focused_mixed_use" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==13),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_residential_focused_mixed_use" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==12),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_office" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==4),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_light_industrial" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==7),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_hotel" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==5),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_heavy_industrial" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==9),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_employment_focused_mixed_use" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==14),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft_big_box_retail" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==11),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_dwelling_units_single_family_detatched" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id==1),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_dwelling_units_single_family_attached" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id==2),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_dwelling_units_multi_family" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id==3),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_dwelling_units_mixed_use" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id&gt;11),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="region.region_rental_dwelling_units" type="variable_definition">region.aggregate_all(building.residential_units*(building.tenure==1),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="region.region_owner_dwelling_units" type="variable_definition">region.aggregate_all(building.residential_units*(building.tenure==2),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_owner_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.tenure==2),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_rental_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.tenure==1),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="alldata.region_urbanized_acres" type="variable_definition">alldata.aggregate_all((parcel.shape_area/43560)*((parcel.shape_area/43560)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
+      <variable use="both" source="expression" name="county.county_urbanized_acres" type="variable_definition">county.aggregate((parcel.shape_area/43560)*((parcel.shape_area/43560)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
+      <variable use="both" source="expression" name="alldata.region_residential_acres" type="variable_definition">alldata.aggregate_all((parcel.shape_area/43560)*((parcel.shape_area/43560)&lt;5)*parcel.aggregate(building.residential_units&gt;0))</variable>
+      <variable use="both" source="expression" name="alldata.region_commercial_industrial_acres" type="variable_definition">alldata.aggregate_all(parcel.shape_area/43560*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
+      <variable use="both" source="expression" name="county.county_mixed_use_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id&gt;11),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_employment_focused_mixed_use" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==14))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_retail_focused_mixed_use" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==13))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_residential_focused_mixed_use" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==12))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_big_box_retail" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==11))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_strip_mall_retail" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==10))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_heavy_industrial" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==9))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_warehouse_industrial" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==8))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_light_industrial" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==7))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_school" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==6))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_hotel" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==5))</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_office" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==4))</variable>
+      <variable use="both" source="expression" name="alldata.region_dwelling_units_mixed_use" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&gt;11))</variable>
+      <variable use="both" source="expression" name="alldata.region_dwelling_units_multi_family" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==3))</variable>
+      <variable use="both" source="expression" name="alldata.region_dwelling_units_single_family_attached" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==2))</variable>
+      <variable use="both" source="expression" name="alldata.region_dwelling_units_single_family_detatched" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==1))</variable>
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft)</variable>
       <variable use="both" source="expression" name="alldata.region_establishments" type="variable_definition">alldata.aggregate_all(establishment.employees&gt;0)</variable>
       <variable use="both" source="expression" name="alldata.region_employment" type="variable_definition">alldata.aggregate_all(establishment.employees)</variable>
@@ -15,10 +54,10 @@
       <variable use="both" source="expression" name="county.county_total_dwelling_units" type="variable_definition">county.aggregate(building.residential_units,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_employment" type="variable_definition">county.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="county.county_households" type="variable_definition">county.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
-      <variable use="both" source="expression" name="county.county_commercial_industrial_acres_1" type="variable_definition">county.aggregate(parcel.shape_area/43560*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
-      <variable use="both" source="expression" name="county.county_residential_acres" type="variable_definition">county.aggregate((parcel.shape_area/43560)*(parcel.shape_area/43560&lt;5)*parcel.aggregate(building.residential_units&gt;0))</variable>
-      <variable use="both" source="expression" name="county.county_multi_family_dwelling_units_1" type="variable_definition">county.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])</variable>
-      <variable use="both" source="expression" name="county.county_single_family_dwelling_units_1" type="variable_definition">county.aggregate(building.residential_units*building.building_type_id&lt;3,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_commercial_industrial_acres" type="variable_definition">county.aggregate(parcel.shape_area/43560*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
+      <variable use="both" source="expression" name="county.county_residential_acres" type="variable_definition">county.aggregate((parcel.shape_area/43560)*((parcel.shape_area/43560)&lt;5)*parcel.aggregate(building.residential_units&gt;0))</variable>
+      <variable use="both" source="expression" name="county.county_multi_family_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id==3),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="county.county_single_family_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_population" type="variable_definition">county.aggregate(household.persons, intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_employment_health_education" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="zone.zone_employment_other" type="variable_definition">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])</variable>
@@ -446,7 +485,6 @@
             <argument name="scenario" type="string">"Baseline"</argument>
           </init>
 	  <run type="dictionary" />
-          </run>
         </structure>
       </model>
       <model name="developer_model_No_Project" type="model">
@@ -460,7 +498,6 @@
             <argument name="scenario" type="string">"No Project"</argument>
           </init>
 	  <run type="dictionary" />
-          </run>
         </structure>
       </model>
       <model name="developer_model_Transit_Priority" type="model">
@@ -474,7 +511,6 @@
             <argument name="scenario" type="string">"Transit Priority"</argument>
           </init>
 	  <run type="dictionary" />
-          </run>
         </structure>
       </model>
       <model name="developer_model_Studio" type="model">
@@ -488,7 +524,6 @@
             <argument name="scenario" type="string">"Studio"</argument>
           </init>
 	  <run type="dictionary" />
-          </run>
         </structure>
       </model>
       <model name="developer_model" type="model">
@@ -500,8 +535,7 @@
           <init type="dictionary">
             <name name="name" type="string">DeveloperModel</name>
           </init>
-          <run type="dictionary">
-          </run>
+	  <run type="dictionary" />
         </structure>
       </model>
       <model name="submarket_household_location_choice_model_owner" type="model">
@@ -2109,8 +2143,8 @@
       </tm_to_urbansim_variable_mapping>
       <models type="selectable_list">
         <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
-        <selectable name="bayarea.travel_model.invoke_run_travel_model" type="selectable">True</selectable>
-        <selectable name="bayarea.travel.import_travel_model_data" type="selectable">True</selectable>
+        <selectable name="bayarea.travel_model.invoke_run_travel_model" type="selectable">False</selectable>
+        <selectable name="bayarea.travel.import_travel_model_data" type="selectable">False</selectable>
       </models>
     </travel_model_configuration>
   </model_manager>
@@ -2128,7 +2162,6 @@
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
-
         <selectable return_value="developer_model" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
     </scenario>
@@ -2145,8 +2178,8 @@
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2011</year>
-	    <data_dir type="string">2011_studio</data_dir>
-	    <data_exchange_dir type="string">2011_studio/urbansim</data_exchange_dir>
+            <data_dir type="string">2011_studio</data_dir>
+            <data_exchange_dir type="string">2011_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2261,7 +2294,7 @@
       <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2010</firstyear>
-        <lastyear type="integer">2035</lastyear>
+        <lastyear type="integer">2018</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
@@ -2360,12 +2393,12 @@
           <run_description type="dictionary">
             <year type="integer">2018</year>
             <data_dir type="string">2020_studio</data_dir>
-	    <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string">2035_studio</data_dir>
-	    <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2407,10 +2440,10 @@
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="regional_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="regional_totals">
-          <indicators>["region_non_residential_sqft", "region_establishments", "region_employment", "region_households", "region_dwelling_units", "region_population"]</indicators>
+          <indicators>['region_non_residential_sqft_employment_focused_mixed_use', 'region_non_residential_sqft_retail_focused_mixed_use', 'region_non_residential_sqft_residential_focused_mixed_use', 'region_non_residential_sqft_big_box_retail', 'region_non_residential_sqft_strip_mall_retail', 'region_non_residential_sqft_heavy_industrial', 'region_non_residential_sqft_warehouse_industrial', 'region_non_residential_sqft_light_industrial', 'region_non_residential_sqft_school', 'region_non_residential_sqft_hotel', 'region_non_residential_sqft_office', 'region_dwelling_units_mixed_use', 'region_dwelling_units_multi_family', 'region_dwelling_units_single_family_attached', 'region_dwelling_units_single_family_detatched', 'region_non_residential_sqft', 'region_establishments', 'region_employment', 'region_households', 'region_dwelling_units', 'region_population', 'region_commercial_industrial_acres', 'region_residential_acres', 'region_urbanized_acres']</indicators>
           <output_type>tab</output_type>
           <settings>
-            <setting name="output_style">1</setting>
+            <setting name="output_style">3</setting>
           </settings>
           <dataset_name>alldata</dataset_name>
           <visualization_type>tab</visualization_type>
@@ -2418,7 +2451,7 @@
       </indicator_batch>
       <indicator_batch name="county_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
-          <indicators>['county_total_dwelling_units', 'county_employment', 'county_households', 'county_commercial_industrial_acres_1', 'county_residential_acres', 'county_multi_family_dwelling_units_1', 'county_single_family_dwelling_units_1', 'county_population', 'county_non_residential_sqft']</indicators>
+          <indicators>['county_non_residential_sqft', 'county_total_dwelling_units', 'county_employment', 'county_households', 'county_residential_acres', 'county_population', 'county_non_residential_sqft_warehouse_industrial', 'county_single_family_dwelling_units', 'county_multi_family_dwelling_units', 'county_commercial_industrial_acres', 'county_mixed_use_dwelling_units', 'county_urbanized_acres', 'county_rental_dwelling_units', 'county_owner_dwelling_units', 'county_dwelling_units_mixed_use', 'county_dwelling_units_multi_family', 'county_dwelling_units_single_family_attached', 'county_dwelling_units_single_family_detatched', 'county_non_residential_sqft_big_box_retail', 'county_non_residential_sqft_employment_focused_mixed_use', 'county_non_residential_sqft_heavy_industrial', 'county_non_residential_sqft_hotel', 'county_non_residential_sqft_light_industrial', 'county_non_residential_sqft_office', 'county_non_residential_sqft_residential_focused_mixed_use', 'county_non_residential_sqft_retail_focused_mixed_use', 'county_non_residential_sqft_school', 'county_non_residential_sqft_strip_mall_retail']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
