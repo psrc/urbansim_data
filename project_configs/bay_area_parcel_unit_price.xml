@@ -435,6 +435,62 @@
           </submodel>
         </specification>
       </model>
+      <model name="developer_model_Baseline" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_name type="string">DeveloperModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">DeveloperModel</name>
+            <argument name="scenario" type="string">"Baseline"</argument>
+          </init>
+	  <run type="dictionary" />
+          </run>
+        </structure>
+      </model>
+      <model name="developer_model_No_Project" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_name type="string">DeveloperModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">DeveloperModel</name>
+            <argument name="scenario" type="string">"No Project"</argument>
+          </init>
+	  <run type="dictionary" />
+          </run>
+        </structure>
+      </model>
+      <model name="developer_model_Transit_Priority" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_name type="string">DeveloperModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">DeveloperModel</name>
+            <argument name="scenario" type="string">"Transit Priority"</argument>
+          </init>
+	  <run type="dictionary" />
+          </run>
+        </structure>
+      </model>
+      <model name="developer_model_Studio" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_name type="string">DeveloperModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">DeveloperModel</name>
+            <argument name="scenario" type="string">"Studio"</argument>
+          </init>
+	  <run type="dictionary" />
+          </run>
+        </structure>
+      </model>
       <model name="developer_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -2061,7 +2117,7 @@
   <scenario_manager>
     <scenario executable="True" name="test_developer_model" type="scenario">
       <parent type="scenario_name">Baseline</parent>
-      <base_year type="integer">2011</base_year>
+      <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2011</firstyear>
         <lastyear type="integer">2012</lastyear>
@@ -2095,6 +2151,111 @@
         </years_to_run>
       </travel_model_configuration>
     </scenario>
+    <scenario executable="True" name="Studio" type="scenario">
+      <parent type="scenario_name">Baseline</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="business_transition_model" type="model_choice">True</selectable>
+        <selectable name="business_relocation_model" type="model_choice">True</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable return_value="developer_model_Studio" type="selectable" name="developer_model_1">True</selectable>
+      </models_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
+        <travel_model_scenario type="string">studio</travel_model_scenario>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2018</year>
+            <data_dir type="string">2020_studio</data_dir>
+	    <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <data_dir type="string">2035_studio</data_dir>
+	    <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
+    <scenario executable="True" name="Transit_Priority" type="scenario">
+      <parent type="scenario_name">Baseline</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="business_transition_model" type="model_choice">True</selectable>
+        <selectable name="business_relocation_model" type="model_choice">True</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable return_value="developer_model_Transit_Priority" type="selectable" name="developer_model_1">True</selectable>
+      </models_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
+        <travel_model_scenario type="string">transit_alt</travel_model_scenario>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2018</year>
+            <data_dir type="string">2020_transit_alt</data_dir>
+	    <data_exchange_dir type="string">2020_transit_alt/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <data_dir type="string">2035_transit_alt</data_dir>
+	    <data_exchange_dir type="string">2035_transit_alt/urbansim</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
+    <scenario executable="True" name="No_Project" type="scenario">
+      <parent type="scenario_name">Baseline</parent>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="business_transition_model" type="model_choice">True</selectable>
+        <selectable name="business_relocation_model" type="model_choice">True</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
+      </models_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
+        <travel_model_scenario type="string">no_project</travel_model_scenario>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2018</year>
+            <data_dir type="string">2020_no_project</data_dir>
+	    <data_exchange_dir type="string">2020_no_project/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <data_dir type="string">2035_no_project</data_dir>
+	    <data_exchange_dir type="string">2035_no_project/urbansim</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
     <scenario executable="True" name="Baseline" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2010</base_year>
@@ -2116,7 +2277,7 @@
         <selectable name="business_relocation_model" type="model_choice">True</selectable>
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
-        <selectable return_value="developer_model" type="selectable" name="developer_model_1">True</selectable>
+        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
