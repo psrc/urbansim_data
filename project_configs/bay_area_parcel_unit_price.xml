@@ -2053,7 +2053,7 @@
       </tm_to_urbansim_variable_mapping>
       <models type="selectable_list">
         <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
-        <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
+        <selectable name="bayarea.travel_model.invoke_run_travel_model" type="selectable">True</selectable>
         <selectable name="bayarea.travel.import_travel_model_data" type="selectable">True</selectable>
       </models>
     </travel_model_configuration>
