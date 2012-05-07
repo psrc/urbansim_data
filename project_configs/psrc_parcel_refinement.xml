@@ -98,6 +98,8 @@
           </init>
           <run type="dictionary">
             <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
+            <argument name="flush_after_each_subarea" type="boolean">True</argument>
+            <argument name="run_no_area" type="boolean">False</argument>
           </run>
         </structure>
       </model>
@@ -122,6 +124,7 @@
                   <name hidden="True" name="name" type="string">SubareaEmploymentLocationChoiceModel</name>
                   <argument name="subarea_id_name" parser_action="quote_string" type="string">zone_id</argument>
                   <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string">psrc_parcel.building.vacant_non_home_based_job_space &gt; 0</argument>
+                  <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
                   <argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
                   <argument name="run_config" type="dictionary">
                     <key convert_blank_to_none="True" name="agent_units_string" type="string"/>
@@ -133,8 +136,10 @@
                 <run type="dictionary">
                   <argument hidden="True" name="agents_index" type="string">erm_index</argument>
                   <!--<argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>-->
-                  <argument name="chunk_specification" type="string">{'records_per_chunk':5000}</argument>
+                  <argument name="chunk_specification" type="string">{'records_per_chunk':2000}</argument>
                   <argument name="maximum_runs" type="integer">1</argument>
+                  <argument name="flush_after_each_subarea" type="boolean">True</argument>
+                  <argument name="run_no_area" type="boolean">False</argument>
                 </run>
               </structure>
  </model>
