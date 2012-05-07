@@ -5,6 +5,9 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="alldata.region_population_within_half_mile_transit" type="variable_definition">alldata.aggregate_all((household.disaggregate(bayarea.node.transit_within_800_meters,intermediates=[parcel,building])*household.persons))</variable>
+      <variable use="both" source="expression" name="alldata.region_jobs_within_half_mile_transit" type="variable_definition">alldata.aggregate_all((establishment.disaggregate(bayarea.node.transit_within_800_meters,intermediates=[parcel,building])*establishment.employees))</variable>
+      <variable use="both" source="expression" name="alldata.region_dwelling_units_within_half_mile_transit" type="variable_definition">alldata.aggregate_all(residential_unit.disaggregate(bayarea.node.transit_within_800_meters,intermediates=[parcel,building]))</variable>
       <variable use="both" source="expression" name="county.county_non_residential_sqft_warehouse_industrial" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==8),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_non_residential_sqft_strip_mall_retail" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==10),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_non_residential_sqft_school" type="variable_definition">county.aggregate(building.non_residential_sqft*(building.building_type_id==6),intermediates=[parcel])</variable>
@@ -484,7 +487,7 @@
             <name name="name" type="string">DeveloperModel</name>
             <argument name="scenario" type="string">"Baseline"</argument>
           </init>
-	  <run type="dictionary" />
+          <run type="dictionary"/>
         </structure>
       </model>
       <model name="developer_model_No_Project" type="model">
@@ -497,7 +500,7 @@
             <name name="name" type="string">DeveloperModel</name>
             <argument name="scenario" type="string">"No Project"</argument>
           </init>
-	  <run type="dictionary" />
+          <run type="dictionary"/>
         </structure>
       </model>
       <model name="developer_model_Transit_Priority" type="model">
@@ -510,7 +513,7 @@
             <name name="name" type="string">DeveloperModel</name>
             <argument name="scenario" type="string">"Transit Priority"</argument>
           </init>
-	  <run type="dictionary" />
+          <run type="dictionary"/>
         </structure>
       </model>
       <model name="developer_model_Studio" type="model">
@@ -523,7 +526,7 @@
             <name name="name" type="string">DeveloperModel</name>
             <argument name="scenario" type="string">"Studio"</argument>
           </init>
-	  <run type="dictionary" />
+          <run type="dictionary"/>
         </structure>
       </model>
       <model name="developer_model" type="model">
@@ -535,7 +538,7 @@
           <init type="dictionary">
             <name name="name" type="string">DeveloperModel</name>
           </init>
-	  <run type="dictionary" />
+          <run type="dictionary"/>
         </structure>
       </model>
       <model name="submarket_household_location_choice_model_owner" type="model">
@@ -2075,9 +2078,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable">True</selectable>
-        <selectable name="household" type="selectable">True</selectable>
-        <selectable name="job" type="selectable">False</selectable>
+        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -2186,6 +2189,7 @@
     </scenario>
     <scenario executable="True" name="Studio" type="scenario">
       <parent type="scenario_name">Baseline</parent>
+      <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
@@ -2209,18 +2213,19 @@
           <run_description type="dictionary">
             <year type="integer">2018</year>
             <data_dir type="string">2020_studio</data_dir>
-	    <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string">2035_studio</data_dir>
-	    <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
     </scenario>
     <scenario executable="True" name="Transit_Priority" type="scenario">
       <parent type="scenario_name">Baseline</parent>
+      <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
@@ -2244,18 +2249,19 @@
           <run_description type="dictionary">
             <year type="integer">2018</year>
             <data_dir type="string">2020_transit_alt</data_dir>
-	    <data_exchange_dir type="string">2020_transit_alt/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2020_transit_alt/urbansim</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string">2035_transit_alt</data_dir>
-	    <data_exchange_dir type="string">2035_transit_alt/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2035_transit_alt/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
     </scenario>
     <scenario executable="True" name="No_Project" type="scenario">
       <parent type="scenario_name">Baseline</parent>
+      <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
@@ -2279,12 +2285,12 @@
           <run_description type="dictionary">
             <year type="integer">2018</year>
             <data_dir type="string">2020_no_project</data_dir>
-	    <data_exchange_dir type="string">2020_no_project/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2020_no_project/urbansim</data_exchange_dir>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <data_dir type="string">2035_no_project</data_dir>
-	    <data_exchange_dir type="string">2035_no_project/urbansim</data_exchange_dir>
+            <data_exchange_dir type="string">2035_no_project/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2440,7 +2446,7 @@
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="regional_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="regional_totals">
-          <indicators>['region_non_residential_sqft_employment_focused_mixed_use', 'region_non_residential_sqft_retail_focused_mixed_use', 'region_non_residential_sqft_residential_focused_mixed_use', 'region_non_residential_sqft_big_box_retail', 'region_non_residential_sqft_strip_mall_retail', 'region_non_residential_sqft_heavy_industrial', 'region_non_residential_sqft_warehouse_industrial', 'region_non_residential_sqft_light_industrial', 'region_non_residential_sqft_school', 'region_non_residential_sqft_hotel', 'region_non_residential_sqft_office', 'region_dwelling_units_mixed_use', 'region_dwelling_units_multi_family', 'region_dwelling_units_single_family_attached', 'region_dwelling_units_single_family_detatched', 'region_non_residential_sqft', 'region_establishments', 'region_employment', 'region_households', 'region_dwelling_units', 'region_population', 'region_commercial_industrial_acres', 'region_residential_acres', 'region_urbanized_acres']</indicators>
+          <indicators>['region_urbanized_acres', 'region_residential_acres', 'region_commercial_industrial_acres', 'region_non_residential_sqft_employment_focused_mixed_use', 'region_non_residential_sqft_retail_focused_mixed_use', 'region_non_residential_sqft_residential_focused_mixed_use', 'region_non_residential_sqft_big_box_retail', 'region_non_residential_sqft_strip_mall_retail', 'region_non_residential_sqft_heavy_industrial', 'region_non_residential_sqft_warehouse_industrial', 'region_non_residential_sqft_light_industrial', 'region_non_residential_sqft_school', 'region_non_residential_sqft_hotel', 'region_non_residential_sqft_office', 'region_dwelling_units_mixed_use', 'region_dwelling_units_multi_family', 'region_dwelling_units_single_family_attached', 'region_dwelling_units_single_family_detatched', 'region_non_residential_sqft', 'region_establishments', 'region_employment', 'region_households', 'region_dwelling_units', 'region_population', 'region_dwelling_units_within_half_mile_transit', 'region_jobs_within_half_mile_transit', 'region_population_within_half_mile_transit']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
