@@ -2192,13 +2192,13 @@
           <variable name="zone.aggregate(building.aggregate(household.workers),intermediates=[parcel])" type="string">EMPRES</variable>
           <variable name="zone.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])" type="string">SFDU</variable>
           <variable name="zone.aggregate(building.residential_units*(building.building_type_id==3),intermediates=[parcel])" type="string">MFDU</variable>
-          <variable name="zone.aggregate(household.income&lt;30000,intermediates=[building,parcel])" type="string">HHINCQ1</variable>
-          <variable name="zone.aggregate((household.income&gt;29999)*(household.income&lt;60000),intermediates=[building,parcel])" type="string">HHINCQ2</variable>
-          <variable name="zone.aggregate((household.income&gt;59999)*(household.income&lt;100000),intermediates=[building,parcel])" type="string">HHINCQ3</variable>
-          <variable name="zone.aggregate(household.income&gt;100000,intermediates=[building,parcel])" type="string">HHINCQ4</variable>
+          <variable name="zone.aggregate((household.income*.7201)&lt;25000,intermediates=[building,parcel])" type="string">HHINCQ1</variable>
+          <variable name="zone.aggregate(((household.income*.7201)&gt;24999)*((household.income*.7201)&lt;45000),intermediates=[building,parcel])" type="string">HHINCQ2</variable>
+          <variable name="zone.aggregate(((household.income*.7201)&gt;44999)*((household.income*.7201)&lt;75000),intermediates=[building,parcel])" type="string">HHINCQ3</variable>
+          <variable name="zone.aggregate((household.income*.7201)&gt;74999,intermediates=[building,parcel])" type="string">HHINCQ4</variable>
           <variable name="zone.acres" type="string">TOTACRE</variable>
-          <variable name="zone.aggregate((parcel.shape_area/43560.0)*((parcel.shape_area/43560.0)&lt;5)*parcel.aggregate(building.residential_units&gt;0))" type="string">RESACRE</variable>
-          <variable name="zone.aggregate((parcel.shape_area/43560.0)*parcel.aggregate(building.non_residential_sqft&gt;0))" type="string">CIACRE</variable>
+          <variable name="zone.aggregate((parcel.shape_area/43560)*((parcel.shape_area/43560)&lt;5)*parcel.aggregate(building.residential_units&gt;0))" type="string">RESACRE</variable>
+          <variable name="zone.aggregate((parcel.shape_area/43560)*parcel.aggregate(building.non_residential_sqft&gt;0))" type="string">CIACRE</variable>
           <variable name="safe_array_divide(zone.aggregate(person.age&gt;61,intermediates=[household,building,parcel]),zone.aggregate(household.persons,intermediates=[building,parcel]))" type="string">SHPOP62P</variable>
           <variable name="zone.aggregate(establishment.employees,intermediates=[building,parcel])" type="string">TOTEMP</variable>
           <variable name="zone.aggregate(person.age&lt;=4,intermediates=[household,building,parcel])" type="string">AGE0004</variable>
@@ -2362,6 +2362,11 @@
       <travel_model_configuration type="dictionary">
         <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">no_project</travel_model_scenario>
+        <models type="selectable_list">
+          <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
+	  <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
+          <selectable name="bayarea.travel.import_travel_model_data" type="selectable">True</selectable>
+        </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2018</year>
@@ -2403,7 +2408,7 @@
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
           <doesnotmatter type="dictionary">
             <year type="integer">2010</year>
-            <models type="list">["household_transition_model", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter", "household_allocation_to_building_model"]</models>
+            <models type="list">["household_transition_model_with_persons", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter", "household_allocation_to_building_model"]</models>
           </doesnotmatter>
         </evolve2000_2010>
       </models_in_year>
