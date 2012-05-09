@@ -1,0 +1,20 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the PSRC parcel project</description>
+    <parent type="file">psrc_parcel_new_repm_hlcm.xml</parent>
+ </general>
+ <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model type="model" name="development_proposal_choice_model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = 0.09 * psrc_parcel.development_project_proposal.total_revenue / urbansim_parcel.development_project_proposal.building_sqft</argument>
+          </init>
+        </structure>
+      </model>
+   </models>
+ </model_manager>
+ <scenario_manager>
+ </scenario_manager>
+ </opus_project>
