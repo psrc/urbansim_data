@@ -6,11 +6,22 @@
  </general>
  <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model type="model" name="development_proposal_choice_model">
-        <structure type="dictionary">
+      <model type="model" name="development_proposal_choice_model" inherit_parent_values="False">
+         <structure type="dictionary">
+          <import hidden="True" type="dictionary" name="import">
+            <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_with_minimum</class_module>
+            <class_name>DevelopmentProjectProposalSamplingModel</class_name>
+          </import>
           <init type="dictionary">
+            <name hidden="True" type="string" name="name">DevelopmentProjectProposalSamplingModel</name>
+            <argument type="string" name="proposal_set">development_project_proposal</argument>
             <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = 0.09 * psrc_parcel.development_project_proposal.total_revenue / urbansim_parcel.development_project_proposal.building_sqft</argument>
+            <argument type="string" convert_blank_to_none="True" name="filter_attribute"/>
           </init>
+          <run type="dictionary">
+            <argument type="integer" name="n">5000</argument>
+            <output hidden="True" type="string" name="output">(development_project_proposal, demolished_buildings)</output>
+          </run>
         </structure>
       </model>
    </models>
