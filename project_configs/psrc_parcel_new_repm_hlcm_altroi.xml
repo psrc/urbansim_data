@@ -15,7 +15,7 @@
           <init type="dictionary">
             <name hidden="True" type="string" name="name">DevelopmentProjectProposalSamplingModel</name>
             <argument type="string" name="proposal_set">development_project_proposal</argument>
-            <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = 0.09 * psrc_parcel.development_project_proposal.total_revenue / urbansim_parcel.development_project_proposal.building_sqft</argument>
+            <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = 0.09 * development_project_proposal.expected_sales_price_per_sqft</argument>
             <argument type="string" convert_blank_to_none="True" name="filter_attribute"/>
           </init>
           <run type="dictionary">

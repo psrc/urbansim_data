@@ -100,6 +100,7 @@
 <variable name="parcel.lnspopden_pbsf" source="expression" type="variable_definition" use="model variable">ln_shifted(parcel.disaggregate(urbansim_parcel.zone.population_per_acre) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32)))</variable>
 <variable name="parcel.bldgage_pbsf" source="expression" type="variable_definition" use="model variable">parcel.aggregate(urbansim_parcel.building.age_masked, function=mean) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32))</variable>
 <variable name="development_project_proposal.lnlvalue_psf" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.development_project_proposal.land_value/urbansim_parcel.development_project_proposal.parcel_sqft)</variable>
+<variable name="development_project_proposal.lntvalue_psf" source="expression" type="variable_definition" use="model variable">ln((psrc_parcel.development_project_proposal.prcl_imp_value+psrc_parcel.development_project_proposal.land_value)/urbansim_parcel.development_project_proposal.parcel_sqft)</variable>
 <variable name="development_project_proposal.cbd" source="expression" type="variable_definition" use="model variable">development_project_proposal.disaggregate(zone.seattle_cbd + zone.bellevue_cbd)</variable>
 <variable name="development_project_proposal.bcbd" source="expression" type="variable_definition" use="model variable">development_project_proposal.disaggregate(zone.bellevue_cbd)</variable>
 <variable name="development_project_proposal.scbd" source="expression" type="variable_definition" use="model variable">development_project_proposal.disaggregate(zone.seattle_cbd)</variable>
@@ -1055,7 +1056,7 @@
             <name hidden="True" name="name" type="string">ExpectedSalesUnitPriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">land_use_type_id</argument>
             <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.development_project_proposal.is_size_fit</argument>
-            <argument name="outcome_attribute_name" parser_action="quote_string" type="string">ln_expected_sales_price_per_unit</argument>
+            <argument name="outcome_attribute_name" parser_action="quote_string" type="string">ln_expected_sales_price_per_sqft</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           </init>
        <prepare_for_run type="dictionary">
@@ -1085,12 +1086,12 @@
         <argument name="estimation_table" parser_action="quote_string" type="string">sales_price_extract</argument>
         <argument name="specification_storage" type="string">base_cache_storage</argument>
         <argument name="specification_table" parser_action="quote_string" type="string">expected_sales_unit_price_model_specification</argument>
-        <argument name="dataset_filter" parser_action="quote_string" type="string">(development_project_proposal.bldg_count==1) * (development_project_proposal.land_value > development_project_proposal.prcl_imp_value) * (development_project_proposal.year_sold >= 1995)</argument>
+        <argument name="dataset_filter" parser_action="quote_string" type="string">(development_project_proposal.bldg_count==1)  * (development_project_proposal.year_sold >= 1995)</argument>
         <output hidden="True" name="output" type="string">(development_project_proposal, specification, index)</output>
        </prepare_for_estimate>
        <estimate type="dictionary">
          <argument hidden="True" name="specification" type="string">specification</argument>
-          <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_expected_sales_price_per_unit=ln(development_project_proposal.expected_sales_price_per_unit)</argument>
+          <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_expected_sales_price_per_sqft=ln(development_project_proposal.expected_sales_price_per_sqft)</argument>
          <!-- <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">development_project_proposal.expected_sales_price_per_unit</argument>-->
          <argument name="dataset" type="string">development_project_proposal</argument>
          <argument hidden="True" name="index" type="string">index</argument>
@@ -1109,15 +1110,15 @@
             <variable_spec name="development_project_proposal.lnimvalue"/>
            <variable_spec name="development_project_proposal.lnlvalue_psf"/>
             <variable_spec name="development_project_proposal.lnimvalue_pbsf"/>
-             <variable_spec name="development_project_proposal.cbd"/>
-            <variable_spec name="constant"/> -->
+             <variable_spec name="development_project_proposal.cbd"/> 
+            <variable_spec name="constant"/>-->
             </variable_list>
            </submodel>
            <submodel hidden="Children" name="industrial" submodel_id="10" type="submodel">
             <variable_list type="variable_list">
             <variable_spec name="development_project_proposal.lnlvalue_psf"/>
-          <!--  <variable_spec name="development_project_proposal.lnimvalue_pbsf"/>
-             <variable_spec name="constant"/>   -->
+          <!--  <variable_spec name="development_project_proposal.lnimvalue_pbsf"/> 
+             <variable_spec name="constant"/>  -->
             </variable_list>
            </submodel>
            <submodel hidden="Children" name="apartment" submodel_id="14" type="submodel">
@@ -1130,7 +1131,7 @@
            <submodel hidden="Children" name="condominium" submodel_id="15" type="submodel">
             <variable_list type="variable_list">
             <variable_spec name="development_project_proposal.lnlvalue_psf"/>
-          <!--   <variable_spec name="constant"/> -->
+            <!-- <variable_spec name="constant"/>  -->
             </variable_list>
            </submodel>
            <submodel hidden="Children" name="office" submodel_id="18" type="submodel">
@@ -1143,7 +1144,7 @@
            </submodel>
            <submodel hidden="Children" name="single_family_residential" submodel_id="24" type="submodel">
             <variable_list type="variable_list">
-            <variable_spec name="development_project_proposal.lnlvalue_psf"/>
+            <variable_spec name="development_project_proposal.lnltvalue_psf"/>
            <!--   <variable_spec name="development_project_proposal.lnimvalue_punit"/>
             <variable_spec name="constant"/>-->
             </variable_list>
