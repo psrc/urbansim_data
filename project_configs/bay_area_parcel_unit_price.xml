@@ -2159,9 +2159,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -2228,7 +2228,7 @@
       <models type="selectable_list">
         <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
         <selectable name="bayarea.travel_model.invoke_run_travel_model" type="selectable">False</selectable>
-        <selectable name="bayarea.travel.import_travel_model_data" type="selectable">False</selectable>
+        <selectable name="bayarea.travel_model.import_travel_model_data" type="selectable">False</selectable>
       </models>
     </travel_model_configuration>
   </model_manager>
@@ -2372,8 +2372,8 @@
         <travel_model_scenario type="string">no_project</travel_model_scenario>
         <models type="selectable_list">
           <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
-	  <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
-          <selectable name="bayarea.travel.import_travel_model_data" type="selectable">True</selectable>
+          <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
+          <selectable name="bayarea.travel_model.import_travel_model_data" type="selectable">True</selectable>
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
@@ -2394,7 +2394,7 @@
       <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2010</firstyear>
-        <lastyear type="integer">2018</lastyear>
+        <lastyear type="integer">2035</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
@@ -2557,6 +2557,17 @@
             <setting name="output_style">3</setting>
           </settings>
           <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="county_indicators_onetable">
+        <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
+          <indicators>['county_jobs_within_half_mile_transit', 'county_dwelling_units_within_half_mile_transit', 'county_non_residential_sqft_heavy_industrial', 'county_dwelling_units_single_family_detatched', 'county_dwelling_units_multi_family', 'county_employment']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>county</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
