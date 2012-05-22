@@ -1177,8 +1177,17 @@
             </variable_list>
           </submodel>
         </specification>
-      </model>            
-            
+      </model>
+      <model name="employment_relocation_model" type="model">
+      <prepare_for_run type="dictionary">
+      <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_jobs</argument>
+      </prepare_for_run>
+      </model>         
+      <model name="household_relocation_model" type="model">
+      <prepare_for_run type="dictionary">
+      <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_households</argument>
+      </prepare_for_run>
+      </model>
       <model name="household_location_choice_model" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
             <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
