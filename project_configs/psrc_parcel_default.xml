@@ -1182,17 +1182,6 @@
       <prepare_for_run type="dictionary">
       <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_jobs</argument>
       </prepare_for_run>
-      <prepare_for_estimate type="dictionary">
-      <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_jobs</argument>
-      </prepare_for_estimate>
-      </model>         
-      <model name="household_relocation_model" type="model">
-      <prepare_for_run type="dictionary">
-      <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_households</argument>
-      </prepare_for_run>
-      <prepare_for_estimate type="dictionary">
-      <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_households</argument>
-      </prepare_for_estimate>
       </model>         
       <model name="household_relocation_model" type="model">
       <prepare_for_run type="dictionary">
