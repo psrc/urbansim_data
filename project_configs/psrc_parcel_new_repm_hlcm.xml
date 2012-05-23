@@ -79,16 +79,16 @@
      <variable source="expression" type="variable_definition" use="model variable" name="building.park_wwd_bldg">building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_is_park_wwd)</variable>      
     <variable source="expression" type="variable_definition" use="model variable" name="building.lnparkarea_wwd_bldg">ln_shifted(building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_park_area_wwd))</variable>   
     <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_building_type">urbansim_parcel.household.residence_type_lag1 == building.building_type_id</variable>
-    <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_btype_if_sfr">urbansim_parcel.household.residence_type_lag1 * household.disaggregate(urbansim.building.is_single_family_residential)*urbansim.building.is_single_family_residential</variable>
+    <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_btype_if_sfr">(urbansim_parcel.household.residence_type_lag1 == 19) * urbansim.building.is_single_family_residential</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="household.is_valid_income">household.income > 0</variable>
-    <variable use="model variable" source="expression" name="household_x_building.owner_x_is_not_mfr" type="variable_definition">household.tenure == 1 * (urbansim.building.is_multi_family_residential==0)</variable>
+    <variable use="model variable" source="expression" name="household_x_building.owner_x_is_not_mfr" type="variable_definition">(household.tenure == 1) * (urbansim.building.is_multi_family_residential==0)</variable>
      <variable use="model variable" source="expression" name="household_x_building.high_income_x_ln_sqft_per_unit" type="variable_definition">urbansim.household.is_income_4 * ln_shifted(building.sqft_per_unit)</variable>
  <variable use="model variable" source="expression" name="household_x_building.low_income_x_ln_sqft_per_unit" type="variable_definition">urbansim.household.is_income_1 * ln_shifted(building.sqft_per_unit)</variable>
      <variable source="expression" type="variable_definition" use="model variable" name="building.ln_sqft_per_unit">ln_shifted(building.sqft_per_unit)</variable>      
  <variable source="expression" type="variable_definition" use="model variable" name="building.ln_resunit">ln_shifted(building.residential_units)</variable>      
 <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.pers_gt_2_x_condo">(psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'condo_residential')</variable>
 <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.npers_x_condo">psrc_parcel.household.persons * building.disaggregate(building_type.building_type_name == 'condo_residential')</variable>
-<variable source="expression" type="variable_definition" use="model variable" name="household_x_building.npers_x_condo_ifgt2">psrc_parcel.household.persons * (psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'condo_residential')</variable>
+<variable source="expression" type="variable_definition" use="model variable" name="household_x_building.npers_x_condo_ifgt2">(psrc_parcel.household.persons * (psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'condo_residential'))-2</variable>
 <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.npers_x_mfr_ifgt2">psrc_parcel.household.persons * (psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'multi_family_residential')</variable>
 
 <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.pers_lt_3_if_seattle">(psrc_parcel.household.persons &lt; 3) * (building.disaggregate(large_area.large_area_id, intermediates=[faz, zone, parcel])==6)</variable>
@@ -1484,7 +1484,7 @@
           <year type="integer">2001</year>
           <models_list type="list">["compute_max_dev_capacity_model", "real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_model", "development_proposal_choice_model", "building_construction_model", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "jobs_event_model", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "household_relocation_model", "household_location_choice_model","modify_workers_jobs_after_moving_households_if_lower_accessibility", "employment_relocation_model", {"employment_location_choice_model": {"group_members": ["non_home_based"]}},"distribute_unplaced_jobs_model", "distribute_unplaced_mining_utilities_jobs_model","modify_workers_jobs_after_moving_jobs", "work_at_home_choice_model","workplace_choice_model_for_resident"]</models_list>
     </doesnotmatter>
-    </models_in_year_category>
+    </models_in_year_category> 
       </models_in_year>
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">

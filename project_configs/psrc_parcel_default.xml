@@ -1178,16 +1178,20 @@
           </submodel>
         </specification>
       </model>
-      <model name="employment_relocation_model" type="model">
+      <!-- <model name="employment_relocation_model" type="model">
+      <structure type="dictionary">
       <prepare_for_run type="dictionary">
       <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_jobs</argument>
       </prepare_for_run>
+      </structure>
       </model>         
       <model name="household_relocation_model" type="model">
+      <structure type="dictionary">
       <prepare_for_run type="dictionary">
       <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_households</argument>
       </prepare_for_run>
-      </model>
+      </structure>
+      </model> -->
       <model name="household_location_choice_model" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
             <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
@@ -1874,6 +1878,16 @@
           </run>
         </structure>
       </model>
+      <model name="job_person_consistency_keeper" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="household_set" type="string" model_dependency_type="dataset">household</argument>
+            <argument name="job_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument name="person_set" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="expand_person_set" type="string">False</argument>
+          </run>
+        </structure>
+      </model>            
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
