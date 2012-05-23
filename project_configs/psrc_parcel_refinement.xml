@@ -45,7 +45,7 @@
      <model type="model" name="development_proposal_choice_model">
         <structure type="dictionary">
           <import hidden="True" type="dictionary" name="import">
-            <class_module type="string">psrc_parcel.models.development_proposal_sampling_model_by_zones</class_module>
+            <class_module type="string">psrc_parcel.models.development_proposal_sampling_model_by_zones2</class_module>
             <class_name>DevelopmentProposalSamplingModelByZones</class_name>
           </import>
           <init type="dictionary">
@@ -97,7 +97,7 @@
             </argument>
           </init>
           <run type="dictionary">
-            <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':1500}</argument>
             <argument name="flush_after_each_subarea" type="boolean">True</argument>
             <argument name="run_no_area" type="boolean">False</argument>
           </run>
