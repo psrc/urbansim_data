@@ -7,7 +7,7 @@
     <dataset_pool_configuration type="class">
       <class_name type="string" hidden="True">DatasetPoolConfiguration</class_name>
       <class_module type="string" hidden="True">opus_core.configurations.dataset_pool_configuration</class_module>
-      <argument name="package_order" type="list">['urbansim_zone', 'urbansim_zone', 'urbansim', 'opus_core']</argument>
+      <argument name="package_order" type="list">['mag_zone', 'urbansim_zone', 'urbansim', 'opus_core']</argument>
     </dataset_pool_configuration>
     <available_datasets type="list">['building','household_x_building','household','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
@@ -383,6 +383,29 @@
   <results_manager>
     </results_manager>
   <scenario_manager>
+    <scenario executable="True" name="test_demo_models" type="scenario">
+      <parent type="scenario_name">mag_zone_baseline</parent>
+      <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
+        <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">True</selectable>
+        <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">True</selectable>
+        <selectable return_value="education_model" type="selectable" name="education_model_1">True</selectable>
+        <selectable return_value="marriage_model" type="selectable" name="marriage_model_1">True</selectable>
+        <selectable return_value="cohabitation_model" type="selectable" name="cohabitation_model_1">True</selectable>
+        <selectable return_value="divorce_model" type="selectable" name="divorce_model_1">True</selectable>
+        <selectable return_value="breakup_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="child_leaving_home_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">True</selectable>
+        <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">True</selectable>
+        <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
+        <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
+      </models_to_run>
+      <years_to_run setexpanded="True" config_name="years" type="tuple">
+        <firstyear type="integer">2009</firstyear>
+        <lastyear type="integer">2010</lastyear>
+      </years_to_run>
+    </scenario>
     <scenario executable="True" name="mag_zone_alt_emp" type="scenario">
       <parent type="scenario_name">mag_zone_baseline</parent>
       <models_in_year type="dictionary">
@@ -400,6 +423,20 @@
     </scenario>
     <scenario setexpanded="True" copyable="True" executable="True" name="mag_zone_baseline" type="scenario">
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
+        <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">True</selectable>
+        <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">True</selectable>
+        <selectable return_value="education_model" type="selectable" name="education_model_1">True</selectable>
+        <selectable return_value="marriage_model" type="selectable" name="marriage_model_1">True</selectable>
+        <selectable return_value="cohabitation_model" type="selectable" name="cohabitation_model_1">True</selectable>
+        <selectable return_value="divorce_model" type="selectable" name="divorce_model_1">True</selectable>
+        <selectable return_value="breakup_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="child_leaving_home_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">True</selectable>
+        <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">True</selectable>
+        <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
+        <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
         <selectable name="real_estate_price_model" type="selectable">False</selectable>
         <selectable name="development_project_transition_model" type="selectable">False</selectable>
         <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
@@ -501,7 +538,7 @@
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
-          <argument name="package_order" type="list">['urbansim_zone', 'urbansim', 'opus_core']</argument>
+          <argument name="package_order" type="list">['mag_zone', 'urbansim_zone', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <flush_dataset_to_cache_after_each_model type="boolean">False</flush_dataset_to_cache_after_each_model>
         <flush_variables type="boolean">False</flush_variables>
@@ -509,6 +546,7 @@
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
           <selectable name="zone" type="selectable">True</selectable>
           <selectable name="household" type="selectable">True</selectable>
+          <selectable name="person" type="selectable">True</selectable>
           <selectable name="building" type="selectable">True</selectable>
           <selectable name="parcel" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
