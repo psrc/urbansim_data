@@ -80,6 +80,7 @@
     <variable source="expression" type="variable_definition" use="model variable" name="building.lnparkarea_wwd_bldg">ln_shifted(building.disaggregate(psrc_parcel.parcel.psrc_parcel_package_park_area_wwd))</variable>   
     <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_building_type">urbansim_parcel.household.residence_type_lag1 == building.building_type_id</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_btype_if_sfr">(urbansim_parcel.household.residence_type_lag1 == 19) * urbansim.building.is_single_family_residential</variable>
+   <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.same_btype_if_mfr">((urbansim_parcel.household.residence_type_lag1 == 4)+(urbansim_parcel.household.residence_type_lag1 == 12))* urbansim.building.is_multi_family_residential</variable>
     <variable source="expression" type="variable_definition" use="model variable" name="household.is_valid_income">household.income > 0</variable>
     <variable use="model variable" source="expression" name="household_x_building.owner_x_is_not_mfr" type="variable_definition">(household.tenure == 1) * (urbansim.building.is_multi_family_residential==0)</variable>
      <variable use="model variable" source="expression" name="household_x_building.high_income_x_ln_sqft_per_unit" type="variable_definition">urbansim.household.is_income_4 * ln_shifted(building.sqft_per_unit)</variable>
@@ -99,8 +100,8 @@
 <variable name="parcel.lnsempden_pbsf" source="expression" type="variable_definition" use="model variable">ln_shifted(parcel.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32)))</variable>
 <variable name="parcel.lnspopden_pbsf" source="expression" type="variable_definition" use="model variable">ln_shifted(parcel.disaggregate(urbansim_parcel.zone.population_per_acre) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32)))</variable>
 <variable name="parcel.bldgage_pbsf" source="expression" type="variable_definition" use="model variable">parcel.aggregate(urbansim_parcel.building.age_masked, function=mean) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32))</variable>
-<variable name="development_project_proposal.lnlvalue_psf" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.development_project_proposal.land_value/urbansim_parcel.development_project_proposal.parcel_sqft)</variable>
-<variable name="development_project_proposal.lntvalue_psf" source="expression" type="variable_definition" use="model variable">ln((psrc_parcel.development_project_proposal.prcl_imp_value+psrc_parcel.development_project_proposal.land_value)/urbansim_parcel.development_project_proposal.parcel_sqft)</variable>
+<variable name="development_project_proposal.lnlvalue_psf" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.development_project_proposal.land_value/(urbansim_parcel.development_project_proposal.parcel_sqft).astype(float32))</variable>
+<variable name="development_project_proposal.lntvalue_psf" source="expression" type="variable_definition" use="model variable">ln((psrc_parcel.development_project_proposal.prcl_imp_value+psrc_parcel.development_project_proposal.land_value)/(urbansim_parcel.development_project_proposal.parcel_sqft).astype(float32))</variable>
 <variable name="development_project_proposal.cbd" source="expression" type="variable_definition" use="model variable">development_project_proposal.disaggregate(zone.seattle_cbd + zone.bellevue_cbd)</variable>
 <variable name="development_project_proposal.bcbd" source="expression" type="variable_definition" use="model variable">development_project_proposal.disaggregate(zone.bellevue_cbd)</variable>
 <variable name="development_project_proposal.scbd" source="expression" type="variable_definition" use="model variable">development_project_proposal.disaggregate(zone.seattle_cbd)</variable>
@@ -109,8 +110,9 @@
 <variable name="development_project_proposal.lnimvalue_punit" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.development_project_proposal.prcl_imp_value/psrc_parcel.development_project_proposal.prcl_du)</variable>
 <variable name="development_project_proposal.lnlvalue" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.development_project_proposal.land_value)</variable>
 <variable name="development_project_proposal.lnimvalue" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.development_project_proposal.prcl_imp_value)</variable>
-
-        </expression_library>
+<variable use="model variable" source="expression" name="building.schooldistr_totscore" type="variable_definition">building.disaggregate(psrc_parcel.parcel.average_school_district_total_score)</variable>
+<variable name="household_x_building.single_x_lnretailden_wwd" source="expression" type="variable_definition" use="model variable">(household.persons==1) * (household.age_of_head &lt; 50) * (building.disaggregate(ln(psrc_parcel.parcel.urbansim_parcel_package_employment_retail_wwd)) &gt; 4)</variable>
+</expression_library>
  </general>
  <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
@@ -1317,7 +1319,8 @@
              <!--  <variable_spec name="building.Kitsap"/> -->
               <variable_spec name="household_x_building.c_same_area"/> 
              <!--  <variable_spec name="household_x_building.b_same_area_type"/> -->
-              <variable_spec name="household_x_building.same_btype_if_sfr"/>
+             <!--  <variable_spec name="household_x_building.same_btype_if_sfr"/> -->
+              <variable_spec name="household_x_building.same_btype_if_mfr"/>
               <!-- <variable_spec name="household_x_building.same_building_type"/>  -->
               <variable_spec name="household_x_building.housing_range"/>
               <variable_spec name="building.iv_ln_price_residual"/>
@@ -1346,14 +1349,16 @@
                 <variable_spec name="household_x_building.low_income_x_ln_sqft_per_unit"/> -->
                <!--<variable_spec name="building.ln_sqft_per_unit"/> -->
               <!-- <variable_spec name="building.ln_resunit"/>-->
+              <!-- <variable_spec name="building.schooldistr_totscore"/> -->
               <variable_spec name="household_x_building.npers_x_condo_ifgt2"/>
+              <variable_spec name="household_x_building.single_x_lnretailden_wwd"/>
               <!-- <variable_spec name="household_x_building.mnl_bias" fixed_value="1"/> -->
               <!-- Might be put in to address household size issues
                <variable_spec name="household_x_building.kids_x_ngood_publ_schools"/>
                <variable_spec name="household_x_building.pers_gt_2_x_condo"/>
-               <variable_spec name="household_x_building.pers_lt_3_if_seattle"/> 
-               
+               <variable_spec name="household_x_building.pers_lt_3_if_seattle"/>     
                -->
+               
             </variable_list>
           </submodel>
           <submodel name="submodel" submodel_id="2" type="submodel" hidden="Children">
@@ -1391,6 +1396,7 @@
               <!-- <variable_spec name="building.ln_resunit"/> -->
               <variable_spec name="household_x_building.npers_x_condo_ifgt2"/>
               <!--<variable_spec name="household_x_building.mnl_bias" fixed_value="1"/>-->
+              <variable_spec name="household_x_building.single_x_lnretailden_wwd"/>
               <!-- Might be put in to address household size issues 
               <variable_spec name="household_x_building.pers_gt_2_x_condo"/>
               <variable_spec name="household_x_building.kids_x_ngood_publ_schools"/>
@@ -1440,10 +1446,10 @@
    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_estimation</cache_directory>
-      <base_year type="integer" field_identifier="Base Year">2000</base_year>
+      <base_year type="integer" field_identifier="Base Year">2006</base_year>
       <years type="tuple">
-        <firstyear type="integer" field_identifier="Base Year">2000</firstyear>
-        <lastyear type="integer" field_identifier="Base Year">2000</lastyear>
+        <firstyear type="integer" field_identifier="Base Year">2006</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2006</lastyear>
       </years>
     </estimation_config>
  </model_manager>
