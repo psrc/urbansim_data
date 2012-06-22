@@ -1,0 +1,332 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="both" source="primary attribute" name="parcel.SC_acc_pt" type="variable_definition">parcel.acc_pt</variable>
+      <variable use="both" source="expression" name="building_x_parcel.SC_building_fit_parcel" type="variable_definition">numpy.abs(building.land_area - parcel.parcel_sqft)</variable>
+      <variable use="both" source="primary attribute" name="parcel.SC_acc_car" type="variable_definition">parcel.acc_car</variable>
+      <variable use="both" source="primary attribute" name="parcel.SC_taxlevel_parcel" type="variable_definition">parcel.municipal_taxindex</variable>
+      <variable use="both" source="expression" name="building.SC_building_type_id_bigger_1" type="variable_definition">building.building_type_id &gt; 1</variable>
+      <variable use="both" source="expression" name="building.SC_is_Nebengebaeude" type="variable_definition">building.building_type_id == 7</variable>
+      <variable use="both" source="expression" name="building.SC_is_Verwaltung" type="variable_definition">building.building_type_id == 0</variable>
+      <variable use="both" source="expression" name="development_event_history.SC_is_non_residential_development" type="variable_definition">numpy.logical_and(development_event_history.building_type_id == 0, development_event_history.building_type_id &gt; 1)</variable>
+      <variable use="both" source="expression" name="building.SC_is_non_residential_building" type="variable_definition">numpy.logical_or(building.building_type_id == 0,building.building_type_id &gt; 1)</variable>
+      <variable use="both" source="expression" name="building.SC_is_residential_building" type="variable_definition">building.building_type_id == 1</variable>
+      <variable use="both" source="expression" name="parcel.SC_plan_type_id_between_2999_and_7000" type="variable_definition">numpy.logical_and(parcel.plan_type_id &gt; 2999, parcel.plan_type_id &lt; 7000)</variable>
+      <variable use="both" source="expression" name="parcel.SC_plan_type_id_smaller_3000" type="variable_definition">parcel.plan_type_id &lt; 3000</variable>
+    </expression_library>
+  </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">_by_mini_154_160_161</param>
+            <param name="table_name" param_type="string" required="True">development_event_history</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_mini_parcel/base_year_data</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_sql_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">cz_us_run2</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_mini_parcel/runs/run_103.run_2012_06_20_13_19</param>
+            <param name="opus_data_year" param_type="string" required="True">ALL</param>
+            <param name="opus_table_name" param_type="string" required="True">ALL</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_csv_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_exports</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+            <param name="opus_table_name" param_type="string" required="True">target_vacancies</param>
+          </params>
+        </tool>
+        <tool name="csv_data_to_opus_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_imports</param>
+            <param name="csv_table_name" param_type="string" required="True">target_vacancies</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="SC_building_transition_model" type="model">
+        <structure type="dictionary">
+          <import hidden="False" name="import" type="dictionary">
+            <class_module type="string">zurich_parcel.models.real_estate_transition_model</class_module>
+          </import>
+          <run type="dictionary">
+            <argument name="occupied_spaces_variable" parser_action="quote_string" type="string">SC_occupied_spaces</argument>
+            <argument name="total_spaces_variable" parser_action="quote_string" type="string">SC_total_spaces</argument>
+            <argument name="sample_from_dataset" type="string">development_event_history</argument>
+            <argument name="sample_filter" type="string">None</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">target_vacancy</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="SC_NRBLCM_from_template" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_between_2999_and_7000, numpy.logical_and(parcel.is_street==0, SC_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">NonResidentialBuildingLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">NRBLCM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">land_area</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_from_template_specification</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">SC_is_non_residential_building</argument>
+            <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string" model_dependency_type="variable">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_from_template_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_from_template_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">SC_is_non_residential_building</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary" inherit_parent_values="False">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building_x_parcel.SC_building_fit_parcel"/>
+              <variable_spec name="parcel.SC_dist_to_station"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="SC_RBLCM_from_template" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_smaller_3000, numpy.logical_and(parcel.is_street==0, SC_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">building_quality_id</argument>
+            <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">ResidentialBuildingLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RBLCM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">land_area</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_from_template_specification</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">SC_is_residential_building</argument>
+            <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string" model_dependency_type="variable">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_from_template_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_from_template_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">SC_is_residential_building</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary" inherit_parent_values="False">
+          <submodel hidden="Children" name="EFH" submodel_id="1021" type="submodel" inherit_parent_values="False">
+            <description type="string">Submodel for single family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.SC_acc_car"/>
+              <variable_spec name="building_x_parcel.SC_building_fit_parcel"/>
+              <variable_spec name="parcel.SC_dist_to_station"/>
+              <variable_spec name="parcel.SC_slope"/>
+              <variable_spec name="parcel.SC_taxlevel_parcel"/>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MFH" submodel_id="1025" type="submodel">
+            <description type="string">Submodel for multi family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="building_x_parcel.SC_building_fit_parcel"/>
+              <variable_spec name="parcel.SC_ln_pop_ha"/>
+              <variable_spec name="parcel.SC_logit_foreigners_within_56_of_parcel"/>
+              <variable_spec name="parcel.SC_noise"/>
+              <variable_spec name="parcel.SC_slope"/>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="SC_building_location_choice_model_from_template" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_smaller_7000, numpy.logical_and(parcel.is_street==0, SC_is_unbuilt))</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">zurich_parcel.parcel.area_capacity</key>
+            </argument>
+          </init>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    <scenario name="test_run" type="scenario" executable="True">
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">False</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">True</run_in_same_process>
+      </advanced>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">False</selectable>
+        <selectable return_value="SC_building_transition_model" type="selectable" name="SC_building_transition_model_1">True</selectable>
+        <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">True</selectable>
+        <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">True</selectable>
+        <selectable return_value="SC_building_location_choice_model_from_template" type="selectable" name="SC_building_location_choice_model_from_template_1">False</selectable>
+        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">False</selectable>
+        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">False</selectable>
+        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
+        <selectable return_value="new_employment_transition_model" type="selectable" name="new_employment_transition_model_1">False</selectable>
+        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">False</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">False</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    </results_manager>
+</opus_project>
+
