@@ -41,6 +41,8 @@
     </tool_library>
   </data_manager>
   <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      </models>
   </model_manager>
   <scenario_manager>
     <scenario name="test_run" type="scenario" executable="True">
@@ -57,7 +59,7 @@
         <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">True</selectable>
         <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">True</selectable>
         <selectable return_value="SC_employment_transition_model" type="selectable" name="new_employment_transition_model_1">True</selectable>
-        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">True</selectable>
+        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
         <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">True</selectable>
         <selectable name="employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
         </selectable>
