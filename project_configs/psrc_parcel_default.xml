@@ -1459,6 +1459,7 @@
                 <prepare_for_run type="dictionary">
                   <name hidden="True" name="name" type="string">prepare_for_run</name>
                   <output hidden="True" name="output" type="string">(specification, coefficients)</output>
+                  <argument name="agent_filter" parser_action="quote_string" type="string">job.sector_id &lt; 18</argument>
                   <argument name="coefficients_storage" type="string">base_cache_storage</argument>
                   <argument name="coefficients_table" parser_action="quote_string" type="string">employment_location_choice_model_coefficients</argument>
                   <argument name="specification_storage" type="string">base_cache_storage</argument>
