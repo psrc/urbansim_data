@@ -5,6 +5,31 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="devcalib_geography.devcalib_target_expression" type="variable_definition">devcalib_geography.aggregate((building.residential_units*(building.building_type_id&lt;4)) + (building.non_residential_sqft*(building.building_type_id&gt;3)))</variable>
+      <variable use="both" source="expression" name="building_type.building_resunits" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
+      <variable use="both" source="expression" name="county.hlcm_calib_target_expression" type="variable_definition">county.aggregate(submarket.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="submarket.county_is_sonoma_calib" type="variable_definition">bayarea.submarket.county_id==49</variable>
+      <variable use="both" source="expression" name="submarket.county_is_solano_calib" type="variable_definition">bayarea.submarket.county_id==48</variable>
+      <variable use="both" source="expression" name="submarket.county_is_santaclara_calib" type="variable_definition">bayarea.submarket.county_id==43</variable>
+      <variable use="both" source="expression" name="submarket.county_is_sanmateo_calib" type="variable_definition">bayarea.submarket.county_id==41</variable>
+      <variable use="both" source="expression" name="submarket.county_is_sanfrancisco_calib" type="variable_definition">bayarea.submarket.county_id==38</variable>
+      <variable use="both" source="expression" name="submarket.county_is_napa_calib" type="variable_definition">bayarea.submarket.county_id==28</variable>
+      <variable use="both" source="expression" name="submarket.county_is_marin_calib" type="variable_definition">bayarea.submarket.county_id==21</variable>
+      <variable use="both" source="expression" name="submarket.county_is_contracosta_calib" type="variable_definition">bayarea.submarket.county_id==7</variable>
+      <variable use="both" source="expression" name="submarket.county_is_alameda_calib" type="variable_definition">bayarea.submarket.county_id==1</variable>
+      <variable use="both" source="expression" name="zone.zone_sqft_per_employee" type="variable_definition">zone.aggregate(building.non_residential_sqft, intermediates=[parcel])/zone.aggregate(establishment.employees, intermediates=[building, parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_warehouse_industrial" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==8),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_strip_mall_retail" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==10),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_school" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==6),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_retail_focused_mixed_use" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==13),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_residential_focused_mixed_use" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==12),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_office" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==4),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_light_industrial" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==7),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_hotel" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==5),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_heavy_industrial" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==9), intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_employment_focused_mixed_use" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==14), intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_big_box_retail" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==11))</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft" type="variable_definition">zone.aggregate(building.non_residential_sqft, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="alldata.hhincq1" type="variable_definition">alldata.aggregate_all((household.income)&lt;25000)</variable>
       <variable use="both" source="expression" name="alldata.hhincq2" type="variable_definition">alldata.aggregate_all(((household.income)&gt;24999)*((household.income)&lt;45000))</variable>
       <variable use="both" source="expression" name="alldata.hhincq3" type="variable_definition">alldata.aggregate_all(((household.income)&gt;44999)*((household.income)&lt;75000))</variable>
@@ -12,9 +37,9 @@
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_unit.disaggregate(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_owner_dwelling_units" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.tenure==2))</variable>
-      <variable use="both" source="expression" name="alldata.region_owner_dwelling_units_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_units.disaggregate(building.tenure==2))</variable>
+      <variable use="both" source="expression" name="alldata.region_owner_dwelling_units_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_unit.disaggregate(building.tenure==2))</variable>
       <variable use="both" source="expression" name="alldata.region_rental_dwelling_units" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.tenure==1))</variable>
-      <variable use="both" source="expression" name="alldata.region_rental_dwelling_units_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_units.disaggregate(building.tenure==1))</variable>
+      <variable use="both" source="expression" name="alldata.region_rental_dwelling_units_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_unit.disaggregate(building.tenure==1))</variable>
       <variable use="both" source="expression" name="county.county_establishments" type="variable_definition">county.aggregate(establishment.employees&gt;0,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="county.county_employed_residents" type="variable_definition">county.aggregate(household.workers, intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="alldata.region_employed_residents" type="variable_definition">alldata.aggregate_all(household.workers)</variable>
@@ -51,7 +76,7 @@
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft_employment_focused_mixed_use" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==14))</variable>
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft_retail_focused_mixed_use" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==13))</variable>
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft_residential_focused_mixed_use" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==12))</variable>
-      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_big_box_retail" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==11))</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_big_box_retail" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==11),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft_strip_mall_retail" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==10))</variable>
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft_heavy_industrial" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==9))</variable>
       <variable use="both" source="expression" name="alldata.region_non_residential_sqft_warehouse_industrial" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==8))</variable>
@@ -278,7 +303,7 @@
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket','establishment','jurisdiction','county','city','alldata']</available_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket','establishment','jurisdiction','county','city','alldata','devcalib_geography']</available_datasets>
     <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node','alldata']</spatial_datasets>
   </general>
   <data_manager>
@@ -2106,7 +2131,7 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">residential_units.sale_price * residential_units.disaggregate(numpy.exp(submarket.ln_avg_sale_price_converged)/numpy.exp(submarket.ln_avg_sale_price), intermediates=[building])</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit.sale_price * residential_unit.disaggregate(numpy.exp(submarket.ln_avg_sale_price_converged)/numpy.exp(submarket.ln_avg_sale_price), intermediates=[building])</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">sale_price</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
@@ -2127,7 +2152,7 @@
           <run type="dictionary">
             <argument name="dataset" type="string" model_dependency_type="dataset">residential_unit</argument>
             <argument name="dataset_filter" type="string" model_dependency_type="variable">building.rent &gt; 0</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">residential_units.rent * residential_units.disaggregate(numpy.exp(submarket.ln_avg_rent_converged)/numpy.exp(submarket.ln_avg_rent), intermediates=[building])</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">residential_unit.rent * residential_unit.disaggregate(numpy.exp(submarket.ln_avg_rent_converged)/numpy.exp(submarket.ln_avg_rent), intermediates=[building])</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">rent</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
@@ -2424,6 +2449,320 @@
         </years_to_run>
       </travel_model_configuration>
     </scenario>
+    <scenario executable="True" name="developer_calibration" type="scenario">
+      <parent type="scenario_name">urbansim_parcel_baseline</parent>
+      <base_year type="integer">2010</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">False</selectable>
+        <selectable name="household_relocation_model" type="model_choice">False</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">False</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">False</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">False</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="business_transition_model" type="model_choice">False</selectable>
+        <selectable name="business_relocation_model" type="model_choice">False</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">False</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">True</selectable>
+      </models_to_run>
+      <models_in_year type="dictionary">
+        <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
+          <doesnotmatter type="dictionary">
+            <year type="integer">2010</year>
+            <models type="list">["household_transition_model_with_persons", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter", "household_allocation_to_building_model"]</models>
+          </doesnotmatter>
+        </evolve2000_2010>
+      </models_in_year>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</argument>
+        </argument>
+        <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
+        <argument name="advanced" type="category">
+          <baseyear_database_configuration config_name="scenario_database_configuration" type="class">
+            <class_name hidden="True" type="string">ScenarioDatabaseConfiguration</class_name>
+            <class_module hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</class_module>
+            <argument name="database_name" type="string">seattle_2000_parcel_baseyear_data</argument>
+          </baseyear_database_configuration>
+          <cache_from_database type="boolean">False</cache_from_database>
+          <cache_scenario_database type="string">urbansim.model_coordinators.cache_scenario_database</cache_scenario_database>
+          <tables_to_cache type="selectable_list">
+            <selectable name="annual_employment_control_totals" type="selectable">False</selectable>
+            <selectable name="annual_household_control_totals" type="selectable">False</selectable>
+            <selectable name="annual_household_relocation_rates" type="selectable">False</selectable>
+            <selectable name="building_sqft_per_job" type="selectable">False</selectable>
+            <selectable name="building_types" type="selectable">False</selectable>
+            <selectable name="buildings" type="selectable">True</selectable>
+            <selectable name="cities" type="selectable">False</selectable>
+            <selectable name="constant_taz_columns" type="selectable">False</selectable>
+            <selectable name="counties" type="selectable">False</selectable>
+            <selectable name="demolition_cost_per_sqft" type="selectable">False</selectable>
+            <selectable name="development_constraints" type="selectable">False</selectable>
+            <selectable name="development_template_components" type="selectable">False</selectable>
+            <selectable name="development_templates" type="selectable">False</selectable>
+            <selectable name="employment_adhoc_sector_group_definitions" type="selectable">False</selectable>
+            <selectable name="employment_adhoc_sector_groups" type="selectable">False</selectable>
+            <selectable name="employment_sectors" type="selectable">False</selectable>
+            <selectable name="fazes" type="selectable">False</selectable>
+            <selectable name="generic_land_use_types" type="selectable">False</selectable>
+            <selectable name="gridcells" type="selectable">False</selectable>
+            <selectable name="home_based_employment_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="home_based_employment_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="household_characteristics_for_ht" type="selectable">False</selectable>
+            <selectable name="household_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="household_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="households" type="selectable">False</selectable>
+            <selectable name="households_for_estimation" type="selectable">False</selectable>
+            <selectable name="jobs" type="selectable">False</selectable>
+            <selectable name="jobs_for_estimation" type="selectable">False</selectable>
+            <selectable name="land_use_types" type="selectable">False</selectable>
+            <selectable name="non_home_based_employment_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="non_home_based_employment_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="parcels" type="selectable">True</selectable>
+            <selectable name="persons" type="selectable">False</selectable>
+            <selectable name="real_estate_price_model_coefficients" type="selectable">False</selectable>
+            <selectable name="real_estate_price_model_specification" type="selectable">False</selectable>
+            <selectable name="target_vacancies" type="selectable">False</selectable>
+            <selectable name="urbansim_constants" type="selectable">False</selectable>
+            <selectable name="zones" type="selectable">False</selectable>
+            <selectable name="nodes" type="selectable">False</selectable>
+            <selectable name="residential_units" type="selectable">False</selectable>
+            <selectable name="devcalib_geography" type="selectable">True</selectable>
+          </tables_to_cache>
+          <tables_to_cache_nchunks type="dictionary">
+            <parcels type="integer">1</parcels>
+          </tables_to_cache_nchunks>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
+        <travel_model_scenario type="string">studio</travel_model_scenario>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2018</year>
+            <data_dir type="string">2020_studio</data_dir>
+            <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <data_dir type="string">2035_studio</data_dir>
+            <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2035</year>
+            <data_dir type="string">2035_studio</data_dir>
+            <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2040</year>
+            <data_dir type="string">2040_studio</data_dir>
+            <data_exchange_dir type="string">2040_studio/urbansim</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+      <advanced type="category">
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">[ 'bayarea','urbansim_parcel', 'urbansim', 'opus_core','psrc_parcel']</argument>
+        </dataset_pool_configuration>
+        <flush_dataset_to_cache_after_each_model type="boolean">True</flush_dataset_to_cache_after_each_model>
+        <flush_variables type="boolean">False</flush_variables>
+        <low_memory_run type="boolean">False</low_memory_run>
+        <datasets_to_cache_after_each_model type="list">['parcel', 'building', 'household', 'person', 'node','residential_unit']</datasets_to_cache_after_each_model>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">False</selectable>
+          <selectable name="building_type" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="submarket" type="selectable">True</selectable>
+          <selectable name="devcalib_geography" type="selectable">True</selectable>
+          <selectable name="node" type="selectable">False</selectable>
+          <selectable name="residential_unit" type="selectable">False</selectable>
+          <selectable name="establishment" type="selectable">True</selectable>
+        </datasets_to_preload>
+      </advanced>
+    </scenario>
+    <scenario executable="True" name="hlcm_calibration" type="scenario">
+      <parent type="scenario_name">urbansim_parcel_baseline</parent>
+      <base_year type="integer">2010</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="business_transition_model" type="model_choice">False</selectable>
+        <selectable name="business_relocation_model" type="model_choice">False</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">False</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
+      </models_to_run>
+      <models_in_year type="dictionary">
+        <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
+          <doesnotmatter type="dictionary">
+            <year type="integer">2010</year>
+            <models type="list">["household_transition_model_with_persons", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter"]</models>
+          </doesnotmatter>
+        </evolve2000_2010>
+      </models_in_year>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</argument>
+        </argument>
+        <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
+        <argument name="advanced" type="category">
+          <baseyear_database_configuration config_name="scenario_database_configuration" type="class">
+            <class_name hidden="True" type="string">ScenarioDatabaseConfiguration</class_name>
+            <class_module hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</class_module>
+            <argument name="database_name" type="string">seattle_2000_parcel_baseyear_data</argument>
+          </baseyear_database_configuration>
+          <cache_from_database type="boolean">False</cache_from_database>
+          <cache_scenario_database type="string">urbansim.model_coordinators.cache_scenario_database</cache_scenario_database>
+          <tables_to_cache type="selectable_list">
+            <selectable name="annual_employment_control_totals" type="selectable">False</selectable>
+            <selectable name="annual_household_control_totals" type="selectable">False</selectable>
+            <selectable name="annual_household_relocation_rates" type="selectable">False</selectable>
+            <selectable name="building_sqft_per_job" type="selectable">False</selectable>
+            <selectable name="building_types" type="selectable">False</selectable>
+            <selectable name="buildings" type="selectable">True</selectable>
+            <selectable name="cities" type="selectable">False</selectable>
+            <selectable name="constant_taz_columns" type="selectable">False</selectable>
+            <selectable name="counties" type="selectable">False</selectable>
+            <selectable name="demolition_cost_per_sqft" type="selectable">False</selectable>
+            <selectable name="development_constraints" type="selectable">False</selectable>
+            <selectable name="development_template_components" type="selectable">False</selectable>
+            <selectable name="development_templates" type="selectable">False</selectable>
+            <selectable name="employment_adhoc_sector_group_definitions" type="selectable">False</selectable>
+            <selectable name="employment_adhoc_sector_groups" type="selectable">False</selectable>
+            <selectable name="employment_sectors" type="selectable">False</selectable>
+            <selectable name="fazes" type="selectable">False</selectable>
+            <selectable name="generic_land_use_types" type="selectable">False</selectable>
+            <selectable name="gridcells" type="selectable">False</selectable>
+            <selectable name="home_based_employment_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="home_based_employment_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="household_characteristics_for_ht" type="selectable">False</selectable>
+            <selectable name="household_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="household_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="households" type="selectable">False</selectable>
+            <selectable name="households_for_estimation" type="selectable">False</selectable>
+            <selectable name="jobs" type="selectable">False</selectable>
+            <selectable name="jobs_for_estimation" type="selectable">False</selectable>
+            <selectable name="land_use_types" type="selectable">False</selectable>
+            <selectable name="non_home_based_employment_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="non_home_based_employment_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="parcels" type="selectable">True</selectable>
+            <selectable name="persons" type="selectable">False</selectable>
+            <selectable name="real_estate_price_model_coefficients" type="selectable">False</selectable>
+            <selectable name="real_estate_price_model_specification" type="selectable">False</selectable>
+            <selectable name="target_vacancies" type="selectable">False</selectable>
+            <selectable name="urbansim_constants" type="selectable">False</selectable>
+            <selectable name="zones" type="selectable">False</selectable>
+            <selectable name="nodes" type="selectable">False</selectable>
+            <selectable name="residential_units" type="selectable">False</selectable>
+          </tables_to_cache>
+          <tables_to_cache_nchunks type="dictionary">
+            <parcels type="integer">1</parcels>
+          </tables_to_cache_nchunks>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <travel_model_configuration type="dictionary">
+        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
+        <travel_model_scenario type="string">studio</travel_model_scenario>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2018</year>
+            <data_dir type="string">2020_studio</data_dir>
+            <data_exchange_dir type="string">2020_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <data_dir type="string">2035_studio</data_dir>
+            <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2035</year>
+            <data_dir type="string">2035_studio</data_dir>
+            <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2040</year>
+            <data_dir type="string">2040_studio</data_dir>
+            <data_exchange_dir type="string">2040_studio/urbansim</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+      <advanced type="category">
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">[ 'bayarea','urbansim_parcel', 'urbansim', 'opus_core','psrc_parcel']</argument>
+        </dataset_pool_configuration>
+        <flush_dataset_to_cache_after_each_model type="boolean">True</flush_dataset_to_cache_after_each_model>
+        <flush_variables type="boolean">False</flush_variables>
+        <low_memory_run type="boolean">False</low_memory_run>
+        <datasets_to_cache_after_each_model type="list">['parcel', 'building', 'household', 'person', 'node','residential_unit']</datasets_to_cache_after_each_model>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="household" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">False</selectable>
+          <selectable name="building_type" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="submarket" type="selectable">True</selectable>
+          <selectable name="node" type="selectable">False</selectable>
+          <selectable name="residential_unit" type="selectable">False</selectable>
+          <selectable name="establishment" type="selectable">True</selectable>
+        </datasets_to_preload>
+      </advanced>
+    </scenario>
     <scenario executable="True" name="Baseline" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2010</base_year>
@@ -2583,6 +2922,17 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="calibration _indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="hlcm_calib">
+          <indicators>['devcalib_target_expression']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>devcalib_geography</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="diagnostic_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="check_anomalies">
           <indicators>['persons_with_unmatched_hhid', 'region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households']</indicators>
@@ -2651,10 +3001,10 @@
       </indicator_batch>
       <indicator_batch name="zone_data">
         <batch_visualization hidden="Children" type="batch_visualization" name="zone_totals">
-          <indicators>['zone_total_population', 'zone_employment', 'zone_commercial_industrial_acres', 'zone_residential_acres', 'zone_multi_family_dwelling_units', 'zone_single_family_dwelling_units', 'zone_households']</indicators>
+          <indicators>['zone_employment_health_education', 'zone_employment_other', 'zone_employment_manufacturing', 'zone_employment_agriculture', 'zone_employment_finance_professional', 'zone_total_population', 'zone_county', 'zone_population_age_65_plus', 'zone_population_age_45_to_64', 'zone_population_age_20_to_44', 'zone_population_age_5_to_19', 'zone_population_age_0_to_4', 'zone_households_income_4', 'zone_households_income_3', 'zone_households_income_2', 'zone_households_income_1', 'zone_employment', 'zone_commercial_industrial_acres', 'zone_residential_acres', 'zone_acres', 'zone_multi_family_dwelling_units', 'zone_single_family_dwelling_units', 'zone_households', 'zone_district', 'zone_non_residential_sqft', 'zone_non_residential_sqft_employment_focused_mixed_use', 'zone_non_residential_sqft_heavy_industrial', 'zone_non_residential_sqft_hotel', 'zone_non_residential_sqft_light_industrial', 'zone_non_residential_sqft_office', 'zone_non_residential_sqft_residential_focused_mixed_use', 'zone_non_residential_sqft_retail_focused_mixed_use', 'zone_non_residential_sqft_school', 'zone_non_residential_sqft_strip_mall_retail', 'zone_non_residential_sqft_warehouse_industrial', 'zone_sqft_per_employee', 'zone_non_residential_sqft_big_box_retail', 'population_per_acre', 'zone_employment_retail']</indicators>
           <output_type>tab</output_type>
           <settings>
-            <setting name="output_style">1</setting>
+            <setting name="output_style">3</setting>
           </settings>
           <dataset_name>zone</dataset_name>
           <visualization_type>tab</visualization_type>
