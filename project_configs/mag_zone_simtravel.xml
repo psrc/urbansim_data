@@ -237,9 +237,9 @@
           <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
           <argument name="submodel_string" type="string">None</argument>
           <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</argument>
+          <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
           <argument name="location_id_string" parser_action="quote_string" type="string">job_id</argument>
-            <argument name="run_config" type="dictionary">
-            <key name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</key>
+          <argument name="run_config" type="dictionary">
             <key name="sample_size_locations" type="integer">30</key>
             <key name="weights_for_estimation_string" type="string" model_dependency_type="variable">is_placed_job=(urbansim_zone.job.zone_id &gt; 0).astype(int32)</key>
             <key name="compute_capacity_flag" type="string">True</key>
@@ -247,10 +247,10 @@
             <key name="lottery_max_iterations" type="integer">10</key>
             <key name="number_of_units_string" type="string" model_dependency_type="variable">(job.home_based_status==0).astype(int32)</key>
             <key name="number_of_agents_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
+            <key name="accept_unavailability_of_choices" type="string">True</key>
         </argument>
           <argument name="estimate_config" type="dictionary">
           <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
-          <key name="sampler" type="string">opus_core.samplers.weighted_sampler</key>
           <key name="sample_size_locations" type="integer">30</key>
           <key name="weights_for_estimation_string" type="string" model_dependency_type="variable">is_placed_job=(urbansim_zone.job.zone_id &gt; 0).astype(int32)</key>
           <key name="compute_capacity_flag" type="string">True</key>
@@ -268,10 +268,10 @@
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
             <argument name="agents_index" type="string">None</argument>
-	    <argument name="agents_filter" parser_action="quote_string" type="string" model_dependency_type="variable">person.job_id &lt; 0</argument>
+	    <argument name="agents_filter" parser_action="quote_string" type="string" model_dependency_type="variable">(person.wrkr==1)*(person.job_id &lt;=0)*(person.work_outside_region==0)</argument>
             <argument name="coefficients" type="string">coefficients</argument>
             <argument name="specification" type="string">specification</argument>
-            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':500000}</argument>
             <argument name="data_objects" type="string">datasets</argument>
           </run>
           <prepare_for_estimate type="dictionary">
