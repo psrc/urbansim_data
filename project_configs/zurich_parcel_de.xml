@@ -1,0 +1,8 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+  </general>
+</opus_project>
+
