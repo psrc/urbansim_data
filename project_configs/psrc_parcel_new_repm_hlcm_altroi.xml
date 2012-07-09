@@ -21,6 +21,7 @@
           <run type="dictionary">
             <argument type="integer" name="n">5000</argument>
             <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">exp_roi = exp(psrc_parcel.development_project_proposal.expected_rate_of_return_on_investment)</argument>
+            <argument type="integer" name="within_parcel_selection_n">2</argument>
             <output hidden="True" type="string" name="output">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
