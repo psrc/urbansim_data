@@ -2213,7 +2213,7 @@
       </years>
     </estimation_config>
     <travel_model_configuration type="dictionary">
-      <travel_model_base_directory type="string">/path/to/travel_model/</travel_model_base_directory>
+      <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
       <urbansim_to_tm_variable_mapping type="dictionary">
         <variable_list type="dictionary" name="ABAGData">
           <variable name="ZONE" type="string">zone.zone_id</variable>
