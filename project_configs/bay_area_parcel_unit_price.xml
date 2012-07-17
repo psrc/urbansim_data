@@ -399,7 +399,7 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(building.non_residential_rent)</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_non_residential_rent=ln(building.non_residential_rent)</argument>
             <argument name="filter_attribute" parser_action="quote_string" type="string" model_dependency_type="variable">building.building_type_id&gt;3</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="estimate_config" type="string">Resources({'save_predicted_values_and_errors': False})</argument>
@@ -2790,7 +2790,7 @@
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
           <doesnotmatter type="dictionary">
             <year type="integer">2010</year>
-            <models type="list">["household_transition_model_with_persons", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter", "household_allocation_to_building_model"]</models>
+            <models type="list">["non_residential_rent_model", "household_transition_model_with_persons", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter", "household_allocation_to_building_model", "business_transition_model", "business_relocation_model", "business_location_choice_model", "establishment_allocation_to_building_model"]</models>
           </doesnotmatter>
         </evolve2000_2010>
       </models_in_year>
