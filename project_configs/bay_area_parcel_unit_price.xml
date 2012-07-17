@@ -418,7 +418,7 @@
             <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
             <argument name="outcome_with_inital_error" type="string">False</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
-            <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': True, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
+            <argument name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': False, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
           </run>
           <prepare_for_estimate type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_estimate</name>
