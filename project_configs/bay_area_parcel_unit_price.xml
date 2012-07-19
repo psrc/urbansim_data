@@ -2410,10 +2410,13 @@
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable name="postprocess_residential_sale_price" type="model_choice">True</selectable>
+        <selectable name="postprocess_residential_rent" type="model_choice">True</selectable>
         <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable name="business_transition_model" type="model_choice">True</selectable>
         <selectable name="business_relocation_model" type="model_choice">True</selectable>
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_non_residential_rent" type="model_choice">True</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
@@ -2946,7 +2949,7 @@
       </indicator_batch>
       <indicator_batch name="regional_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="regional_totals">
-          <indicators>['region_rental_dwelling_units_from_unit_set', 'region_rental_dwelling_units', 'region_owner_dwelling_units_from_unit_set', 'region_owner_dwelling_units', 'region_single_family_dwelling_units_from_unit_set', 'region_single_family_dwelling_units', 'region_population_within_half_mile_transit', 'region_jobs_within_half_mile_transit', 'region_dwelling_units_within_half_mile_transit', 'region_urbanized_acres', 'region_residential_acres', 'region_commercial_industrial_acres', 'region_non_residential_sqft_employment_focused_mixed_use', 'region_non_residential_sqft_retail_focused_mixed_use', 'region_non_residential_sqft_residential_focused_mixed_use', 'region_non_residential_sqft_big_box_retail', 'region_non_residential_sqft_strip_mall_retail', 'region_non_residential_sqft_heavy_industrial', 'region_non_residential_sqft_warehouse_industrial', 'region_non_residential_sqft_light_industrial', 'region_non_residential_sqft_school', 'region_non_residential_sqft_hotel', 'region_non_residential_sqft_office', 'region_dwelling_units_mixed_use', 'region_dwelling_units_multi_family', 'region_dwelling_units_single_family_attached', 'region_dwelling_units_single_family_detatched', 'region_non_residential_sqft', 'region_establishments', 'region_employment', 'region_households', 'region_dwelling_units', 'region_population', 'region_persons', 'region_employed_residents']</indicators>
+          <indicators>['region_non_residential_sqft_big_box_retail', 'region_single_family_dwelling_units_from_unit_set', 'region_single_family_dwelling_units', 'region_owner_dwelling_units', 'region_owner_dwelling_units_from_unit_set', 'region_rental_dwelling_units', 'region_rental_dwelling_units_from_unit_set', 'region_employed_residents', 'region_population_within_half_mile_transit', 'region_jobs_within_half_mile_transit', 'region_dwelling_units_within_half_mile_transit', 'region_urbanized_acres', 'region_residential_acres', 'region_commercial_industrial_acres', 'region_non_residential_sqft_employment_focused_mixed_use', 'region_non_residential_sqft_retail_focused_mixed_use', 'region_non_residential_sqft_residential_focused_mixed_use', 'region_non_residential_sqft_strip_mall_retail', 'region_non_residential_sqft_heavy_industrial', 'region_non_residential_sqft_warehouse_industrial', 'region_non_residential_sqft_light_industrial', 'region_non_residential_sqft_school', 'region_non_residential_sqft_hotel', 'region_non_residential_sqft_office', 'region_dwelling_units_mixed_use', 'region_dwelling_units_multi_family', 'region_dwelling_units_single_family_attached', 'region_dwelling_units_single_family_detatched', 'region_non_residential_sqft', 'region_establishments', 'region_employment', 'region_households', 'region_dwelling_units', 'region_population', 'region_persons']</indicators>
           <output_type>xls</output_type>
           <settings>
             <setting name="output_style">3</setting>
