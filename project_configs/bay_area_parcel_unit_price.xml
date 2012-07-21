@@ -331,6 +331,7 @@
             <class_name>RealEstatePriceModel</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">Residential Unit Sale Price Model</argument>
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_sale_price=ln(residential_unit.sale_price)</argument>
@@ -397,6 +398,7 @@
             <class_name>RealEstatePriceModel</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">Non-Residential Rent Model</argument>
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_non_residential_rent=ln(building.non_residential_rent)</argument>
@@ -464,6 +466,7 @@
             <class_name>RealEstatePriceModel</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">Residential Rent Model</argument>
             <name hidden="True" name="name" type="string">RealEstatePriceModel</name>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">ln_rent=ln(residential_unit.rent)</argument>
@@ -602,6 +605,7 @@
             <argument name="coefficients" type="string">coefficients</argument>
           </run>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">Submarket HLCM for Owners</argument>
             <argument convert_blank_to_none="True" name="number_of_units_string" type="string"/>
             <argument name="variable_package" parser_action="quote_string" type="string">bayarea</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
@@ -615,6 +619,9 @@
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_sale_price</key>
+	      <!--
+	      <key name="bfgs_kwargs" type="string">{'factr':2e13}</key>
+	      -->
             </argument>
             <argument name="location_set" type="string">submarket</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
@@ -855,6 +862,7 @@
             <argument name="coefficients" type="string">coefficients</argument>
           </run>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">Submarket HLCM for Renters</argument>
             <argument convert_blank_to_none="True" name="number_of_units_string" type="string"/>
             <argument name="variable_package" parser_action="quote_string" type="string">bayarea</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
@@ -868,6 +876,9 @@
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_rent</key>
+	      <!--
+	      <key name="bfgs_kwargs" type="string">{'factr':2e13}</key>
+	      -->
             </argument>
             <argument name="location_set" type="string">submarket</argument>
             <argument convert_blank_to_none="True" name="estimation_size_agents" type="string">.02</argument>
@@ -1082,6 +1093,7 @@
             <class_name>EmploymentLocationChoiceModel</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">business_location_choice_model_groups</argument>
             <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">establishment.home_based_status</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.establishment.employment_submarket_id</argument>
             <argument convert_blank_to_none="True" name="number_of_units_string" type="string" parser_action="quote_string" model_dependency_type="variable"/>
@@ -1375,7 +1387,7 @@
             <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/250) - (employment_submarket.aggregate(building.aggregate(establishment.employees))))</argument>
             <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">'employment_submarket.aggregate(building.non_residential_sqft)'</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
-            <argument name="model_name" parser_action="quote_string" type="string">AgentLocationChoiceModel</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Establishment Location Choice Model</argument>
             <argument name="short_name" parser_action="quote_string" type="string">ESTLCM</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">bayarea</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
@@ -1388,6 +1400,9 @@
               <key convert_blank_to_none="True" name="number_of_agents_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.aggregate(establishment.employees))</key>
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_nonres_rent</key>
+	      <!--
+	      <key name="bfgs_kwargs" type="string">{'factr':2e13}</key>
+	      -->
             </argument>
             <argument name="estimate_config" type="dictionary">
               <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string" model_dependency_type="variable"/>
@@ -1813,6 +1828,8 @@
             <class_name>HouseholdLocationChoiceModelBySubmarkets</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">household_allocation_to_building_model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">HATBM</argument>
             <name hidden="True" name="name" type="string">HouseholdLocationChoiceModelBySubmarkets</name>
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -1890,6 +1907,8 @@
             <class_name>EstablishmentLocationChoiceModelBySubmarkets</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">establishment_allocation_to_building_model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">EATBM</argument>
             <name hidden="True" name="name" type="string">EstablishmentLocationChoiceModelBySubmarkets</name>
             <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
             <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -1958,6 +1977,7 @@
             <class_name type="string">ChoiceModel</class_name>
           </import>
           <init type="dictionary">
+            <argument name="model_name" parser_action="quote_string" type="string">Tenure Choice Model</argument>
             <name name="name" type="string">ChoiceModel</name>
             <argument name="choice_set" type="string">[1,2]</argument>
             <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
@@ -2102,7 +2122,7 @@
           <init type="dictionary">
             <name name="name" type="string">TransitionModel</name>
             <argument name="dataset" type="string">household</argument>
-            <argument name="model_name" parser_action="quote_string" type="string">Household Transition Model</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Household Transition Model with Persons</argument>
             <argument name="model_short_name" parser_action="quote_string" type="string">HTM</argument>
           </init>
           <prepare_for_run type="dictionary">
