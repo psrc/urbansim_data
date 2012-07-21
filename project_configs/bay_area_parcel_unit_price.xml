@@ -2193,7 +2193,7 @@
           <run type="dictionary">
             <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
             <argument name="dataset_filter" type="string" parser_action="quote_string" model_dependency_type="variable">building.building_type_id &gt;3</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">building.non_residential_rent * building.disaggregate(numpy.exp(employment_submarket.ln_avg_nonres_converged)/numpy.exp(employment_submarket.ln_avg_nonres_rent))</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">building.non_residential_rent * building.disaggregate(numpy.exp(employment_submarket.ln_avg_nonres_rent_converged)/numpy.exp(employment_submarket.ln_avg_nonres_rent))</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">non_residential_rent</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
