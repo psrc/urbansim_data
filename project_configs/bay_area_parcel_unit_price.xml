@@ -2813,7 +2813,7 @@
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
           <doesnotmatter type="dictionary">
             <year type="integer">2010</year>
-            <models type="list">["non_residential_rent_model", "household_transition_model_with_persons", "household_relocation_model", "tenure_choice_model", "submarket_household_location_choice_model_owner", "submarket_household_location_choice_model_renter", "household_allocation_to_building_model", "business_transition_model", "business_relocation_model", "business_location_choice_model", "establishment_allocation_to_building_model"]</models>
+            <models type="list">["non_residential_rent_model", "business_transition_model", "business_relocation_model", "business_location_choice_model", "establishment_allocation_to_building_model"]</models>
           </doesnotmatter>
         </evolve2000_2010>
       </models_in_year>
