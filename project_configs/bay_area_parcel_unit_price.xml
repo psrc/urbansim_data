@@ -2430,13 +2430,13 @@
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
-        <selectable name="postprocess_residential_sale_price" type="model_choice">True</selectable>
-        <selectable name="postprocess_residential_rent" type="model_choice">True</selectable>
+        <selectable name="postprocess_residential_sale_price" type="model_choice">False</selectable>
+        <selectable name="postprocess_residential_rent" type="model_choice">False</selectable>
         <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable name="business_transition_model" type="model_choice">True</selectable>
         <selectable name="business_relocation_model" type="model_choice">True</selectable>
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
-        <selectable name="postprocess_non_residential_rent" type="model_choice">True</selectable>
+        <selectable name="postprocess_non_residential_rent" type="model_choice">False</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
