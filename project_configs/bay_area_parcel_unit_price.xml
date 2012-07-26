@@ -2790,7 +2790,7 @@
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2010</firstyear>
+        <firstyear type="integer">2011</firstyear>
         <lastyear type="integer">2035</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
