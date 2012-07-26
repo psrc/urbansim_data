@@ -50,12 +50,16 @@
           </import>
           <init type="dictionary">
             <name hidden="True" type="string" name="name">DevelopmentProposalSamplingModelByZones</name>
+            <argument type="string" name="proposal_set">development_project_proposal</argument>
+            <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument>
+            <argument type="string" convert_blank_to_none="True" name="filter_attribute"/>
           </init>
           <run type="dictionary">
             <argument type="string" name="zones" model_dependency_type="dataset">zone</argument>
             <argument type="string" name="zone_ids_to_process">processed_zones['add']</argument>
             <argument type="integer" name="n">50</argument>
             <argument type="integer" name="year">2011</argument>
+            <output hidden="True" type="string" name="output">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
       </model>
