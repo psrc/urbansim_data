@@ -5,6 +5,10 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft, intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_multi_family_dwelling_units" type="variable_definition">superdistrict.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_households" type="variable_definition">superdistrict.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_employees" type="variable_definition">superdistrict.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="devcalib_geography.devcalib_target_expression" type="variable_definition">devcalib_geography.aggregate((building.residential_units*(building.building_type_id&lt;4)) + (building.non_residential_sqft*(building.building_type_id&gt;3)))</variable>
       <variable use="both" source="expression" name="building_type.building_resunits" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
       <variable use="both" source="expression" name="county.hlcm_calib_target_expression" type="variable_definition">county.aggregate(submarket.number_of_agents(household))</variable>
@@ -619,7 +623,7 @@
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_sale_price</key>
-	      <!--
+              <!--
 	      <key name="bfgs_kwargs" type="string">{'factr':2e13}</key>
 	      -->
             </argument>
@@ -876,7 +880,7 @@
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_rent</key>
-	      <!--
+              <!--
 	      <key name="bfgs_kwargs" type="string">{'factr':2e13}</key>
 	      -->
             </argument>
@@ -1400,7 +1404,7 @@
               <key convert_blank_to_none="True" name="number_of_agents_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.aggregate(establishment.employees))</key>
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_nonres_rent</key>
-	      <!--
+              <!--
 	      <key name="bfgs_kwargs" type="string">{'factr':2e13}</key>
 	      -->
             </argument>
@@ -2493,7 +2497,7 @@
         <selectable name="business_relocation_model" type="model_choice">False</selectable>
         <selectable name="business_location_choice_model" type="model_choice">False</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
-        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">True</selectable>
+        <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
@@ -2646,7 +2650,7 @@
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
-        <selectable name="household_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable name="business_transition_model" type="model_choice">False</selectable>
         <selectable name="business_relocation_model" type="model_choice">False</selectable>
         <selectable name="business_location_choice_model" type="model_choice">False</selectable>
@@ -2791,29 +2795,29 @@
       <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2035</lastyear>
+        <lastyear type="integer">2011</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
-        <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
-        <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
-        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
-        <selectable name="household_relocation_model" type="model_choice">True</selectable>
-        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
-        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
-        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
-        <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
-        <selectable name="business_transition_model" type="model_choice">True</selectable>
-        <selectable name="business_relocation_model" type="model_choice">True</selectable>
-        <selectable name="business_location_choice_model" type="model_choice">True</selectable>
-        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
-        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">True</selectable>
+        <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">False</selectable>
+        <selectable name="household_relocation_model" type="model_choice">False</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">False</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">False</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">False</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="business_transition_model" type="model_choice">False</selectable>
+        <selectable name="business_relocation_model" type="model_choice">False</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">False</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
           <doesnotmatter type="dictionary">
             <year type="integer">2010</year>
-            <models type="list">["non_residential_rent_model", "business_transition_model", "business_relocation_model", "business_location_choice_model", "establishment_allocation_to_building_model"]</models>
+            <models type="list">["non_residential_rent_model",  "business_transition_model", "business_relocation_model", "business_location_choice_model", "establishment_allocation_to_building_model"]</models>
           </doesnotmatter>
         </evolve2000_2010>
       </models_in_year>
@@ -2945,6 +2949,14 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="superdistrict_indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
+          <indicators>['superdistrict_non_residential_sqft']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>superdistrict</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="calibration _indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="hlcm_calib">
           <indicators>['devcalib_target_expression']</indicators>
