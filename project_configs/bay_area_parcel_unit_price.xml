@@ -3047,7 +3047,7 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="superdistrict_indicators">
+      <indicator_batch name="superdistrict_indicators_short">
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
           <indicators>['superdistrict_non_residential_sqft']</indicators>
           <output_type>tab</output_type>
@@ -3118,18 +3118,18 @@
           <settings>
             <setting name="output_style">3</setting>
           </settings>
-          <dataset_name>county</dataset_name>
+          <dataset_name>is_pda</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
 	  </indicator_batch>
 	  <indicator_batch name="superdistrict_indicators">
-        <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
+        <batch_visualization hidden="Children" type="batch_visualization" name="supdist_totals">
           <indicators>['superdistrict_commercial_industrial_acres', 'superdistrict_dwelling_units_mixed_use', 'superdistrict_dwelling_units_multi_family', 'superdistrict_dwelling_units_single_family_attached', 'superdistrict_dwelling_units_single_family_detatched', 'superdistrict_dwelling_units_within_half_mile_transit', 'superdistrict_employed_residents', 'superdistrict_employment_finance_professional', 'superdistrict_employment', 'superdistrict_establishments', 'superdistrict_households', 'superdistrict_jobs_within_half_mile_transit',  'superdistrict_mixed_use_dwelling_units', 'superdistrict_multi_family_dwelling_units', 'superdistrict_non_residential_sqft_big_box_retail', 'superdistrict_non_residential_sqft_employment_focused_mixed_use', 'superdistrict_non_residential_sqft_heavy_industrial', 'superdistrict_non_residential_sqft_hotel', 'superdistrict_non_residential_sqft_light_industrial', 'superdistrict_non_residential_sqft_office', 'superdistrict_non_residential_sqft_residential_focused_mixed_use', 'superdistrict_non_residential_sqft_retail_focused_mixed_use', 'superdistrict_non_residential_sqft_school', 'superdistrict_non_residential_sqft_strip_mall_retail', 'superdistrict_non_residential_sqft_warehouse_industrial', 'superdistrict_non_residential_sqft', 'superdistrict_owner_dwelling_units', 'superdistrict_population_age_lt_18', 'superdistrict_population_within_half_mile_transit', 'superdistrict_population', 'superdistrict_rental_dwelling_units', 'superdistrict_residential_acres', 'superdistrict_single_family_dwelling_units', 'superdistrict_total_dwelling_units', 'superdistrict_urbanized_acres', 'superdistrict_population_age_65_plus']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
           </settings>
-          <dataset_name>county</dataset_name>
+          <dataset_name>superdistrict</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
