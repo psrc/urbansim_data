@@ -12,6 +12,8 @@
     <available_datasets type="list">['building','household_x_building','household','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="person_x_job.peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.person_x_job.peak_travel_time_from_home_to_work</variable>
+      <variable use="both" source="expression" name="person_x_job.peak_travel_distance_from_home_to_work_in_miles" type="variable_definition">mag_zone.person_x_job.peak_travel_distance_from_home_to_work_in_miles</variable>
+      <variable use="both" source="expression" name="person_x_job.generalized_peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.person_x_job.peak_travel_time_from_home_to_work + person.disaggregate(household.value_of_time_per_distance) * mag_zone.person_x_job.peak_travel_distance_from_home_to_work_in_miles</variable>
       <variable use="both" source="expression" name="building.ln_sqft" type="variable_definition">ln_bounded(building.non_residential_sqft)</variable>
       <variable use="both" source="expression" name="building.year_built" type="variable_definition">building.year_built</variable>
       <variable use="both" source="expression" name="building.ln_units" type="variable_definition">ln_bounded(building.residential_units)</variable>
@@ -119,6 +121,49 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="employment_status_sync_model" type="model">
+        <structure>
+          <import name="import" type="dictionary">
+            <class_module type="string">mag_zone.models.employment_status_sync_model</class_module>
+            <class_name type="string">EmploymentStatusSyncModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">EmploymentStatusSyncModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="household" type="string">household</argument>
+            <argument name="person" type="string">person</argument>
+            <argument name="work_eligible" parser_action="quote_string" type="string">person.age&gt;15</argument>
+            <argument name="full_time_ratio" type="float">0.64351</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="household_transition_model_with_persons" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">household</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Household Transition Model with Persons</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">HTM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_household_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_households</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1, 'submarket_id':-1}</argument>
+            <argument name="sync_dataset" type="string">person</argument>
+          </run>
+        </structure>
+      </model>
       <model name="household_transition_model" type="model">
         <structure type="dictionary">
           <run type="dictionary">
@@ -233,30 +278,30 @@
             <name name="name" type="string">WorkplaceChoiceModel</name>
             <argument name="location_set" type="string" model_dependency_type="dataset">job</argument>
             <argument name="model_name" parser_action="quote_string" type="string">Non-home-based Workplace Choice Model for residents</argument>
-          <argument name="short_name" parser_action="quote_string" type="string">NHBWCM</argument>
-          <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
-          <argument name="submodel_string" type="string">None</argument>
-          <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</argument>
-          <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
-          <argument name="location_id_string" parser_action="quote_string" type="string">job_id</argument>
-          <argument name="run_config" type="dictionary">
-            <key name="sample_size_locations" type="integer">30</key>
-            <key name="weights_for_estimation_string" type="string" model_dependency_type="variable">is_placed_job=(urbansim_zone.job.zone_id &gt; 0).astype(int32)</key>
-            <key name="compute_capacity_flag" type="string">True</key>
-            <key name="capacity_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</key>
-            <key name="lottery_max_iterations" type="integer">10</key>
-            <key name="number_of_units_string" type="string" model_dependency_type="variable">(job.home_based_status==0).astype(int32)</key>
-            <key name="number_of_agents_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
-            <key name="accept_unavailability_of_choices" type="string">True</key>
-        </argument>
-          <argument name="estimate_config" type="dictionary">
-          <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
-          <key name="sample_size_locations" type="integer">30</key>
-          <key name="weights_for_estimation_string" type="string" model_dependency_type="variable">is_placed_job=(urbansim_zone.job.zone_id &gt; 0).astype(int32)</key>
-          <key name="compute_capacity_flag" type="string">True</key>
-          <key name="capacity_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</key>
-          </argument>
-        </init>
+            <argument name="short_name" parser_action="quote_string" type="string">NHBWCM</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument name="submodel_string" type="string">None</argument>
+            <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="location_id_string" parser_action="quote_string" type="string">job_id</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key name="weights_for_estimation_string" type="string" model_dependency_type="variable">is_placed_job=(urbansim_zone.job.zone_id &gt; 0).astype(int32)</key>
+              <key name="compute_capacity_flag" type="string">True</key>
+              <key name="capacity_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+              <key name="number_of_units_string" type="string" model_dependency_type="variable">(job.home_based_status==0).astype(int32)</key>
+              <key name="number_of_agents_string" type="string" model_dependency_type="variable">job.number_of_agents(person)</key>
+              <key name="accept_unavailability_of_choices" type="string">True</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key name="weights_for_estimation_string" type="string" model_dependency_type="variable">is_placed_job=(urbansim_zone.job.zone_id &gt; 0).astype(int32)</key>
+              <key name="compute_capacity_flag" type="string">True</key>
+              <key name="capacity_string" type="string" model_dependency_type="variable">urbansim_parcel.job.is_untaken_non_home_based_job</key>
+            </argument>
+          </init>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(specification, coefficients)</output>
@@ -268,7 +313,7 @@
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
             <argument name="agents_index" type="string">None</argument>
-	    <argument name="agents_filter" parser_action="quote_string" type="string" model_dependency_type="variable">(person.wrkr==1)*(person.job_id &lt;=0)*(person.work_outside_region==0)</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string" model_dependency_type="variable">(person.employment_status==1)*(person.job_id &lt;=0)*(person.work_outside_region==0)</argument>
             <argument name="coefficients" type="string">coefficients</argument>
             <argument name="specification" type="string">specification</argument>
             <argument name="chunk_specification" type="string">{'records_per_chunk':500000}</argument>
@@ -279,13 +324,9 @@
             <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
             <argument name="household_set" type="string" model_dependency_type="dataset">household</argument>
             <argument name="join_datasets" type="string">True</argument>
-	    <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">person.job_id &gt; 0</argument>
+            <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">person.job_id &gt; 0</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">persons</argument>
-	    <!--
-            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">persons_for_estimation</argument>
-            <argument name="households_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">households_for_estimation</argument>
-	    -->
             <argument name="data_objects" type="string">datasets</argument>
             <output hidden="True" name="output" type="string">(specification, agents_index)</output>
           </prepare_for_estimate>
@@ -302,11 +343,11 @@
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
-              <variable_spec name="person_x_job.peak_travel_time_from_home_to_work"/>
+              <variable_spec name="person_x_job.generalized_peak_travel_time_from_home_to_work"/>
             </variable_list>
           </submodel>
         </specification>
-      </model>      
+      </model>
       <model name="setup_alternative_employment_scenario" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -320,6 +361,58 @@
             <argument name="suffix" type="string">"_employment_scenario"</argument>
             <argument name="alt_location" type="string">base_cache_storage</argument>
           </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="school_assignment_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.monte_carlo_assignment_model</class_module>
+            <class_name type="string">MonteCarloAssignmentModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">MonteCarloAssignmentModel</name>
+            <argument name="model_name" type="string">"School Assignment Model"</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="individual_dataset" type="string" parser_action="quote_string">person</argument>
+            <argument name="fraction_dataset" type="string" parser_action="quote_string">school</argument>
+            <argument name="id_name1" type="string" parser_action="quote_string">id_name1</argument>
+            <argument name="id_name2" type="string" parser_action="quote_string">schtaz</argument>
+            <argument name="fraction_attribute_name" type="string" parser_action="quote_string">total_mean</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument name="expressions_to_compute" type="string">['id_name1=((person.student_status&lt;3)*(person.schtaz &lt;= 0)).astype("i4")','id_name1=(school.taz&gt;0).astype("i4")', 'schtaz=school.taz']</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </prepare_for_run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="school_assignment_model_initialization" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.monte_carlo_assignment_model</class_module>
+            <class_name type="string">MonteCarloAssignmentModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">MonteCarloAssignmentModel</name>
+            <argument name="model_name" type="string">"School Assignment Model"</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="individual_dataset" type="string" parser_action="quote_string">person</argument>
+            <argument name="fraction_dataset" type="string" parser_action="quote_string">school</argument>
+            <argument name="id_name1" type="string" parser_action="quote_string">id_name1</argument>
+            <argument name="id_name2" type="string" parser_action="quote_string">schtaz</argument>
+            <argument name="fraction_attribute_name" type="string" parser_action="quote_string">total_mean</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument name="expressions_to_compute" type="string">['id_name1=person.student_status&lt;3','id_name1=school.taz&gt;0', 'schtaz=school.taz']</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </prepare_for_run>
         </structure>
         <specification type="dictionary"/>
       </model>
@@ -363,18 +456,19 @@
       </dataset_pool_configuration>
     </estimation_config>
     <travel_model_configuration type="dictionary">
-      <project_path type="string">/home/karthik/simtravel/test/mag_zone_dynamic/</project_path>	
-      <openamos_path type="string">/home/karthik/simtravel/openamos/core/openamos_run.py</openamos_path>
-      <openamos_convergence_file type="string">/home/karthik/simtravel/test/mag_zone_dynamic/convergence/openamos_convergence.txt</openamos_convergence_file>
-      <openamos_configuration type="string">/home/karthik/simtravel/openamos/configs/mag_zone/config_before_malta.xml</openamos_configuration>
-      <database_server_configuration type="string">postgres_test_database_server</database_server_configuration>
-      <database_name type="string">mag_zone_dynamic</database_name>
-      <malta_path type="string">/home/karthik/simtravel/malta/malta</malta_path>
-      <malta_project type="string">/home/karthik/simtravel/malta/input_OpenAMOS_iteration.dat</malta_project>
-      <malta_convergence_file type="string">/home/karthik/simtravel/test/mag_zone_dynamic/convergence/malta_convergence.txt</malta_convergence_file>
-      <openamos_configuration_after_iterations type="string">/home/karthik/simtravel/openamos/configs/mag_zone/config_after_malta.xml</openamos_configuration_after_iterations>
+      <project_path type="string">/workspace/projects/mag_zone_dynamic/</project_path>
+      <openamos_path type="string">/workspace/openamos/core/openamos_run.py</openamos_path>
+      <openamos_convergence_file type="string">/workspace/projects/mag_zone_dynamic/convergence/openamos_convergence.txt</openamos_convergence_file>
+      <openamos_configuration type="string">/workspace/openamos/configs/mag_zone/config_before_malta.xml</openamos_configuration>
+      <database_server_configuration type="string">simtravel_database_server</database_server_configuration>
+      <database_name type="string">public</database_name>
+      <malta_path type="string">/workspace/malta/malta</malta_path>
+      <malta_project type="string">/workspace/malta/input_OpenAMOS_iteration.dat</malta_project>
+      <malta_convergence_file type="string">/workspace/projects/mag_zone_dynamic/convergence/malta_convergence.txt</malta_convergence_file>
+      <openamos_configuration_after_iterations type="string">/workspace/openamos/configs/mag_zone/config_after_malta.xml</openamos_configuration_after_iterations>
+      <max_iterations type="integer">1</max_iterations>
       <models type="selectable_list">
-        <selectable name="mag_zone.simtravel.export_urbansim_data_to_openamos" type="selectable">False</selectable>
+        <selectable name="mag_zone.simtravel.export_urbansim_data_to_openamos" type="selectable">True</selectable>
         <selectable name="mag_zone.simtravel.iterative_run" type="selectable">True</selectable>
         <selectable name="mag_zone.simtravel.import_openamos_data" type="selectable">False</selectable>
       </models>
@@ -382,7 +476,17 @@
   </model_manager>
   <results_manager>
     </results_manager>
-  <scenario_manager>
+  <scenario_manager followers="debuglevel,base_year,cache_directory">
+    <scenario executable="True" name="initialize_school_assignment" type="scenario">
+      <parent type="scenario_name">mag_zone_baseline</parent>
+      <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable type="selectable" name="school_assignment_model_initialization">True</selectable>
+      </models_to_run>
+      <years_to_run setexpanded="True" config_name="years" type="tuple">
+        <firstyear type="integer">2009</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+    </scenario>
     <scenario executable="True" name="test_demo_models" type="scenario">
       <parent type="scenario_name">mag_zone_baseline</parent>
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
@@ -398,12 +502,13 @@
         <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">True</selectable>
         <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">True</selectable>
         <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">True</selectable>
+        <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">True</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
       </models_to_run>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2010</lastyear>
+        <lastyear type="integer">2011</lastyear>
       </years_to_run>
     </scenario>
     <scenario executable="True" name="mag_zone_alt_emp" type="scenario">
@@ -418,7 +523,7 @@
       </models_in_year>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2010</lastyear>
+        <lastyear type="integer">2011</lastyear>
       </years_to_run>
     </scenario>
     <scenario setexpanded="True" copyable="True" executable="True" name="mag_zone_baseline" type="scenario">
@@ -435,6 +540,7 @@
         <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">True</selectable>
         <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">True</selectable>
         <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">True</selectable>
+        <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">True</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
         <selectable name="real_estate_price_model" type="selectable">False</selectable>
@@ -442,7 +548,7 @@
         <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
         <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
         <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
-        <selectable name="household_transition_model" type="selectable">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
         <selectable name="household_location_choice_model" type="selectable">True</selectable>
@@ -456,9 +562,17 @@
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
       <base_year type="integer">2009</base_year>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
-        <firstyear type="integer">2010</firstyear>
-        <lastyear type="integer">2010</lastyear>
+        <firstyear type="integer">2009</firstyear>
+        <lastyear type="integer">2011</lastyear>
       </years_to_run>
+      <models_in_year type="dictionary">
+        <trigger_openamos key_name="year" key_value="models" type="category_with_special_keys">
+          <doesnotmatter type="dictionary">
+            <year type="integer">2009</year>
+            <models type="list">[]</models>
+          </doesnotmatter>
+        </trigger_openamos>
+      </models_in_year>
       <travel_model_configuration type="dictionary">
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
@@ -466,7 +580,23 @@
             <year_argument type="list">[]</year_argument>
           </run_description>
           <run_description type="dictionary">
-            <year type="integer">2010</year>
+            <year type="integer">2011</year>
+            <year_argument type="list">[]</year_argument>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2013</year>
+            <year_argument type="list">[]</year_argument>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2015</year>
+            <year_argument type="list">[]</year_argument>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2017</year>
+            <year_argument type="list">[]</year_argument>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2019</year>
             <year_argument type="list">[]</year_argument>
           </run_description>
         </years_to_run>
