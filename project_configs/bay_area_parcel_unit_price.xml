@@ -1486,7 +1486,7 @@
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0))&gt;0</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">(sector_id-618312)</argument>
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string" model_dependency_type="variable">bayarea.establishment.employment_submarket_id</argument>
-            <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/250) - (employment_submarket.aggregate(building.aggregate(establishment.employees))))</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/350) - (employment_submarket.aggregate(building.aggregate(establishment.employees))))</argument>
             <argument convert_blank_to_none="True" name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">'employment_submarket.aggregate(building.non_residential_sqft)'</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">Establishment Location Choice Model</argument>
@@ -1497,8 +1497,8 @@
               <key name="sample_size_locations" type="integer">50</key>
               <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"/>
               <key name="compute_capacity_flag" type="boolean">True</key>
-              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/250) - (employment_submarket.aggregate(building.aggregate(establishment.employees))))</key>
-              <key convert_blank_to_none="True" name="number_of_units_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.non_residential_sqft)/250</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string" model_dependency_type="variable">clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/350) - (employment_submarket.aggregate(building.aggregate(establishment.employees))))</key>
+              <key convert_blank_to_none="True" name="number_of_units_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.non_residential_sqft)/350</key>
               <key convert_blank_to_none="True" name="number_of_agents_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.aggregate(establishment.employees))</key>
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="price_coef_name" type="string">ln_avg_nonres_rent</key>
