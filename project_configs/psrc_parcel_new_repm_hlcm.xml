@@ -1063,7 +1063,7 @@
           </init>
        <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
-            <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=urbansim_parcel.parcel.vacant_land_area &gt; 0</argument>
+            <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=numpy.logical_and(urbansim_parcel.parcel.vacant_land_area &gt; 0, urbansim_parcel.parcel.is_residential_land_use_type * (safe_array_divide(parcel.parcel_sqft, urbansim_parcel.parcel.used_land_area) > 2.5) + numpy.logical_not(urbansim_parcel.parcel.is_residential_land_use_type))</argument>
             <!-- <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio_non_gov=numpy.logical_and(urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.33, parcel.aggregate(urbansim_parcel.building.is_governmental)==0)</argument>-->
             <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;2)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or(numpy.logical_and((safe_array_divide(parcel.parcel_sqft,parcel.aggregate(building.job_capacity))&gt;100),(parcel.aggregate(building.job_capacity)&lt;15000)),(safe_array_divide(parcel.parcel_sqft,urbansim_parcel.parcel.residential_units)&gt;250)))*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;300))</argument>
             <argument name="template_filter" convert_blank_to_none="True" parser_action="quote_string" type="string"/>
@@ -1442,7 +1442,26 @@
           </run>
         </structure>
       </model>
-   </models>
+   <model name="impute_residential_land_area_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.building.residential_land_area</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">land_area</argument>
+            <argument name="dataset_filter" parser_action="quote_string" type="string">urbansim_parcel.building.is_residential</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+       </models>
    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_estimation</cache_directory>
@@ -1487,14 +1506,14 @@
       <models_in_year type="dictionary">
       <models_in_year_category  key_name="year" key_value="models_list" type="category_with_special_keys">
        <doesnotmatter type="dictionary">
-          <year type="integer">2001</year>
-          <models_list type="list">["compute_max_dev_capacity_model", "real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_model", "development_proposal_choice_model", "building_construction_model", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "jobs_event_model", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "household_relocation_model", "household_location_choice_model","modify_workers_jobs_after_moving_households_if_lower_accessibility", "employment_relocation_model", {"employment_location_choice_model": {"group_members": ["non_home_based"]}},"distribute_unplaced_jobs_model", "distribute_unplaced_mining_utilities_jobs_model","modify_workers_jobs_after_moving_jobs", "work_at_home_choice_model","workplace_choice_model_for_resident"]</models_list>
+          <year type="integer">2000</year>
+		  <models_list type="list">["impute_residential_land_area_model", "compute_max_dev_capacity_model"]</models_list>
     </doesnotmatter>
     </models_in_year_category> 
       </models_in_year>
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2001</firstyear>
+        <firstyear type="integer">2000</firstyear>
         <lastyear type="integer">2040</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
