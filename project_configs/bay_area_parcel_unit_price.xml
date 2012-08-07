@@ -405,7 +405,6 @@
       <variable use="both" source="expression" name="building_type.building_type_population_age_45_to_64" type="variable_definition">building_type.aggregate((person.age&gt;44)*(person.age&lt;65)*(person.gq==0),intermediates=[household,building])</variable>
       <variable use="both" source="expression" name="building_type.building_type_population_age_5_to_19" type="variable_definition">building_type.aggregate((person.age&gt;5)*(person.age&lt;20)*(person.gq==0),intermediates=[household,building])</variable>
       <variable use="both" source="expression" name="building_type.building_type_population_age_65_plus" type="variable_definition">building_type.aggregate((person.age&gt;64)*(person.gq==0),intermediates=[household,building])</variable>
-      <variable use="both" source="expression" name="building_type.building_type_households" type="variable_definition">building_type.aggregate(building.number_of_agents(household)</variable>
       <variable use="both" source="expression" name="building_type.building_type_total_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
 	  <variable use="both" source="expression" name="building_type.building_type_owner_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==2))</variable>
 	  <variable use="both" source="expression" name="building_type.building_type_rental_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==1))</variable>
