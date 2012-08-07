@@ -3079,6 +3079,9 @@
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
           <indicators>['building_type_population','building_type_population_age_0_to_4','building_type_population_age_20_to_44','building_type_population_age_45_to_64','building_type_population_age_5_to_19','building_type_population_age_65_plus','building_type_households','building_type_total_dwelling_units','building_type_owner_dwelling_units','building_type_rental_dwelling_units','building_type_households','building_type_average_unit_size','building_type_avg_rent_altmethod','building_type_avg_rent','building_type_avg_sale_price']</indicators>
           <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
           <dataset_name>building_type</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
