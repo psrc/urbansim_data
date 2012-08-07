@@ -399,6 +399,21 @@
       <variable use="both" source="expression" name="is_pda.is_pda_ln_avg_nonres_rent" type="variable_definition">ln_bounded(safe_array_divide(is_pda.aggregate(building.non_residential_rent),is_pda.aggregate(building.non_residential_rent&gt;0)))</variable>
       <variable use="both" source="expression" name="is_pda.is_pda_median_rent" type="variable_definition">is_pda.aggregate(residential_unit.rent,intermediates=[building],function=median)</variable>
       <variable use="both" source="expression" name="is_pda.is_pda_population_age_65_plus" type="variable_definition">is_pda.aggregate((person.age&gt;64)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_population" type="variable_definition">building_type.aggregate(household.persons, intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_population_age_0_to_4" type="variable_definition">building_type.aggregate((person.age&lt;5)*(person.gq==0),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_population_age_20_to_44" type="variable_definition">building_type.aggregate((person.age&gt;19)*(person.age&lt;45)*(person.gq==0),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_population_age_45_to_64" type="variable_definition">building_type.aggregate((person.age&gt;44)*(person.age&lt;65)*(person.gq==0),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_population_age_5_to_19" type="variable_definition">building_type.aggregate((person.age&gt;5)*(person.age&lt;20)*(person.gq==0),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_population_age_65_plus" type="variable_definition">building_type.aggregate((person.age&gt;64)*(person.gq==0),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_households" type="variable_definition">building_type.aggregate(building.number_of_agents(household)</variable>
+      <variable use="both" source="expression" name="building_type.building_type_total_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_owner_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==2))</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_rental_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==1))</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_households" type="variable_definition">building_type.aggregate(building.number_of_agents(household))</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_average_unit_size" type="variable_definition">(building_type.aggregate(building.building_sqft - building.non_residential_sqft)*1.0)/building_type.aggregate(building.residential_units)</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_avg_rent_altmethod" type="variable_definition">building_type.aggregate(residential_unit.rent,intermediates=[building],function=mean)</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_avg_rent" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.rent,intermediates=[building]),building_type.aggregate(residential_unit.rent&gt;0,intermediates=[building]))</variable>
+	  <variable use="both" source="expression" name="building_type.building_type_avg_sale_price" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.sale_price,intermediates=[building]),building_type.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>                        
     </expression_library>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
@@ -3056,6 +3071,14 @@
       <indicator_batch name="superdistrict_indicators_short">
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
           <indicators>['superdistrict_non_residential_sqft']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>superdistrict</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="building_type_indicators_short">
+        <batch_visualization hidden="Children" type="batch_visualization" name="newviz">
+          <indicators>['building_type_population','building_type_population_age_0_to_4','building_type_population_age_20_to_44','building_type_population_age_45_to_64','building_type_population_age_5_to_19','building_type_population_age_65_plus','building_type_households','building_type_total_dwelling_units','building_type_owner_dwelling_units','building_type_rental_dwelling_units','building_type_households','building_type_average_unit_size','building_type_avg_rent_altmethod','building_type_avg_rent','building_type_avg_sale_price']</indicators>
           <output_type>tab</output_type>
           <dataset_name>superdistrict</dataset_name>
           <visualization_type>tab</visualization_type>
