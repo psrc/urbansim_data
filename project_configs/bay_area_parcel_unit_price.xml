@@ -2486,11 +2486,6 @@
             <data_dir type="string">2035_studio</data_dir>
             <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
           </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <data_dir type="string">2040_studio</data_dir>
-            <data_exchange_dir type="string">2040_studio/urbansim</data_exchange_dir>
-          </run_description>
         </years_to_run>
       </travel_model_configuration>
     </scenario>
@@ -2531,11 +2526,6 @@
             <year type="integer">2035</year>
             <data_dir type="string">2035_transit_alt</data_dir>
             <data_exchange_dir type="string">2035_transit_alt/urbansim</data_exchange_dir>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <data_dir type="string">2040_transit_alt</data_dir>
-            <data_exchange_dir type="string">2040_transit_alt/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2585,11 +2575,6 @@
             <year type="integer">2035</year>
             <data_dir type="string">2035_no_project</data_dir>
             <data_exchange_dir type="string">2035_no_project/urbansim</data_exchange_dir>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <data_dir type="string">2040_no_project</data_dir>
-            <data_exchange_dir type="string">2040_no_project/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2710,11 +2695,6 @@
             <year type="integer">2035</year>
             <data_dir type="string">2035_studio</data_dir>
             <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <data_dir type="string">2040_studio</data_dir>
-            <data_exchange_dir type="string">2040_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -2868,11 +2848,6 @@
             <data_dir type="string">2035_studio</data_dir>
             <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
           </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <data_dir type="string">2040_studio</data_dir>
-            <data_exchange_dir type="string">2040_studio/urbansim</data_exchange_dir>
-          </run_description>
         </years_to_run>
       </travel_model_configuration>
       <advanced type="category">
@@ -3023,11 +2998,6 @@
             <year type="integer">2035</year>
             <data_dir type="string">2035_studio</data_dir>
             <data_exchange_dir type="string">2035_studio/urbansim</data_exchange_dir>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <data_dir type="string">2040_studio</data_dir>
-            <data_exchange_dir type="string">2040_studio/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
