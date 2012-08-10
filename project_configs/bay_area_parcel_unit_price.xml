@@ -5,6 +5,43 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="superdistrict.superdistrict_total_dwelling_units" type="variable_definition">superdistrict.aggregate(building.residential_units,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_urbanized_acres" type="variable_definition">superdistrict.aggregate((bayarea.parcel.parcel_acre)*((bayarea.parcel.parcel_acre)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft_office" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft*(building.building_type_id==4),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft_light_industrial" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft*(building.building_type_id==7),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft_heavy_industrial&#10;" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft*(building.building_type_id==9), intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft_big_box_retail" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft*(building.building_type_id==11),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_single_family_dwelling_units" type="variable_definition">superdistrict.aggregate(building.residential_units*building.building_type_id&lt;3,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_household_population" type="variable_definition">superdistrict.aggregate(building.aggregate(household.persons),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft, intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_multi_family_dwelling_units" type="variable_definition">superdistrict.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_households" type="variable_definition">superdistrict.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="superdistrict.superdistrict_employees" type="variable_definition">superdistrict.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="devcalib_geography.devcalib_target_expression" type="variable_definition">devcalib_geography.aggregate((building.residential_units*(building.building_type_id&lt;4)) + (building.non_residential_sqft*(building.building_type_id&gt;3)))</variable>
+      <variable use="both" source="expression" name="building_type.building_resunits" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
+      <variable use="both" source="expression" name="county.hlcm_calib_target_expression" type="variable_definition">county.aggregate(submarket.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="submarket.county_is_sonoma_calib" type="variable_definition">bayarea.submarket.county_id==49</variable>
+      <variable use="both" source="expression" name="submarket.county_is_solano_calib" type="variable_definition">bayarea.submarket.county_id==48</variable>
+      <variable use="both" source="expression" name="submarket.county_is_santaclara_calib" type="variable_definition">bayarea.submarket.county_id==43</variable>
+      <variable use="both" source="expression" name="submarket.county_is_sanmateo_calib" type="variable_definition">bayarea.submarket.county_id==41</variable>
+      <variable use="both" source="expression" name="submarket.county_is_sanfrancisco_calib" type="variable_definition">bayarea.submarket.county_id==38</variable>
+      <variable use="both" source="expression" name="submarket.county_is_napa_calib" type="variable_definition">bayarea.submarket.county_id==28</variable>
+      <variable use="both" source="expression" name="submarket.county_is_marin_calib" type="variable_definition">bayarea.submarket.county_id==21</variable>
+      <variable use="both" source="expression" name="submarket.county_is_contracosta_calib" type="variable_definition">bayarea.submarket.county_id==7</variable>
+      <variable use="both" source="expression" name="submarket.county_is_alameda_calib" type="variable_definition">bayarea.submarket.county_id==1</variable>
+      <variable use="both" source="expression" name="zone.zone_sqft_per_employee" type="variable_definition">zone.aggregate(building.non_residential_sqft, intermediates=[parcel])/zone.aggregate(establishment.employees, intermediates=[building, parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_warehouse_industrial" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==8),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_strip_mall_retail" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==10),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_school" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==6),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_retail_focused_mixed_use" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==13),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_residential_focused_mixed_use" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==12),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_office" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==4),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_light_industrial" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==7),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_hotel" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==5),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_heavy_industrial" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==9), intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft_employment_focused_mixed_use" type="variable_definition">zone.aggregate(building.non_residential_sqft*(building.building_type_id==14), intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="alldata.region_non_residential_sqft_big_box_retail" terse_name="all_nonres_sqft_big_box_retail" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft*(building.building_type_id==11))</variable>
+      <variable use="both" source="expression" name="zone.zone_non_residential_sqft" type="variable_definition">zone.aggregate(building.non_residential_sqft, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="alldata.hhincq1" type="variable_definition">alldata.aggregate_all((household.income)&lt;25000)</variable>
       <variable use="both" source="expression" name="alldata.hhincq2" type="variable_definition">alldata.aggregate_all(((household.income)&gt;24999)*((household.income)&lt;45000))</variable>
       <variable use="both" source="expression" name="alldata.hhincq3" type="variable_definition">alldata.aggregate_all(((household.income)&gt;44999)*((household.income)&lt;75000))</variable>
@@ -46,7 +83,6 @@
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units_from_unit_set" terse_name="all_SF_DUs_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_unit.disaggregate(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units" terse_name="all_SF_DUs" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_urbanized_acres" terse_name="all_urbanized_acres" type="variable_definition">alldata.aggregate_all((bayarea.parcel.parcel_acre)*((bayarea.parcel.parcel_acre)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
-      <variable use="both" source="expression" name="building_type.building_resunits" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
       <variable use="both" source="expression" name="building.bdlg_in_san_francisco" type="variable_definition">building.disaggregate(parcel.county_id==38)</variable>
       <variable use="both" source="expression" name="building.bdlg_type_big_box" type="variable_definition">building.building_type_id==11</variable>
       <variable use="both" source="expression" name="building.bdlg_type_hotel" type="variable_definition">building.building_type_id==5</variable>
@@ -405,14 +441,14 @@
       <variable use="both" source="expression" name="building_type.building_type_population_age_45_to_64" type="variable_definition">building_type.aggregate((person.age&gt;44)*(person.age&lt;65)*(person.gq==0),intermediates=[household,building])</variable>
       <variable use="both" source="expression" name="building_type.building_type_population_age_5_to_19" type="variable_definition">building_type.aggregate((person.age&gt;5)*(person.age&lt;20)*(person.gq==0),intermediates=[household,building])</variable>
       <variable use="both" source="expression" name="building_type.building_type_population_age_65_plus" type="variable_definition">building_type.aggregate((person.age&gt;64)*(person.gq==0),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="building_type.building_type_households" type="variable_definition">building_type.aggregate(building.number_of_agents(household))</variable>
       <variable use="both" source="expression" name="building_type.building_type_total_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units)</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_owner_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==2))</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_rental_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==1))</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_households" type="variable_definition">building_type.aggregate(building.number_of_agents(household))</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_average_unit_size" type="variable_definition">(building_type.aggregate(building.building_sqft - building.non_residential_sqft)*1.0)/building_type.aggregate(building.residential_units)</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_avg_rent_altmethod" type="variable_definition">building_type.aggregate(residential_unit.rent,intermediates=[building],function=mean)</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_avg_rent" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.rent,intermediates=[building]),building_type.aggregate(residential_unit.rent&gt;0,intermediates=[building]))</variable>
-	  <variable use="both" source="expression" name="building_type.building_type_avg_sale_price" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.sale_price,intermediates=[building]),building_type.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>                        
+      <variable use="both" source="expression" name="building_type.building_type_owner_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==2))</variable>
+      <variable use="both" source="expression" name="building_type.building_type_rental_dwelling_units" type="variable_definition">building_type.aggregate(building.residential_units*(building.tenure==1))</variable>
+      <variable use="both" source="expression" name="building_type.building_type_average_unit_size" type="variable_definition">(building_type.aggregate(building.building_sqft - building.non_residential_sqft)*1.0)/building_type.aggregate(building.residential_units)</variable>
+      <variable use="both" source="expression" name="building_type.building_type_avg_rent_altmethod" type="variable_definition">building_type.aggregate(residential_unit.rent,intermediates=[building],function=mean)</variable>
+      <variable use="both" source="expression" name="building_type.building_type_avg_rent" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.rent,intermediates=[building]),building_type.aggregate(residential_unit.rent&gt;0,intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="building_type.building_type_avg_sale_price" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.sale_price,intermediates=[building]),building_type.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>
     </expression_library>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
@@ -1214,7 +1250,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.establishment.employment_submarket_id</argument>
             <argument convert_blank_to_none="True" name="number_of_units_string" type="string" parser_action="quote_string" model_dependency_type="variable"/>
             <argument name="compute_capacity_flag" type="boolean">True</argument>
-	    <!--
+            <!--
             <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">'clip_to_zero((employment_submarket.aggregate(building.non_residential_sqft)/250)-employment_submarket.aggregate(building.aggregate(establishment.employees)))'</argument>
 	    -->
             <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">'bayarea.employment_submarket.vacant_job_spaces'</argument>
@@ -1500,7 +1536,7 @@
             <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
             <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
-	    <!--
+            <!--
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">safe_array_divide(employment_submarket.aggregate(building.non_residential_rent),employment_submarket.aggregate(building.non_residential_rent&gt;0))&gt;0</argument>
 	    -->
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">employment_submarket.aggregate(building.non_residential_rent)&gt;0</argument>
@@ -2040,7 +2076,7 @@
             <argument name="sample_size_locations" type="integer">15</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">bayarea.building.vacant_job_spaces</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">bayarea.building.total_job_spaces</argument>
-	    <argument name="number_of_units_string" convert_blank_to_none="True" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument name="number_of_units_string" convert_blank_to_none="True" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument name="number_of_agents_string" convert_blank_to_none="True" parser_action="quote_string" type="string" model_dependency_type="variable"/>
             <argument name="location_id_string" parser_action="quote_string" type="string">building_id</argument>
             <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable"/>
@@ -2322,6 +2358,24 @@
         </structure>
         <specification type="dictionary"/>
       </model>
+      <model name="process_pipeline_events" type="model" inherit_parent_values='False'>
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">bayarea.models.process_pipeline_events</class_module>
+            <class_name>ProcessPipelineEvents</class_name>
+          </import>
+          <init type="dictionary" hidden="True">
+            <name hidden="True" name="name" type="string">ProcessPipelineEvents</name>
+          </init>
+          <run type="dictionary">
+            <argument name="scheduled_development_events" type="string" model_dependency_type='dataset'>scheduled_development_event</argument>
+            <argument name="buildings" type="string" model_dependency_type='dataset'>building</argument>
+            <argument name="residential_units" type="string" model_dependency_type='dataset'>residential_unit</argument>
+            <argument name="year" type="string" >year</argument>
+            <argument name="scenario_name" type="string">"No Project"</argument>
+          </run>
+        </structure>
+      </model>
     </models>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
@@ -2421,6 +2475,7 @@
         <lastyear type="integer">2011</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
         <selectable name="household_relocation_model" type="model_choice">True</selectable>
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
@@ -2465,6 +2520,7 @@
         <selectable name="business_relocation_model" type="model_choice">True</selectable>
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Studio" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
@@ -2506,6 +2562,7 @@
         <selectable name="business_relocation_model" type="model_choice">True</selectable>
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Transit_Priority" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
@@ -2550,6 +2607,7 @@
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
         <selectable name="postprocess_non_residential_rent" type="model_choice">False</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
@@ -2600,6 +2658,7 @@
         <selectable name="business_relocation_model" type="model_choice">False</selectable>
         <selectable name="business_location_choice_model" type="model_choice">False</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
@@ -2753,6 +2812,7 @@
         <selectable name="business_relocation_model" type="model_choice">False</selectable>
         <selectable name="business_location_choice_model" type="model_choice">False</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
@@ -2904,6 +2964,7 @@
         <selectable name="business_relocation_model" type="model_choice">False</selectable>
         <selectable name="business_location_choice_model" type="model_choice">False</selectable>
         <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
@@ -3039,8 +3100,11 @@
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="superdistrict_indicators_short">
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
-          <indicators>['superdistrict_non_residential_sqft']</indicators>
+          <indicators>['superdistrict_total_dwelling_units', 'superdistrict_urbanized_acres', 'superdistrict_non_residential_sqft_office', 'superdistrict_non_residential_sqft_light_industrial', 'superdistrict_non_residential_sqft_heavy_industrial', 'superdistrict_non_residential_sqft_big_box_retail', 'superdistrict_single_family_dwelling_units', 'superdistrict_household_population', 'superdistrict_non_residential_sqft', 'superdistrict_multi_family_dwelling_units', 'superdistrict_households', 'superdistrict_employees']</indicators>
           <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
           <dataset_name>superdistrict</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
@@ -3122,8 +3186,8 @@
           <dataset_name>is_pda</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
-	  </indicator_batch>
-	  <indicator_batch name="superdistrict_indicators">
+      </indicator_batch>
+      <indicator_batch name="superdistrict_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="supdist_totals">
           <indicators>['superdistrict_commercial_industrial_acres', 'superdistrict_dwelling_units_mixed_use', 'superdistrict_dwelling_units_multi_family', 'superdistrict_dwelling_units_single_family_attached', 'superdistrict_dwelling_units_single_family_detatched', 'superdistrict_dwelling_units_within_half_mile_transit', 'superdistrict_employed_residents', 'superdistrict_employment_finance_professional', 'superdistrict_employment', 'superdistrict_establishments', 'superdistrict_households', 'superdistrict_jobs_within_half_mile_transit',  'superdistrict_mixed_use_dwelling_units', 'superdistrict_multi_family_dwelling_units', 'superdistrict_non_residential_sqft_big_box_retail', 'superdistrict_non_residential_sqft_employment_focused_mixed_use', 'superdistrict_non_residential_sqft_heavy_industrial', 'superdistrict_non_residential_sqft_hotel', 'superdistrict_non_residential_sqft_light_industrial', 'superdistrict_non_residential_sqft_office', 'superdistrict_non_residential_sqft_residential_focused_mixed_use', 'superdistrict_non_residential_sqft_retail_focused_mixed_use', 'superdistrict_non_residential_sqft_school', 'superdistrict_non_residential_sqft_strip_mall_retail', 'superdistrict_non_residential_sqft_warehouse_industrial', 'superdistrict_non_residential_sqft', 'superdistrict_owner_dwelling_units', 'superdistrict_population_age_lt_18', 'superdistrict_population_within_half_mile_transit', 'superdistrict_population', 'superdistrict_rental_dwelling_units', 'superdistrict_residential_acres', 'superdistrict_single_family_dwelling_units', 'superdistrict_total_dwelling_units', 'superdistrict_urbanized_acres', 'superdistrict_population_age_65_plus']</indicators>
           <output_type>tab</output_type>
