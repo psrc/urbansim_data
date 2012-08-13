@@ -2409,7 +2409,9 @@
       </years>
     </estimation_config>
     <travel_model_configuration type="dictionary">
-      <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
+      <travel_model_home type="dictionary">
+        <directory type="string">/mnt</directory>
+      </travel_model_home>
       <urbansim_to_tm_variable_mapping type="dictionary">
         <variable_list type="dictionary" name="ABAGData">
           <variable name="ZONE" type="string">zone.zone_id</variable>
@@ -2493,7 +2495,9 @@
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list"/>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/tmp</travel_model_base_directory>
+        <travel_model_home type="dictionary">
+          <directory type="string">/tmp</directory>
+        </travel_model_home>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2011</year>
@@ -2524,7 +2528,6 @@
         <selectable return_value="developer_model_Studio" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">studio</travel_model_scenario>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
@@ -2566,7 +2569,6 @@
         <selectable return_value="developer_model_Transit_Priority" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">transit_alt</travel_model_scenario>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
@@ -2611,7 +2613,6 @@
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">no_project</travel_model_scenario>
         <models type="selectable_list">
           <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
@@ -2737,7 +2738,6 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">studio</travel_model_scenario>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
@@ -2890,7 +2890,6 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">studio</travel_model_scenario>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
@@ -3042,7 +3041,6 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration type="dictionary">
-        <travel_model_base_directory type="string">/mnt</travel_model_base_directory>
         <travel_model_scenario type="string">studio</travel_model_scenario>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
