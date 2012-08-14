@@ -436,7 +436,7 @@
       <base_year type="integer" field_identifier="Base Year">2009</base_year>
       <years type="tuple">
         <firstyear type="integer" field_identifier="Base Year">2009</firstyear>
-        <lastyear type="integer" field_identifier="Base Year">2009</lastyear>
+        <lastyear type="integer" field_identifier="Base Year">2019</lastyear>
       </years>
       <seed type="integer">1</seed>
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
@@ -466,11 +466,11 @@
       <malta_project type="string">/workspace/malta/input_OpenAMOS_iteration.dat</malta_project>
       <malta_convergence_file type="string">/workspace/projects/mag_zone_dynamic/convergence/malta_convergence.txt</malta_convergence_file>
       <openamos_configuration_after_iterations type="string">/workspace/openamos/configs/mag_zone/config_after_malta.xml</openamos_configuration_after_iterations>
-      <max_iterations type="integer">1</max_iterations>
+      <max_iterations type="integer">2</max_iterations>
       <models type="selectable_list">
         <selectable name="mag_zone.simtravel.export_urbansim_data_to_openamos" type="selectable">True</selectable>
         <selectable name="mag_zone.simtravel.iterative_run" type="selectable">True</selectable>
-        <selectable name="mag_zone.simtravel.import_openamos_data" type="selectable">False</selectable>
+        <selectable name="mag_zone.simtravel.import_openamos_data" type="selectable">True</selectable>
       </models>
     </travel_model_configuration>
   </model_manager>
@@ -484,7 +484,7 @@
       </models_to_run>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <lastyear type="integer">2019</lastyear>
       </years_to_run>
     </scenario>
     <scenario executable="True" name="test_demo_models" type="scenario">
@@ -508,7 +508,7 @@
       </models_to_run>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <lastyear type="integer">2019</lastyear>
       </years_to_run>
     </scenario>
     <scenario executable="True" name="mag_zone_alt_emp" type="scenario">
@@ -523,7 +523,7 @@
       </models_in_year>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <lastyear type="integer">2019</lastyear>
       </years_to_run>
     </scenario>
     <scenario setexpanded="True" copyable="True" executable="True" name="mag_zone_baseline" type="scenario">
@@ -563,8 +563,9 @@
       <base_year type="integer">2009</base_year>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
         <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <lastyear type="integer">2019</lastyear>
       </years_to_run>
+      <seed type="integer" convert_blank_to_none="True">1</seed>
       <models_in_year type="dictionary">
         <trigger_openamos key_name="year" key_value="models" type="category_with_special_keys">
           <doesnotmatter type="dictionary">
@@ -580,19 +581,7 @@
             <year_argument type="list">[]</year_argument>
           </run_description>
           <run_description type="dictionary">
-            <year type="integer">2011</year>
-            <year_argument type="list">[]</year_argument>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2013</year>
-            <year_argument type="list">[]</year_argument>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2015</year>
-            <year_argument type="list">[]</year_argument>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2017</year>
+            <year type="integer">2014</year>
             <year_argument type="list">[]</year_argument>
           </run_description>
           <run_description type="dictionary">
@@ -693,6 +682,90 @@
       </advanced>
     </scenario>
   </scenario_manager>
+  <!--
+  <scenario_manager>
+    <scenario executable="True" name="urbansim_zone_baseline" setexpanded="True" type="scenario">
+      <models_to_run type="selectable_list">
+        <selectable name="real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="development_project_transition_model" type="selectable">False</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="household_transition_model" type="selectable">True</selectable>
+        <selectable name="employment_transition_model" type="selectable">True</selectable>
+        <selectable name="household_relocation_model" type="selectable">True</selectable>
+        <selectable name="household_location_choice_model" type="selectable">True</selectable>
+        <selectable name="employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">True
+          <group_members type="string">_all_</group_members>
+        </selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="selectable">True</selectable>
+      </models_to_run>
+      <scenario_database_configuration type="string"/>
+      <others type="category">
+        <base_year type="integer">2000</base_year>
+        <years_to_run config_name="years" type="tuple">
+          <firstyear type="integer">2001</firstyear>
+          <lastyear type="integer">2002</lastyear>
+        </years_to_run>
+      </others>
+      <model_system type="string">urbansim.model_coordinators.model_system</model_system>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+        <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory"/>
+        </argument>
+        <argument name="cache_scenario_database" type="string">urbansim.model_coordinators.cache_scenario_database</argument>
+        <argument name="tables_to_cache" type="selectable_list">
+          <selectable name="annual_employment_control_totals" type="selectable">True</selectable>
+          <selectable name="annual_household_control_totals" type="selectable">True</selectable>
+          <selectable name="households" type="selectable">True</selectable>
+          <selectable name="building_types" type="selectable">True</selectable>
+          <selectable name="jobs" type="selectable">True</selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="zones" type="selectable">True</selectable>
+          <selectable name="buildings" type="selectable">True</selectable>
+          <selectable name="counties" type="selectable">True</selectable>
+          <selectable name="commercial_development_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="commercial_development_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="commercial_employment_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="commercial_employment_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="home_based_employment_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="home_based_employment_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="industrial_employment_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="industrial_employment_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="industrial_development_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="industrial_development_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="residential_development_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="residential_development_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="urbansim_constants" type="selectable">True</selectable>
+          <selectable name="household_location_choice_model_coefficients" type="selectable">True</selectable>
+          <selectable name="household_location_choice_model_specification" type="selectable">True</selectable>
+          <selectable name="household_characteristics_for_ht" type="selectable">True</selectable>
+          <selectable name="annual_household_relocation_rates" type="selectable">True</selectable>
+          <selectable name="annual_job_relocation_rates" type="selectable">True</selectable>
+          <selectable name="base_year" type="selectable">True</selectable>
+          <selectable name="cities" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+          <selectable name="employment_adhoc_sector_group_definitions" type="selectable">True</selectable>
+          <selectable name="employment_adhoc_sector_groups" type="selectable">True</selectable>
+          <selectable name="employment_sectors" type="selectable">True</selectable>
+          <selectable name="race_names" type="selectable">True</selectable>
+          <selectable name="target_vacancies" type="selectable">True</selectable>
+          <selectable name="jobs_for_estimation" type="selectable">True</selectable>
+          <selectable name="households_for_estimation" type="selectable">True</selectable>
+        </argument>
+        <argument name="tables_to_cache_nchunks" type="dictionary"/>
+        <argument name="tables_to_copy_to_previous_years" type="dictionary"/>
+      </creating_baseyear_cache_configuration>
+    </scenario>
+  </scenario_manager>
+  -->
   <debuglevel type="integer">4</debuglevel>
   <base_year type="integer"/>
   <cache_directory type="string"/>
