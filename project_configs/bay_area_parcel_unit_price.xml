@@ -84,7 +84,13 @@
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units_from_unit_set" terse_name="all_SF_DUs_from_unit_set" type="variable_definition">alldata.aggregate_all(residential_unit.disaggregate(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units" terse_name="all_SF_DUs" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_urbanized_acres" terse_name="all_urbanized_acres" type="variable_definition">alldata.aggregate_all((bayarea.parcel.parcel_acre)*((bayarea.parcel.parcel_acre)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
-      <variable use="both" source="expression" name="building.bdlg_in_san_francisco" type="variable_definition">building.disaggregate(parcel.county_id==38)</variable>
+      <variable use="both" source="expression" name="alldata.ln_median_income" type="variable_definition">ln_bounded(alldata.aggregate(household.income, function=median))</variable>
+   	  <variable use="both" source="expression" name="alldata.ln_median_rent_per_unit" type="variable_definition">ln_bounded(alldata.aggregate(residential_unit.rent,intermediates=[building],function=median))</variable>
+	  <variable use="both" source="expression" name="alldata.median_household_size" type="variable_definition">alldata.aggregate(household.persons, function=median)</variable>
+	  <variable use="both" source="expression" name="alldata.ln_avg_rent" type="variable_definition">ln(safe_array_divide(alldata.aggregate(residential_unit.rent,intermediates=[building]),alldata.aggregate(residential_unit.rent&gt;0,intermediates=[building])))</variable>
+	  <variable use="both" source="expression" name="alldata.ln_avg_sale_price" type="variable_definition">ln(safe_array_divide(alldata.aggregate(residential_unit.sale_price,intermediates=[building]),alldata.aggregate(residential_unit.sale_price&gt;0,intermediates=[building])))</variable>
+	  <variable use="both" source="expression" name="alldata.average_unit_size" type="variable_definition">(alldata.aggregate(building.building_sqft - building.non_residential_sqft)*1.0)/alldata.aggregate(building.residential_units)</variable>
+	  <variable use="both" source="expression" name="building.bdlg_in_san_francisco" type="variable_definition">building.disaggregate(parcel.county_id==38)</variable>
       <variable use="both" source="expression" name="building.bdlg_type_big_box" type="variable_definition">building.building_type_id==11</variable>
       <variable use="both" source="expression" name="building.bdlg_type_hotel" type="variable_definition">building.building_type_id==5</variable>
       <variable use="both" source="expression" name="building.bdlg_type_mixed_use" type="variable_definition">(building.building_type_id&gt;11)*(building.building_type_id&lt;15)</variable>
@@ -3177,6 +3183,17 @@
       <indicator_batch name="diagnostic_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="check_anomalies">
           <indicators>['persons_with_unmatched_hhid','households_with_unmatched_bldg_id', 'region_employment','region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="regional_indicators_short">
+        <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
+          <indicators>['persons_with_unmatched_hhid','households_with_unmatched_bldg_id', 'region_employment','region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households','region_single_family_dwelling_units','region_persons_nongq','region_non_residential_sqft','ln_median_income','ln_median_rent_per_unit','median_household_size','ln_avg_rent','ln_avg_sale_price','average_unit_size',]</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
