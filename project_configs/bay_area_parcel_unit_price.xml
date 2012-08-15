@@ -47,8 +47,8 @@
       <variable use="both" source="expression" name="alldata.hhincq3" type="variable_definition">alldata.aggregate_all(((household.income)&gt;44999)*((household.income)&lt;75000))</variable>
       <variable use="both" source="expression" name="alldata.hhincq4" type="variable_definition">alldata.aggregate_all((household.income)&gt;74999,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="alldata.persons_with_unmatched_hhid" type="variable_definition">alldata.aggregate_all(person.disaggregate(household.persons)&lt;=0)</variable>
-      <variable use="both" source="expression" name="alldata.households_with_unmatched_bldg_id" type="variable_definition">alldata.aggregate_all((household.building_id)&lt;=0)</variable>
-      <variable use="both" source="expression" name="alldata.region_commercial_industrial_acres" terse_name="all_comm_ind_acres" type="variable_definition">alldata.aggregate_all(bayarea.parcel.parcel_acre*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
+<!--   <variable use="both" source="expression" name="alldata.households_with_unmatched_bldg_id" type="variable_definition">alldata.aggregate_all((household.building_id)&lt;=0)</variable>
+-->   <variable use="both" source="expression" name="alldata.region_commercial_industrial_acres" terse_name="all_comm_ind_acres" type="variable_definition">alldata.aggregate_all(bayarea.parcel.parcel_acre*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
       <variable use="both" source="expression" name="alldata.region_dwelling_units_mixed_use" terse_name="all_DUs_mxu" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&gt;11))</variable>
       <variable use="both" source="expression" name="alldata.region_dwelling_units_multi_family" terse_name="all_DUs_multi_family" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==3))</variable>
       <variable use="both" source="expression" name="alldata.region_dwelling_units_single_family_attached" terse_name="all_DUs_SF_attached" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==2))</variable>
@@ -3182,7 +3182,7 @@
       </indicator_batch>
       <indicator_batch name="diagnostic_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="check_anomalies">
-          <indicators>['persons_with_unmatched_hhid','households_with_unmatched_bldg_id', 'region_employment','region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households']</indicators>
+          <indicators>['persons_with_unmatched_hhid',<!--'households_with_unmatched_bldg_id'--> 'region_employment','region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
