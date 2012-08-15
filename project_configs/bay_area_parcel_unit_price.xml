@@ -3196,7 +3196,7 @@
           <indicators>['region_employment','region_population', 'region_persons_nongq', 'region_employed_residents', 'region_households','region_single_family_dwelling_units','ln_median_rent_per_unit','ln_avg_rent','ln_avg_sale_price']</indicators>
           <output_type>tab</output_type>
           <settings>
-            <setting name="output_style">1</setting>
+            <setting name="output_style">3</setting>
           </settings>
           <dataset_name>alldata</dataset_name>
           <visualization_type>tab</visualization_type>
