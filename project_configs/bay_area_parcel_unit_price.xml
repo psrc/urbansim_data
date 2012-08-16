@@ -3182,7 +3182,18 @@
       </indicator_batch>
       <indicator_batch name="diagnostic_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="check_anomalies">
-          <indicators>['persons_with_unmatched_hhid','households_with_unmatched_bldg_id','region_employment','region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households']</indicators>
+          <indicators>['persons_with_unmatched_hhid','region_employment','region_population','region_persons', 'region_persons_nongq', 'region_employed_residents', 'region_households']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="diagnostic_indicators_test">
+        <batch_visualization hidden="Children" type="batch_visualization" name="check_anomalies">
+          <indicators>['persons_with_unmatched_hhid', 'households_with_unmatched_bldg_id']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
