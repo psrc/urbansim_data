@@ -2429,6 +2429,54 @@
           </run>
         </structure>
       </model>
+      <model name="mtc_export" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">bayarea.models.mtc_export</class_module>
+            <class_name>MTCExport</class_name>
+          </import>
+          <init type="dictionary" hidden="True">
+            <name hidden="True" name="name" type="string">MTCExport</name>
+            <argument name="data_to_export" type="dictionary">
+              <variable_list type="dictionary" name="ABAGData">
+                <variable name="ZONE" type="string">zone.zone_id</variable>
+                <variable name="SD" type="string">zone.superd</variable>
+                <variable name="COUNTY" type="string">zone.county_mtc</variable>
+                <variable name="TOTHH" type="string">zone.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
+                <variable name="HHPOP" type="string">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])</variable>
+                <variable name="TOTPOP" type="string">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])+zone.gqpop</variable>
+                <variable name="EMPRES" type="string">zone.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
+                <variable name="SFDU" type="string">zone.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
+                <variable name="MFDU" type="string">zone.aggregate(building.residential_units*(building.building_type_id&gt;2),intermediates=[parcel])</variable>
+                <variable name="HHINCQ1" type="string">zone.aggregate((household.income*.7201)&lt;25000,intermediates=[building,parcel])</variable>
+                <variable name="HHINCQ2" type="string">zone.aggregate(((household.income*.7201)&gt;24999)*((household.income*.7201)&lt;45000),intermediates=[building,parcel])</variable>
+                <variable name="HHINCQ3" type="string">zone.aggregate(((household.income*.7201)&gt;44999)*((household.income*.7201)&lt;75000),intermediates=[building,parcel])</variable>
+                <variable name="HHINCQ4" type="string">zone.aggregate((household.income*.7201)&gt;74999,intermediates=[building,parcel])</variable>
+                <variable name="TOTACRE" type="string">zone.acres</variable>
+                <variable name="RESACRE" type="string">bayarea.zone.resacre * zone.disaggregate(bayarea.alldata.resacre_factor)</variable>
+                <variable name="CIACRE" type="string">bayarea.zone.ciacre * zone.disaggregate(bayarea.alldata.ciacre_factor)</variable>
+                <variable name="SHPOP62P" type="string">safe_array_divide(zone.aggregate((person.age&gt;61)*(person.gq==0),intermediates=[household,building,parcel]),zone.aggregate(household.persons,intermediates=[building,parcel]))</variable>
+                <variable name="TOTEMP" type="string">zone.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
+                <variable name="AGE0004" type="string">zone.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+                <variable name="AGE0519" type="string">zone.aggregate((person.age&gt;=5)*(person.age&lt;=19)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+                <variable name="AGE2044" type="string">zone.aggregate((person.age&gt;=20)*(person.age&lt;=44)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+                <variable name="AGE4564" type="string">zone.aggregate((person.age&gt;=45)*(person.age&lt;=64)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+                <variable name="AGE65P" type="string">zone.aggregate((person.age&gt;=65)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+                <variable name="RETEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [9, 15]),intermediates=[building,parcel])</variable>
+                <variable name="FPSEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [1, 2, 3]),intermediates=[building,parcel])</variable>
+                <variable name="HEREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])</variable>
+                <variable name="AGREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])</variable>
+                <variable name="MWTEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [11, 14, 17, 19, 21, 22, 25]),intermediates=[building,parcel])</variable>
+                <variable name="OTHEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])</variable>
+              </variable_list>
+            </argument>
+          </init>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="years_to_run" type="list">[2010, 2011, 2015, 2018, 2020, 2025, 2035, 2040]</argument>
+          </run>
+        </structure>
+      </model>
     </models>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
@@ -2465,45 +2513,11 @@
       <travel_model_home type="dictionary">
         <directory type="string">/mnt</directory>
       </travel_model_home>
-      <urbansim_to_tm_variable_mapping type="dictionary">
-        <variable_list type="dictionary" name="ABAGData">
-          <variable name="ZONE" type="string">zone.zone_id</variable>
-          <variable name="SD" type="string">zone.superd</variable>
-          <variable name="COUNTY" type="string">zone.county_mtc</variable>
-          <variable name="TOTHH" type="string">zone.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
-          <variable name="HHPOP" type="string">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])</variable>
-          <variable name="TOTPOP" type="string">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])+zone.gqpop</variable>
-          <variable name="EMPRES" type="string">zone.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
-          <variable name="SFDU" type="string">zone.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
-          <variable name="MFDU" type="string">zone.aggregate(building.residential_units*(building.building_type_id&gt;2),intermediates=[parcel])</variable>
-          <variable name="HHINCQ1" type="string">zone.aggregate((household.income*.7201)&lt;25000,intermediates=[building,parcel])</variable>
-          <variable name="HHINCQ2" type="string">zone.aggregate(((household.income*.7201)&gt;24999)*((household.income*.7201)&lt;45000),intermediates=[building,parcel])</variable>
-          <variable name="HHINCQ3" type="string">zone.aggregate(((household.income*.7201)&gt;44999)*((household.income*.7201)&lt;75000),intermediates=[building,parcel])</variable>
-          <variable name="HHINCQ4" type="string">zone.aggregate((household.income*.7201)&gt;74999,intermediates=[building,parcel])</variable>
-          <variable name="TOTACRE" type="string">zone.acres</variable>
-          <variable name="RESACRE" type="string">bayarea.zone.resacre * zone.disaggregate(bayarea.alldata.resacre_factor)</variable>
-          <variable name="CIACRE" type="string">bayarea.zone.ciacre * zone.disaggregate(bayarea.alldata.ciacre_factor)</variable>
-          <variable name="SHPOP62P" type="string">safe_array_divide(zone.aggregate((person.age&gt;61)*(person.gq==0),intermediates=[household,building,parcel]),zone.aggregate(household.persons,intermediates=[building,parcel]))</variable>
-          <variable name="TOTEMP" type="string">zone.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
-          <variable name="AGE0004" type="string">zone.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-          <variable name="AGE0519" type="string">zone.aggregate((person.age&gt;=5)*(person.age&lt;=19)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-          <variable name="AGE2044" type="string">zone.aggregate((person.age&gt;=20)*(person.age&lt;=44)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-          <variable name="AGE4564" type="string">zone.aggregate((person.age&gt;=45)*(person.age&lt;=64)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-          <variable name="AGE65P" type="string">zone.aggregate((person.age&gt;=65)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-          <variable name="RETEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [9, 15]),intermediates=[building,parcel])</variable>
-          <variable name="FPSEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [1, 2, 3]),intermediates=[building,parcel])</variable>
-          <variable name="HEREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])</variable>
-          <variable name="AGREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])</variable>
-          <variable name="MWTEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [11, 14, 17, 19, 21, 22, 25]),intermediates=[building,parcel])</variable>
-          <variable name="OTHEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])</variable>
-        </variable_list>
-      </urbansim_to_tm_variable_mapping>
       <tm_to_urbansim_variable_mapping type="dictionary">
         <variable_list type="string" name="zone_accessibility">skims/accessibility.csv</variable_list>
       </tm_to_urbansim_variable_mapping>
       <models type="selectable_list">
-        <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
-        <selectable name="bayarea.travel_model.invoke_run_travel_model" type="selectable">False</selectable>
+        <selectable name="bayarea.travel_model.invoke_run_travel_model" type="selectable">True</selectable>
         <selectable name="bayarea.travel_model.import_travel_model_data" type="selectable">False</selectable>
       </models>
     </travel_model_configuration>
@@ -2664,7 +2678,6 @@
       <travel_model_configuration type="dictionary">
         <travel_model_scenario type="string">no_project</travel_model_scenario>
         <models type="selectable_list">
-          <selectable name="bayarea.travel_model.export_opus_data" type="selectable">True</selectable>
           <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
           <selectable name="bayarea.travel_model.import_travel_model_data" type="selectable">True</selectable>
         </models>
@@ -3014,6 +3027,7 @@
         <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
+        <selectable name="mtc_export" type="model_choice">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
