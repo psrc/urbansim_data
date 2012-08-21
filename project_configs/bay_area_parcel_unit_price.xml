@@ -2481,12 +2481,8 @@
           <variable name="HHINCQ3" type="string">zone.aggregate(((household.income*.7201)&gt;44999)*((household.income*.7201)&lt;75000),intermediates=[building,parcel])</variable>
           <variable name="HHINCQ4" type="string">zone.aggregate((household.income*.7201)&gt;74999,intermediates=[building,parcel])</variable>
           <variable name="TOTACRE" type="string">zone.acres</variable>
-          <variable name="RESACRE" type="string">bayarea.zone.resacre</variable>
-          <variable name="RESACRE_CNTY_ADJ" type="string">bayarea.zone.resacre * zone.disaggregate(bayarea.county.resacre_factor)</variable>
-          <variable name="RESACRE_REGION_ADJ" type="string">bayarea.zone.resacre * zone.disaggregate(bayarea.alldata.resacre_factor)</variable>
-          <variable name="CIACRE" type="string">bayarea.zone.ciacre</variable>
-          <variable name="CIACRE_CNTY_ADJ" type="string">bayarea.zone.ciacre * zone.disaggregate(bayarea.county.ciacre_factor)</variable>
-          <variable name="CIACRE_REGION_ADJ" type="string">bayarea.zone.ciacre * zone.disaggregate(bayarea.alldata.ciacre_factor)</variable>
+          <variable name="RESACRE" type="string">bayarea.zone.resacre * zone.disaggregate(bayarea.alldata.resacre_factor)</variable>
+          <variable name="CIACRE" type="string">bayarea.zone.ciacre * zone.disaggregate(bayarea.alldata.ciacre_factor)</variable>
           <variable name="SHPOP62P" type="string">safe_array_divide(zone.aggregate((person.age&gt;61)*(person.gq==0),intermediates=[household,building,parcel]),zone.aggregate(household.persons,intermediates=[building,parcel]))</variable>
           <variable name="TOTEMP" type="string">zone.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
           <variable name="AGE0004" type="string">zone.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
