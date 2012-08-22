@@ -504,6 +504,7 @@
       <variable use="both" source="expression" name="building_type.building_type_avg_rent_altmethod" type="variable_definition">building_type.aggregate(residential_unit.rent,intermediates=[building],function=mean)</variable>
       <variable use="both" source="expression" name="building_type.building_type_avg_rent" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.rent,intermediates=[building]),building_type.aggregate(residential_unit.rent&gt;0,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="building_type.building_type_avg_sale_price" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.sale_price,intermediates=[building]),building_type.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>
+      <variable use="both" source="expression" name="area_permutation.area_permutation_employment" type="variable_definition">area_permutation.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
     </expression_library>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
