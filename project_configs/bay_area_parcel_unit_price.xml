@@ -5,6 +5,10 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="primary attribute" name="area_permutation.tpp_id" type="variable_definition">area_permutation.tpp_id</variable>
+      <variable use="both" source="primary attribute" name="area_permutation.pda_id" type="variable_definition">area_permutation.pda_id</variable>
+      <variable use="both" source="primary attribute" name="area_permutation.county_id" type="variable_definition">area_permutation.county_id</variable>
+      <variable use="both" source="primary attribute" name="area_permutation.jurisdiction_id" type="variable_definition">area_permutation.jurisdiction_id</variable>
       <variable use="both" source="expression" name="superdistrict.superdistrict_total_dwelling_units" type="variable_definition">superdistrict.aggregate(building.residential_units,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="superdistrict.superdistrict_urbanized_acres" type="variable_definition">superdistrict.aggregate((bayarea.parcel.parcel_acre)*((bayarea.parcel.parcel_acre)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
       <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft_office" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft*(building.building_type_id==4),intermediates=[parcel])</variable>
@@ -47,7 +51,7 @@
       <variable use="both" source="expression" name="alldata.hhincq3" type="variable_definition">alldata.aggregate_all(((household.income)&gt;44999)*((household.income)&lt;75000))</variable>
       <variable use="both" source="expression" name="alldata.hhincq4" type="variable_definition">alldata.aggregate_all((household.income)&gt;74999,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="alldata.persons_with_unmatched_hhid" type="variable_definition">alldata.aggregate_all(person.disaggregate(household.persons)&lt;=0)</variable>
-	  <variable use="both" source="expression" name="alldata.households_with_unmatched_bldg_id" type="variable_definition">alldata.aggregate_all((household.building_id)&lt;=0)</variable>
+      <variable use="both" source="expression" name="alldata.households_with_unmatched_bldg_id" type="variable_definition">alldata.aggregate_all((household.building_id)&lt;=0)</variable>
       <variable use="both" source="expression" name="alldata.region_commercial_industrial_acres" terse_name="all_comm_ind_acres" type="variable_definition">alldata.aggregate_all(bayarea.parcel.parcel_acre*parcel.aggregate(building.non_residential_sqft&gt;0))</variable>
       <variable use="both" source="expression" name="alldata.region_dwelling_units_mixed_use" terse_name="all_DUs_mxu" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&gt;11))</variable>
       <variable use="both" source="expression" name="alldata.region_dwelling_units_multi_family" terse_name="all_DUs_multi_family" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==3))</variable>
@@ -85,12 +89,12 @@
       <variable use="both" source="expression" name="alldata.region_single_family_dwelling_units" terse_name="all_SF_DUs" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id&lt;3))</variable>
       <variable use="both" source="expression" name="alldata.region_urbanized_acres" terse_name="all_urbanized_acres" type="variable_definition">alldata.aggregate_all((bayarea.parcel.parcel_acre)*((bayarea.parcel.parcel_acre)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
       <variable use="both" source="expression" name="alldata.ln_median_income" type="variable_definition">ln_bounded(alldata.aggregate_all(household.income, function=median))</variable>
-	  <variable use="both" source="expression" name="alldata.ln_median_rent_per_unit" type="variable_definition">ln_bounded(alldata.aggregate_all(residential_unit.rent,intermediates=[building],function=median))</variable>
-	  <variable use="both" source="expression" name="alldata.median_household_size" type="variable_definition">alldata.aggregate_all(household.persons, function=median)</variable>
-	  <variable use="both" source="expression" name="alldata.ln_avg_rent" type="variable_definition">ln(safe_array_divide(alldata.aggregate_all(residential_unit.rent,intermediates=[building]),alldata.aggregate_all(residential_unit.rent&gt;0,intermediates=[building])))</variable>
-	  <variable use="both" source="expression" name="alldata.ln_avg_sale_price" type="variable_definition">ln(safe_array_divide(alldata.aggregate_all(residential_unit.sale_price,intermediates=[building]),alldata.aggregate_all(residential_unit.sale_price&gt;0,intermediates=[building])))</variable>
-	  <variable use="both" source="expression" name="alldata.average_unit_size" type="variable_definition">(alldata.aggregate_all(building.building_sqft - building.non_residential_sqft)*1.0)/alldata.aggregate_all(building.residential_units)</variable>
-	  <variable use="both" source="expression" name="building.bdlg_in_san_francisco" type="variable_definition">building.disaggregate(parcel.county_id==38)</variable>
+      <variable use="both" source="expression" name="alldata.ln_median_rent_per_unit" type="variable_definition">ln_bounded(alldata.aggregate_all(residential_unit.rent,intermediates=[building],function=median))</variable>
+      <variable use="both" source="expression" name="alldata.median_household_size" type="variable_definition">alldata.aggregate_all(household.persons, function=median)</variable>
+      <variable use="both" source="expression" name="alldata.ln_avg_rent" type="variable_definition">ln(safe_array_divide(alldata.aggregate_all(residential_unit.rent,intermediates=[building]),alldata.aggregate_all(residential_unit.rent&gt;0,intermediates=[building])))</variable>
+      <variable use="both" source="expression" name="alldata.ln_avg_sale_price" type="variable_definition">ln(safe_array_divide(alldata.aggregate_all(residential_unit.sale_price,intermediates=[building]),alldata.aggregate_all(residential_unit.sale_price&gt;0,intermediates=[building])))</variable>
+      <variable use="both" source="expression" name="alldata.average_unit_size" type="variable_definition">(alldata.aggregate_all(building.building_sqft - building.non_residential_sqft)*1.0)/alldata.aggregate_all(building.residential_units)</variable>
+      <variable use="both" source="expression" name="building.bdlg_in_san_francisco" type="variable_definition">building.disaggregate(parcel.county_id==38)</variable>
       <variable use="both" source="expression" name="building.bdlg_type_big_box" type="variable_definition">building.building_type_id==11</variable>
       <variable use="both" source="expression" name="building.bdlg_type_hotel" type="variable_definition">building.building_type_id==5</variable>
       <variable use="both" source="expression" name="building.bdlg_type_mixed_use" type="variable_definition">(building.building_type_id&gt;11)*(building.building_type_id&lt;15)</variable>
@@ -2438,7 +2442,7 @@
         </structure>
         <specification type="dictionary"/>
       </model>
-      <model name="process_pipeline_events" type="model" inherit_parent_values='False'>
+      <model name="process_pipeline_events" type="model" inherit_parent_values="False">
         <structure type="dictionary">
           <import hidden="True" name="import" type="dictionary">
             <class_module type="string">bayarea.models.process_pipeline_events</class_module>
@@ -2448,10 +2452,10 @@
             <name hidden="True" name="name" type="string">ProcessPipelineEvents</name>
           </init>
           <run type="dictionary">
-            <argument name="scheduled_development_events" type="string" model_dependency_type='dataset'>scheduled_development_event</argument>
-            <argument name="buildings" type="string" model_dependency_type='dataset'>building</argument>
-            <argument name="residential_units" type="string" model_dependency_type='dataset'>residential_unit</argument>
-            <argument name="year" type="string" >year</argument>
+            <argument name="scheduled_development_events" type="string" model_dependency_type="dataset">scheduled_development_event</argument>
+            <argument name="buildings" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="residential_units" type="string" model_dependency_type="dataset">residential_unit</argument>
+            <argument name="year" type="string">year</argument>
             <argument name="scenario_name" type="string">"No Project"</argument>
           </run>
         </structure>
@@ -2508,9 +2512,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable">True</selectable>
-        <selectable name="household" type="selectable">True</selectable>
-        <selectable name="job" type="selectable">False</selectable>
+        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
+        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -3197,18 +3201,18 @@
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
-    <indicator_batch name="abag_eir_area_permutation">
+      <indicator_batch name="abag_eir_area_permutation">
         <batch_visualization hidden="Children" type="batch_visualization" name="db">
-          <indicators>['total_employment','total_households','total_population','employed_residents','single_family_units','single_family_housholds','multi_family_units','multi_family_housholds','total_employment','age_05_19','age_20_44','age_45_64','age_65_plus','empl_10_art_rec_other','empl_02_construction','empl_01_farm_nat_res','empl_07_fin_lease','empl_11_government','empl_09_health_educ','empl_06_information','empl_03_manuf_whole','empl_08_prof','empl_04_retail','empl_05_transp_ware_util','empl_99_unclassified']</indicators>
+          <indicators>['tpp_id', 'pda_id', 'county_id', 'jurisdiction_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_housholds', 'multi_family_units', 'multi_family_housholds', 'total_employment', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified']</indicators>
           <output_type>tab</output_type>
           <settings>
-            <setting name="output_style">3</setting>
+            <setting name="output_style">1</setting>
           </settings>
           <dataset_name>area_permutation</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
-    <indicator_batch name="building_type_indicators_short">
+      <indicator_batch name="building_type_indicators_short">
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
           <indicators>['building_type_population','building_type_population_age_0_to_4','building_type_population_age_20_to_44','building_type_population_age_45_to_64','building_type_population_age_5_to_19','building_type_population_age_65_plus','building_type_households','building_type_total_dwelling_units','building_type_owner_dwelling_units','building_type_rental_dwelling_units','building_type_households','building_type_average_unit_size','building_type_avg_rent_altmethod','building_type_avg_rent','building_type_avg_sale_price']</indicators>
           <output_type>tab</output_type>

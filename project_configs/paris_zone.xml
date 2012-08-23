@@ -1132,6 +1132,7 @@
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
+	<!--
         <structure type="dictionary">
           <run type="dictionary">
             <argument name="chunk_specification" type="string">{'nchunks':1}</argument>
@@ -1199,6 +1200,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
           </prepare_for_estimate>
         </structure>
+	-->
         <specification type="dictionary">
           <submodel hidden="Children" name="1 - Owner House" submodel_id="1" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
