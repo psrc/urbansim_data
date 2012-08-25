@@ -3205,7 +3205,7 @@
       </indicator_batch>
       <indicator_batch name="abag_eir_area_permutation">
         <batch_visualization hidden="Children" type="batch_visualization" name="db">
-          <indicators>['tpp_id', 'pda_id', 'county_id', 'jurisdiction_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_housholds', 'multi_family_units', 'multi_family_housholds', 'total_employment', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified']</indicators>
+          <indicators>['county_id', 'city_id', 'pda_id', 'tpp_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_housholds', 'multi_family_units', 'multi_family_housholds', 'total_employment', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">1</setting>
