@@ -9,6 +9,7 @@
       <variable use="both" source="primary attribute" name="area_permutation.pda_id" type="variable_definition">area_permutation.pda_id</variable>
       <variable use="both" source="primary attribute" name="area_permutation.county_id" type="variable_definition">area_permutation.county_id</variable>
       <variable use="both" source="primary attribute" name="area_permutation.jurisdiction_id" type="variable_definition">area_permutation.jurisdiction_id</variable>
+      <variable use="both" source="primary attribute" name="area_permutation.city_id" type="variable_definition">area_permutation.city_id</variable>
       <variable use="both" source="expression" name="superdistrict.superdistrict_total_dwelling_units" type="variable_definition">superdistrict.aggregate(building.residential_units,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="superdistrict.superdistrict_urbanized_acres" type="variable_definition">superdistrict.aggregate((bayarea.parcel.parcel_acre)*((bayarea.parcel.parcel_acre)&lt;5)*parcel.aggregate(numpy.logical_or(building.residential_units&gt;0,building.non_residential_sqft&gt;0)))</variable>
       <variable use="both" source="expression" name="superdistrict.superdistrict_non_residential_sqft_office" type="variable_definition">superdistrict.aggregate(building.non_residential_sqft*(building.building_type_id==4),intermediates=[parcel])</variable>
