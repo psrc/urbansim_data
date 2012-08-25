@@ -5,6 +5,9 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="area_permutation.total_population_alt2" type="variable_definition">area_permutation.aggregate(person.age&lt;120*numpy.in1d(person.gq, [0, 1]),intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.total_population_alt" type="variable_definition">area_permutation.aggregate(building.number_of_agents(person),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.age_lt_04" type="variable_definition">area_permutation.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
       <variable use="both" source="primary attribute" name="area_permutation.tpp_id" type="variable_definition">area_permutation.tpp_id</variable>
       <variable use="both" source="primary attribute" name="area_permutation.pda_id" type="variable_definition">area_permutation.pda_id</variable>
       <variable use="both" source="primary attribute" name="area_permutation.county_id" type="variable_definition">area_permutation.county_id</variable>
@@ -511,17 +514,17 @@
       <variable use="both" source="expression" name="building_type.building_type_avg_sale_price" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.sale_price,intermediates=[building]),building_type.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="area_permutation.total_employment" type="variable_definition">area_permutation.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.total_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
-      <variable use="both" source="expression" name="area_permutation.total_population" type="variable_definition">area_permutation.aggregate(household.persons, intermediates=[building,parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.total_population" type="variable_definition">area_permutation.aggregate(person.person_id&gt;0, intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.employed_residents" type="variable_definition">area_permutation.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.single_family_units" type="variable_definition">area_permutation.aggregate(building.residential_units * building.building_type_id&lt;3,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.single_family_housholds" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household) *building.building_type_id&lt;3,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.multi_family_units" type="variable_definition">area_permutation.aggregate(building.residential_units*building.building_type_id==3,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.multi_family_housholds" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household)*building.building_type_id==3,intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.total_employment" type="variable_definition">area_permutation.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
-      <variable use="both" source="expression" name="area_permutation.age_05_19" type="variable_definition">area_permutation.aggregate((person.age&lt;18)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-      <variable use="both" source="expression" name="area_permutation.age_20_44" type="variable_definition">area_permutation.aggregate((person.age&gt;19)*(person.age&lt;45)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-      <variable use="both" source="expression" name="area_permutation.age_45_64" type="variable_definition">area_permutation.aggregate((person.age&gt;45)*(person.age&lt;64)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-      <variable use="both" source="expression" name="area_permutation.age_65_plus" type="variable_definition">area_permutation.aggregate((person.age&gt;64)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.age_05_19" type="variable_definition">area_permutation.aggregate((person.age&gt;=5)*(person.age&lt;=19)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.age_20_44" type="variable_definition">area_permutation.aggregate((person.age&gt;=20)*(person.age&lt;=44)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.age_45_64" type="variable_definition">area_permutation.aggregate((person.age&gt;=45)*(person.age&lt;=64)*(person.gq==0),intermediates=[household,building,parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.age_65_plus" type="variable_definition">area_permutation.aggregate((person.age&gt;=65)*(person.gq==0),intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.empl_10_art_rec_other" type="variable_definition">area_permutation.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 10, 13, 24, 26]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.empl_02_construction" type="variable_definition">area_permutation.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [20]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.empl_01_farm_nat_res" type="variable_definition">area_permutation.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])</variable>
@@ -2514,9 +2517,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -3205,7 +3208,7 @@
       </indicator_batch>
       <indicator_batch name="abag_eir_area_permutation">
         <batch_visualization hidden="Children" type="batch_visualization" name="db">
-          <indicators>['county_id', 'city_id', 'pda_id', 'tpp_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_housholds', 'multi_family_units', 'multi_family_housholds', 'total_employment', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified']</indicators>
+          <indicators>['county_id', 'city_id','pda_id', 'tpp_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_housholds', 'multi_family_units', 'multi_family_housholds', 'total_employment', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified', 'total_population_alt2', 'total_population_alt', 'age_lt_04']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">1</setting>
