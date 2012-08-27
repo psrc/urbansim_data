@@ -2587,15 +2587,19 @@
     </scenario>
     <scenario executable="True" name="test_tm_interface" type="scenario">
       <parent type="scenario_name">Baseline</parent>
-      <base_year type="integer">2011</base_year>
+      <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <firstyear type="integer">2018</firstyear>
+        <lastyear type="integer">2018</lastyear>
       </years_to_run>
-      <models_to_run config_name="models" type="selectable_list"/>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="mtc_export" type="model_choice">True</selectable>
+	  </models_to_run>
       <travel_model_configuration type="dictionary">
         <travel_model_home type="dictionary">
-          <directory type="string">/tmp</directory>
+          <directory type="string">/var/hudson/workspace/MTC_Model/mtc_travel_model</directory>
+          <proto type="string">sshfs</proto>
+          <connect_string type="string">"cube@detroit.urbansim.org:/cygdrive/e/mtc_travel_model"</connect_string>
         </travel_model_home>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
