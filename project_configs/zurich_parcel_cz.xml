@@ -1,7 +1,8 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="development_event_history_x_parcel.SC_dev_fit_permitted_floor_m2_step_ln" type="variable_definition">((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories) &lt; 0) * 4 * ((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories)) + ((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories) &gt; 0) * ln(((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories)))</variable>
@@ -38,6 +39,22 @@
       <variable use="both" source="Python class" name="parcel.SC_share_new_bldg_within_100_of_parcel" type="variable_definition">zurich_parcel.parcel.new_bldg_within_100_of_parcel</variable>
       <variable use="both" source="expression" name="development_event_history_x_parcel.SC_dev_fit_parcel" type="variable_definition">parcel.parcel_sqft - development_event_history.land_area</variable>
       <variable use="both" source="expression" name="building_x_parcel.SC_building_fit_parcel" type="variable_definition">parcel.parcel_sqft - building.land_area</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect1" type="variable_definition">(job.sector_id == 1 ) * ln(building.sqm_sector1)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect8" type="variable_definition">(job.sector_id == 8 ) * ln(building.sqm_sector8)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect7" type="variable_definition">(job.sector_id == 7 ) * ln(building.sqm_sector7)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect6" type="variable_definition">(job.sector_id == 6 ) * ln(building.sqm_sector6)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect5" type="variable_definition">(job.sector_id == 5 ) * ln(building.sqm_sector5)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect4" type="variable_definition">(job.sector_id == 4 ) * ln(building.sqm_sector4)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect3" type="variable_definition">(job.sector_id == 3 ) * ln(building.sqm_sector3)</variable>
+      <variable use="model variable" source="expression" name="job_x_building.RH_ln_surf_sect2" type="variable_definition">(job.sector_id == 2 ) * ln(building.sqm_sector2)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type1" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_1)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type2" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_2)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type3" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_3)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type4" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_4)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type5" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_5)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type6" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_6)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type7" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_7)</variable>
+      <variable use="model variable" source="expression" name="zone.RH_zone_jobs_type8" type="variable_definition">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_8)</variable>
     </expression_library>
     <available_datasets type="list">['development_event_history_x_parcel', 'building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','buildings_for_estimation', 'development_event_history', 'job_x_building']</available_datasets>
   </general>
@@ -298,6 +315,139 @@
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
       </model>
+      <model name="employment_location_choice_model" type="model">
+        <dependencies type="list">['employment_relocation_model']</dependencies>
+        <structure type="dictionary">
+          <group_by_attribute type="list">('home_based_status', 'name')</group_by_attribute>
+          <estimate type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument hidden="True" name="agents_index" type="string">index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">specification</argument>
+            <output hidden="True" name="output" type="string">(coefficients, _)</output>
+          </estimate>
+          <init type="dictionary">
+            <argument name="sample_size_locations" type="integer">50</argument>
+            <argument name="estimation_size_agents" type="float">2</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">jobs</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">employment_location_choice_model_specification</argument>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">(job.building_id&gt;0)</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel_group name="home_based" type="submodel_group">
+            <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+              <description type="string">No submodel</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.SC_ln_dist_to_station"/>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+          <submodel_group name="non_home_based" type="submodel_group">
+            <submodel hidden="Children" name="manufacturing" submodel_id="1" type="submodel">
+              <description type="string">manufacturing</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect1"/>
+                <variable_spec name="zone.RH_zone_jobs_type2"/>
+                <variable_spec name="zone.RH_zone_jobs_type3"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="construction" submodel_id="2" type="submodel">
+              <description type="string">construction</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect2"/>
+                <variable_spec name="job_x_building.RH_zone_jobs_same"/>
+                <variable_spec name="zone.RH_zone_jobs_type4"/>
+                <variable_spec name="zone.RH_zone_jobs_type5"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="trade" submodel_id="3" type="submodel">
+              <description type="string">trade</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect3"/>
+                <variable_spec name="job_x_building.RH_zonal_income_trade"/>
+                <variable_spec name="job_x_building.RH_zone_jobs_same"/>
+                <variable_spec name="zone.RH_zone_jobs_type1"/>
+                <variable_spec name="zone.RH_zone_jobs_type4"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="retail" submodel_id="4" type="submodel">
+              <description type="string">retail</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect4"/>
+                <variable_spec name="job_x_building.RH_pop_dens_trade"/>
+                <variable_spec name="job_x_building.RH_zone_jobs_same"/>
+                <variable_spec name="zone.RH_zone_jobs_type7"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="hotels_restaurants" submodel_id="5" type="submodel">
+              <description type="string">hotels_restaurants</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect5"/>
+                <variable_spec name="job_x_building.RH_zone_jobs_same"/>
+                <variable_spec name="zone.RH_zone_jobs_type1"/>
+                <variable_spec name="zone.RH_zone_jobs_type2"/>
+                <variable_spec name="zone.RH_zone_jobs_type4"/>
+                <variable_spec name="zone.RH_zone_jobs_type6"/>
+                <variable_spec name="zone.RH_zone_jobs_type7"/>
+                <variable_spec name="zone.RH_zone_jobs_type8"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="transport" submodel_id="6" type="submodel">
+              <description type="string">transport</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect6"/>
+                <variable_spec name="building.RH_zonal_income"/>
+                <variable_spec name="job_x_building.RH_zone_jobs_same"/>
+                <variable_spec name="zone.RH_zone_jobs_type3"/>
+                <variable_spec name="zone.RH_zone_jobs_type5"/>
+                <variable_spec name="zone.RH_zone_jobs_type7"/>
+                <variable_spec name="zone.RH_zone_jobs_type8"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="services" submodel_id="7" type="submodel">
+              <description type="string">services</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect7"/>
+                <variable_spec name="job_x_building.RH_zone_jobs_same"/>
+                <variable_spec name="zone.RH_zone_jobs_type1"/>
+                <variable_spec name="zone.RH_zone_jobs_type4"/>
+                <variable_spec name="zone.RH_zone_jobs_type5"/>
+                <variable_spec name="zone.RH_zone_jobs_type8"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="health" submodel_id="8" type="submodel">
+              <description type="string">health</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.RH_ln_surf_sect8"/>
+                <variable_spec name="zone.RH_zone_jobs_type4"/>
+                <variable_spec name="zone.RH_zone_jobs_type5"/>
+                <variable_spec name="zone.RH_zone_jobs_type7"/>
+                <variable_spec name="building.SC_dist_to_highway"/>
+                <variable_spec name="building.SC_dist_to_station"/>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+        </specification>
+      </model>
       <model name="SC_BLCM" type="model" hidden="False">Use single buildings in development_event_history<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
@@ -338,7 +488,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_building_location_choice_model_from_template_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_BLCM_specification</argument>
             <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">development_event_history</argument>
@@ -362,9 +512,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_building_location_choice_model_from_template_coefficients</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_BLCM_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_building_location_choice_model_from_template_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_BLCM_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
@@ -381,7 +531,7 @@
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
-              <variable_spec name="development_event_history_x_parcel.SC_dev_fit_parcel_far"/>
+              <variable_spec name="development_event_history_x_parcel.SC_dev_fit_permitted_floor_m2_step_ln"/>
             </variable_list>
           </submodel>
         </specification>
