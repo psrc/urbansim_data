@@ -828,6 +828,19 @@
           <run type="dictionary"/>
         </structure>
       </model>
+      <model name="developer_model_Preferred" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_name type="string">DeveloperModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">DeveloperModel</name>
+            <argument name="scenario" type="string">"Preferred V1"</argument>
+          </init>
+          <run type="dictionary"/>
+        </structure>
+      </model>
       <model name="submarket_household_location_choice_model_owner" type="model">
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
@@ -2739,6 +2752,55 @@
             <year type="integer">2035</year>
             <data_dir type="string">2035_no_project</data_dir>
             <data_exchange_dir type="string">2035_no_project/urbansim</data_exchange_dir>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
+    <scenario executable="True" name="Preferred" type="scenario">
+      <parent type="scenario_name">Baseline</parent>
+      <base_year type="integer">2010</base_year>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
+        <selectable name="postprocess_residential_sale_price" type="model_choice">False</selectable>
+        <selectable name="postprocess_residential_rent" type="model_choice">False</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="business_transition_model" type="model_choice">True</selectable>
+        <selectable name="business_relocation_model" type="model_choice">True</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_non_residential_rent" type="model_choice">False</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">True</selectable>
+        <selectable return_value="developer_model_Preferred" type="selectable" name="developer_model_1">True</selectable>
+        <selectable name="mtc_export" type="model_choice">True</selectable>
+      </models_to_run>
+      <travel_model_configuration type="dictionary">
+        <travel_model_scenario type="string">preferred</travel_model_scenario>
+        <models type="selectable_list">
+          <selectable name="mag_zone.simtravel.pause_on_travel_model" type="selectable">True</selectable>
+          <selectable name="bayarea.travel_model.import_travel_model_data" type="selectable">True</selectable>
+        </models>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2018</year>
+            <data_dir type="string">2020_preferred</data_dir>
+            <data_exchange_dir type="string">2020_preferred/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <data_dir type="string">2035_preferred</data_dir>
+            <data_exchange_dir type="string">2035_preferred/urbansim</data_exchange_dir>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2035</year>
+            <data_dir type="string">2035_preferred</data_dir>
+            <data_exchange_dir type="string">2035_preferred/urbansim</data_exchange_dir>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
