@@ -1789,7 +1789,7 @@
               <variable_spec name="employment_submarket.share_jobs_sector_6"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="gov" submodel_id="7" type="submodel">
+          <!--<submodel hidden="Children" name="gov" submodel_id="7" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
@@ -1800,8 +1800,8 @@
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
               <variable_spec name="employment_submarket.share_jobs_sector_7"/>
             </variable_list>
-          </submodel>
-          <submodel hidden="Children" name="ed_oth" submodel_id="8" type="submodel">
+          </submodel>-->
+          <!--<submodel hidden="Children" name="ed_oth" submodel_id="8" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
@@ -1812,7 +1812,7 @@
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
               <variable_spec name="employment_submarket.share_jobs_sector_8"/>
             </variable_list>
-          </submodel>
+          </submodel>-->
           <submodel hidden="Children" name="ret_reg" submodel_id="9" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
@@ -1925,7 +1925,7 @@
               <variable_spec name="employment_submarket.share_jobs_sector_17"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="ed_high" submodel_id="18" type="submodel">
+          <!--<submodel hidden="Children" name="ed_high" submodel_id="18" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
@@ -1937,7 +1937,7 @@
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
               <variable_spec name="employment_submarket.share_jobs_sector_18"/>
             </variable_list>
-          </submodel>
+          </submodel>-->
           <submodel hidden="Children" name="util" submodel_id="19" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
@@ -2055,7 +2055,7 @@
               <variable_spec name="employment_submarket.share_jobs_sector_27"/>
             </variable_list>
           </submodel>
-          <submodel hidden="Children" name="ed_k12" submodel_id="28" type="submodel">
+          <!--<submodel hidden="Children" name="ed_k12" submodel_id="28" type="submodel">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
               <variable_spec name="employment_submarket.esubmarket_avg_transit_peak_total_access"/>
@@ -2067,7 +2067,7 @@
               <variable_spec name="employment_submarket.ln_non_residential_sqft_esubmarket"/>
               <variable_spec name="employment_submarket.share_jobs_sector_28"/>
             </variable_list>
-          </submodel>
+          </submodel>-->
         </specification>
         <estimation_config name="Estimation Configuration" parser_action="skip">
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
