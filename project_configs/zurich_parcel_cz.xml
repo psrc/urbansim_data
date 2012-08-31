@@ -5,6 +5,9 @@
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="indicator" source="Python class" name="parcel.SC_jobs_per_parcel" type="variable_definition">urbansim_parcel.parcel.number_of_jobs</variable>
+      <variable use="indicator" source="Python class" name="city.SC_jobs_city_PyC" type="variable_definition">zurich_parcel.city.SC_jobs_per_city</variable>
+      <variable use="indicator" source="Python class" name="parcel.SC_area_capacity" type="variable_definition">zurich_parcel.parcel.area_capacity</variable>
       <variable use="both" source="expression" name="city.SC_jobs_sect99_city" type="variable_definition">city.aggregate(urbansim_parcel.building.number_of_jobs_of_sector_99, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="city.SC_jobs_sect49_city" type="variable_definition">city.aggregate(urbansim_parcel.building.number_of_jobs_of_sector_49, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="city.SC_jobs_sect8_city" type="variable_definition">city.aggregate(urbansim_parcel.building.number_of_jobs_of_sector_8, intermediates=[parcel])</variable>
@@ -966,13 +969,62 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="buildings">
-        <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
-          <indicators>['SC_households_within_500_of_parcel']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>parcel</dataset_name>
-          <visualization_type>tab</visualization_type>
+      <indicator_batch name="job_maps">
+        <batch_visualization hidden="Children" type="batch_visualization" name="jobs_per_city">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['SC_jobs_city_PyC']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>city</dataset_name>
         </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="jobs_per_parcel">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['SC_jobs_per_parcel']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="parcel_pyc">
+        <batch_visualization hidden="Children" type="batch_visualization" name="hh_within_500_map">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['SC_households_within_500_of_parcel', 'SC_area_capacity']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="buildings">
         <batch_visualization hidden="Children" type="batch_visualization" name="jobs_per_city">
           <indicators>['SC_jobs_city']</indicators>
           <output_type>tab</output_type>
@@ -987,7 +1039,7 @@
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="parcel_map">
-        <batch_visualization hidden="Children" type="batch_visualization" name="unbuilt">
+        <batch_visualization hidden="Children" type="batch_visualization" name="area_capacity">
           <settings>
             <setting name="mapnik_bucket_labels">range_labels</setting>
             <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
@@ -1000,7 +1052,7 @@
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
           <visualization_type>mapnik_map</visualization_type>
-          <indicators>['SC_unbuilt_parcel_area']</indicators>
+          <indicators>['SC_area_capacity']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>parcel</dataset_name>
         </batch_visualization>
@@ -1025,25 +1077,8 @@
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="jobs">
-        <batch_visualization hidden="Children" type="batch_visualization" name="nb_per_city_map">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_map</visualization_type>
-          <indicators>['SC_jobs_city']</indicators>
-          <output_type>mapnik_map</output_type>
-          <dataset_name>city</dataset_name>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="nb_per_city">
-          <indicators>['SC_jobs_city', 'SC_jobs_sect99_city', 'SC_jobs_sect49_city', 'SC_jobs_sect8_city', 'SC_jobs_sect7_city', 'SC_jobs_sect6_city', 'SC_jobs_sect5_city', 'SC_jobs_sect4_city', 'SC_jobs_sect3_city', 'SC_jobs_sect2_city', 'SC_jobs_sect1_city']</indicators>
+        <batch_visualization hidden="Children" type="batch_visualization" name="nb_per_city_PyC">
+          <indicators>['SC_jobs_city_PyC']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
           <visualization_type>tab</visualization_type>
