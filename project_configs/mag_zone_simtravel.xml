@@ -11,6 +11,42 @@
     </dataset_pool_configuration>
     <available_datasets type="list">['building','household_x_building','household','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="county.employment" type="variable_definition">county.aggregate(job.job_id&gt;0,intermediates=[building,zone])</variable>
+      <variable use="both" source="expression" name="county.retail_employment" type="variable_definition">county.aggregate(numpy.in1d(job.sector_id, (7,18)),intermediates=[building,zone])</variable>
+      <variable use="both" source="expression" name="county.county_non_residential_sqft" type="variable_definition">county.aggregate(building.non_residential_sqft,intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="county.households" type="variable_definition">county.aggregate(household.household_id &gt;0,intermediates=[building,zone])</variable>
+      <variable use="both" source="expression" name="county.population" type="variable_definition">county.aggregate(mag_zone.household.persons, intermediates=[building,zone])</variable>
+      <variable use="both" source="expression" name="county.county_single_family_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id==1),intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="county.county_multi_family_dwelling_units" type="variable_definition">county.aggregate(building.residential_units*(building.building_type_id==2),intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="county.county_total_dwelling_units" type="variable_definition">county.aggregate(building.residential_units,intermediates=[zone])</variable>
+      <variable use="both" source="expression" name="county.median_age_of_head" type="variable_definition">county.aggregate(household.age_of_head, function=median)</variable>
+      <variable use="both" source="expression" name="county.median_household_size" type="variable_definition">county.aggregate(mag_zone.household.persons, function=median)</variable>
+      <variable use="both" source="expression" name="county.avg_household_size" type="variable_definition">county.aggregate(mag_zone.household.persons, function=mean)</variable>
+      <variable use="both" source="expression" name="county.population_age_lt_18" type="variable_definition">county.aggregate((person.age&lt;18),intermediates=[household,building,zone])</variable>
+      <variable use="both" source="expression" name="county.population_age_65_plus" type="variable_definition">county.aggregate((person.age&gt;64),intermediates=[household,building,zone])</variable>
+      <variable use="both" source="expression" name="county.median_age" type="variable_definition">county.aggregate((person.age).astype('f'), function=median)</variable>
+
+      <variable use="both" source="expression" name="zone.zone_population_age_0_to_4" type="variable_definition">zone.aggregate((person.age&lt;5),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_20_to_44" type="variable_definition">zone.aggregate((person.age&gt;19)*(person.age&lt;45),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_45_to_64" type="variable_definition">zone.aggregate((person.age&gt;44)*(person.age&lt;65),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_5_to_19" type="variable_definition">zone.aggregate((person.age&gt;5)*(person.age&lt;20),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_lt_18" type="variable_definition">zone.aggregate((person.age&lt;18),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="zone.zone_population_age_65_plus" type="variable_definition">zone.aggregate((person.age&gt;64),intermediates=[household,building])</variable>
+      <variable use="both" source="expression" name="zone.percent_population_age_65_plus" type="variable_definition">safe_array_divide(zone.aggregate((person.age&gt;64),intermediates=[household,building]),zone.number_of_agents(person))</variable>
+      <variable use="both" source="expression" name="zone.percent_single_person_households" type="variable_definition">safe_array_divide(zone.aggregate((mag_zone.household.persons==1),intermediates=[building]),zone.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="zone.percent_single_person_households" type="variable_definition">safe_array_divide(zone.aggregate((mag_zone.household.persons==1),intermediates=[building]),zone.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="zone.percent_households_with_children" type="variable_definition">safe_array_divide(zone.aggregate((household.children&gt;=1),intermediates=[building]),zone.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="zone.percent_households_with_zero_worker" type="variable_definition">safe_array_divide(zone.aggregate((household.workers&lt;=0),intermediates=[building]),zone.number_of_agents(household))</variable>
+      <variable use="both" source="expression" name="zone.employment" type="variable_definition">zone.number_of_agents(job)</variable>
+      <variable use="both" source="expression" name="zone.population" type="variable_definition">zone.aggregate(mag_zone.household.persons)</variable>
+      <variable use="both" source="expression" name="zone.some_industrial_employment" type="variable_definition">zone.aggregate(numpy.in1d(job.sector_id, (2,4,5,6,8)))</variable>
+      <variable use="both" source="expression" name="zone.some_retail_employment" type="variable_definition">zone.aggregate(numpy.in1d(job.sector_id, (7,18)))</variable>
+      <variable use="both" source="expression" name="zone.percent_retail_employment" type="variable_definition">safe_array_divide(zone.aggregate(numpy.in1d(job.sector_id, (7,18))),zone.number_of_agents(job))</variable>
+      <variable use="both" source="expression" name="zone.retail_employment" type="variable_definition">zone.aggregate(numpy.in1d(job.sector_id, (7,18)))</variable>
+      <!--
+      <variable use="both" source="expression" name="zone.high_employment" type="variable_definition">zone.aggregate(numpy.in1d(job.sector_id, (7,18)))</variable>
+      -->
+
       <variable use="both" source="expression" name="person_x_job.peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.person_x_job.peak_travel_time_from_home_to_work</variable>
       <variable use="both" source="expression" name="person_x_job.peak_travel_distance_from_home_to_work_in_miles" type="variable_definition">mag_zone.person_x_job.peak_travel_distance_from_home_to_work_in_miles</variable>
       <variable use="both" source="expression" name="person_x_job.generalized_peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.person_x_job.peak_travel_time_from_home_to_work + person.disaggregate(household.value_of_time_per_distance) * mag_zone.person_x_job.peak_travel_distance_from_home_to_work_in_miles</variable>
@@ -28,8 +64,8 @@
       <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_retail" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==7,building.average_value_per_unit,0), function=mean))</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_avg_value_per_sqft_office" type="variable_definition">ln(zone.aggregate(where(building.building_type_id==5,building.average_value_per_unit,0), function=mean))</variable>
       <variable use="both" source="expression" name="zone.zone_ln_emp_10_min" type="variable_definition">ln(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_drive_alone)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_pop_density" type="variable_definition">zone.aggregate(household.persons)/zone.totacres</variable>
-      <variable use="model variable" source="expression" name="zone.zone_job_density" type="variable_definition">zone.number_of_agents(job)/zone.totacres</variable>
+      <variable use="both" source="expression" name="zone.zone_pop_density" type="variable_definition">zone.aggregate(mag_zone.household.persons)/zone.acres</variable>
+      <variable use="both" source="expression" name="zone.zone_job_density" type="variable_definition">zone.number_of_agents(job)/zone.acres</variable>
       <variable use="both" source="expression" name="zone.zone_ln_time_cbd" type="variable_definition">ln(zone.travel_time_to_cbd)</variable>
       <variable use="both" source="expression" name="zone.zone_ln_res_units" type="variable_definition">ln(zone.aggregate(building.residential_units))</variable>
       <variable use="both" source="expression" name="zone.zone_ln_emp_15_min" type="variable_definition">ln(urbansim_parcel.zone.employment_within_15_minutes_travel_time_hbw_am_drive_alone)</variable>
@@ -43,10 +79,10 @@
       <variable use="both" source="expression" name="zone.zone_ln_emp_30_min" type="variable_definition">ln(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone)</variable>
       <variable use="both" source="expression" name="zone.zone_ln_dev_acre" type="variable_definition">ln(zone.dev_acre)</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_totacres" type="variable_definition">ln(zone.totacres)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_ln_pop" type="variable_definition">ln(zone.aggregate(household.persons))</variable>
+      <variable use="model variable" source="expression" name="zone.zone_ln_pop" type="variable_definition">ln(zone.aggregate(mag_zone.household.persons))</variable>
       <variable use="indicator" source="expression" name="zone.zone_tot_cars" type="variable_definition">zone.aggregate(household.cars)</variable>
       <variable use="model variable" source="expression" name="zone.zone_tot_income" type="variable_definition">zone.aggregate(household.income)</variable>
-      <variable use="model variable" source="expression" name="zone.zone_tot_pop" type="variable_definition">zone.aggregate(household.persons)</variable>
+      <variable use="model variable" source="expression" name="zone.zone_tot_pop" type="variable_definition">zone.aggregate(mag_zone.household.persons)</variable>
       <variable use="model variable" source="Python class" name="zone.zone_retail_emp_45_min" type="variable_definition">urbansim_parcel.zone.sector_5_employment_within_45_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="model variable" source="Python class" name="zone.zone_retail_emp_15_min" type="variable_definition">urbansim_parcel.zone.sector_5_employment_within_15_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_retail_emp_30_min" type="variable_definition">ln(urbansim_parcel.zone.sector_5_employment_within_30_minutes_travel_time_hbw_am_drive_alone)</variable>
@@ -60,7 +96,7 @@
       <variable use="model variable" source="Python class" name="zone.zone_services_emp_25_min" type="variable_definition">urbansim_parcel.zone.sector_6_employment_within_25_minutes_travel_time_hbw_am_drive_alone</variable>
       <variable use="model variable" source="expression" name="zone.zone_ln_jobs" type="variable_definition">ln(zone.number_of_agents(job))</variable>
       <variable use="both" source="expression" name="building.ln_inv_far" type="variable_definition">ln(building.land_area/building.non_residential_sqft)</variable>
-      <variable use="both" source="expression" name="building.ln_pop_zone" type="variable_definition">ln(building.disaggregate(zone.aggregate(household.persons)))</variable>
+      <variable use="both" source="expression" name="building.ln_pop_zone" type="variable_definition">ln(building.disaggregate(zone.aggregate(mag_zone.household.persons)))</variable>
       <variable use="both" source="expression" name="building.ln_non_residential_sqft" type="variable_definition">ln(building.non_residential_sqft)</variable>
       <variable use="model variable" source="primary attribute" name="building.unit_price" type="variable_definition">building.average_value_per_unit</variable>
       <variable use="both" source="expression" name="building.is_office" type="variable_definition">building.building_type_id==5</variable>
@@ -71,24 +107,24 @@
       <variable use="both" source="expression" name="building.ln_land_per_unit" type="variable_definition">ln(building.land_area/building.residential_units)</variable>
       <variable use="both" source="expression" name="household_x_building.price_income_ratio_l1" type="variable_definition">safe_array_divide(building.average_value_per_unit,household.income)&lt;1</variable>
       <variable use="both" source="expression" name="household_x_building.price_income_ratio_g5" type="variable_definition">safe_array_divide(building.average_value_per_unit,household.income)&gt;5</variable>
-      <variable use="both" source="expression" name="household_x_building.ln_persons_land_per_unit" type="variable_definition">ln(household.persons*building.land_area/building.residential_units)</variable>
-      <variable use="both" source="expression" name="household_x_building.ln_persons_sqft_per_unit" type="variable_definition">ln(household.persons*building.sqft_per_unit)</variable>
+      <variable use="both" source="expression" name="household_x_building.ln_persons_land_per_unit" type="variable_definition">ln(mag_zone.household.persons*building.land_area/building.residential_units)</variable>
+      <variable use="both" source="expression" name="household_x_building.ln_persons_sqft_per_unit" type="variable_definition">ln(mag_zone.household.persons*building.sqft_per_unit)</variable>
       <variable use="model variable" source="expression" name="building.ln_avg_hh_income" type="variable_definition">ln(building.aggregate(household.income, function=mean))</variable>
       <variable use="both" source="expression" name="household_x_building.ln_inc_avg_inc" type="variable_definition">ln(household.income*building.aggregate(household.income, function=mean))</variable>
       <variable use="both" source="expression" name="building.land_per_unit" type="variable_definition">building.land_area/building.residential_units</variable>
-      <variable use="both" source="expression" name="household_x_building.persons_land_per_unit" type="variable_definition">household.persons*building.land_area/building.residential_units</variable>
+      <variable use="both" source="expression" name="household_x_building.persons_land_per_unit" type="variable_definition">mag_zone.household.persons*building.land_area/building.residential_units</variable>
       <variable use="both" source="expression" name="household_x_building.ln_income_sqft_per_unit" type="variable_definition">ln(household.income*building.sqft_per_unit)</variable>
-      <variable use="model variable" source="expression" name="household_x_building.wkrs_hhs_ln_jobs_30_min" type="variable_definition">safe_array_divide(household.workers,household.persons)*ln_bounded(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))</variable>
+      <variable use="model variable" source="expression" name="household_x_building.wkrs_hhs_ln_jobs_30_min" type="variable_definition">safe_array_divide(household.workers,mag_zone.household.persons)*ln_bounded(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))</variable>
       <variable use="model variable" source="expression" name="building.ln_jobs_within_30_min" type="variable_definition">ln(building.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))</variable>
       <variable use="model variable" source="expression" name="household_x_building.income_schl_dist1" type="variable_definition">household.income/10000*building.disaggregate(zone.schl_district==1)</variable>
-      <variable use="both" source="expression" name="household_x_building.persons_sqft_per_unit" type="variable_definition">household.persons*building.sqft_per_unit</variable>
+      <variable use="both" source="expression" name="household_x_building.persons_sqft_per_unit" type="variable_definition">mag_zone.household.persons*building.sqft_per_unit</variable>
       <variable use="both" source="expression" name="household_x_building.income_sqft_per_unit" type="variable_definition">household.income/10000*building.sqft_per_unit</variable>
       <variable use="both" source="expression" name="household_x_building.price_income_ratio" type="variable_definition">safe_array_divide(building.average_value_per_unit,household.income)</variable>
       <variable use="both" source="expression" name="household_x_building.income_single_family" type="variable_definition">household.income/10000*building.building_type_id==1</variable>
-      <variable use="both" source="expression" name="household_x_building.persons_x_single_family" type="variable_definition">household.persons*building.building_type_id==1</variable>
+      <variable use="both" source="expression" name="household_x_building.persons_x_single_family" type="variable_definition">mag_zone.household.persons*building.building_type_id==1</variable>
       <variable use="both" source="expression" name="building.ln_number_jobs_retail" type="variable_definition">ln(building.disaggregate(urbansim.zone.number_of_jobs_of_sector_5))</variable>
       <variable use="model variable" source="expression" name="building.ln_jobs_within_15_min" type="variable_definition">ln(building.disaggregate(urbansim_parcel.zone.employment_within_15_minutes_travel_time_hbw_am_drive_alone))</variable>
-      <variable use="both" source="expression" name="building.ln_pop_density_zone" type="variable_definition">ln(building.aggregate(household.persons)/building.disaggregate(zone.aggregate(building.land_area)))</variable>
+      <variable use="both" source="expression" name="building.ln_pop_density_zone" type="variable_definition">ln(building.aggregate(mag_zone.household.persons)/building.disaggregate(zone.aggregate(building.land_area)))</variable>
       <variable use="model variable" source="expression" name="building.cbd_time_sq" type="variable_definition">building.disaggregate(zone.travel_time_to_cbd)**2</variable>
       <variable use="model variable" source="expression" name="building.ln_cbd_time" type="variable_definition">ln(building.disaggregate(zone.travel_time_to_cbd))</variable>
       <variable use="model variable" source="expression" name="building.ln_avg_hh_income_zonal" type="variable_definition">ln(building.disaggregate(zone.aggregate(household.income, function=mean)))</variable>
@@ -769,5 +805,35 @@
   <debuglevel type="integer">4</debuglevel>
   <base_year type="integer"/>
   <cache_directory type="string"/>
+  <results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="county_indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
+          <indicators>[ 'employment', 'retail_employment', 'households', 'population', 'median_age', 'avg_household_size', 'median_household_size', 'population_age_lt_18', 'population_age_65_plus']</indicators>
+          <!--
+          <indicators>['county_non_residential_sqft', 'employment', 'retail_employment', 'county_total_dwelling_units', 'county_multi_family_dwelling_units', 'county_single_family_dwelling_units', 'households', 'population', 'median_age', 'avg_household_size', 'median_household_size', 'population_age_lt_18', 'population_age_65_plus']</indicators>
+	  -->
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
+          <dataset_name>county</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="zone_indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
+		<indicators>['zone_population_age_lt_18', 'zone_population_age_65_plus','zone_pop_density', 'zone_job_density', 'percent_population_age_65_plus', 'percent_single_person_households', 'percent_households_with_children', 'percent_households_with_zero_worker', 'employment', 'retail_employment', 'percent_retail_employment', ''population']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+
+    </indicator_batches>
+  </results_manager>
 </opus_project>
 
