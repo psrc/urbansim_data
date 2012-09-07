@@ -566,6 +566,19 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="gov_ed_jobs_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">bayarea.models.gov_ed_jobs_model</class_module>
+            <class_name type="string">GovEdJobsModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">GovEdJobsModel</name>
+          </init>
+          <run type="dictionary">
+          </run>
+        </structure>
+      </model>
       <model name="residential_unit_sale_price_model" type="model">
         <structure type="dictionary">
           <import hidden="True" name="import" type="dictionary">
