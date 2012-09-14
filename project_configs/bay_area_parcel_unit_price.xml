@@ -2525,7 +2525,7 @@
                 <variable name="RESACRE" type="string">bayarea.zone.resacre * zone.disaggregate(bayarea.alldata.resacre_factor)</variable>
                 <variable name="CIACRE" type="string">bayarea.zone.ciacre * zone.disaggregate(bayarea.alldata.ciacre_factor)</variable>
                 <variable name="SHPOP62P" type="string">safe_array_divide(zone.aggregate((person.age&gt;61)*(person.gq==0),intermediates=[household,building,parcel]),zone.aggregate(household.persons,intermediates=[building,parcel]))</variable>
-                <variable name="TOTEMP" type="string">zone.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
+                <variable name="TOTEMP" type="string">zone.aggregate(establishment.employees,intermediates=[building,parcel]) + zone.gov_jobs + zone.edu_jobs - zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7,8,18,28]),intermediates=[building,parcel])</variable>
                 <variable name="AGE0004" type="string">zone.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
                 <variable name="AGE0519" type="string">zone.aggregate((person.age&gt;=5)*(person.age&lt;=19)*(person.gq==0),intermediates=[household,building,parcel])</variable>
                 <variable name="AGE2044" type="string">zone.aggregate((person.age&gt;=20)*(person.age&lt;=44)*(person.gq==0),intermediates=[household,building,parcel])</variable>
@@ -2533,10 +2533,10 @@
                 <variable name="AGE65P" type="string">zone.aggregate((person.age&gt;=65)*(person.gq==0),intermediates=[household,building,parcel])</variable>
                 <variable name="RETEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [9, 15]),intermediates=[building,parcel])</variable>
                 <variable name="FPSEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [1, 2, 3]),intermediates=[building,parcel])</variable>
-                <variable name="HEREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6, 8, 10, 13, 16, 18, 24, 26, 28]),intermediates=[building,parcel])</variable>
+                <variable name="HEREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [6,10, 13, 16, 24, 26]),intermediates=[building,parcel]) + zone.edu_jobs</variable>
                 <variable name="AGREMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [4, 5]),intermediates=[building,parcel])</variable>
                 <variable name="MWTEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [11, 14, 17, 19, 21, 22, 25]),intermediates=[building,parcel])</variable>
-                <variable name="OTHEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7, 20, 23, 27]),intermediates=[building,parcel])</variable>
+                <variable name="OTHEMPN" type="string">zone.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [20, 23, 27]),intermediates=[building,parcel]) + zone.gov_jobs</variable>
               </variable_list>
             </argument>
           </init>
@@ -2664,6 +2664,7 @@
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Studio" type="selectable" name="developer_model_1">True</selectable>
         <selectable name="mtc_export" type="model_choice">True</selectable>
+		<selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
         <travel_model_scenario type="string">studio</travel_model_scenario>
@@ -2706,6 +2707,7 @@
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Transit_Priority" type="selectable" name="developer_model_1">True</selectable>
         <selectable name="mtc_export" type="model_choice">True</selectable>
+		<selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
         <travel_model_scenario type="string">transit_alt</travel_model_scenario>
@@ -2751,6 +2753,7 @@
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
         <selectable name="mtc_export" type="model_choice">True</selectable>
+		<selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
         <travel_model_scenario type="string">no_project</travel_model_scenario>
@@ -2800,6 +2803,7 @@
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Preferred" type="selectable" name="developer_model_1">True</selectable>
         <selectable name="mtc_export" type="model_choice">True</selectable>
+		<selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
       </models_to_run>
       <travel_model_configuration type="dictionary">
         <travel_model_scenario type="string">preferred</travel_model_scenario>
@@ -2850,6 +2854,7 @@
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_No_Project" type="selectable" name="developer_model_1">True</selectable>
         <selectable name="mtc_export" type="model_choice">True</selectable>
+		<selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
@@ -3004,6 +3009,7 @@
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
         <selectable name="mtc_export" type="model_choice">True</selectable>
+		<selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
       </models_to_run>
       <models_in_year type="dictionary">
         <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
