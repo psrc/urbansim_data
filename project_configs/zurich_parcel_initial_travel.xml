@@ -40,5 +40,40 @@
       </tool_group>
     </tool_library>
   </data_manager>
+  <model_manager>
+    <travel_model_configuration type="dictionary">
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2001</year>
+        </run_description>
+      </years_to_run>
+    </travel_model_configuration>
+  </model_manager>
+  <scenario_manager>
+    <scenario name="test_run" type="scenario" executable="True">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2001</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable return_value="SC_real_estate_price_model_new" type="selectable" name="SC_real_estate_price_model_new_1">False</selectable>
+        <selectable return_value="SC_postprocess_real_estate_price_model" type="selectable" name="SC_postprocess_real_estate_price_model_1">False</selectable>
+        <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">False</selectable>
+        <selectable return_value="SC_building_transition_model" type="selectable" name="SC_building_transition_model_1">False</selectable>
+        <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">False</selectable>
+        <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">False</selectable>
+        <selectable return_value="SC_building_location_choice_model_from_template" type="selectable" name="SC_building_location_choice_model_from_template_1">False</selectable>
+        <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">False</selectable>
+        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">False</selectable>
+        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">False</selectable>
+        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
+        <selectable return_value="SC_employment_transition_model" type="selectable" name="new_employment_transition_model_1">False</selectable>
+        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">False</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    </results_manager>
 </opus_project>
 
