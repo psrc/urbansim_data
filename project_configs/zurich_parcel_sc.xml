@@ -1,10 +1,6 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
@@ -44,16 +40,5 @@
       </tool_group>
     </tool_library>
   </data_manager>
-  <model_manager>
-    </model_manager>
-  <scenario_manager>
-    <scenario name="test_run" type="scenario" executable="True">
-      <advanced type="category">
-        <run_in_same_process type="boolean">True</run_in_same_process>
-      </advanced>
-    </scenario>
-  </scenario_manager>
-  <results_manager>
-    </results_manager>
 </opus_project>
 
