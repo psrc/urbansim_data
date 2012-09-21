@@ -2,11 +2,13 @@
   <xml_version>2.0</xml_version>
   <general>
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="city.SC_target_non_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel]) / (1 - 0.04))</variable>
+      <variable use="both" source="expression" name="city.SC_target_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel]) / (1 - 0.0066))</variable>
       <variable use="indicator" source="Python class" name="parcel.SC_jobs_per_parcel" type="variable_definition">urbansim_parcel.parcel.number_of_jobs</variable>
-      <variable use="indicator" source="Python class" name="city.SC_jobs_city_PyC" type="variable_definition">zurich_parcel.city.SC_jobs_per_city</variable>
       <variable use="indicator" source="Python class" name="parcel.SC_area_capacity" type="variable_definition">zurich_parcel.parcel.area_capacity</variable>
       <variable use="both" source="expression" name="city.SC_jobs_sect99_city" type="variable_definition">city.aggregate(urbansim_parcel.building.number_of_jobs_of_sector_99, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="city.SC_jobs_sect49_city" type="variable_definition">city.aggregate(urbansim_parcel.building.number_of_jobs_of_sector_49, intermediates=[parcel])</variable>
@@ -20,11 +22,11 @@
       <variable use="both" source="expression" name="city.SC_jobs_sect1_city" type="variable_definition">city.aggregate(urbansim_parcel.building.number_of_jobs_of_sector_1, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="city.SC_jobs_city" type="variable_definition">city.aggregate(building.number_of_agents(jobs), intermediates=[parcel])</variable>
       <variable use="indicator" source="Python class" name="building.SC_occupied_buildings_sqft_by_jobs" type="variable_definition">urbansim_parcel.building.occupied_building_sqft_by_jobs</variable>
-      <variable use="indicator" source="expression" name="city.SC_non_resi_vacancy_city" type="variable_definition">((city.aggregate(zurich_parcel.building.SC_total_spaces_0, intermediates=[parcel])) - (city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.SC_total_spaces_0, intermediates=[parcel]))</variable>
+      <variable use="indicator" source="expression" name="city.SC_non_resi_vacancy_city" type="variable_definition">(1 - ((city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.SC_total_spaces_0, intermediates=[parcel])))</variable>
       <variable use="indicator" source="expression" name="city.SC_non_resi_units_city" type="variable_definition">city.aggregate(zurich_parcel.building.SC_total_spaces_0, intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="city.SC_occupied_non_resi_spaces_city" type="variable_definition">city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="city.SC_occupied_resi_spaces_city" type="variable_definition">city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel])</variable>
-      <variable use="indicator" source="expression" name="city.SC_resi_vacancy_city" type="variable_definition">((city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel])) - (city.aggregate(building.number_of_agents(households), intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel]))</variable>
+      <variable use="indicator" source="expression" name="city.SC_resi_vacancy_city" type="variable_definition">(1 - ((city.aggregate(building.number_of_agents(households), intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel])))</variable>
       <variable use="indicator" source="expression" name="city.SC_nb_hh_city" type="variable_definition">city.aggregate(building.number_of_agents(households), intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="city.SC_resi_units" type="variable_definition">city.aggregate(zurich_parcel.building.SC_total_spaces_1, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="development_event_history_x_parcel.SC_dev_fit_permitted_floor_m2_step_ln" type="variable_definition">((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories) &lt; 0) * 4 * ((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories)) + ((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories) &gt; 0) * ln(((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories)))</variable>
@@ -983,7 +985,7 @@
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
           <visualization_type>mapnik_map</visualization_type>
-          <indicators>['SC_jobs_city_PyC']</indicators>
+          <indicators>['SC_jobs_city']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
@@ -1003,39 +1005,6 @@
           <indicators>['SC_jobs_per_parcel']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>parcel</dataset_name>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="parcel_pyc">
-        <batch_visualization hidden="Children" type="batch_visualization" name="hh_within_500_map">
-          <settings>
-            <setting name="mapnik_bucket_labels">range_labels</setting>
-            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
-            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
-            <setting name="mapnik_page_dims">8.5,5.5</setting>
-            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
-            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
-            <setting name="mapnik_resolution">96</setting>
-            <setting name="mapnik_bucket_ranges">linear_scale</setting>
-            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
-          </settings>
-          <visualization_type>mapnik_map</visualization_type>
-          <indicators>['SC_households_within_500_of_parcel', 'SC_area_capacity']</indicators>
-          <output_type>mapnik_map</output_type>
-          <dataset_name>parcel</dataset_name>
-        </batch_visualization>
-      </indicator_batch>
-      <indicator_batch name="buildings">
-        <batch_visualization hidden="Children" type="batch_visualization" name="jobs_per_city">
-          <indicators>['SC_jobs_city']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>city</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="capacities">
-          <indicators>['SC_occupied_buildings_sqft_by_jobs']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>building</dataset_name>
-          <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="parcel_map">
@@ -1076,31 +1045,17 @@
           <dataset_name>city</dataset_name>
         </batch_visualization>
       </indicator_batch>
-      <indicator_batch name="jobs">
-        <batch_visualization hidden="Children" type="batch_visualization" name="nb_per_city_PyC">
-          <indicators>['SC_jobs_city_PyC']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>city</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
       <indicator_batch name="vacancy">
         <batch_visualization hidden="Children" type="batch_visualization" name="Residential">
-          <indicators>['SC_resi_units', 'SC_resi_vacancy_city', 'SC_occupied_resi_spaces_city']</indicators>
+          <indicators>['SC_occupied_resi_spaces_city', 'SC_resi_vacancy_city', 'SC_resi_units', 'SC_target_resi_units']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="vacancy_city">
-          <indicators>['SC_non_resi_units_city', 'SC_occupied_non_resi_spaces_city', 'SC_occupied_resi_spaces_city', 'SC_resi_units', 'SC_resi_vacancy_city', 'SC_non_resi_vacancy_city']</indicators>
+        <batch_visualization hidden="Children" type="batch_visualization" name="Non_resi">
+          <indicators>['SC_non_resi_vacancy_city', 'SC_non_resi_units_city', 'SC_occupied_non_resi_spaces_city', 'SC_target_non_resi_units']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-        <batch_visualization hidden="Children" type="batch_visualization" name="capacity_building">
-          <indicators>['SC_occupied_buildings_sqft_by_jobs']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>building</dataset_name>
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
