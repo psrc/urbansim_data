@@ -3,7 +3,10 @@
   <general>
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <parent type="file">zurich_parcel/configs/li_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="city.SC_target_non_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel]) / (1 - 0.04))</variable>
@@ -944,33 +947,28 @@
     </models>
   </model_manager>
   <scenario_manager>
-    <scenario name="test_run" type="scenario" executable="True">
-      <advanced type="category">
-        <run_in_same_process type="boolean">True</run_in_same_process>
-      </advanced>
-      <years_to_run config_name="years" type="tuple">
-        </years_to_run>
-      <models_to_run config_name="models" type="selectable_list">
-        <selectable return_value="SC_real_estate_price_model_new" type="selectable" name="SC_real_estate_price_model_new_1">True</selectable>
-        <selectable return_value="SC_postprocess_real_estate_price_model" type="selectable" name="SC_postprocess_real_estate_price_model_1">True</selectable>
-        <selectable return_value="SC_building_transition_model" type="selectable" name="SC_building_transition_model_1">True</selectable>
-        <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">True</selectable>
-        <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">True</selectable>
-        <selectable return_value="SC_building_location_choice_model_from_template" type="selectable" name="SC_building_location_choice_model_from_template_1">False</selectable>
-        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">True</selectable>
-        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">True</selectable>
-        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">True</selectable>
-        <selectable return_value="SC_employment_transition_model" type="selectable" name="new_employment_transition_model_1">True</selectable>
-        <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
-        <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">True</selectable>
-        <selectable name="employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
-        </selectable>
-        <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">True</selectable>
-      </models_to_run>
-    </scenario>
-  </scenario_manager>
+    </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="persons_map">
+        <batch_visualization hidden="Children" type="batch_visualization" name="persons_city">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['SC_nb_hh_city']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="job_maps">
         <batch_visualization hidden="Children" type="batch_visualization" name="jobs_per_city">
           <settings>
@@ -1039,9 +1037,9 @@
             <setting name="mapnik_bucket_ranges">linear_scale</setting>
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
-          <visualization_type>mapnik_animated_map</visualization_type>
+          <visualization_type>mapnik_map</visualization_type>
           <indicators>['SC_jobs_city']</indicators>
-          <output_type>mapnik_animated_map</output_type>
+          <output_type>mapnik_map</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
       </indicator_batch>
