@@ -819,7 +819,7 @@
           </import>
           <init type="dictionary">
             <name name="name" type="string">DeveloperModel</name>
-            <argument name="scenario" type="string">"Transit Priority"</argument>
+            <argument name="scenario" type="string">"Transit V1"</argument>
           </init>
           <run type="dictionary"/>
         </structure>
