@@ -1,11 +1,6 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <parent type="file">zurich_parcel/configs/li_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
@@ -114,9 +109,9 @@
         </tool>
         <tool name="csv_data_to_opus_tool">
           <params>
-            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_kt_parcel/cz_exports</param>
-            <param name="csv_table_name" param_type="string" required="True">development_event_history_small</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_kt_parcel/base_year_data</param>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_imports</param>
+            <param name="csv_table_name" param_type="string" required="True">SC_workplace_location_choice_specification</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
           </params>
         </tool>
       </tool_group>
