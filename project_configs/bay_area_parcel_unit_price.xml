@@ -6,7 +6,7 @@
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="alldata.open_space" type="variable_definition">alldata.open_space_land_area-alldata.open_space_developed_area</variable>
-      <variable use="both" source="expression" name="alldata.open_space_developed_area" type="variable_definition">alldata.aggregate_all(parcel.aggregate(0.000022956*building.total_sqft)*bayarea.parcel.is_open_space)</variable>
+      <variable use="both" source="expression" name="alldata.open_space_developed_area" type="variable_definition">alldata.aggregate_all(parcel.aggregate(0.000022956*building.building_sqft)*bayarea.parcel.is_open_space)</variable>
       <variable use="both" source="expression" name="alldata.open_space_land_area" type="variable_definition">alldata.aggregate_all((0.000247105*parcel.shape_area)*bayarea.parcel.is_open_space)</variable>
       <variable use="both" source="expression" name="county.county_empres_tpp" type="variable_definition">county.aggregate(building.aggregate(household.workers)*(building.disaggregate(bayarea.parcel.is_tpp,intermediates=[parcel])),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_empres_pda" type="variable_definition">county.aggregate(building.aggregate(household.workers)*(building.disaggregate(bayarea.parcel.is_pda_id,intermediates=[parcel])),intermediates=[parcel])</variable>
@@ -2515,9 +2515,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -3344,14 +3344,6 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="regional_open_space">
-        <batch_visualization hidden="Children" type="batch_visualization" name="open_space">
-          <indicators>['open_space']</indicators>
-          <output_type>tab</output_type>
-          <dataset_name>alldata</dataset_name>
-          <visualization_type>tab</visualization_type>
-        </batch_visualization>
-      </indicator_batch>
       <indicator_batch name="superdistrict_indicators_short">
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
           <indicators>['superdistrict_total_dwelling_units', 'superdistrict_urbanized_acres', 'superdistrict_non_residential_sqft_office', 'superdistrict_non_residential_sqft_light_industrial', 'superdistrict_non_residential_sqft_heavy_industrial', 'superdistrict_non_residential_sqft_big_box_retail', 'superdistrict_single_family_dwelling_units', 'superdistrict_household_population', 'superdistrict_non_residential_sqft', 'superdistrict_multi_family_dwelling_units', 'superdistrict_households', 'superdistrict_employees']</indicators>
