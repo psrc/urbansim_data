@@ -6,8 +6,8 @@
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable use="both" source="expression" name="alldata.open_space" type="variable_definition">alldata.open_space_land_area-alldata.open_space_developed_area</variable>
-      <variable use="both" source="expression" name="alldata.open_space_developed_area" type="variable_definition">alldata.aggregate_all(parcel.aggregate(building.total_sqft)*bayarea.parcel.is_open_space)</variable>
-      <variable use="both" source="expression" name="alldata.open_space_land_area" type="variable_definition">alldata.aggregate_all(parcel.land_area*bayarea.parcel.is_open_space)</variable>
+      <variable use="both" source="expression" name="alldata.open_space_developed_area" type="variable_definition">alldata.aggregate_all(parcel.aggregate(0.000022956*building.total_sqft)*bayarea.parcel.is_open_space)</variable>
+      <variable use="both" source="expression" name="alldata.open_space_land_area" type="variable_definition">alldata.aggregate_all((0.000247105*parcel.shape_area)*bayarea.parcel.is_open_space)</variable>
       <variable use="both" source="expression" name="county.county_empres_tpp" type="variable_definition">county.aggregate(building.aggregate(household.workers)*(building.disaggregate(bayarea.parcel.is_tpp,intermediates=[parcel])),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_empres_pda" type="variable_definition">county.aggregate(building.aggregate(household.workers)*(building.disaggregate(bayarea.parcel.is_pda_id,intermediates=[parcel])),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_employment_tpp" type="variable_definition">county.aggregate(building.aggregate(establishment.employees) * (building.disaggregate(bayarea.parcel.is_tpp,intermediates=[parcel])) )</variable>
