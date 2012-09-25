@@ -11,6 +11,32 @@
     </dataset_pool_configuration>
     <available_datasets type="list">['building','household_x_building','household','zone','faz','large_area','gridcell','city','county','alldata']</available_datasets>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="alldata.employment" type="variable_definition">alldata.aggregate_all(job.job_id&gt;0)</variable>
+      <!--
+      <variable use="both" source="expression" name="alldata.retail_employment" type="variable_definition">alldata.aggregate_all(numpy.in1d(job.sector_id, (7,18)))</variable>
+      -->
+      <variable use="both" source="expression" name="alldata.retail_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='retail')</variable>
+      <variable use="both" source="expression" name="alldata.percent_retail_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='retail')/(alldata.aggregate_all(job.job_id&gt;0)).astype('f')</variable>
+      <variable use="both" source="expression" name="alldata.industrial_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='individual')</variable>
+      <variable use="both" source="expression" name="alldata.percent_industrial_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='individual')/(alldata.aggregate_all(job.job_id&gt;0)).astype('f')</variable>
+      <variable use="both" source="expression" name="alldata.total_non_residential_sqft" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft)</variable>
+      <variable use="both" source="expression" name="alldata.households" type="variable_definition">alldata.aggregate_all(household.household_id &gt;0)</variable>
+      <variable use="both" source="expression" name="alldata.population" type="variable_definition">alldata.aggregate_all(mag_zone.household.persons)</variable>
+      <variable use="both" source="expression" name="alldata.total_single_family_dwelling_units" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==1))</variable>
+      <variable use="both" source="expression" name="alldata.total_multi_family_dwelling_units" type="variable_definition">alldata.aggregate_all(building.residential_units*(building.building_type_id==2))</variable>
+      <variable use="both" source="expression" name="alldata.total_dwelling_units" type="variable_definition">alldata.aggregate_all(building.residential_units)</variable>
+      <variable use="both" source="expression" name="alldata.median_age_of_head" type="variable_definition">alldata.aggregate_all(household.age_of_head, function=median)</variable>
+      <variable use="both" source="expression" name="alldata.median_household_size" type="variable_definition">alldata.aggregate_all(mag_zone.household.persons, function=median)</variable>
+      <variable use="both" source="expression" name="alldata.avg_household_size" type="variable_definition">alldata.aggregate_all(mag_zone.household.persons, function=mean)</variable>
+      <variable use="both" source="expression" name="alldata.population_age_lt_18" type="variable_definition">alldata.aggregate_all(person.age&lt;18)</variable>
+      <variable use="both" source="expression" name="alldata.percent_population_age_lt_18" type="variable_definition">alldata.aggregate_all(person.age&lt;18)/(alldata.aggregate_all(mag_zone.household.persons)).astype('f')</variable>
+      <variable use="both" source="expression" name="alldata.population_age_65_plus" type="variable_definition">alldata.aggregate_all(person.age&gt;64)</variable>
+      <variable use="both" source="expression" name="alldata.percent_population_age_65_plus" type="variable_definition">alldata.aggregate_all(person.age&gt;64)/(alldata.aggregate_all(mag_zone.household.persons)).astype('f')</variable>
+      <variable use="both" source="expression" name="alldata.median_age" type="variable_definition">alldata.aggregate_all((person.age).astype('f'), function=median)</variable>
+      <variable use="both" source="expression" name="alldata.single_person_households" type="variable_definition">alldata.aggregate_all(mag_zone.household.persons==1)</variable>
+      <variable use="both" source="expression" name="alldata.households_with_children" type="variable_definition">alldata.aggregate_all(household.children&gt;=1)</variable>
+      <variable use="both" source="expression" name="alldata.households_with_zero_worker" type="variable_definition">alldata.aggregate_all(household.workers&lt;=0)</variable>
+
       <variable use="both" source="expression" name="county.employment" type="variable_definition">county.aggregate(job.job_id&gt;0,intermediates=[building,zone])</variable>
       <variable use="both" source="expression" name="county.retail_employment" type="variable_definition">county.aggregate(numpy.in1d(job.sector_id, (7,18)),intermediates=[building,zone])</variable>
       <variable use="both" source="expression" name="county.county_non_residential_sqft" type="variable_definition">county.aggregate(building.non_residential_sqft,intermediates=[zone])</variable>
@@ -39,6 +65,7 @@
       <variable use="both" source="expression" name="zone.percent_households_with_zero_worker" type="variable_definition">safe_array_divide(zone.aggregate((household.workers&lt;=0),intermediates=[building]),zone.number_of_agents(household))</variable>
       <variable use="both" source="expression" name="zone.employment" type="variable_definition">zone.number_of_agents(job)</variable>
       <variable use="both" source="expression" name="zone.population" type="variable_definition">zone.aggregate(mag_zone.household.persons)</variable>
+      <variable use="both" source="expression" name="zone.households" type="variable_definition">zone.number_of_agents(household)</variable>
       <variable use="both" source="expression" name="zone.some_industrial_employment" type="variable_definition">zone.aggregate(numpy.in1d(job.sector_id, (2,4,5,6,8)))</variable>
       <variable use="both" source="expression" name="zone.some_retail_employment" type="variable_definition">zone.aggregate(numpy.in1d(job.sector_id, (7,18)))</variable>
       <variable use="both" source="expression" name="zone.percent_retail_employment" type="variable_definition">safe_array_divide(zone.aggregate(numpy.in1d(job.sector_id, (7,18))),zone.number_of_agents(job))</variable>
@@ -562,6 +589,87 @@
         <lastyear type="integer">2019</lastyear>
       </years_to_run>
     </scenario>
+    <scenario executable="True" name="test_baseline_w_demographics" type="scenario">
+      <parent type="scenario_name">test_baseline_no_demographics</parent>
+      <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
+        <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">True</selectable>
+        <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">True</selectable>
+        <selectable return_value="education_model" type="selectable" name="education_model_1">True</selectable>
+        <selectable return_value="marriage_model" type="selectable" name="marriage_model_1">True</selectable>
+        <selectable return_value="cohabitation_model" type="selectable" name="cohabitation_model_1">True</selectable>
+        <selectable return_value="divorce_model" type="selectable" name="divorce_model_1">True</selectable>
+        <selectable return_value="breakup_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="child_leaving_home_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">True</selectable>
+        <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">True</selectable>
+        <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">True</selectable>
+        <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">False</selectable>
+        <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
+        <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
+        <selectable name="real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="development_project_transition_model" type="selectable">False</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
+        <selectable name="employment_transition_model" type="selectable">True</selectable>
+        <selectable name="household_relocation_model" type="selectable">True</selectable>
+        <selectable name="household_location_choice_model" type="selectable">True</selectable>
+        <selectable name="employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">True
+		  <group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="selectable">False</selectable>
+        <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
+      </models_to_run>
+    </scenario>
+    <scenario executable="True" name="test_baseline_no_demographics" type="scenario">
+      <parent type="scenario_name">mag_zone_baseline</parent>
+      <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable return_value="aging_model" type="selectable" name="aging_model_1">False</selectable>
+        <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">False</selectable>
+        <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">False</selectable>
+        <selectable return_value="education_model" type="selectable" name="education_model_1">False</selectable>
+        <selectable return_value="marriage_model" type="selectable" name="marriage_model_1">False</selectable>
+        <selectable return_value="cohabitation_model" type="selectable" name="cohabitation_model_1">False</selectable>
+        <selectable return_value="divorce_model" type="selectable" name="divorce_model_1">False</selectable>
+        <selectable return_value="breakup_model" type="selectable" name="breakup_model_1">False</selectable>
+        <selectable return_value="child_leaving_home_model" type="selectable" name="breakup_model_1">False</selectable>
+        <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">False</selectable>
+        <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">False</selectable>
+        <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">False</selectable>
+        <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">False</selectable>
+        <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">False</selectable>
+        <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">False</selectable>
+        <selectable name="real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="development_project_transition_model" type="selectable">False</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
+        <selectable name="employment_transition_model" type="selectable">True</selectable>
+        <selectable name="household_relocation_model" type="selectable">True</selectable>
+        <selectable name="household_location_choice_model" type="selectable">True</selectable>
+        <selectable name="employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">True
+		  <group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="selectable">False</selectable>
+        <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
+      </models_to_run>
+      <years_to_run setexpanded="True" config_name="years" type="tuple">
+        <firstyear type="integer">2010</firstyear>
+        <lastyear type="integer">2019</lastyear>
+      </years_to_run>
+      <travel_model_configuration type="dictionary" inherit_parent_values="False">
+        <models type="selectable_list">
+          <selectable name="mag_zone.simtravel.export_urbansim_data_to_openamos" type="selectable">False</selectable>
+          <selectable name="mag_zone.simtravel.iterative_run" type="selectable">False</selectable>
+          <selectable name="mag_zone.simtravel.import_openamos_data" type="selectable">False</selectable>
+        </models>
+      </travel_model_configuration>
+    </scenario>
     <scenario setexpanded="True" copyable="True" executable="True" name="mag_zone_baseline" type="scenario">
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
         <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
@@ -807,6 +915,20 @@
   <cache_directory type="string"/>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="alldata_indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
+          <indicators>[ 'employment', 'percent_retail_employment', 'retail_employment', 'percent_industrial_employment', 'industrial_employment', 'households', 'population', 'median_age', 'avg_household_size', 'population_age_lt_18', 'percent_population_age_lt_18', 'percent_population_age_65_plus', 'population_age_65_plus', 'single_person_households', 'households_with_children', 'households_with_zero_worker']</indicators>
+          <!--
+          <indicators>['county_non_residential_sqft', 'employment', 'retail_employment', 'county_total_dwelling_units', 'county_multi_family_dwelling_units', 'county_single_family_dwelling_units', 'households', 'population', 'median_age', 'avg_household_size', 'median_household_size', 'population_age_lt_18', 'population_age_65_plus']</indicators>
+	  -->
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">3</setting>
+          </settings>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="county_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
           <indicators>[ 'employment', 'retail_employment', 'households', 'population', 'median_age', 'avg_household_size', 'median_household_size', 'population_age_lt_18', 'population_age_65_plus']</indicators>
@@ -823,7 +945,7 @@
       </indicator_batch>
       <indicator_batch name="zone_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
-		<indicators>['zone_population_age_lt_18', 'zone_population_age_65_plus','zone_pop_density', 'zone_job_density', 'percent_population_age_65_plus', 'percent_single_person_households', 'percent_households_with_children', 'percent_households_with_zero_worker', 'employment', 'retail_employment', 'percent_retail_employment', 'population']</indicators>
+		<indicators>['households', 'population', 'zone_population_age_lt_18', 'zone_population_age_65_plus','zone_pop_density', 'zone_job_density', 'percent_population_age_65_plus', 'percent_single_person_households', 'percent_households_with_children', 'percent_households_with_zero_worker', 'employment', 'retail_employment', 'percent_retail_employment', 'population']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">3</setting>
