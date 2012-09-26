@@ -1,7 +1,7 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
   <data_manager>
@@ -41,20 +41,169 @@
     </tool_library>
   </data_manager>
   <model_manager>
-    </model_manager>
+    <travel_model_configuration type="dictionary">
+      <models type="selectable_list">
+        <selectable name="opus_matsim.zurich.models.get_cache_data_into_matsim_parcel" type="selectable">True</selectable>
+        <selectable name="opus_matsim.zurich.models.run_travel_model_parcel" type="selectable">True</selectable>
+        <selectable name="opus_matsim.zurich.models.get_matsim_data_into_cache" type="selectable">True</selectable>
+      </models>
+      <matsim4urbansim type="dictionary">
+        <population_sampling_rate type="float">0.01</population_sampling_rate>
+        <matsim_controler type="selectable_list">
+          <selectable name="zone2zone_impedance" type="selectable">True</selectable>
+          <selectable name="agent_performance" type="selectable">False</selectable>
+          <selectable name="zone_based_accessibility" type="selectable">True</selectable>
+          <selectable name="cell_based_accessibility" type="selectable">True</selectable>
+        </matsim_controler>
+        <controler_parameter type="dictionary">
+          <cell_size type="integer">100</cell_size>
+          <shape_file type="file">data/zurich_kt_parcel/shapefiles/zurich_mun.shp</shape_file>
+          <bounding_box type="selectable_list">
+            <selectable name="use_bounding_box" type="selectable">False</selectable>
+          </bounding_box>
+          <bounding_box_top type="float">0.</bounding_box_top>
+          <bounding_box_left type="float">0.</bounding_box_left>
+          <bounding_box_right type="float">0.</bounding_box_right>
+          <bounding_box_bottom type="float">0.</bounding_box_bottom>
+        </controler_parameter>
+        <accessibility_parameter type="dictionary">
+          <accessibility_destination_sampling_rate type="float">1.</accessibility_destination_sampling_rate>
+          <use_MATSim_parameter type="selectable_list">
+            <selectable name="use_logit_scale_parameter_from_MATSim" type="selectable">True</selectable>
+            <selectable name="use_car_parameter_from_MATSim" type="selectable">True</selectable>
+            <selectable name="use_walk_parameter_from_MATSim" type="selectable">True</selectable>
+            <selectable name="use_raw_sums_without_ln" type="selectable">False</selectable>
+          </use_MATSim_parameter>
+          <logit_scale_parameter type="float">0.</logit_scale_parameter>
+          <car_parameter type="dictionary">
+            <betacar_travel_time type="float">0.</betacar_travel_time>
+            <betacar_travel_time_power2 type="float">0.</betacar_travel_time_power2>
+            <betacar_ln_travel_time type="float">0.</betacar_ln_travel_time>
+            <betacar_travel_distance type="float">0.</betacar_travel_distance>
+            <betacar_travel_distance_power2 type="float">0.</betacar_travel_distance_power2>
+            <betacar_ln_travel_distance type="float">0.</betacar_ln_travel_distance>
+            <betacar_travel_cost type="float">0.</betacar_travel_cost>
+            <betacar_travel_cost_power2 type="float">0.</betacar_travel_cost_power2>
+            <betacar_ln_travel_cost type="float">0.</betacar_ln_travel_cost>
+          </car_parameter>
+          <walk_parameter type="dictionary">
+            <betawalk_travel_time type="float">0.</betawalk_travel_time>
+            <betawalk_travel_time_power2 type="float">0.</betawalk_travel_time_power2>
+            <betawalk_ln_travel_time type="float">0.</betawalk_ln_travel_time>
+            <betawalk_travel_distance type="float">0.</betawalk_travel_distance>
+            <betawalk_travel_distance_power2 type="float">0.</betawalk_travel_distance_power2>
+            <betawalk_ln_travel_distance type="float">0.</betawalk_ln_travel_distance>
+            <betawalk_travel_cost type="float">0.</betawalk_travel_cost>
+            <betawalk_travel_cost_power2 type="float">0.</betawalk_travel_cost_power2>
+            <betawalk_ln_travel_cost type="float">0.</betawalk_ln_travel_cost>
+          </walk_parameter>
+        </accessibility_parameter>
+        <random_location_distribution_radius_for_urbansim_zone type="float">0.</random_location_distribution_radius_for_urbansim_zone>
+      </matsim4urbansim>
+      <matsim_config type="dictionary">
+        <common type="dictionary">
+          <external_matsim_config type="dictionary">
+          </external_matsim_config>
+          <matsim_network_file type="file">data/zurich_kt_parcel/base_year_data/2000/matsim/network/network.multimodal-wu.xml.gz</matsim_network_file>
+          <last_iteration type="integer">1</last_iteration>
+          <input_plans_file type="file"/>
+          <hotstart_plans_file type="file"/>
+          <test_parameter type="string"/>
+          <backup type="selectable_list">
+            <selectable name="backup_run_data" type="selectable">False</selectable>
+          </backup>
+        </common>
+        <plan_calc_score type="dictionary">
+          <home_activity_typical_duration type="integer">43200</home_activity_typical_duration>
+          <work_activity_typical_duration type="integer">28800</work_activity_typical_duration>
+          <work_activity_opening_time type="integer">25200</work_activity_opening_time>
+          <work_activity_latest_start_time type="integer">32400</work_activity_latest_start_time>
+        </plan_calc_score>
+        <strategy type="dictionary">
+          <max_agent_plan_memory_size type="integer">5</max_agent_plan_memory_size>
+          <time_accocation_mutator_probability type="float">0.1</time_accocation_mutator_probability>
+          <change_exp_beta_probability type="float">0.9</change_exp_beta_probability>
+          <reroute_dijkstra_probability type="float">0.1</reroute_dijkstra_probability>
+        </strategy>
+      </matsim_config>
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2001</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2002</year>
+        </run_description>
+      </years_to_run>
+    </travel_model_configuration>
+  </model_manager>
   <scenario_manager>
-    <scenario name="test_run" type="scenario" executable="True">
+    <scenario executable="True" name="Copy of urbansim_parcel_baseline" type="scenario">
+      <models_to_run config_name="models" type="selectable_list"/>
+      <base_year type="integer" field_identifier="Base Year">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer" field_identifier="First Year of Simulation">2001</firstyear>
+        <lastyear type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
+      </years_to_run>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_mini_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Scenario Runs Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs">zurich_mini_parcel/runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_mini_parcel/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
       <advanced type="category">
+        <model_system type="string">urbansim.model_coordinators.model_system</model_system>
+        <debuglevel type="integer">4</debuglevel>
+        <flush_variables type="boolean">False</flush_variables>
+        <seed type="integer" convert_blank_to_none="True">None</seed>
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
         <run_in_same_process type="boolean">True</run_in_same_process>
       </advanced>
+    </scenario>
+    <scenario name="test_run" type="scenario" executable="True">
+      <advanced type="category">
+        <model_system type="string">urbansim.model_coordinators.model_system</model_system>
+        <debuglevel type="integer">4</debuglevel>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">False</run_in_same_process>
+      </advanced>
+      <cache_directory name="" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_mini_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <argument name="cache_directory_root" config_name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Scenario Runs Directory" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs">zurich_mini_parcel/runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory" field_identifier="Cache Directory" field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data">zurich_mini_parcel/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <base_year name="" type="integer" field_identifier="Base Year">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear name="" type="integer" field_identifier="First Year of Simulation">2001</firstyear>
+        <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2002</lastyear>
+      </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable return_value="SC_building_transition_model" type="selectable" name="SC_building_transition_model_1">True</selectable>
+        <selectable return_value="SC_real_estate_price_model_new" type="selectable" name="SC_real_estate_price_model_new_1">False</selectable>
+        <selectable return_value="SC_postprocess_real_estate_price_model" type="selectable" name="SC_postprocess_real_estate_price_model_1">False</selectable>
+        <selectable return_value="SC_building_transition_model" type="selectable" name="SC_building_transition_model_1">False</selectable>
         <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">False</selectable>
-        <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">True</selectable>
+        <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">False</selectable>
         <selectable return_value="SC_building_location_choice_model_from_template" type="selectable" name="SC_building_location_choice_model_from_template_1">False</selectable>
-        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">True</selectable>
-        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">True</selectable>
-        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">True</selectable>
+        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">False</selectable>
+        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">False</selectable>
+        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
         <selectable return_value="SC_employment_transition_model" type="selectable" name="new_employment_transition_model_1">False</selectable>
         <selectable return_value="employment_transition_model" type="selectable" name="employment_transition_model_1">False</selectable>
         <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">False</selectable>
