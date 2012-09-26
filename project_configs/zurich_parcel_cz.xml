@@ -1,9 +1,17 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/li_cache.xml</parent>
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="parcel.SC_AZ_approx" type="variable_definition">parcel.aggregate(building.land_area * building.stories) / parcel.parcel_sqft</variable>
       <variable use="both" source="expression" name="city.SC_target_non_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel]) / (1 - 0.04))</variable>
       <variable use="both" source="expression" name="city.SC_target_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel]) / (1 - 0.0066))</variable>
       <variable use="indicator" source="Python class" name="parcel.SC_jobs_per_parcel" type="variable_definition">urbansim_parcel.parcel.number_of_jobs</variable>
@@ -945,6 +953,25 @@
     </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="Nutzungsziffern">
+        <batch_visualization hidden="Children" type="batch_visualization" name="az_parcel">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['SC_AZ_approx']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="persons_map">
         <batch_visualization hidden="Children" type="batch_visualization" name="persons_city">
           <settings>
