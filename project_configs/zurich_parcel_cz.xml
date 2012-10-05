@@ -1,17 +1,12 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/li_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable use="both" source="expression" name="parcel.SC_AZ_approx" type="variable_definition">parcel.aggregate(building.land_area * building.stories) / parcel.parcel_sqft</variable>
+      <variable use="both" source="expression" name="city.sc_nb_buildings_city" type="variable_definition">city.aggregate(parcel.number_of_agents(building))</variable>
+      <variable use="both" source="expression" name="city.SC_vacant_resi_units" type="variable_definition">city.aggregate(urbansim_parcel.building.vacant_residential_units, intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="parcel.sc_az_approx" type="variable_definition">parcel.aggregate(building.land_area * building.stories) / parcel.parcel_sqft</variable>
       <variable use="both" source="expression" name="city.SC_target_non_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel]) / (1 - 0.04))</variable>
       <variable use="both" source="expression" name="city.SC_target_resi_units" type="variable_definition">numpy.round(city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel]) / (1 - 0.0066))</variable>
       <variable use="indicator" source="Python class" name="parcel.SC_jobs_per_parcel" type="variable_definition">urbansim_parcel.parcel.number_of_jobs</variable>
@@ -32,7 +27,7 @@
       <variable use="indicator" source="expression" name="city.SC_non_resi_units_city" type="variable_definition">city.aggregate(zurich_parcel.building.SC_total_spaces_0, intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="city.SC_occupied_non_resi_spaces_city" type="variable_definition">city.aggregate(zurich_parcel.building.SC_occupied_spaces_0, intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="city.SC_occupied_resi_spaces_city" type="variable_definition">city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel])</variable>
-      <variable use="indicator" source="expression" name="city.SC_resi_vacancy_city" type="variable_definition">(1 - ((city.aggregate(building.number_of_agents(households), intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel])))</variable>
+      <variable use="indicator" source="expression" name="city.SC_resi_vacancy_city" type="variable_definition">(1 - ((city.aggregate(zurich_parcel.building.SC_occupied_spaces_1, intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.SC_total_spaces_1, intermediates=[parcel])))</variable>
       <variable use="indicator" source="expression" name="city.SC_nb_hh_city" type="variable_definition">city.aggregate(building.number_of_agents(households), intermediates=[parcel])</variable>
       <variable use="indicator" source="expression" name="city.SC_resi_units" type="variable_definition">city.aggregate(zurich_parcel.building.SC_total_spaces_1, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="development_event_history_x_parcel.SC_dev_fit_permitted_floor_m2_step_ln" type="variable_definition">((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories) &lt; 0) * 4 * ((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories)) + ((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories) &gt; 0) * ln(((parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft) - (development_event_history.land_area * development_event_history.stories)))</variable>
@@ -511,30 +506,11 @@
           </submodel_group>
         </specification>
       </model>
-      <model name="SC_household_relocation_model" type="model">
+      <model name="SC_household_location_choice_model" type="model">
         <structure type="dictionary">
-          <import hidden="True" name="import" type="dictionary">
-            <class_module type="string">urbansim.models.household_relocation_model_creator</class_module>
-            <class_name>HouseholdRelocationModelCreator</class_name>
-          </import>
           <init type="dictionary">
-            <name hidden="True" name="name" type="string">HouseholdRelocationModelCreator().get_model</name>
-            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
-            <argument name="location_id_name" parser_action="quote_string" type="string">building_id</argument>
-            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.upc.rate_based_probabilities</argument>
+            <argument name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.has_vacant_residential_units</argument>
           </init>
-          <prepare_for_run type="dictionary">
-            <name hidden="True" name="name" type="string">prepare_for_run</name>
-            <argument name="rate_storage" type="string">base_cache_storage</argument>
-            <argument name="rate_table" parser_action="quote_string" type="string" model_dependency_type="table">annual_relocation_rates_for_households</argument>
-            <argument name="what" parser_action="quote_string" type="string">households</argument>
-            <output hidden="True" name="output" type="string">hrm_resources</output>
-          </prepare_for_run>
-          <run type="dictionary">
-            <output hidden="True" name="output" type="string">hrm_index</output>
-            <argument name="agent_set" type="string" model_dependency_type="dataset">household</argument>
-            <argument hidden="True" name="resources" type="string">hrm_resources</argument>
-          </run>
         </structure>
       </model>
       <model name="SC_BLCM" type="model" hidden="False">Use single buildings in development_event_history<structure type="dictionary">
@@ -950,10 +926,42 @@
     </models>
   </model_manager>
   <scenario_manager>
-    </scenario_manager>
+    <scenario name="test_run" type="scenario" executable="True">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear name="" type="integer" field_identifier="Last Year of Simulation">2030</lastyear>
+      </years_to_run>
+    </scenario>
+  </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="Nutzungsziffern">
+      <indicator_batch name="buildings">
+        <batch_visualization hidden="Children" type="batch_visualization" name="buildings_per_city">
+          <indicators>['sc_nb_buildings_city']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>city</dataset_name>
+          <visualization_type>mapnik_map</visualization_type>
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="vacant_units">
+        <batch_visualization hidden="Children" type="batch_visualization" name="vacant_resi">
+          <indicators>['SC_vacant_resi_units', 'SC_resi_units', 'SC_occupied_resi_spaces_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="nutzungsziffern">
         <batch_visualization hidden="Children" type="batch_visualization" name="az_parcel">
           <settings>
             <setting name="mapnik_bucket_labels">range_labels</setting>
@@ -967,7 +975,7 @@
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
           <visualization_type>mapnik_map</visualization_type>
-          <indicators>['SC_AZ_approx']</indicators>
+          <indicators>['sc_az_approx']</indicators>
           <output_type>mapnik_map</output_type>
           <dataset_name>parcel</dataset_name>
         </batch_visualization>
