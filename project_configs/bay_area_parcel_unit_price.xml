@@ -5,6 +5,10 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building.building_type" type="variable_definition">(building.building_type_id)</variable>
+      <variable use="both" source="expression" name="building.bldg_id" type="variable_definition">(building.building_id)</variable>
+      <variable use="both" source="expression" name="building.building_overassigned_households" type="variable_definition">building.number_of_agents(household)&gt;building.residential_units</variable>
+      <variable use="both" source="expression" name="building.building_households" type="variable_definition">building.number_of_agents(household)</variable>
       <variable use="both" source="expression" name="alldata.region_hh_in_pda" type="variable_definition">alldata.aggregate_all(building.number_of_agents(household)*building.disaggregate(bayarea.parcel.is_pda_id,intermediates=[parcel]),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="alldata.region_jobs_in_pda" type="variable_definition">alldata.aggregate_all(building.aggregate(establishment.employees) * (building.disaggregate(bayarea.parcel.is_tpp,intermediates=[parcel])),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="county.county_pop_tpp_pct" type="variable_definition">safe_array_divide(county.aggregate(building.aggregate(household.persons)*(building.disaggregate(bayarea.parcel.is_tpp,intermediates=[parcel])),intermediates=[parcel]), county.aggregate(building.aggregate(household.persons),intermediates=[parcel]))</variable>
@@ -3354,6 +3358,40 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="building_households">
+        <batch_visualization hidden="Children" type="batch_visualization" name="Overassigned_households">
+          <indicators>['building_type', 'bldg_id', 'building_overassigned_households', 'bldg_residential_units', 'building_households']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>building</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="HH_Emp_indicators_by_level">
+        <batch_visualization hidden="Children" type="batch_visualization" name="household_employment_totals_regionalldata">
+          <indicators>['region_households', 'region_employment']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>alldata</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="household_employment_totals_zone">
+          <indicators>['zone_households', 'zone_employment']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="household_employment_totals_superdistrict">
+          <indicators>['superdistrict_households', 'superdistrict_employment']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>superdistrict</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" type="batch_visualization" name="household_employment_totals_county">
+          <indicators>['county_employment', 'county_households']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="superdistrict_indicators_short">
         <batch_visualization hidden="Children" type="batch_visualization" name="New visualization">
           <indicators>['superdistrict_total_dwelling_units', 'superdistrict_urbanized_acres', 'superdistrict_non_residential_sqft_office', 'superdistrict_non_residential_sqft_light_industrial', 'superdistrict_non_residential_sqft_heavy_industrial', 'superdistrict_non_residential_sqft_big_box_retail', 'superdistrict_single_family_dwelling_units', 'superdistrict_household_population', 'superdistrict_non_residential_sqft', 'superdistrict_multi_family_dwelling_units', 'superdistrict_households', 'superdistrict_employees']</indicators>
