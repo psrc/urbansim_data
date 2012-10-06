@@ -2525,6 +2525,21 @@
           </run>
         </structure>
       </model>
+      <model name="adjust_du_to_hh" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">bayarea.models.adjust_du_to_hh</class_module>
+            <class_name>AdjustDUToHH</class_name>
+          </import>
+          <init type="dictionary" hidden="True">
+            <name hidden="True" name="name" type="string">AdjustDUToHH</name>
+          </init>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="years_to_run" type="list">[2011]</argument>
+          </run>
+        </structure>
+      </model>
     </models>
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
@@ -2669,6 +2684,7 @@
       <parent type="scenario_name">Baseline</parent>
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2712,6 +2728,7 @@
       <parent type="scenario_name">Baseline</parent>
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2762,6 +2779,7 @@
       <parent type="scenario_name">Baseline</parent>
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2812,6 +2830,7 @@
       <parent type="scenario_name">Baseline</parent>
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2855,6 +2874,7 @@
       <parent type="scenario_name">Baseline</parent>
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -3210,6 +3230,7 @@
         <lastyear type="integer">2011</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
