@@ -36,7 +36,7 @@
       <variable use="both" source="expression" name="alldata.single_person_households" type="variable_definition">alldata.aggregate_all(mag_zone.household.persons==1)</variable>
       <variable use="both" source="expression" name="alldata.households_with_children" type="variable_definition">alldata.aggregate_all(household.children&gt;=1)</variable>
       <variable use="both" source="expression" name="alldata.households_with_zero_worker" type="variable_definition">alldata.aggregate_all(household.workers&lt;=0)</variable>
-
+      <variable use="both" source="expression" name="alldata.avg_peak_travel_time_to_work" type="variable_definition">alldata.aggregate_all((mag_zone.person.peak_travel_time_from_home_to_work)*(mag_zone.person.peak_travel_time_from_home_to_work!=-1))/alldata.aggregate_all(mag_zone.person.peak_travel_time_from_home_to_work!=-1)</variable>
       <variable use="both" source="expression" name="county.employment" type="variable_definition">county.aggregate(job.job_id&gt;0,intermediates=[building,zone])</variable>
       <variable use="both" source="expression" name="county.retail_employment" type="variable_definition">county.aggregate(numpy.in1d(job.sector_id, (7,18)),intermediates=[building,zone])</variable>
       <variable use="both" source="expression" name="county.county_non_residential_sqft" type="variable_definition">county.aggregate(building.non_residential_sqft,intermediates=[zone])</variable>
@@ -917,7 +917,7 @@
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
       <indicator_batch name="alldata_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
-          <indicators>[ 'employment', 'percent_retail_employment', 'retail_employment', 'percent_industrial_employment', 'industrial_employment', 'households', 'population', 'median_age', 'avg_household_size', 'population_age_lt_18', 'percent_population_age_lt_18', 'percent_population_age_65_plus', 'population_age_65_plus', 'single_person_households', 'households_with_children', 'households_with_zero_worker']</indicators>
+          <indicators>[ 'employment', 'percent_retail_employment', 'retail_employment', 'percent_industrial_employment', 'industrial_employment', 'households', 'population', 'median_age', 'avg_household_size', 'population_age_lt_18', 'percent_population_age_lt_18', 'percent_population_age_65_plus', 'population_age_65_plus', 'single_person_households', 'households_with_children', 'households_with_zero_worker', 'avg_peak_travel_time_to_work']</indicators>
           <!--
           <indicators>['county_non_residential_sqft', 'employment', 'retail_employment', 'county_total_dwelling_units', 'county_multi_family_dwelling_units', 'county_single_family_dwelling_units', 'households', 'population', 'median_age', 'avg_household_size', 'median_household_size', 'population_age_lt_18', 'population_age_65_plus']</indicators>
 	  -->
