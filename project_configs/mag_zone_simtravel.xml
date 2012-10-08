@@ -607,11 +607,11 @@
         <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">False</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
-        <selectable name="real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="development_project_transition_model" type="selectable">False</selectable>
-        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="development_project_transition_model" type="selectable">True</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">True</selectable>
         <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
@@ -642,11 +642,11 @@
         <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">False</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">False</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">False</selectable>
-        <selectable name="real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="development_project_transition_model" type="selectable">False</selectable>
-        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="development_project_transition_model" type="selectable">True</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">True</selectable>
         <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
@@ -687,11 +687,11 @@
         <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">True</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
-        <selectable name="real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="development_project_transition_model" type="selectable">False</selectable>
-        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
+        <selectable name="real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="development_project_transition_model" type="selectable">True</selectable>
+        <selectable name="residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="non_residential_development_project_location_choice_model" type="selectable">True</selectable>
+        <selectable name="add_projects_to_buildings" type="selectable">True</selectable>
         <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
         <selectable name="employment_transition_model" type="selectable">True</selectable>
         <selectable name="household_relocation_model" type="selectable">True</selectable>
