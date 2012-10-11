@@ -2525,6 +2525,21 @@
           </run>
         </structure>
       </model>
+      <model name="adjust_sqft_to_employee" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">bayarea.models.adjust_sqft_to_employee</class_module>
+            <class_name>AdjustSqFtToEmployee</class_name>
+          </import>
+          <init type="dictionary" hidden="True">
+            <name hidden="True" name="name" type="string">AdjustSqFtToEmployee</name>
+          </init>
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="years_to_run" type="list">[2011]</argument>
+          </run>
+        </structure>
+      </model>
       <model name="adjust_du_to_hh" type="model">
         <structure type="dictionary">
           <import hidden="True" name="import" type="dictionary">
@@ -2685,6 +2700,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2729,6 +2745,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2780,6 +2797,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2831,6 +2849,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2875,6 +2894,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -3222,6 +3242,141 @@
         </datasets_to_preload>
       </advanced>
     </scenario>
+    <scenario executable="True" name="TestScenario_Sqft_to_Emp" type="scenario">
+      <parent type="scenario_name">urbansim_parcel_baseline</parent>
+      <base_year type="integer">2010</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
+        <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
+        <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model_with_persons" type="model_choice">False</selectable>
+        <selectable name="household_relocation_model" type="model_choice">False</selectable>
+        <selectable name="tenure_choice_model" type="model_choice">False</selectable>
+        <selectable name="submarket_household_location_choice_model_owner" type="model_choice">False</selectable>
+        <selectable name="submarket_household_location_choice_model_renter" type="model_choice">False</selectable>
+        <selectable name="household_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable name="business_transition_model" type="model_choice">False</selectable>
+        <selectable name="business_relocation_model" type="model_choice">False</selectable>
+        <selectable name="business_location_choice_model" type="model_choice">False</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">False</selectable>
+        <selectable return_value="developer_model_Baseline" type="selectable" name="developer_model_1">False</selectable>
+        <selectable name="process_pipeline_events" type="model_choice">False</selectable>
+        <selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">False</selectable>
+        <selectable name="mtc_export" type="model_choice">False</selectable>
+      </models_to_run>
+      <models_in_year type="dictionary">
+        <evolve2000_2010 key_name="year" key_value="models" type="category_with_special_keys">
+          <doesnotmatter type="dictionary">
+            <year type="integer">2010</year>
+            <models type="list">["non_residential_rent_model",  "business_transition_model", "business_relocation_model", "business_location_choice_model", "establishment_allocation_to_building_model"]</models>
+          </doesnotmatter>
+        </evolve2000_2010>
+      </models_in_year>
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">bay_area_parcel/base_year_data</argument>
+        </argument>
+        <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
+        <argument name="advanced" type="category">
+          <baseyear_database_configuration config_name="scenario_database_configuration" type="class">
+            <class_name hidden="True" type="string">ScenarioDatabaseConfiguration</class_name>
+            <class_module hidden="True" type="string">opus_core.database_management.configurations.scenario_database_configuration</class_module>
+            <argument name="database_name" type="string">seattle_2000_parcel_baseyear_data</argument>
+          </baseyear_database_configuration>
+          <cache_from_database type="boolean">False</cache_from_database>
+          <cache_scenario_database type="string">urbansim.model_coordinators.cache_scenario_database</cache_scenario_database>
+          <tables_to_cache type="selectable_list">
+            <selectable name="annual_employment_control_totals" type="selectable">False</selectable>
+            <selectable name="annual_household_control_totals" type="selectable">False</selectable>
+            <selectable name="annual_household_relocation_rates" type="selectable">False</selectable>
+            <selectable name="building_sqft_per_job" type="selectable">False</selectable>
+            <selectable name="building_types" type="selectable">False</selectable>
+            <selectable name="buildings" type="selectable">True</selectable>
+            <selectable name="cities" type="selectable">False</selectable>
+            <selectable name="constant_taz_columns" type="selectable">False</selectable>
+            <selectable name="counties" type="selectable">False</selectable>
+            <selectable name="demolition_cost_per_sqft" type="selectable">False</selectable>
+            <selectable name="development_constraints" type="selectable">False</selectable>
+            <selectable name="development_template_components" type="selectable">False</selectable>
+            <selectable name="development_templates" type="selectable">False</selectable>
+            <selectable name="employment_adhoc_sector_group_definitions" type="selectable">False</selectable>
+            <selectable name="employment_adhoc_sector_groups" type="selectable">False</selectable>
+            <selectable name="employment_sectors" type="selectable">False</selectable>
+            <selectable name="fazes" type="selectable">False</selectable>
+            <selectable name="generic_land_use_types" type="selectable">False</selectable>
+            <selectable name="gridcells" type="selectable">False</selectable>
+            <selectable name="home_based_employment_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="home_based_employment_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="household_characteristics_for_ht" type="selectable">False</selectable>
+            <selectable name="household_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="household_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="households" type="selectable">False</selectable>
+            <selectable name="households_for_estimation" type="selectable">False</selectable>
+            <selectable name="jobs" type="selectable">False</selectable>
+            <selectable name="jobs_for_estimation" type="selectable">False</selectable>
+            <selectable name="land_use_types" type="selectable">False</selectable>
+            <selectable name="non_home_based_employment_location_choice_model_coefficients" type="selectable">False</selectable>
+            <selectable name="non_home_based_employment_location_choice_model_specification" type="selectable">False</selectable>
+            <selectable name="parcels" type="selectable">True</selectable>
+            <selectable name="persons" type="selectable">False</selectable>
+            <selectable name="real_estate_price_model_coefficients" type="selectable">False</selectable>
+            <selectable name="real_estate_price_model_specification" type="selectable">False</selectable>
+            <selectable name="target_vacancies" type="selectable">False</selectable>
+            <selectable name="urbansim_constants" type="selectable">False</selectable>
+            <selectable name="zones" type="selectable">False</selectable>
+            <selectable name="nodes" type="selectable">False</selectable>
+            <selectable name="residential_units" type="selectable">False</selectable>
+          </tables_to_cache>
+          <tables_to_cache_nchunks type="dictionary">
+            <parcels type="integer">1</parcels>
+          </tables_to_cache_nchunks>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <advanced type="category">
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">[ 'bayarea','urbansim_parcel', 'urbansim', 'opus_core','psrc_parcel']</argument>
+        </dataset_pool_configuration>
+        <flush_dataset_to_cache_after_each_model type="boolean">True</flush_dataset_to_cache_after_each_model>
+        <flush_variables type="boolean">False</flush_variables>
+        <low_memory_run type="boolean">False</low_memory_run>
+        <datasets_to_cache_after_each_model type="list">['parcel', 'building', 'household', 'person', 'node','residential_unit']</datasets_to_cache_after_each_model>
+        <unroll_gridcells hidden="True" type="boolean">False</unroll_gridcells>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">False</selectable>
+          <selectable name="building_type" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="submarket" type="selectable">False</selectable>
+          <selectable name="node" type="selectable">False</selectable>
+          <selectable name="residential_unit" type="selectable">False</selectable>
+          <selectable name="establishment" type="selectable">True</selectable>
+        </datasets_to_preload>
+      </advanced>
+    </scenario>
     <scenario executable="True" name="Baseline" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2010</base_year>
@@ -3231,6 +3386,7 @@
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
