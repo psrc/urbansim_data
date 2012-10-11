@@ -1185,7 +1185,7 @@
             <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)*submarket.avg_rent&gt;0</argument>
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
-            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.renter_equilibration_choices</argument>
             <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">3</key>
