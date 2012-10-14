@@ -928,8 +928,8 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <!--<argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)*(submarket.avg_sale_price&gt;0)</argument>-->
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.schooldistrict&gt;0)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)*(submarket.avg_sale_price&gt;0)</argument>
+            <!--<argument name="filter" parser_action="quote_string" type="string">(submarket.schooldistrict&gt;0)</argument>-->
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.equilibration_choices</argument>
@@ -1183,8 +1183,8 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <!--<argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)*(submarket.avg_rent&gt;0)</argument>-->
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.schooldistrict&gt;0)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)*(submarket.avg_rent&gt;0)</argument>
+            <!--<argument name="filter" parser_action="quote_string" type="string">(submarket.schooldistrict&gt;0)</argument>-->
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.renter_equilibration_choices</argument>
