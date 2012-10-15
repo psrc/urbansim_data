@@ -2702,7 +2702,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2747,7 +2747,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2799,7 +2799,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2851,7 +2851,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -2896,7 +2896,7 @@
       <base_year type="integer">2010</base_year>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">True</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">True</selectable>
@@ -3252,7 +3252,7 @@
         <lastyear type="integer">2011</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
@@ -3388,7 +3388,7 @@
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="adjust_du_to_hh" type="model_choice">False</selectable>
-        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">True</selectable>
+        <selectable return_value="adjust_sqft_to_employee" type="selectable" name="adjust_sqft_to_employee_1">False</selectable>
         <selectable name="non_residential_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_rent_model" type="model_choice">False</selectable>
         <selectable name="residential_unit_sale_price_model" type="model_choice">False</selectable>
