@@ -2495,8 +2495,8 @@
                 <variable name="HHPOP" type="string">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])</variable>
                 <variable name="TOTPOP" type="string">zone.aggregate(building.aggregate(household.persons),intermediates=[parcel])+zone.gqpop</variable>
                 <variable name="EMPRES" type="string">zone.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
-                <variable name="SFDU" type="string">zone.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
-                <variable name="MFDU" type="string">zone.aggregate(building.residential_units*(building.building_type_id&gt;2),intermediates=[parcel])</variable>
+                <variable name="SFDU" type="string">zone.aggregate(building.number_of_agents(household)*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
+                <variable name="MFDU" type="string">zone.aggregate(building.number_of_agents(household)*(building.building_type_id&gt;2),intermediates=[parcel])</variable>
                 <variable name="HHINCQ1" type="string">zone.aggregate((household.income*.7201)&lt;25000,intermediates=[building,parcel])</variable>
                 <variable name="HHINCQ2" type="string">zone.aggregate(((household.income*.7201)&gt;24999)*((household.income*.7201)&lt;45000),intermediates=[building,parcel])</variable>
                 <variable name="HHINCQ3" type="string">zone.aggregate(((household.income*.7201)&gt;44999)*((household.income*.7201)&lt;75000),intermediates=[building,parcel])</variable>
