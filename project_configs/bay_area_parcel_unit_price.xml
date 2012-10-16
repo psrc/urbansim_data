@@ -874,7 +874,7 @@
           </import>
           <init type="dictionary">
             <name name="name" type="string">DeveloperModel</name>
-            <argument name="scenario" type="string">"Preferred V1"</argument>
+            <argument name="scenario" type="string">"Preferred V2"</argument>
           </init>
           <run type="dictionary"/>
         </structure>
