@@ -823,7 +823,7 @@
           </import>
           <init type="dictionary">
             <name name="name" type="string">DeveloperModel</name>
-            <argument name="scenario" type="string">"No Project V3"</argument>
+            <argument name="scenario" type="string">"No Project V4"</argument>
           </init>
           <run type="dictionary"/>
         </structure>
@@ -836,7 +836,7 @@
           </import>
           <init type="dictionary">
             <name name="name" type="string">DeveloperModel</name>
-            <argument name="scenario" type="string">"Transit V1"</argument>
+            <argument name="scenario" type="string">"Transit V2"</argument>
           </init>
           <run type="dictionary"/>
         </structure>
