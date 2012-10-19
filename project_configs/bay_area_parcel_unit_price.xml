@@ -5,6 +5,7 @@
     <project_name hidden="True" type="string">bay_area_parcel</project_name>
     <parent type="file">urbansim_parcel/configs/urbansim_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="area_permutation.area_permutation_ident" type="variable_definition">area_permutation.aggregate(bayarea.parcel.hc_area_permutation_id,function=maximum)</variable>
       <variable use="both" source="expression" name="building.building_type" type="variable_definition">(building.building_type_id)</variable>
       <variable use="both" source="expression" name="building.bldg_id" type="variable_definition">(building.building_id)</variable>
       <variable use="both" source="expression" name="building.building_overassigned_households" type="variable_definition">building.number_of_agents(household)&gt;building.residential_units</variable>
@@ -539,6 +540,7 @@
       <variable use="both" source="expression" name="building_type.building_type_avg_sale_price" type="variable_definition">safe_array_divide(building_type.aggregate(residential_unit.sale_price,intermediates=[building]),building_type.aggregate(residential_unit.sale_price&gt;0,intermediates=[building]))</variable>
       <variable use="both" source="expression" name="area_permutation.total_employment" type="variable_definition">area_permutation.aggregate(establishment.employees,intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.total_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="pda.total_households" type="variable_definition">pda.aggregate(building.number_of_agents(household))</variable>
       <variable use="both" source="expression" name="area_permutation.total_population" type="variable_definition">area_permutation.aggregate(person.person_id&gt;0, intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.employed_residents" type="variable_definition">area_permutation.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.single_family_units" type="variable_definition">area_permutation.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
@@ -568,8 +570,8 @@
       <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
       <argument name="package_order" type="list">['bayarea','urbansim_parcel','urbansim','opus_core']</argument>
     </dataset_pool_configuration>
-    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket','establishment','jurisdiction','county','city','alldata','devcalib_geography', 'is_pda','area_permutation']</available_datasets>
-    <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node','alldata','superdistrict','is_pda']</spatial_datasets>
+    <available_datasets type="list">['parcel','building','household_x_building','zone','faz','gridcell','city','county','alldata','node','household_x_submarket','residential_unit','submarket','superdistrict','pda','schooldistrict','transit_station','zone_accessibility','costar','employment_submarket','establishment_x_employment_submarket','establishment','jurisdiction','county','city','alldata','devcalib_geography', 'is_pda','area_permutation']</available_datasets>
+    <spatial_datasets type="list">['parcel','zone','faz','gridcell','city','county','node','alldata','superdistrict','is_pda','pda']</spatial_datasets>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
@@ -3599,9 +3601,20 @@
           <visualization_type>tab</visualization_type>
         </batch_visualization>
       </indicator_batch>
+      <indicator_batch name="pda_indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="db">
+          <indicators>['total_households']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>pda</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="abag_eir_area_permutation">
         <batch_visualization hidden="Children" type="batch_visualization" name="db">
-          <indicators>['county_id', 'city_id','pda_id', 'tpp_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_households', 'multi_family_units', 'multi_family_households', 'total_employment', 'age_lt_04', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified']</indicators>
+          <indicators>['county_id', 'city_id','pda_id', 'tpp_id', 'total_employment', 'total_households', 'total_population', 'employed_residents', 'single_family_units', 'single_family_households', 'multi_family_units', 'multi_family_households', 'total_employment', 'age_lt_04', 'age_05_19', 'age_20_44', 'age_45_64', 'age_65_plus', 'empl_10_art_rec_other', 'empl_02_construction', 'empl_01_farm_nat_res', 'empl_07_fin_lease', 'empl_11_government', 'empl_09_health_educ', 'empl_06_information', 'empl_03_manuf_whole', 'empl_08_prof', 'empl_04_retail', 'empl_05_transp_ware_util', 'empl_99_unclassified','area_permutation_ident']</indicators>
           <output_type>tab</output_type>
           <settings>
             <setting name="output_style">1</setting>
