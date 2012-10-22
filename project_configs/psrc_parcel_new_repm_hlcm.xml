@@ -1069,7 +1069,7 @@
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=numpy.logical_or(urbansim_parcel.parcel.vacant_land_area==parcel.parcel_sqft, urbansim_parcel.parcel.is_residential_land_use_type * (safe_array_divide(parcel.parcel_sqft, urbansim_parcel.parcel.used_land_area) &gt; 2.5 ) * ((parcel.aggregate(building.improvement_value, function=maximum) &lt; 200000)))</argument>
             <!-- <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio_non_gov=numpy.logical_and(urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.33, parcel.aggregate(urbansim_parcel.building.is_governmental)==0)</argument>-->
-            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;2.5)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or(numpy.logical_and((safe_array_divide(parcel.parcel_sqft,parcel.aggregate(building.job_capacity))&gt;100),(parcel.aggregate(building.job_capacity)&lt;15000)),(safe_array_divide(parcel.parcel_sqft,urbansim_parcel.parcel.residential_units)&gt;250)))*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;300))</argument>
+            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;3)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_not(parcel.aggregate(urbansim_parcel.building.age_masked, function=mean)&lt;20))*(numpy.logical_or((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;6),(parcel.land_use_type_id&lt;&gt;15)))*(parcel.aggregate(building.job_capacity)&lt;500)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;250))</argument>
             <argument name="template_filter" convert_blank_to_none="True" parser_action="quote_string" type="string"/>
             <argument hidden="True" name="specification_storage" type="string">base_cache_storage</argument>
             <argument name="specification_table" parser_action="quote_string" type="string">expected_sales_unit_price_model_specification</argument>
@@ -1221,7 +1221,7 @@
         <argument name="specification_storage" type="string">base_cache_storage</argument>
         <argument name="specification_table" parser_action="quote_string" type="string">expected_sales_unit_price_model_specification</argument>
         <!-- <argument name="dataset_filter" parser_action="quote_string" type="string">(development_project_proposal.bldg_count==1)  * (development_project_proposal.year_sold >= 1995)</argument> -->
-        <argument name="dataset_filter" parser_action="quote_string" type="string" convert_blank_to_none="True">(development_project_proposal_component.building_type_id &lt;&gt; 10) * safe_array_divide(development_project_proposal_component.expected_sales_price_per_sqft, safe_array_divide(development_project_proposal_component.land_value, development_project_proposal_component.parcel_sqft)) &lt; 75</argument>
+        <argument name="dataset_filter" parser_action="quote_string" type="string" convert_blank_to_none="True">est_filter = (development_project_proposal_component.building_type_id &lt;&gt; 10) * (safe_array_divide(development_project_proposal_component.expected_sales_price_per_sqft, safe_array_divide(development_project_proposal_component.land_value, development_project_proposal_component.parcel_sqft)) &lt; 75)</argument>
         <output hidden="True" name="output" type="string">(development_project_proposal_component, specification, index)</output>
        </prepare_for_estimate>
        <estimate type="dictionary">
@@ -1616,10 +1616,10 @@
    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_estimation</cache_directory>
-      <base_year type="integer" field_identifier="Base Year">2006</base_year>
+      <base_year type="integer" field_identifier="Base Year">2000</base_year>
       <years type="tuple">
-        <firstyear type="integer" field_identifier="Base Year">2006</firstyear>
-        <lastyear type="integer" field_identifier="Base Year">2006</lastyear>
+        <firstyear type="integer" field_identifier="Base Year">2000</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2000</lastyear>
       </years>
     </estimation_config>
  </model_manager>
