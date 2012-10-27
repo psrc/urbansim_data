@@ -2549,7 +2549,7 @@
           </init>
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
-            <argument name="years_to_run" type="list">[2010, 2011, 2015, 2018, 2020, 2025, 2035, 2040]</argument>
+            <argument name="years_to_run" type="list">[2010, 2011, 2015, 2018, 2020, 2025, 2030, 2035, 2040]</argument>
             <argument name="configuration" type="string">resources</argument>
           </run>
         </structure>
