@@ -76,6 +76,14 @@
 
       <variable use="both" source="expression" name="person_x_job.peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.person_x_job.peak_travel_time_from_home_to_work</variable>
       <variable use="both" source="expression" name="person_x_job.peak_travel_distance_from_home_to_work_in_miles" type="variable_definition">mag_zone.person_x_job.peak_travel_distance_from_home_to_work_in_miles</variable>
+      <!--
+      <variable use="both" source="expression" name="household_x_building.peak_travel_distance_from_home_to_work_in_miles" type="variable_definition">mag_zone.household_x_building.peak_travel_distance_from_home_to_work_in_miles</variable>
+      <variable use="both" source="expression" name="household_x_building.peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.household_x_building.peak_travel_time_from_home_to_work</variable>
+      <variable use="both" source="expression" name="household_x_building.generalized_peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.household_x_building.generalized_peak_travel_time_from_home_to_work</variable>
+      <variable use="both" source="expression" name="household_x_building.peak_travel_distance_from_home_to_work_avg_in_miles" type="variable_definition">mag_zone.household_x_building.peak_travel_distance_from_home_to_work_in_miles</variable>
+      -->
+      <variable use="both" source="expression" name="household_x_building.peak_travel_time_from_home_to_work_avg" type="variable_definition">mag_zone.household_x_building.peak_travel_time_from_home_to_work_avg</variable>
+      <variable use="both" source="expression" name="household_x_building.generalized_peak_travel_time_from_home_to_work_avg" type="variable_definition">mag_zone.household_x_building.generalized_peak_travel_time_from_home_to_work_avg</variable>
       <variable use="both" source="expression" name="person_x_job.generalized_peak_travel_time_from_home_to_work" type="variable_definition">mag_zone.person_x_job.peak_travel_time_from_home_to_work + person.disaggregate(household.value_of_time_per_distance) * mag_zone.person_x_job.peak_travel_distance_from_home_to_work_in_miles</variable>
       <variable use="both" source="expression" name="building.ln_sqft" type="variable_definition">ln_bounded(building.non_residential_sqft)</variable>
       <variable use="both" source="expression" name="building.year_built" type="variable_definition">building.year_built</variable>
@@ -277,6 +285,7 @@
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel" inherit_parent_values="False">
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
+              <variable_spec name="household_x_building.generalized_peak_travel_time_from_home_to_work_avg"/>
               <variable_spec name="household_x_building.income_x_avg_val"/>
               <variable_spec name="building.ln_units"/>
             </variable_list>
@@ -499,7 +508,7 @@
       <base_year type="integer" field_identifier="Base Year">2009</base_year>
       <years type="tuple">
         <firstyear type="integer" field_identifier="Base Year">2009</firstyear>
-        <lastyear type="integer" field_identifier="Base Year">2019</lastyear>
+        <lastyear type="integer" field_identifier="Base Year">2009</lastyear>
       </years>
       <seed type="integer">1</seed>
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
