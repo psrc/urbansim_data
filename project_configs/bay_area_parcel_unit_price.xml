@@ -955,7 +955,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==2)*(submarket.schooldistrict&lt;99)*(submarket.avg_sale_price&gt;0)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id&gt;1)*(submarket.schooldistrict&lt;99)</argument>
             <!--<argument name="filter" parser_action="quote_string" type="string">(submarket.schooldistrict&gt;0)</argument>-->
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
@@ -1210,7 +1210,7 @@
             <argument convert_blank_to_none="True" name="location_id_string" parser_action="quote_string" type="string">bayarea.household.submarket_id</argument>
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">bayarea.household.income_4_person_3</argument>
             <argument name="capacity_string" parser_action="quote_string" type="string">submarket.residential_units-submarket.number_of_households</argument>
-            <argument name="filter" parser_action="quote_string" type="string">(submarket.tenure_id==1)*(submarket.schooldistrict&lt;99)*(submarket.avg_rent&gt;0)</argument>
+            <argument name="filter" parser_action="quote_string" type="string">(numpy.in1d(submarket.tenure_id, (1,3)))*(submarket.schooldistrict&lt;99)</argument>
             <!--<argument name="filter" parser_action="quote_string" type="string">(submarket.schooldistrict&gt;0)</argument>-->
             <argument name="estimation_weight_string" parser_action="quote_string" type="string">submarket.residential_units</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
@@ -2604,9 +2604,9 @@
     <templates hidden="True" name="Model Templates" parser_action="skip"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-        <selectable name="building" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="household" type="selectable" followers="my_dataset">True</selectable>
-        <selectable name="job" type="selectable" followers="my_dataset">False</selectable>
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">False</selectable>
         <selectable name="parcel" type="selectable">True</selectable>
         <selectable name="submarket" type="selectable">True</selectable>
         <selectable name="node" type="selectable">False</selectable>
@@ -2754,8 +2754,6 @@
         <selectable name="tenure_choice_model" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_owner" type="model_choice">True</selectable>
         <selectable name="submarket_household_location_choice_model_renter" type="model_choice">True</selectable>
-        <selectable name="postprocess_residential_sale_price" type="model_choice">True</selectable>
-        <selectable name="postprocess_residential_rent" type="model_choice">True</selectable>
         <selectable name="postprocess_residential_sale_price" type="model_choice">True</selectable>
         <selectable name="postprocess_residential_rent" type="model_choice">True</selectable>
         <selectable name="household_allocation_to_building_model" type="model_choice">True</selectable>
@@ -2963,8 +2961,8 @@
         <selectable name="business_transition_model" type="model_choice">True</selectable>
         <selectable name="business_relocation_model" type="model_choice">True</selectable>
         <selectable name="business_location_choice_model" type="model_choice">True</selectable>
-        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable name="postprocess_non_residential_rent" type="model_choice">True</selectable>
+        <selectable name="establishment_allocation_to_building_model" type="model_choice">True</selectable>
         <selectable name="process_pipeline_events" type="model_choice">True</selectable>
         <selectable return_value="developer_model_Infill" type="selectable" name="developer_model_1">True</selectable>
         <selectable return_value="gov_edu_jobs_model" type="selectable" name="gov_edu_jobs_model_1">True</selectable>
