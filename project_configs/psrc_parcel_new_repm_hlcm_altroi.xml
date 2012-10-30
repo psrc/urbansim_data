@@ -10,15 +10,15 @@
          <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model', "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model"]</dependencies>
          <structure type="dictionary">
           <import hidden="True" type="dictionary" name="import">
-            <!-- <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_with_minimum</class_module> -->
-            <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_no_demand_constraints</class_module>
+             <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_with_minimum</class_module> 
+            <!-- <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_no_demand_constraints</class_module> -->
             <class_name>DevelopmentProjectProposalSamplingModel</class_name>
           </import>
           <init type="dictionary">
             <name hidden="True" type="string" name="name">DevelopmentProjectProposalSamplingModel</name>
             <argument type="string" name="proposal_set">development_project_proposal</argument>
             <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument>
-            <argument type="string" convert_blank_to_none="True" name="filter_attribute"/>
+            <argument type="string" convert_blank_to_none="True" name="filter_attribute" parser_action="quote_string">numpy.logical_or(development_project_proposal.disaggregate(parcel.mix_split_id == -1), development_project_proposal.aggregate((development_project_proposal_component.disaggregate(mix_split.res_min, intermediates=[parcel]) &lt;= urbansim_parcel.development_project_proposal_component.percent_building_sqft) * (development_project_proposal_component.disaggregate(mix_split.res_max, intermediates=[parcel]) &gt;= urbansim_parcel.development_project_proposal_component.percent_building_sqft) * urbansim_parcel.development_project_proposal_component.is_residential))  </argument>
           </init>
           <run type="dictionary">
             <argument type="integer" name="n">100</argument>
