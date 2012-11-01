@@ -589,8 +589,8 @@
       <variable use="both" source="expression" name="pda.empl_05_transp_ware_util" type="variable_definition">pda.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [11, 17, 19]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="pda.empl_99_unclassified" type="variable_definition">pda.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [27]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="pda.age_lt_04" type="variable_definition">pda.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
-      <variable use="both" source="expression" name="area_permutation.mixed_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household)*(building.building_type_id==12)*(building.building_type_id==13)*(building.building_type_id==14),intermediates=[parcel])</variable>    
-      <variable use="both" source="expression" name="area_permutation.mixed_units" type="variable_definition">area_permutation.aggregate(building.residential_units*(building.building_type_id==12)*(building.building_type_id==13)*(building.building_type_id==14),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.mixed_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household)*numpy.in1d(building.building_type_id, [12, 13, 14]),intermediates=[parcel])</variable>    
+      <variable use="both" source="expression" name="area_permutation.mixed_units" type="variable_definition">area_permutation.aggregate(building.residential_units*numpy.in1d(building.building_type_id, [12, 13, 14]),intermediates=[parcel])</variable>
     </expression_library>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
@@ -3821,4 +3821,5 @@
     </indicator_batches>
   </results_manager>
 </opus_project>
+
 
