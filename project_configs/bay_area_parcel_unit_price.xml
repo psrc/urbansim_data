@@ -591,6 +591,10 @@
       <variable use="both" source="expression" name="pda.age_lt_04" type="variable_definition">pda.aggregate((person.age&lt;=4)*(person.gq==0),intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.mixed_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household)*numpy.in1d(building.building_type_id, [12, 13, 14]),intermediates=[parcel])</variable>    
       <variable use="both" source="expression" name="area_permutation.mixed_units" type="variable_definition">area_permutation.aggregate(building.residential_units*numpy.in1d(building.building_type_id, [12, 13, 14]),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.single_family__det_units" type="variable_definition">area_permutation.aggregate(building.residential_units*numpy.in1d(building.building_type_id, [1]),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.single_family__det_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household)*numpy.in1d(building.building_type_id, [1]),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.single_family__att_units" type="variable_definition">area_permutation.aggregate(building.residential_units*numpy.in1d(building.building_type_id, [2]),intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="area_permutation.single_family__att_households" type="variable_definition">area_permutation.aggregate(building.number_of_agents(household)*numpy.in1d(building.building_type_id, [2]),intermediates=[parcel])</variable>
     </expression_library>
     <dataset_pool_configuration type="class" hidden="True">
       <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
@@ -3821,5 +3825,3 @@
     </indicator_batches>
   </results_manager>
 </opus_project>
-
-
