@@ -188,10 +188,38 @@
       <variable use="both" source="expression" name="building.ln_avg_value_per_sqft_whse" type="variable_definition">ln((building.building_type_id==10)*(building.average_value_per_unit))</variable>
       <variable use="both" source="expression" name="building.ln_avg_value_per_sqft_retail" type="variable_definition">ln((building.building_type_id==7)*(building.average_value_per_unit))</variable>
       <variable use="both" source="expression" name="building.ln_avg_value_per_sqft_office" type="variable_definition">ln((building.building_type_id==5)*(building.average_value_per_unit))</variable>
+      <variable use="both" source="expression" name="person.htaz" type="variable_definition">person.disaggregate(building.zone_id, intermediates=[household])</variable>
+      <variable use="both" source="expression" name="person.wtaz" type="variable_definition">mag_zone.person.wtaz</variable>
+      <variable use="both" source="primary" name="person.student_status" type="variable_definition">person.student_status</variable>
+      <variable use="both" source="primary" name="person.schtaz" type="variable_definition">person.schtaz</variable>
+      <variable use="both" source="primary" name="person.employment_status" type="variable_definition">person.employment_status</variable>
+      <variable use="both" source="primary" name="person.age" type="variable_definition">person.age</variable>
+      <variable use="both" source="expression" name="person.presch" type="variable_definition">(person.age &lt;= 5).astype('i')</variable>
+      <variable use="both" source="expression" name="person.nadlt" type="variable_definition">(person.age &gt; 5)*(person.age &lt; 18)</variable>
     </expression_library>
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="reset_age_for_immigrants" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+            <name name="model_name" type="string" parser_action="quote_string">reset_age_for_immigrants</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="dataset_filter" type="string" parser_action="quote_string" model_dependency_type="variable">mag_zone.person.year == mag_zone.person.year_lag1</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">age-1</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">age</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
       <model name="employment_status_sync_model" type="model">
         <structure>
           <import name="import" type="dictionary">
@@ -488,6 +516,32 @@
         </structure>
         <specification type="dictionary"/>
       </model>
+      <model name="workplace_assignment_initialization" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.monte_carlo_assignment_model</class_module>
+            <class_name type="string">MonteCarloAssignmentModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">MonteCarloAssignmentModel</name>
+            <argument name="model_name" type="string">"Workplace Assignment Initialization"</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="individual_dataset" type="string" parser_action="quote_string">person</argument>
+            <argument name="fraction_dataset" type="string" parser_action="quote_string">job</argument>
+            <argument name="id_name1" type="string" parser_action="quote_string">wtaz</argument>
+            <argument name="id_name2" type="string" parser_action="quote_string">job_id</argument>
+            <argument name="fraction_attribute_name" type="string" parser_action="quote_string">weight</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+	    <argument name="expressions_to_compute" type="string">['wtaz=person.wtaz0','wtaz=job.disaggregate(building.zone_id)', "weight=(job.job_id > 0).astype('f')"]</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </prepare_for_run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
     </models>
     <templates name="Model Templates" parser_action="skip" hidden="True"/>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
@@ -549,6 +603,18 @@
   <results_manager>
     </results_manager>
   <scenario_manager followers="debuglevel,base_year,cache_directory">
+    <scenario executable="True" name="initialize_base_year_data" type="scenario">
+      <parent type="scenario_name">mag_zone_baseline</parent>
+      <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+        <selectable type="selectable" name="workplace_assignment_initialization">True</selectable>
+        <selectable type="selectable" name="school_assignment_model_initialization">True</selectable>
+      </models_to_run>
+      <years_to_run setexpanded="True" config_name="years" type="tuple">
+        <firstyear type="integer">2010</firstyear>
+        <lastyear type="integer">2010</lastyear>
+      </years_to_run>
+    </scenario>
+    <!--
     <scenario executable="True" name="initialize_school_assignment" type="scenario">
       <parent type="scenario_name">mag_zone_baseline</parent>
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
@@ -559,10 +625,12 @@
         <lastyear type="integer">2019</lastyear>
       </years_to_run>
     </scenario>
+    -->
     <scenario executable="True" name="test_demo_models" type="scenario">
       <parent type="scenario_name">mag_zone_baseline</parent>
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
         <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
+	<!--
         <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">True</selectable>
         <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">True</selectable>
         <selectable return_value="education_model" type="selectable" name="education_model_1">True</selectable>
@@ -572,15 +640,22 @@
         <selectable return_value="breakup_model" type="selectable" name="breakup_model_1">True</selectable>
         <selectable return_value="child_leaving_home_model" type="selectable" name="breakup_model_1">True</selectable>
         <selectable return_value="roommate_model" type="selectable" name="breakup_model_1">True</selectable>
+	-->
         <selectable return_value="household_workers_init_model" type="selectable" name="household_workers_init_model_1">True</selectable>
         <selectable return_value="household_workers_model" type="selectable" name="household_workers_model_1">True</selectable>
+	<!--
         <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">True</selectable>
+	-->
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
+        <selectable name="household_transition_model_with_persons" type="selectable">True</selectable>
+	<!--
+        <selectable name="reset_age_for_immigrants" type="selectable">True</selectable>
+	-->
       </models_to_run>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
-        <firstyear type="integer">2009</firstyear>
-        <lastyear type="integer">2019</lastyear>
+        <firstyear type="integer">2010</firstyear>
+        <lastyear type="integer">2014</lastyear>
       </years_to_run>
     </scenario>
     <scenario executable="True" name="mag_zone_alt_emp" type="scenario">
@@ -601,6 +676,7 @@
     <scenario executable="True" name="test_baseline_w_demographics" type="scenario">
       <parent type="scenario_name">test_baseline_no_demographics</parent>
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+	<!--
         <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
         <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">True</selectable>
         <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">True</selectable>
@@ -616,6 +692,7 @@
         <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">False</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
+	-->
         <selectable name="real_estate_price_model" type="selectable">True</selectable>
         <selectable name="development_project_transition_model" type="selectable">True</selectable>
         <selectable name="residential_development_project_location_choice_model" type="selectable">True</selectable>
@@ -629,7 +706,7 @@
         <selectable name="employment_location_choice_model" type="selectable">True
 		  <group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="selectable">False</selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="selectable">True</selectable>
         <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
@@ -664,7 +741,7 @@
         <selectable name="employment_location_choice_model" type="selectable">True
 		  <group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="selectable">False</selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="selectable">True</selectable>
         <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
       </models_to_run>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
@@ -681,6 +758,7 @@
     </scenario>
     <scenario setexpanded="True" copyable="True" executable="True" name="mag_zone_baseline" type="scenario">
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
+	<!--
         <selectable return_value="aging_model" type="selectable" name="aging_model_1">True</selectable>
         <selectable return_value="fertility_model" type="selectable" name="fertility_model_1">True</selectable>
         <selectable return_value="mortality_model" type="selectable" name="mortality_model_1">True</selectable>
@@ -696,6 +774,7 @@
         <selectable return_value="employment_status_sync_model" type="selectable" name="household_workers_model_1">True</selectable>
         <selectable return_value="income_regression_model" type="selectable" name="income_regression_model_1">True</selectable>
         <selectable return_value="zeroworker_income_model" type="selectable" name="zeroworker_income_model_1">True</selectable>
+	-->
         <selectable name="real_estate_price_model" type="selectable">True</selectable>
         <selectable name="development_project_transition_model" type="selectable">True</selectable>
         <selectable name="residential_development_project_location_choice_model" type="selectable">True</selectable>
@@ -709,7 +788,7 @@
         <selectable name="employment_location_choice_model" type="selectable">True
 		  <group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="selectable">False</selectable>
+        <selectable name="distribute_unplaced_jobs_model" type="selectable">True</selectable>
         <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
       </models_to_run>
       <model_system type="string">urbansim.model_coordinators.model_system</model_system>
@@ -835,95 +914,22 @@
       </advanced>
     </scenario>
   </scenario_manager>
-  <!--
-  <scenario_manager>
-    <scenario executable="True" name="urbansim_zone_baseline" setexpanded="True" type="scenario">
-      <models_to_run type="selectable_list">
-        <selectable name="real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="development_project_transition_model" type="selectable">False</selectable>
-        <selectable name="residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="non_residential_development_project_location_choice_model" type="selectable">False</selectable>
-        <selectable name="add_projects_to_buildings" type="selectable">False</selectable>
-        <selectable name="household_transition_model" type="selectable">True</selectable>
-        <selectable name="employment_transition_model" type="selectable">True</selectable>
-        <selectable name="household_relocation_model" type="selectable">True</selectable>
-        <selectable name="household_location_choice_model" type="selectable">True</selectable>
-        <selectable name="employment_relocation_model" type="selectable">True</selectable>
-        <selectable name="employment_location_choice_model" type="selectable">True
-          <group_members type="string">_all_</group_members>
-        </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="selectable">True</selectable>
-      </models_to_run>
-      <scenario_database_configuration type="string"/>
-      <others type="category">
-        <base_year type="integer">2000</base_year>
-        <years_to_run config_name="years" type="tuple">
-          <firstyear type="integer">2001</firstyear>
-          <lastyear type="integer">2002</lastyear>
-        </years_to_run>
-      </others>
-      <model_system type="string">urbansim.model_coordinators.model_system</model_system>
-      <creating_baseyear_cache_configuration type="class">
-        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
-        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">runs</argument>
-        <argument name="cache_from_database" type="boolean">False</argument>
-        <argument name="baseyear_cache" type="class">
-          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
-          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-        <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory"/>
-        </argument>
-        <argument name="cache_scenario_database" type="string">urbansim.model_coordinators.cache_scenario_database</argument>
-        <argument name="tables_to_cache" type="selectable_list">
-          <selectable name="annual_employment_control_totals" type="selectable">True</selectable>
-          <selectable name="annual_household_control_totals" type="selectable">True</selectable>
-          <selectable name="households" type="selectable">True</selectable>
-          <selectable name="building_types" type="selectable">True</selectable>
-          <selectable name="jobs" type="selectable">True</selectable>
-          <selectable name="travel_data" type="selectable">True</selectable>
-          <selectable name="zones" type="selectable">True</selectable>
-          <selectable name="buildings" type="selectable">True</selectable>
-          <selectable name="counties" type="selectable">True</selectable>
-          <selectable name="commercial_development_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="commercial_development_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="commercial_employment_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="commercial_employment_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="home_based_employment_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="home_based_employment_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="industrial_employment_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="industrial_employment_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="industrial_development_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="industrial_development_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="residential_development_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="residential_development_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="urbansim_constants" type="selectable">True</selectable>
-          <selectable name="household_location_choice_model_coefficients" type="selectable">True</selectable>
-          <selectable name="household_location_choice_model_specification" type="selectable">True</selectable>
-          <selectable name="household_characteristics_for_ht" type="selectable">True</selectable>
-          <selectable name="annual_household_relocation_rates" type="selectable">True</selectable>
-          <selectable name="annual_job_relocation_rates" type="selectable">True</selectable>
-          <selectable name="base_year" type="selectable">True</selectable>
-          <selectable name="cities" type="selectable">True</selectable>
-          <selectable name="development_event_history" type="selectable">True</selectable>
-          <selectable name="employment_adhoc_sector_group_definitions" type="selectable">True</selectable>
-          <selectable name="employment_adhoc_sector_groups" type="selectable">True</selectable>
-          <selectable name="employment_sectors" type="selectable">True</selectable>
-          <selectable name="race_names" type="selectable">True</selectable>
-          <selectable name="target_vacancies" type="selectable">True</selectable>
-          <selectable name="jobs_for_estimation" type="selectable">True</selectable>
-          <selectable name="households_for_estimation" type="selectable">True</selectable>
-        </argument>
-        <argument name="tables_to_cache_nchunks" type="dictionary"/>
-        <argument name="tables_to_copy_to_previous_years" type="dictionary"/>
-      </creating_baseyear_cache_configuration>
-    </scenario>
-  </scenario_manager>
-  -->
   <debuglevel type="integer">4</debuglevel>
   <base_year type="integer"/>
   <cache_directory type="string"/>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="person_indicators">
+        <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
+          <indicators>['htaz', 'student_status', 'schtaz', 'employment_status', 'wtaz', 'age', 'presch', 'nadlt']</indicators>
+          <output_type>tab</output_type>
+          <settings>
+            <setting name="output_style">1</setting>
+          </settings>
+          <dataset_name>person</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="alldata_indicators">
         <batch_visualization hidden="Children" type="batch_visualization" name="county_totals">
           <indicators>[ 'employment', 'percent_retail_employment', 'retail_employment', 'percent_industrial_employment', 'industrial_employment', 'households', 'population', 'median_age', 'avg_household_size', 'population_age_lt_18', 'percent_population_age_lt_18', 'percent_population_age_65_plus', 'population_age_65_plus', 'single_person_households', 'households_with_children', 'households_with_zero_worker', 'avg_peak_travel_time_to_work']</indicators>
