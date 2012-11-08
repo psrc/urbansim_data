@@ -571,7 +571,7 @@
       <variable use="both" source="expression" name="pda.total_population" type="variable_definition">pda.aggregate(person.person_id&gt;0, intermediates=[household,building,parcel])</variable>
       <variable use="both" source="expression" name="pda.employed_residents" type="variable_definition">pda.aggregate(building.aggregate(household.workers),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="pda.single_family_units" type="variable_definition">pda.aggregate(building.residential_units*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
-      <variable use="both" source="expression" name="pda.county_id" type="variable_definition">pda.aggregate(bayarea.parcel.parcel_id,function=maximum)</variable>
+      <variable use="both" source="expression" name="pda.county_id" type="variable_definition">pda.aggregate(bayarea.parcel.county_id,function=maximum)</variable>
       <variable use="both" source="expression" name="pda.single_family_households" type="variable_definition">pda.aggregate(building.number_of_agents(household)*(building.building_type_id&lt;3),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="pda.multi_family_units" type="variable_definition">pda.aggregate(building.residential_units*(building.building_type_id==3),intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="pda.multi_family_households" type="variable_definition">pda.aggregate(building.number_of_agents(household)*(building.building_type_id==3),intermediates=[parcel])</variable>
