@@ -465,7 +465,7 @@
           </run>
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
-            <argument name="expressions_to_compute" type="string">["id_name1=((person.student_status==1)*(person.schtaz &lt;= 0)).astype('i4')","id_name1=(school.taz&gt;0).astype('i4')", 'schtaz=school.taz']</argument>
+            <argument name="expressions_to_compute" type="string">["id_name1=((mag_zone.person.schstat)*(person.schtaz &lt;= 0)).astype('i4')","id_name1=(school.taz&gt;0).astype('i4')", 'schtaz=school.taz']</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </prepare_for_run>
         </structure>
@@ -491,7 +491,7 @@
           </run>
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
-            <argument name="expressions_to_compute" type="string">["id_name1=(person.student_status==1).astype('i4')","id_name1=(school.taz&gt;0).astype('i4')", 'schtaz=school.taz']</argument>
+            <argument name="expressions_to_compute" type="string">["id_name1=(mag_zone.person.schstat).astype('i4')","id_name1=(school.taz&gt;0).astype('i4')", 'schtaz=school.taz']</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </prepare_for_run>
         </structure>
@@ -591,7 +591,7 @@
             <argument name="fraction_dataset" type="string" parser_action="quote_string">building</argument>
             <argument name="id_name1" type="string" parser_action="quote_string">is_unplaced_job</argument>
             <argument name="id_name2" type="string" parser_action="quote_string">building_id</argument>
-            <argument name="fraction_attribute_name" type="string" parser_action="quote_string">number_of_jobs</argument>
+            <argument name="fraction_attribute_name" type="string" parser_action="quote_string">number_of_non_home_based_jobs</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
           <prepare_for_run type="dictionary">
@@ -653,6 +653,26 @@
             <argument name="expressions_to_compute" type="string">["is_unassigned_worker=((person.employment_status==1)*(person.job_id &lt;=0)).astype('i4')", "is_unassigned_worker=(job.building_id&gt;0).astype('i4')", 'number_of_jobs=job.disaggregate(urbansim_zone.building.number_of_non_home_based_jobs)']</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </prepare_for_run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
+      <model name="reset_disappeared_workplaces" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+            <name name="model_name" type="string" parser_action="quote_string">reset_disappeared_workplace</name>
+          </init>
+          <run type="dictionary">
+            <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">job_id</argument>
+	    <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">-1 * ones_like(person.job_id)</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">(person.job_id&gt;0)*(person.disaggregate(job.job_id)&lt;=0)</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
         </structure>
         <specification type="dictionary"/>
       </model>
@@ -722,6 +742,7 @@
       <models_to_run setexpanded="True" config_name="models" type="selectable_list">
         <selectable type="selectable" name="distribute_unplaced_households">True</selectable>
         <selectable type="selectable" name="distribute_unplaced_jobs">True</selectable>
+        <selectable type="selectable" name="reset_disappeared_workplaces">True</selectable>
         <selectable type="selectable" name="workplace_choice_initialization">True</selectable>
         <selectable type="selectable" name="distribute_unassigned_workers">True</selectable>
         <selectable type="selectable" name="school_assignment_initialization">True</selectable>
@@ -922,6 +943,7 @@
 		  <group_members type="string">non_home_based</group_members>
         </selectable>
         <selectable type="selectable" name="distribute_unplaced_jobs">True</selectable>
+        <selectable type="selectable" name="reset_disappeared_workplaces">True</selectable>
         <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
         <selectable type="selectable" name="distribute_unassigned_workers">True</selectable>
         <selectable type="selectable" name="school_assignment_model">True</selectable>
