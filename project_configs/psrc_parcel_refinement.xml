@@ -34,7 +34,7 @@
           </run>
         </structure>
       </model>
-      <model copyable="True" name="expected_sales_unit_price_model" type="model">
+      <model copyable="True" name="expected_sales_unit_price_component_model" type="model">
      <structure type="dictionary">
         <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -59,8 +59,10 @@
             <argument type="string" name="zone_ids_to_process">processed_zones['add']</argument>
             <argument type="integer" name="n">50</argument>
             <argument type="integer" name="year">2011</argument>
-            <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">exp_roi = exp(psrc_parcel.development_project_proposal.expected_rate_of_return_on_investment)</argument>
-            <argument type="integer" name="within_parcel_selection_n">1</argument>
+            <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">psrc_parcel.development_project_proposal.total_revenue</argument>
+            <argument type="boolean" parser_action="quote_string" name="within_parcel_selection_compete_among_types">True</argument>
+            <argument type="integer" name="within_parcel_selection_threshold">65</argument>
+            <argument type="integer" name="within_parcel_selection_n">10</argument>
             <output hidden="True" type="string" name="output">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
@@ -212,7 +214,8 @@
         <selectable name="refinement_model" type="selectable">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
-        <selectable name="expected_sales_unit_price_model" type="model_choice">True</selectable>
+        <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
         <selectable name="building_construction_model" type="model_choice">True</selectable>
         <selectable name="set_inmigrants_model" type="model_choice">True</selectable>
