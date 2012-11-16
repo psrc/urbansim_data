@@ -301,7 +301,23 @@
           </submodel>
         </specification>
       </model>
+      <model name="non_residential_development_project_location_choice_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">50</key>
+            </argument>
+          </init>
+        </structure>
+      </model>
       <model name="residential_development_project_location_choice_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">50</key>
+            </argument>
+          </init>
+        </structure>
         <specification type="dictionary">
           <submodel hidden="Children" name="sf_residential" submodel_id="1" type="submodel">
             <description type="string">sf residential</description>
@@ -897,7 +913,7 @@
         <selectable name="workplace_choice_model_for_resident" type="selectable">True</selectable>
       </models_to_run>
       <years_to_run setexpanded="True" config_name="years" type="tuple">
-        <firstyear type="integer">2010</firstyear>
+        <firstyear type="integer">2009</firstyear>
         <lastyear type="integer">2019</lastyear>
       </years_to_run>
       <travel_model_configuration type="dictionary" inherit_parent_values="False">
