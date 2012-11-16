@@ -8,7 +8,7 @@
       <variable use="both" source="expression" name="area_permutation.total_emp" type="variable_definition">area_permutation.aggregate(establishment.employees,intermediates=[building,parcel]) + area_permutation.gov_jobs + area_permutation.edu_jobs - area_permutation.aggregate(establishment.employees*numpy.in1d(establishment.sector_id-618312, [7,8,18,28]),intermediates=[building,parcel])</variable>
       <variable use="both" source="expression" name="area_permutation.gov_jobs" type="variable_definition">area_permutation.aggregate(zone.gov_jobs)</variable>
       <variable use="both" source="expression" name="area_permutation.edu_jobs" type="variable_definition">area_permutation.aggregate(zone.edu_jobs)</variable>
-      <variable use="both" source="expression" name="area_permutation.area_permutation_ident" type="variable_definition">area_permutation.aggregate(bayarea.parcel.area_permutation_hc_id,function=maximum)</variable>
+<!--             <variable use="both" source="expression" name="area_permutation.area_permutation_ident" type="variable_definition">area_permutation.aggregate(bayarea.parcel.area_permutation_hc_id,function=maximum)</variable>  -->
       <variable use="both" source="expression" name="building.building_type" type="variable_definition">(building.building_type_id)</variable>
       <variable use="both" source="expression" name="building.bldg_id" type="variable_definition">(building.building_id)</variable>
       <variable use="both" source="expression" name="building.building_overassigned_households" type="variable_definition">building.number_of_agents(household)&gt;building.residential_units</variable>
