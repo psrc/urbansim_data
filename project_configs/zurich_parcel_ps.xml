@@ -1,39 +1,8 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
-    <expression_library type="dictionary">
-      <variable use="both" source="expression" name="living_unit.SC_acc_car_LU" type="variable_definition">living_unit.disaggregate(parcel.acc_car, intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_units.SC_dist_to_station_LU" type="variable_definition">living_units.disaggregate(parcel.dist_to_station, intermediates=[building])</variable>
-      <variable use="model variable" source="expression" name="living_unit.SC_jobs_G52_H_within_1km_LU" type="variable_definition">living_unit.disaggregate(urbansim_parcel.parcel.jobs_of_sector_5_within_1000_of_parcel, intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_unit.SC_ln_pop_ha_LU" type="variable_definition">living_unit.disaggregate(ln(zurich_parcel.parcel.persons_within_56_of_parcel), intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_unit.SC_sunhine_eve_LU" type="variable_definition">living_unit.disaggregate(parcel.gr_sun_eve, intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_unit.SC_lakeview_ha_LU" type="variable_definition">living_unit.disaggregate(parcel.gr_lake_view, intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_unit.SC_building_is_pre_1921_LU" type="variable_definition">numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built) &lt; 1921)</variable>
-      <variable use="both" source="expression" name="living_unit.SC_building_built91to05_LU" type="variable_definition">numpy.logical_and(numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built)&gt; 1991), numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built) &lt; 2005))</variable>
-      <variable use="both" source="expression" name="living_unit.SC_building_built81to90_LU" type="variable_definition">numpy.logical_and(numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built)&gt; 1981), numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built) &lt; 1990))</variable>
-      <variable use="both" source="expression" name="living_unit.SC_building_built21to30_LU" type="variable_definition">numpy.logical_and(numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built)&gt; 1921), numpy.ma.masked_where(zurich_parcel.living_unit.has_valid_year_built == 0, living_unit.disaggregate(building.year_built) &lt; 1930))</variable>
-      <variable use="both" source="expression" name="living_unit.SC_pop_ha_per_building_LU" type="variable_definition">living_unit.disaggregate(zurich_parcel.parcel.persons_within_56_of_parcel, intermediates=[building])</variable>
-      <variable use="model variable" source="expression" name="living_unit.SC_logit_slope_LU" type="variable_definition">living_unit.disaggregate(parcel.slope_logit, intermediates=[building])</variable>
-      <variable use="model variable" source="expression" name="living_unit.SC_logit_foreigners_within_300_of_building_LU" type="variable_definition">living_unit.disaggregate(ln(zurich_parcel.parcel.households_foreign_within_300_of_parcel) - ln(1 - zurich_parcel.parcel.households_foreign_within_56_of_parcel), intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_unit.SC_ln_taxlevel_LU" type="variable_definition">ln(living_unit.disaggregate(parcel.municipal_taxindex, intermediates=[building]))</variable>
-      <variable use="both" source="expression" name="living_unit.SC_ln_sqm_per_unit_LU" type="variable_definition">ln(living_unit.area)</variable>
-      <variable use="both" source="expression" name="living_unit.SC_is_house_LU" type="variable_definition">living_unit.disaggregate(building.building_quality_id == 1021)</variable>
-      <variable use="both" source="expression" name="living_unit.SC_highway_within_100m_LU" type="variable_definition">living_unit.disaggregate(parcel.autobahn_100m, intermediates=[building])</variable>
-      <variable use="both" source="expression" name="living_unit.SC_acc_pt__LU" type="variable_definition">living_unit.disaggregate(parcel.acc_pt, intermediates=[building])</variable>
-      <variable use="both" source="expression" name="building.SC_is_house" type="variable_definition">building.building_quality_id == 1021</variable>
-      <variable use="both" source="primary attribute" name="parcel.SC_slope" type="variable_definition">parcel.gr_slope_deg</variable>
-    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
@@ -58,87 +27,6 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="SC_real_estate_price_model_new" type="model">
-        <structure type="dictionary">
-          <run type="dictionary">
-            <argument name="specification" type="string">specification</argument>
-            <argument name="coefficients" type="string">coefficients</argument>
-            <argument name="dataset" type="string" model_dependency_type="dataset">living_unit</argument>
-            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
-            <argument name="data_objects" type="string">datasets</argument>
-            <output hidden="False" name="output" type="string">rent_price</output>
-          </run>
-          <prepare_for_run type="dictionary">
-            <name name="name" type="string">prepare_for_run</name>
-            <argument convert_blank_to_none="True" name="dataset" type="string" model_dependency_type="dataset">living_unit</argument>
-            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable"/>
-            <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_real_estate_price_model_new_specification</argument>
-            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_real_estate_price_model_new_coefficients</argument>
-            <argument name="cache_storage" type="string">base_cache_storage</argument>
-            <argument name="sample_coefficients" type="boolean">False</argument>
-            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
-            <argument name="multiplicator" type="integer">1</argument>
-            <output name="output" type="string">(specification, coefficients, rm_index)</output>
-          </prepare_for_run>
-          <estimate type="dictionary">
-            <argument name="specification" type="string">specification</argument>
-            <argument name="dataset" type="string" model_dependency_type="dataset">living_unit</argument>
-            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string" model_dependency_type="variable">rent_price</argument>
-            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
-            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
-            <argument name="data_objects" type="string">datasets</argument>
-            <output name="output" type="string">(coefficients, dummy)</output>
-          </estimate>
-          <prepare_for_estimate type="dictionary">
-            <name name="name" type="string">prepare_for_estimate</name>
-            <argument convert_blank_to_none="True" name="dataset" type="string" model_dependency_type="dataset">living_unit</argument>
-            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">living_unit.rent_price &gt; 0</argument>
-            <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">regression_model_template_specification</argument>
-            <output name="output" type="string">(specification, rm_index)</output>
-          </prepare_for_estimate>
-        </structure>
-        <specification type="dictionary">
-          <submodel hidden="Children" name="all" submodel_id="-2" type="submodel" inherit_parent_values="False">
-            <description type="string">Rent price model according to diss of Loechl</description>
-            <variable_list type="variable_list">
-              <variable_spec name="living_unit.SC_acc_car_LU"/>
-              <variable_spec name="living_unit.SC_acc_pt__LU"/>
-              <variable_spec name="living_unit.SC_building_built21to30_LU"/>
-              <variable_spec name="living_unit.SC_building_built81to90_LU"/>
-              <variable_spec name="living_unit.SC_building_built91to05_LU"/>
-              <variable_spec name="living_unit.SC_building_is_pre_1921_LU"/>
-              <variable_spec name="living_units.SC_dist_to_station_LU"/>
-              <variable_spec name="living_unit.SC_highway_within_100m_LU"/>
-              <variable_spec name="living_unit.SC_is_house_LU"/>
-              <variable_spec name="living_unit.SC_jobs_G52_H_within_1km_LU"/>
-              <variable_spec name="living_unit.SC_lakeview_ha_LU"/>
-              <variable_spec name="living_unit.SC_ln_pop_ha_LU"/>
-              <variable_spec name="living_unit.SC_ln_sqm_per_unit_LU"/>
-              <variable_spec name="living_unit.SC_logit_foreigners_within_300_of_building_LU"/>
-              <variable_spec name="living_unit.SC_logit_slope_LU"/>
-              <variable_spec name="living_unit.SC_sunhine_eve_LU"/>
-              <variable_spec name="constant"/>
-            </variable_list>
-          </submodel>
-        </specification>
-        <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
-        </estimation_config>
-      </model>
-      <model name="SC_postprocess_real_estate_price_model" type="model">
-        <structure type="dictionary">
-          <run type="dictionary">
-            <argument name="dataset" type="string" model_dependency_type="dataset">living_unit</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable"/>
-            <argument name="outcome_attribute" parser_action="quote_string" type="string">rent_price</argument>
-            <argument name="dataset_pool" type="string">dataset_pool</argument>
-            <argument name="outcome_values" type="string">rent_price</argument>
-          </run>
-        </structure>
-      </model>
     </models>
   </model_manager>
   <scenario_manager>
