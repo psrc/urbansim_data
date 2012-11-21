@@ -186,6 +186,7 @@
               <argument name="location_set" type="string" model_dependency_type="dataset">building</argument>
               <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
               <argument name="agents_index" type="string">filtered_erm_index</argument>
+              <argument name="run_no_area" type="boolean">False</argument>
           </run>
        </structure>
     </model>
@@ -231,7 +232,7 @@
         <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
       </models_to_run>
       <advanced type="category">
-      <datasets_to_cache_after_each_model type="list">['building', 'parcel', 'household', 'person', 'job', 'development_project_proposal', 'travel_data', 'gridcell']</datasets_to_cache_after_each_model>
+      <datasets_to_cache_after_each_model type="list">['building', 'parcel', 'household', 'person', 'job', 'development_project_proposal', 'development_project_proposal_component', 'travel_data', 'gridcell']</datasets_to_cache_after_each_model>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2010refinements/runs</cache_directory>
          <flush_variables type="boolean">False</flush_variables>
         <dataset_pool_configuration type="class">
