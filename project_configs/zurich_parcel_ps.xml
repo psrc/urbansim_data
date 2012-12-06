@@ -8,7 +8,9 @@
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable use="both" source="expression" name="person.SC_dist_to_job_exp_-0106" type="variable_definition">5.81 * exp(-0.106 *(sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.x_coord_sp, intermediates=[building, job])) ** 2 + (person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.y_coord_sp, intermediates=[building, job])) ** 2)))</variable>
       <variable use="both" source="expression" name="living_unit.SC_building_age_log_LU" type="variable_definition">living_unit.disaggregate(ln(urbansim_parcel.building.age_masked))</variable>
+      <variable use="both" source="expression" name="person.SC_dist_to_job" type="variable_definition">sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household])-person.disaggregate(parcel.x_coord_sp, intermediates=[building, job]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household])-person.disaggregate(parcel.y_coord_sp, intermediates=[building, job]))**2)</variable>
       <variable use="indicator" source="expression" name="living_unit.SC_rent_price_LU" type="variable_definition">exp(living_unit.rent_price)</variable>
       <variable use="both" source="expression" name="living_unit_x_household.SC_dist_to_highwayaccess_LU_x_car" type="variable_definition">(household.cars&gt;0)*living_unit.disaggregate(parcel.dist_to_highwayaccess, intermediates=[building])</variable>
       <variable use="both" source="expression" name="living_unit.SC_building_age_less_10_LU" type="variable_definition">living_unit.disaggregate(urbansim_parcel.building.age_masked&lt;11)</variable>
@@ -233,6 +235,17 @@
           </submodel>
         </specification>
       </model>
+      <model name="SC_workplace_location_choice" type="model">
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel" inherit_parent_values="False">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="person.SC_dist_to_job"/>
+              <variable_spec name="person.SC_dist_to_job_exp_-0106"/>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
       <model name="SC_household_location_choice_model_LU" type="model">
         <dependencies type="list">['SC_household_relocation_model', 'SC_household_transition_model']</dependencies>
         <structure type="dictionary">
@@ -283,7 +296,7 @@
             <argument convert_blank_to_none="True" name="index_to_unplace" type="string"/>
             <argument name="join_datasets" type="boolean">False</argument>
             <argument name="portion_to_unplace" type="string">1.0</argument>
-            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable"/>
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">None</argument>
             <argument convert_blank_to_none="True" name="location_id_variable" parser_action="quote_string" type="string" model_dependency_type="variable">living_unit_id</argument>
           </prepare_for_estimate>
           <estimate type="dictionary">
@@ -323,10 +336,8 @@
               <variable_spec name="living_unit.SC_building_age_less_10_LU"/>
               <variable_spec name="living_unit.SC_building_age_log_LU"/>
               <variable_spec name="living_unit_x_household.SC_dist_to_highwayaccess_LU_x_car"/>
-              <variable_spec name="living_unit.SC_dist_to_previous_loc_LU_0163"/>
               <variable_spec name="living_unit.SC_dist_to_school_LU"/>
               <variable_spec name="living_unit_x_household.SC_dist_to_station_LU_x_no_car"/>
-              <variable_spec name="living_unit.SC_dist_to_workplace_LU_0203"/>
               <variable_spec name="living_unit.SC_dist_to_zh_cbd_LU"/>
               <variable_spec name="living_unit.SC_jobs_retail_density_300m_LU"/>
               <variable_spec name="living_unit.SC_jobs_service_density_300m_LU"/>
@@ -408,10 +419,10 @@
         <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">False</selectable>
         <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">False</selectable>
         <selectable return_value="SC_building_location_choice_model_from_template" type="selectable" name="SC_building_location_choice_model_from_template_1">False</selectable>
-        <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">False</selectable>
-        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">True</selectable>
-        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">True</selectable>
-        <selectable return_value="SC_household_location_choice_model_LU" type="selectable" name="SC_household_location_choice_model_LU_1">True</selectable>
+        <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">True</selectable>
+        <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">False</selectable>
+        <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">False</selectable>
+        <selectable return_value="SC_household_location_choice_model_LU" type="selectable" name="SC_household_location_choice_model_LU_1">False</selectable>
         <selectable return_value="SC_employment_transition_model" type="selectable" name="new_employment_transition_model_1">False</selectable>
         <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">False</selectable>
         <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
