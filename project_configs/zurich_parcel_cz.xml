@@ -47,7 +47,7 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="SC_NRBLCM_densification" type="model">Use single buildings in development_event_history and allow for development of allready built parcels (densification possible, without deconstruction)<structure type="dictionary">
+      <model name="SC_NRBLCM_from_template" type="model">Use single buildings in development_event_history and allow for development of allready built parcels (densification possible, without deconstruction)<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
             <class_name type="string">AgentLocationChoiceModel</class_name>
@@ -87,7 +87,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_densification_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_from_template_specification</argument>
             <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">development_event_history</argument>
@@ -111,9 +111,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_densification_coefficients</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_from_template_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_densification_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_NRBLCM_from_template_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
@@ -145,7 +145,7 @@
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
       </model>
-      <model name="SC_RBLCM_densification" type="model">Use single buildings in development_event_history and allow for development of allready built parcels (densification possible, without deconstruction)<structure type="dictionary">
+      <model name="SC_RBLCM_from_template" type="model">Use single buildings in development_event_history and allow for development of allready built parcels (densification possible, without deconstruction)<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
             <class_name type="string">AgentLocationChoiceModel</class_name>
@@ -185,7 +185,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_densification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_from_template</argument>
             <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument name="agents_for_estimation_table" parser_action="quote_string" type="string" model_dependency_type="table">development_event_history</argument>
@@ -209,9 +209,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_densification_coefficients</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_from_template_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_densification_specification</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">SC_RBLCM_from_template_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">building</argument>
@@ -708,8 +708,6 @@
         <selectable return_value="SC_real_estate_price_model_new" type="selectable" name="SC_real_estate_price_model_new_1">False</selectable>
         <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">False</selectable>
         <selectable return_value="SC_postprocess_real_estate_price_model" type="selectable" name="SC_postprocess_real_estate_price_model_1">False</selectable>
-        <selectable return_value="SC_RBLCM_densification" type="selectable" name="SC_RBLCM_densification_1">True</selectable>
-        <selectable return_value="SC_NRBLCM_densification" type="selectable" name="SC_NRBLCM_densification_1">True</selectable>
         <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">False</selectable>
         <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">False</selectable>
       </models_to_run>
