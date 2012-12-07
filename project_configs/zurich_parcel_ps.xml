@@ -38,16 +38,6 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="SC_household_relocation_model" type="model">
-        <structure type="dictionary">
-          <init type="dictionary">
-            <name hidden="True" name="name" type="string">HouseholdRelocationModelCreator().get_model</name>
-            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
-            <argument name="location_id_name" parser_action="quote_string" type="string">living_unit_id</argument>
-            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.upc.rate_based_probabilities</argument>
-          </init>
-        </structure>
-      </model>
       <model name="SC_workplace_location_choice" type="model">
         <specification type="dictionary">
           <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel" inherit_parent_values="False">
