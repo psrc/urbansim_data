@@ -46,18 +46,6 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="SC_NRBLCM_from_template" type="model">Use single buildings in development_event_history and allow for development of already built parcels (densification possible, without deconstruction)<structure type="dictionary">
-          <prepare_for_estimate type="dictionary">
-            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_of_building_location_between_2999_and_7000, SC_quality_is_non_residential)</argument>
-          </prepare_for_estimate>
-        </structure>
-      </model>
-      <model name="SC_RBLCM_from_template" type="model">Use single buildings in development_event_history and allow for development of already built parcels (densification possible, without deconstruction)<structure type="dictionary">
-          <prepare_for_estimate type="dictionary">
-            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_of_building_location_smaller_3000, SC_quality_is_residential)</argument>
-          </prepare_for_estimate>
-        </structure>
-      </model>
       <model name="SC_BLCM" type="model" hidden="False">Use single buildings in development_event_history<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
@@ -472,30 +460,6 @@
   </model_manager>
   <scenario_manager>
     <scenario name="test_run" type="scenario" executable="True">
-      <advanced type="category">
-        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="zone" type="selectable">False</selectable>
-          <selectable name="target_vacancy" type="selectable">True</selectable>
-          <selectable name="household" type="selectable">True</selectable>
-          <selectable name="building" type="selectable">True</selectable>
-          <selectable name="living_unit" type="selectable">True</selectable>
-          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
-          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="person" type="selectable">True<package_name type="string">zurich_parcel</package_name>
-          </selectable>
-          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="job" type="selectable">True</selectable>
-          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
-          </selectable>
-          <selectable name="travel_data" type="selectable">False</selectable>
-          <selectable name="development_event_history" type="selectable">True</selectable>
-          <selectable name="living_units_history" type="selectable">True</selectable>
-        </datasets_to_preload>
-      </advanced>
       <models_to_run config_name="models" type="selectable_list">
         <selectable return_value="SC_real_estate_price_model_new" type="selectable" name="SC_real_estate_price_model_new_1">False</selectable>
         <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">False</selectable>
