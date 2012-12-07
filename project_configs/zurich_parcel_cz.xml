@@ -7,10 +7,6 @@
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
-    <expression_library type="dictionary">
-      <variable use="both" source="expression" name="building.SC_plan_type_id_of_building_location_smaller_3000" type="variable_definition">building.disaggregate(parcel.plan_type_id &lt; 3000, intermediates=[parcel])</variable>
-      <variable use="both" source="expression" name="building.SC_plan_type_id_of_building_location_between_2999_and_7000" type="variable_definition">numpy.logical_and(building.disaggregate(parcel.plan_type_id &gt; 2999, intermediates=[parcel]), building.disaggregate(parcel.plan_type_id &lt; 7000, intermediates=[parcel]))</variable>
-    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
