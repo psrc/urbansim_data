@@ -49,7 +49,6 @@
       <variable use="model variable" source="expression" name="building.SC_logit_foreigners_within_56_of_building" type="variable_definition">building.disaggregate(ln(zurich_parcel.parcel.households_foreign_within_56_of_parcel) - ln(1 - zurich_parcel.parcel.households_foreign_within_56_of_parcel))</variable>
       <variable use="both" source="expression" name="household.SC_dist_to_previous_loc" type="variable_definition">household.aggregate(sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.x_coord_sp_lag1, intermediates=[building, household]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.y_coord_sp_lag1, intermediates=[building, household]))**2)) / (household.number_of_agents(person))</variable>
     </expression_library>
-    <available_datasets type="list">[ 'development_event_history_x_parcel', 'building_x_parcel', 'building', 'parcel', 'household', 'business', 'household_x_building', 'zone', 'tract', 'district14', 'district24', 'alldata', 'pdist', 'buildings_for_estimation', 'development_event_history', 'job_x_building' , 'living_unit_x_household', 'living_unit_x_person', 'building_x_person']</available_datasets>
   </general>
   <data_manager>
     <tool_library setexpanded="True">

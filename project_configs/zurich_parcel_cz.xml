@@ -11,7 +11,6 @@
       <variable use="both" source="expression" name="building.SC_plan_type_id_of_building_location_smaller_3000" type="variable_definition">building.disaggregate(parcel.plan_type_id &lt; 3000, intermediates=[parcel])</variable>
       <variable use="both" source="expression" name="building.SC_plan_type_id_of_building_location_between_2999_and_7000" type="variable_definition">numpy.logical_and(building.disaggregate(parcel.plan_type_id &gt; 2999, intermediates=[parcel]), building.disaggregate(parcel.plan_type_id &lt; 7000, intermediates=[parcel]))</variable>
     </expression_library>
-    <available_datasets type="list">['living_unit', 'city', 'development_event_history_x_parcel', 'building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','buildings_for_estimation', 'development_event_history', 'job_x_building']</available_datasets>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
