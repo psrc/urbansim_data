@@ -5,8 +5,12 @@
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable use="both" source="expression" name="building.SC_plan_type_id_of_building_location_smaller_3000" type="variable_definition">building.disaggregate(parcel.plan_type_id &lt; 3000, intermediates=[parcel])</variable>
+      <variable use="both" source="expression" name="building.SC_plan_type_id_of_building_location_between_2999_and_7000" type="variable_definition">numpy.logical_and(building.disaggregate(parcel.plan_type_id &gt; 2999, intermediates=[parcel]), building.disaggregate(parcel.plan_type_id &lt; 7000, intermediates=[parcel]))</variable>
+    </expression_library>
     <available_datasets type="list">['living_unit', 'city', 'development_event_history_x_parcel', 'building_x_parcel','building','parcel','household','business','household_x_building','zone','tract','district14','district24','alldata','pdist','buildings_for_estimation', 'development_event_history', 'job_x_building']</available_datasets>
   </general>
   <data_manager>
@@ -47,6 +51,18 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="SC_NRBLCM_from_template" type="model">Use single buildings in development_event_history and allow for development of already built parcels (densification possible, without deconstruction)<structure type="dictionary">
+          <prepare_for_estimate type="dictionary">
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_of_building_location_between_2999_and_7000, SC_quality_is_non_residential)</argument>
+          </prepare_for_estimate>
+        </structure>
+      </model>
+      <model name="SC_RBLCM_from_template" type="model">Use single buildings in development_event_history and allow for development of already built parcels (densification possible, without deconstruction)<structure type="dictionary">
+          <prepare_for_estimate type="dictionary">
+            <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(SC_plan_type_id_of_building_location_smaller_3000, SC_quality_is_residential)</argument>
+          </prepare_for_estimate>
+        </structure>
+      </model>
       <model name="SC_BLCM" type="model" hidden="False">Use single buildings in development_event_history<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
@@ -489,8 +505,6 @@
         <selectable return_value="SC_real_estate_price_model_new" type="selectable" name="SC_real_estate_price_model_new_1">False</selectable>
         <selectable return_value="SC_real_estate_price_model" type="selectable" name="SC_real_estate_price_model_1">False</selectable>
         <selectable return_value="SC_postprocess_real_estate_price_model" type="selectable" name="SC_postprocess_real_estate_price_model_1">False</selectable>
-        <selectable return_value="SC_RBLCM_from_template" type="selectable" name="SC_RBLCM_from_template_1">False</selectable>
-        <selectable return_value="SC_NRBLCM_from_template" type="selectable" name="SC_NRBLCM_from_template_1">False</selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
