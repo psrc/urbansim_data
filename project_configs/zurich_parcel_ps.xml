@@ -59,7 +59,7 @@
           </submodel>
         </specification>
       </model>
-      <model name="SC_household_location_choice_model_LU" type="model">
+      <model name="SC_household_location_choice_model" type="model">
         <dependencies type="list">['SC_household_relocation_model', 'SC_household_transition_model']</dependencies>
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -235,10 +235,9 @@
         <selectable return_value="SC_workplace_location_choice" type="selectable" name="SC_workplace_location_choice_1">True</selectable>
         <selectable return_value="SC_household_transition_model" type="selectable" name="SC_household_transition_model_1">False</selectable>
         <selectable return_value="SC_household_relocation_model" type="selectable" name="SC_household_relocation_model_1">False</selectable>
-        <selectable return_value="SC_household_location_choice_model_LU" type="selectable" name="SC_household_location_choice_model_LU_1">False</selectable>
+        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
         <selectable return_value="SC_employment_transition_model" type="selectable" name="new_employment_transition_model_1">False</selectable>
         <selectable return_value="employment_relocation_model" type="selectable" name="employment_relocation_model">False</selectable>
-        <selectable return_value="SC_household_location_choice_model" type="selectable" name="SC_household_location_choice_model_1">False</selectable>
         <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
         </selectable>
       </models_to_run>
