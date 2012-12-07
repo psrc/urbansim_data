@@ -36,47 +36,6 @@
       </tool_group>
     </tool_library>
   </data_manager>
-  <model_manager>
-    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="SC_workplace_location_choice" type="model">
-        <specification type="dictionary">
-          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel" inherit_parent_values="False">
-            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
-            <variable_list type="variable_list">
-              <variable_spec name="person.SC_dist_to_job"/>
-              <variable_spec name="person.SC_dist_to_job_exp_-0106"/>
-            </variable_list>
-          </submodel>
-        </specification>
-      </model>
-      <model name="SC_real_estate_price_model" type="model">
-        <specification type="dictionary">
-          <submodel hidden="Children" name="all" submodel_id="-2" type="submodel" inherit_parent_values="False">
-            <description type="string">Rent price model according to diss of Loechl</description>
-            <variable_list type="variable_list">
-              <variable_spec name="living_unit.SC_acc_car_LU"/>
-              <variable_spec name="living_unit.SC_acc_pt_LU"/>
-              <variable_spec name="living_unit.SC_building_built21to30_LU"/>
-              <variable_spec name="living_unit.SC_building_built81to90_LU"/>
-              <variable_spec name="living_unit.SC_building_built91to05_LU"/>
-              <variable_spec name="living_unit.SC_building_is_pre_1921_LU"/>
-              <variable_spec name="living_unit.SC_dist_to_station_LU"/>
-              <variable_spec name="living_unit.SC_highway_within_100m_LU"/>
-              <variable_spec name="living_unit.SC_is_house_LU"/>
-              <variable_spec name="living_unit.SC_jobs_G52_H_within_1km_LU"/>
-              <variable_spec name="living_unit.SC_lakeview_ha_LU"/>
-              <variable_spec name="living_unit.SC_ln_pop_ha_LU"/>
-              <variable_spec name="living_unit.SC_ln_sqm_per_unit_LU"/>
-              <variable_spec name="living_unit.SC_logit_foreigners_within_300_of_building_LU"/>
-              <variable_spec name="living_unit.SC_logit_slope_LU"/>
-              <variable_spec name="living_unit.SC_sunhine_eve_LU"/>
-              <variable_spec name="constant"/>
-            </variable_list>
-          </submodel>
-        </specification>
-      </model>
-    </models>
-  </model_manager>
   <scenario_manager>
     <scenario name="test_run" type="scenario" executable="True">
       <advanced type="category">
