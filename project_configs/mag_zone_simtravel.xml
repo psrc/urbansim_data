@@ -17,8 +17,8 @@
       -->
       <variable use="both" source="expression" name="alldata.retail_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='retail')</variable>
       <variable use="both" source="expression" name="alldata.percent_retail_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='retail')/(alldata.aggregate_all(job.job_id&gt;0)).astype('f')</variable>
-      <variable use="both" source="expression" name="alldata.industrial_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='individual')</variable>
-      <variable use="both" source="expression" name="alldata.percent_industrial_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='individual')/(alldata.aggregate_all(job.job_id&gt;0)).astype('f')</variable>
+      <variable use="both" source="expression" name="alldata.industrial_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='industrial')</variable>
+      <variable use="both" source="expression" name="alldata.percent_industrial_employment" type="variable_definition">alldata.aggregate_all(mag_zone.job.sector_group=='industrial')/(alldata.aggregate_all(job.job_id&gt;0)).astype('f')</variable>
       <variable use="both" source="expression" name="alldata.total_non_residential_sqft" type="variable_definition">alldata.aggregate_all(building.non_residential_sqft)</variable>
       <variable use="both" source="expression" name="alldata.households" type="variable_definition">alldata.aggregate_all(household.household_id &gt;0)</variable>
       <variable use="both" source="expression" name="alldata.population" type="variable_definition">alldata.aggregate_all(mag_zone.household.persons)</variable>
