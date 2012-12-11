@@ -39,7 +39,7 @@
      <structure type="dictionary">
         <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
-            <!-- <argument type="string" convert_blank_to_none="True" name="parcel_filter_for_redevelopment"/> -->
+            <argument type="string" convert_blank_to_none="True" name="parcel_filter_for_redevelopment"/>
         </prepare_for_run>
      </structure>
      </model>
@@ -108,9 +108,10 @@
             </argument>
           </init>
           <run type="dictionary">
-            <argument name="chunk_specification" type="string">{'records_per_chunk':3000}</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':2000}</argument>
             <argument name="flush_after_each_subarea" type="boolean">True</argument>
             <argument name="run_no_area" type="boolean">False</argument>
+            <argument name="maximum_runs" type="integer">3</argument>
           </run>
         </structure>
       </model>
@@ -149,8 +150,8 @@
                 </init>
                 <run type="dictionary">
                   <argument hidden="True" name="agents_index" type="string">erm_index</argument>
-                  <argument name="chunk_specification" type="string">{'records_per_chunk':5000}</argument>
-                  <argument name="maximum_runs" type="integer">1</argument>
+                  <argument name="chunk_specification" type="string">{'records_per_chunk':2000}</argument>
+                  <argument name="maximum_runs" type="integer">3</argument>
                   <argument name="flush_after_each_subarea" type="boolean">True</argument>
                   <argument name="run_no_area" type="boolean">False</argument>
                 </run>
