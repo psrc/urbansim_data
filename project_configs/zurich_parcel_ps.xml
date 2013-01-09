@@ -60,7 +60,16 @@
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
       <model name="sc_real_estate_price_model" type="model">
         <structure type="dictionary">
-          </structure>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">rent_price</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+        </structure>
         <specification type="dictionary">
           <submodel hidden="Children" inherit_parent_values="False" name="all" submodel_id="-2" type="submodel">
             <description type="string">Rent price model according to diss of Loechl</description>
