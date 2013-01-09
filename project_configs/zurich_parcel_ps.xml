@@ -8,6 +8,7 @@
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
+    <!--<parent type="file">zurich_parcel/configs/zurich_li_parcel.xml</parent>-->
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
@@ -67,10 +68,7 @@
               <variable_spec name="constant"></variable_spec>
               <variable_spec name="living_unit.sc_acc_car_lu"></variable_spec>
               <variable_spec name="living_unit.sc_acc_pt_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_building_built21to30_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_building_built81to90_lu"></variable_spec>
               <variable_spec name="living_unit.sc_building_built91tonow_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_building_is_pre_1921_lu"></variable_spec>
               <variable_spec name="living_unit.sc_dist_to_station_lu"></variable_spec>
               <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
               <variable_spec name="living_unit.sc_is_house_lu"></variable_spec>
