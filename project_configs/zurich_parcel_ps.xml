@@ -12,16 +12,16 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable name="building.sc_building_is_pre_1941" source="expression" type="variable_definition" use="both">numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &lt; 1921</variable>
-      <variable name="living_unit.sc_building_is_pre_1921_lu" source="expression" type="variable_definition" use="both">numpy.ma.masked_where(living_unit.disaggregate(building.year_built)&gt; 0, living_unit.disaggregate(building.year_built) &lt; 1921)</variable>
+      <variable name="building.sc_building_is_pre_1941" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 0, building.year_built &lt; 1921)</variable>
+      <variable name="living_unit.sc_building_is_pre_1921_lu" source="expression" type="variable_definition" use="both">living_unit.disaggregate(numpy.logical_and(building.year_built&gt; 0, building.year_built &lt; 1921))</variable>
       <variable name="living_unit.sc_building_built91tonow_lu" source="expression" type="variable_definition" use="both">living_unit.disaggregate(numpy.logical_and(building.year_built&gt; 0, building.year_built &gt; 1991))</variable>
-      <variable name="living_unit.sc_building_built81to90_lu" source="expression" type="variable_definition" use="both">numpy.logical_and(numpy.ma.masked_where(living_unit.disaggregate(building.year_built)&gt; 0, living_unit.disaggregate(building.year_built)&gt; 1981), numpy.ma.masked_where(living_unit.disaggregate(building.year_built)&gt; 0, living_unit.disaggregate(building.year_built) &lt; 1990))</variable>
-      <variable name="living_unit.sc_building_built21to30_lu" source="expression" type="variable_definition" use="both">numpy.logical_and(numpy.ma.masked_where(living_unit.disaggregate(building.year_built)&gt; 0, living_unit.disaggregate(building.year_built)&gt; 1921), numpy.ma.masked_where(living_unit.disaggregate(building.year_built)&gt; 0, living_unit.disaggregate(building.year_built) &lt; 1930))</variable>
-      <variable name="building.sc_building_built91to05" source="expression" type="variable_definition" use="both">numpy.logical_and(numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &gt; 1991, numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &lt; 2005)</variable>
-      <variable name="building.sc_building_built81to90" source="expression" type="variable_definition" use="both">numpy.logical_and(numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &gt; 1981, numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &lt; 1990)</variable>
-      <variable name="building.sc_building_is_pre_1921" source="expression" type="variable_definition" use="both">numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &lt; 1921</variable>
-      <variable name="building.sc_building_built21to30" source="expression" type="variable_definition" use="both">numpy.logical_and(numpy.ma.masked_where(building.year_built&gt;0, building.year_built) &gt; 1921, numpy.ma.masked_where(building.year_built&gt;0, building.year_built) &lt; 1930)</variable>
-      <variable name="building.sc_building_is_pre_1971" source="expression" type="variable_definition" use="both">numpy.ma.masked_where(building.year_built &gt; 0, building.year_built) &lt; 1971</variable>
+      <variable name="living_unit.sc_building_built81to90_lu" source="expression" type="variable_definition" use="both">numpy.logical_and(living_unit.disaggregate(building.year_built)&gt; 1981, living_unit.disaggregate(building.year_built) &lt; 1990)</variable>
+      <variable name="living_unit.sc_building_built21to30_lu" source="expression" type="variable_definition" use="both">numpy.logical_and(living_unit.disaggregate(building.year_built)&gt; 1921, living_unit.disaggregate(building.year_built) &lt; 1930)</variable>
+      <variable name="building.sc_building_built91to05" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 1991, building.year_built &lt; 2005)</variable>
+      <variable name="building.sc_building_built81to90" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 1981, building.year_built &lt; 1990)</variable>
+      <variable name="building.sc_building_is_pre_1921" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 0, building.year_built &lt; 1921)</variable>
+      <variable name="building.sc_building_built21to30" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 1921, building.year_built &lt; 1930)</variable>
+      <variable name="building.sc_building_is_pre_1971" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 0, building.year_built &lt; 1971)</variable>
       <variable name="person.SC_dist_to_job_exp_0106" source="expression" type="variable_definition" use="both">person.aggregate(exp(-0.106 *(sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.x_coord_sp, intermediates=[building, job])) ** 2 + (person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.y_coord_sp, intermediates=[building, job])) ** 2))))</variable>
     </expression_library>
   </general>
@@ -68,7 +68,10 @@
               <variable_spec name="constant"></variable_spec>
               <variable_spec name="living_unit.sc_acc_car_lu"></variable_spec>
               <variable_spec name="living_unit.sc_acc_pt_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built21to30_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built81to90_lu"></variable_spec>
               <variable_spec name="living_unit.sc_building_built91tonow_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_is_pre_1921_lu"></variable_spec>
               <variable_spec name="living_unit.sc_dist_to_station_lu"></variable_spec>
               <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
               <variable_spec name="living_unit.sc_is_house_lu"></variable_spec>
