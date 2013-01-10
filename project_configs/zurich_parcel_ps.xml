@@ -63,7 +63,7 @@
           <estimate type="dictionary">
             <argument name="specification" type="string">specification</argument>
             <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
-            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">rent_price</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">ln(rent_price)</argument>
             <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
             <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
             <argument name="data_objects" type="string">datasets</argument>
