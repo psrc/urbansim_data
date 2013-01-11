@@ -15,6 +15,7 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="person_x_job.sc_dist_pers_to_job_interaction" source="expression" type="variable_definition" use="both">sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household])-job.disaggregate(parcel.x_coord_sp, intermediates=[building]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household])-job.disaggregate(parcel.y_coord_sp, intermediates=[building]))**2)</variable>
       <variable name="person_x_job.sc_dist_pers_to_job_interaction_exp_0106" source="expression" type="variable_definition" use="both">exp(-0.106 *(sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household])-job.disaggregate(parcel.x_coord_sp, intermediates=[building]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household])-job.disaggregate(parcel.y_coord_sp, intermediates=[building]))**2)))</variable>
       <variable name="person.sc_dist_to_job_exp_0106" source="expression" type="variable_definition" use="both">person.aggregate(exp(-0.106 *(sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.x_coord_sp, intermediates=[building, job])) ** 2 + (person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.y_coord_sp, intermediates=[building, job])) ** 2))))</variable>
       <variable name="person.sc_dist_to_job" source="expression" type="variable_definition" use="both">sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household])-person.disaggregate(parcel.x_coord_sp, intermediates=[building, job]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household])-person.disaggregate(parcel.y_coord_sp, intermediates=[building, job]))**2)</variable>
@@ -28,7 +29,6 @@
       <variable name="building.sc_building_is_pre_1921" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 0, building.year_built &lt; 1921)</variable>
       <variable name="building.sc_building_built21to30" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 1921, building.year_built &lt; 1930)</variable>
       <variable name="building.sc_building_is_pre_1971" source="expression" type="variable_definition" use="both">numpy.logical_and(building.year_built &gt; 0, building.year_built &lt; 1971)</variable>
-      <variable name="person.SC_dist_to_job_exp_0106" source="expression" type="variable_definition" use="both">person.aggregate(exp(-0.106 *(sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.x_coord_sp, intermediates=[building, job])) ** 2 + (person.disaggregate(parcel.y_coord_sp, intermediates=[building,living_unit, household]) - person.disaggregate(parcel.y_coord_sp, intermediates=[building, job])) ** 2))))</variable>
     </expression_library>
     <available_datasets type="list">[ 'development_event_history_x_parcel', 'building_x_parcel', 'building', 'parcel', 'household', 'business', 'household_x_building', 'zone', 'tract', 'district14', 'district24', 'alldata', 'pdist', 'buildings_for_estimation', 'development_event_history', 'job_x_building', 'living_unit', 'city', 'living_unit_x_household', 'living_unit_x_person', 'building_x_person', 'person_x_job', ]</available_datasets>
   </general>
@@ -187,7 +187,7 @@
           <submodel hidden="Children" inherit_parent_values="False" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
-              <variable_spec name="person_x_job.sc_dist_pers_to_job_interaction_exp_0106"></variable_spec>
+              <variable_spec name="person_x_job.sc_dist_pers_to_job_interaction"></variable_spec>
             </variable_list>
           </submodel>
         </specification>
