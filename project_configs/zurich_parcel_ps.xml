@@ -136,7 +136,7 @@
               <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" type="string">sc_is_placed_job = (urbansim_parcel.job.zone_id&gt;0).astype(int32)</key>
               <key name="sample_size_locations" type="integer">30</key>
               <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
-              <key name="estimation_size_agents" type="float">0.1</key>
+              <key name="estimation_size_agents" type="float">0.01</key>
             </argument>
           </init>
           <prepare_for_estimate type="dictionary">
@@ -152,7 +152,7 @@
             <argument name="join_datasets" type="boolean">True</argument>
             <argument name="portion_to_unplace" type="string">1.0</argument>
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">zurich_parcel.person.is_non_home_based_worker_with_job</argument>
-            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">job_id</argument>
           </prepare_for_estimate>
           <estimate type="dictionary">
             <output name="output" type="string">(alcm_coefficients, dummy)</output>
@@ -188,6 +188,127 @@
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
               <variable_spec name="person_x_job.sc_dist_pers_to_job_interaction_exp_0106"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_household_location_choice_model" type="model">
+        <dependencies type="list">['sc_household_relocation_model', 'sc_household_transition_model']</dependencies>
+        <structure type="dictionary">
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">None</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
+            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument model_dependency_type="dataset" name="location_set" type="string">living_unit</argument>
+            <argument name="sample_size_locations" type="integer">30</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">vacant_residential_units</argument>
+            <argument name="estimation_weight_string" parser_action="quote_string" type="string">residential_units</argument>
+            <argument name="number_of_units_string" parser_action="quote_string" type="string">residential_units</argument>
+            <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">living_unit_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string"></argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="estimation_size_agents" type="float">0.5</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">living_unit.number_of_agents(household)==0</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">(zurich_parcel.living_unit.is_untaken_living_unit).astype(int32)</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" type="string">(living_unit.disaggregate(building.residential_units)&lt;&gt;0).astype(Int32)</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" type="string">living_unit.number_of_agents(household)</key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">0.01</key>
+            </argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">HouseholdLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">HLCM</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_household_location_choice_model_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">households</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">False</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">household.living_unit_id &gt; 0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">living_unit_id</argument>
+          </prepare_for_estimate>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_household_location_choice_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_household_location_choice_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="agents_index" type="string">hrm_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument hidden="True" name="coefficients" type="string">alcm_coefficients</argument>
+            <argument hidden="True" name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="living_unit.sc_acc_car_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_acc_pt_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_age_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_highwayaccess_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_acc_car_lu_x_car"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_acc_pt_lu_x_no_car"></variable_spec>
+              <variable_spec name="living_unit.sc_building_age_less_10_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_age_log_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_dist_to_highwayaccess_lu_x_car"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_school_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_station_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_dist_to_station_lu_x_no_car"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_zh_cbd_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_jobs_retail_density_300m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_jobs_service_density_300m_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_rent_price_to_income_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_rooms_per_person_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_share_of_hh_age_0_40_within_300m_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_share_of_hh_age_40_65_within_300m_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_share_of_hh_age_65_99_within_300m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_sqm_per_room_lu"></variable_spec>
             </variable_list>
           </submodel>
         </specification>
