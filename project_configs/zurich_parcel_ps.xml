@@ -296,17 +296,12 @@
           <submodel hidden="Children" inherit_parent_values="False" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
-              <variable_spec name="living_unit.sc_acc_car_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_acc_pt_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_building_age_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_dist_to_highwayaccess_lu"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_acc_car_lu_x_car"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_acc_pt_lu_x_no_car"></variable_spec>
               <variable_spec name="living_unit.sc_building_age_less_10_lu"></variable_spec>
               <variable_spec name="living_unit.sc_building_age_log_lu"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_dist_to_highwayaccess_lu_x_car"></variable_spec>
               <variable_spec name="living_unit.sc_dist_to_school_lu"></variable_spec>
-              <variable_spec name="living_unit.sc_dist_to_station_lu"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_dist_to_station_lu_x_no_car"></variable_spec>
               <variable_spec name="living_unit.sc_dist_to_zh_cbd_lu"></variable_spec>
               <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
