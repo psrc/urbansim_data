@@ -196,7 +196,7 @@
           <submodel hidden="Children" inherit_parent_values="False" name="submodel" submodel_id="-2" type="submodel">
             <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
             <variable_list type="variable_list">
-              <variable_spec name="person_x_job.sc_dist_pers_to_job_interaction"></variable_spec>
+              <variable_spec name="person_x_job.sc_dist_pers_to_job_interaction_exp_0106"></variable_spec>
             </variable_list>
           </submodel>
         </specification>
