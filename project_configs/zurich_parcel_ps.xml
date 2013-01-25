@@ -311,7 +311,7 @@
               <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
               <variable_spec name="living_unit.sc_jobs_retail_density_300m_lu"></variable_spec>
               <variable_spec name="living_unit.sc_jobs_service_density_300m_lu"></variable_spec>
-              <variable_spec keep_fixed="True" name="living_unit_x_household.sc_rent_price_to_income_lu" starting_value="0.0"></variable_spec>
+              <variable_spec ignore="True" name="living_unit_x_household.sc_rent_price_to_income_lu"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_rooms_per_person_lu"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_share_of_hh_age_0_40_within_300m_lu"></variable_spec>
               <variable_spec name="living_unit_x_household.sc_share_of_hh_age_40_65_within_300m_lu"></variable_spec>
