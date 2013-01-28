@@ -1,7 +1,7 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
   <data_manager>
@@ -9,9 +9,10 @@
       <tool_group name="opus_data_import_export_tools" setexpanded="True">
         <tool name="sql_data_to_opus_tool">
           <params>
-            <param name="database_name" param_type="string" required="True">cz_by_test</param>
-            <param name="table_name" param_type="string" required="True">development_event_history_PLCM</param>
+            <param name="database_name" param_type="string" required="True">by_mini</param>
+            <param name="table_name" param_type="string" required="True">ALL</param>
             <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_kt_parcel/base_year_data</param>
+            <param name="overwrite" param_type="boolean" required="True">False</param>
           </params>
         </tool>
         <tool name="opus_data_to_sql_tool">
@@ -41,31 +42,7 @@
     </tool_library>
   </data_manager>
   <model_manager>
-    <travel_model_configuration type="dictionary">
-      <matsim4urbansim type="dictionary">
-        <accessibility_parameter type="dictionary">
-          <use_MATSim_parameter type="selectable_list">
-            <selectable name="use_logit_scale_parameter_from_MATSim" type="selectable">False</selectable>
-            <selectable name="use_car_parameter_from_MATSim" type="selectable">False</selectable>
-            <selectable name="use_walk_parameter_from_MATSim" type="selectable">False</selectable>
-            <selectable name="use_raw_sums_without_ln" type="selectable">True</selectable>
-          </use_MATSim_parameter>
-          <logit_scale_parameter type="float">0.2</logit_scale_parameter>
-          <car_parameter type="dictionary">
-            <betacar_travel_time type="float">-12</betacar_travel_time>
-          </car_parameter>
-          <walk_parameter type="dictionary">
-            <betawalk_travel_time type="float">-12</betawalk_travel_time>
-          </walk_parameter>
-        </accessibility_parameter>
-      </matsim4urbansim>
-      <years_to_run key_name="year" type="category_with_special_keys">
-        <run_description type="dictionary">
-          <year type="integer">2000</year>
-        </run_description>
-      </years_to_run>
-    </travel_model_configuration>
-  </model_manager>
+    </model_manager>
   <scenario_manager>
     <scenario executable="True" name="test_run" type="scenario">
       <advanced type="category">
