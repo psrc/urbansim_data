@@ -11,7 +11,7 @@
           <params>
             <param name="database_name" param_type="string" required="True">by_mini</param>
             <param name="table_name" param_type="string" required="True">ALL</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_kt_parcel/base_year_data</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_mini_parcel/base_year_data</param>
             <param name="overwrite" param_type="boolean" required="True">False</param>
           </params>
         </tool>
