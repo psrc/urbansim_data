@@ -43,7 +43,7 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="external_demographic_model" type="model">
+      <model name="external_demographic_model_hh" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">zurich_parcel.models.external_demographic_model</class_module>
@@ -105,7 +105,7 @@
         <selectable name="employment_relocation_model" return_value="employment_relocation_model" type="selectable">False</selectable>
         <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="external_demographic_model_1" return_value="external_demographic_model" type="selectable">True</selectable>
+        <selectable name="external_demographic_model_hh_1" return_value="external_demographic_model_hh" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
