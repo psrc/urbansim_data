@@ -55,12 +55,10 @@
   <scenario_manager>
     <scenario executable="True" name="test_run" type="scenario">
       <advanced type="category">
-        <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
           <selectable name="zone" type="selectable">True</selectable>
           <selectable name="travel_data" type="selectable">True</selectable>
         </datasets_to_preload>
-        <skip_travel_model type="boolean">False</skip_travel_model>
         <skip_non_travel_models_first_year type="boolean">True</skip_non_travel_models_first_year>
       </advanced>
       <years_to_run config_name="years" type="tuple">
