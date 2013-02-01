@@ -3,33 +3,41 @@
   <general>
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="living_unit.sc_foreigners_within_300_of_building_lu" source="expression" type="variable_definition" use="model variable">living_unit.disaggregate(zurich_parcel.parcel.households_foreign_within_300_of_parcel, intermediates=[building])</variable>
+    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
       <tool_group name="opus_data_import_export_tools" setexpanded="True">
         <tool name="sql_data_to_opus_tool">
           <params>
-            <param name="database_server_connection" param_type="db_connection_hook" required="True">scenario_database_server</param>
-            <param name="database_name" param_type="string" required="True">by_sc</param>
-            <param name="table_name" param_type="string" required="True">ALL</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/data/zurich_kt_parcel/base_year_data</param>
-            <param name="opus_data_year" param_type="string" required="True">2000</param>
-            <param name="overwrite" param_type="boolean" required="True">True</param>
+            <param name="database_name" param_type="string" required="True">cz_by_test</param>
+            <param name="table_name" param_type="string" required="True">development_event_history_PLCM</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_kt_parcel/base_year_data</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_sql_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">cz_us_run2</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_mini_parcel/runs/run_103.run_2012_06_20_13_19</param>
+            <param name="opus_data_year" param_type="string" required="True">ALL</param>
+            <param name="opus_table_name" param_type="string" required="True">ALL</param>
           </params>
         </tool>
         <tool name="opus_data_to_csv_tool">
           <params>
-            <param name="csv_data_path" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/data</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/data/zurich_kt_parcel/base_year_data</param>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_exports</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
             <param name="opus_data_year" param_type="string" required="True">2000</param>
-            <param name="opus_table_name" param_type="string" required="True">SC_real_estate_price_model_new_coefficients</param>
+            <param name="opus_table_name" param_type="string" required="True">target_vacancies</param>
           </params>
         </tool>
         <tool name="csv_data_to_opus_tool">
           <params>
-            <param name="csv_data_path" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/data/COEFFICIENTS_and_SPECIFICATIONS</param>
-            <param name="csv_table_name" param_type="string" required="True">sc_workplace_location_choice_model_specification</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/data/zurich_mini_parcel/base_year_data</param>
+            <param name="csv_data_path" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel</param>
+            <param name="csv_table_name" param_type="string" required="True">sc_household_location_choice_model_coefficients</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data</param>
           </params>
         </tool>
       </tool_group>
@@ -37,68 +45,283 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      </models>
+      <model name="sc_real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': False, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string">Resources({'save_predicted_values_and_errors':True})</argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">rent_price</output>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string"></argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_real_estate_price_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_real_estate_price_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">ln(rent_price)</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">living_unit.rent_price &gt; 0</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">regression_model_template_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="all" submodel_id="-2" type="submodel">
+            <description type="string">Rent price model according to diss of Loechl</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="living_unit.sc_acc_car_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_acc_pt_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built21to30_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built81to90_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built91tonow_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_is_pre_1921_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_station_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_foreigners_within_300_of_building_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_is_house_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_jobs_G52_H_within_1km_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_lakeview_ha_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_ln_pop_ha_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_ln_sqm_per_unit_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_logit_slope_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_sunhine_eve_lu"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_household_location_choice_model" type="model">
+        <dependencies type="list">['sc_household_relocation_model', 'sc_household_transition_model']</dependencies>
+        <structure type="dictionary">
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">None</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">AgentLocationChoiceModel</name>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument>
+            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument model_dependency_type="dataset" name="location_set" type="string">living_unit</argument>
+            <argument name="sample_size_locations" type="integer">30</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">vacant_residential_units</argument>
+            <argument name="estimation_weight_string" parser_action="quote_string" type="string">residential_units</argument>
+            <argument name="number_of_units_string" parser_action="quote_string" type="string">residential_units</argument>
+            <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_households</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">living_unit_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string"></argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="estimation_size_agents" type="float">0.5</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(living_unit.number_of_agents(household)==0, living_unit.rent_price &gt; 0)</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">(zurich_parcel.living_unit.is_untaken_living_unit).astype(int32)</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" type="string">(living_unit.disaggregate(building.residential_units)&lt;&gt;0).astype(Int32)</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" type="string">living_unit.number_of_agents(household)</key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">0.01</key>
+            </argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">HouseholdLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">HLCM</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_household_location_choice_model_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">households</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">False</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">household.living_unit_id &gt; 0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">living_unit_id</argument>
+          </prepare_for_estimate>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_household_location_choice_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_household_location_choice_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="agents_index" type="string">hrm_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument hidden="True" name="coefficients" type="string">alcm_coefficients</argument>
+            <argument hidden="True" name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="living_unit_x_household.sc_acc_car_lu_x_car"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_acc_pt_lu_x_no_car"></variable_spec>
+              <variable_spec name="living_unit.sc_building_age_less_10_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_age_log_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_dist_to_highwayaccess_lu_x_car"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_previous_loc_lu_0163"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_school_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_dist_to_station_lu_x_no_car"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_workplace_lu_0203"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_zh_cbd_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_jobs_retail_density_300m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_jobs_service_density_300m_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_rent_price_to_income_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_rooms_per_person_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_share_of_hh_age_0_40_within_300m_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_share_of_hh_age_40_65_within_300m_lu"></variable_spec>
+              <variable_spec name="living_unit_x_household.sc_share_of_hh_age_65_99_within_300m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_sqm_per_room_lu"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+    </models>
+    <travel_model_configuration type="dictionary">
+      <matsim4urbansim type="dictionary">
+        <population_sampling_rate type="float">0.01</population_sampling_rate>
+        <controler_parameter type="dictionary">
+          <cell_size type="integer">1000</cell_size>
+        </controler_parameter>
+        <accessibility_parameter type="dictionary">
+          <use_MATSim_parameter type="selectable_list">
+            <selectable name="use_logit_scale_parameter_from_MATSim" type="selectable">False</selectable>
+            <selectable name="use_car_parameter_from_MATSim" type="selectable">False</selectable>
+            <selectable name="use_walk_parameter_from_MATSim" type="selectable">False</selectable>
+            <selectable name="use_raw_sums_without_ln" type="selectable">True</selectable>
+          </use_MATSim_parameter>
+          <logit_scale_parameter type="float">0.2</logit_scale_parameter>
+          <car_parameter type="dictionary">
+            <betacar_travel_time type="float">-12</betacar_travel_time>
+          </car_parameter>
+          <walk_parameter type="dictionary">
+            <betawalk_travel_time type="float">-12</betawalk_travel_time>
+          </walk_parameter>
+        </accessibility_parameter>
+      </matsim4urbansim>
+      <matsim_config type="dictionary">
+        <common type="dictionary">
+          <last_iteration type="integer">10</last_iteration>
+        </common>
+      </matsim_config>
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2000</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2001</year>
+        </run_description>
+      </years_to_run>
+    </travel_model_configuration>
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="test_run" type="scenario">
       <advanced type="category">
-        <model_system type="string">urbansim.model_coordinators.model_system</model_system>
-        <debuglevel type="integer">4</debuglevel>
-        <flush_variables type="boolean">False</flush_variables>
-        <seed convert_blank_to_none="True" type="integer">None</seed>
-        <dataset_pool_configuration type="class">
-          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
-          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
-          <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
-        </dataset_pool_configuration>
+        <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="zone" type="selectable">False</selectable>
-          <selectable name="target_vacancy" type="selectable">True</selectable>
-          <selectable name="household" type="selectable">True</selectable>
-          <selectable name="living_unit" type="selectable">True</selectable>
-          <selectable name="building" type="selectable">True</selectable>
-          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
-          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="person" type="selectable">True<package_name type="string">zurich_parcel</package_name>
-          </selectable>
-          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="job" type="selectable">True</selectable>
-          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
-          </selectable>
-          <selectable name="travel_data" type="selectable">False</selectable>
-          <selectable name="development_event_history" type="selectable">True</selectable>
-          <selectable name="living_units_history" type="selectable">False</selectable>
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
         </datasets_to_preload>
-        <run_in_same_process type="boolean">False</run_in_same_process>
+        <skip_travel_model type="boolean">False</skip_travel_model>
+        <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
       </advanced>
       <years_to_run config_name="years" type="tuple">
-        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2001</firstyear>
-        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2003</lastyear>
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2000</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="sc_real_estate_price_model_new_1" return_value="sc_real_estate_price_model" type="selectable">False</selectable>
         <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model_1" return_value="sc_real_estate_price_model" type="selectable">False</selectable>
         <selectable name="sc_building_transition_model_1" return_value="sc_building_transition_model" type="selectable">False</selectable>
         <selectable name="sc_RBLCM_1" return_value="sc_RBLCM" type="selectable">False</selectable>
         <selectable name="sc_NRBLCM_1" return_value="sc_NRBLCM" type="selectable">False</selectable>
-        <selectable name="sc_workplace_location_choice_1" return_value="sc_workplace_location_choice" type="selectable">True</selectable>
-        <selectable name="sc_household_transition_model_1" return_value="sc_household_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_household_relocation_model_1" return_value="sc_household_relocation_model" type="selectable">False</selectable>
-        <selectable name="sc_household_location_choice_model_1" return_value="sc_household_location_choice_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM_from_template_1" return_value="sc_RBLCM_from_template" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM_from_template_1" return_value="sc_NRBLCM_from_template" type="selectable">False</selectable>
+        <selectable name="sc_building_location_choice_model_from_template_1" return_value="sc_building_location_choice_model_from_template" type="selectable">False</selectable>
+        <selectable name="sc_workplace_location_choice_1" return_value="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model_1" return_value="sc_household_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_household_relocation_model_1" return_value="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model_1" return_value="sc_household_location_choice_model" type="selectable">True</selectable>
         <selectable name="new_employment_transition_model_1" return_value="sc_employment_transition_model" type="selectable">False</selectable>
         <selectable name="sc_employment_relocation_model" return_value="sc_employment_relocation_model" type="selectable">False</selectable>
         <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="employment_relocation_model" return_value="employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
         </selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
   <results_manager>
-    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
-      <indicator_batch name="rent_price"></indicator_batch>
-    </indicator_batches>
   </results_manager>
 </opus_project>
