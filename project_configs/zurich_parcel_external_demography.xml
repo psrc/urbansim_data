@@ -53,9 +53,9 @@
             <name name="name" type="string">ExternalDemographicModel</name>
           </init>
           <run type="dictionary">
-            <argument name="demographic_data_file" type="string">"/Network/Servers/ivt.ethz.ch/Volumes/ivt-home/muelleki/sustaincity/opushome/data/zurich_mini_parcel/base_year_data/demography2.hdf5"</argument>
+            <argument name="demographic_data_file" parser_action="quote_string" type="string">demography.hdf5</argument>
             <argument model_dependency_type="dataset" name="household_dataset" type="string">household</argument>
-            <argument name="keep_attributes" type="string">['building_id', 'cars', 'income', 'living_unit_id', 'race_id', 'x_coord_ha', 'y_coord_ha', 'zgde']</argument>
+            <argument name="keep_attributes" type="string">['building_id', 'cars', 'income', 'living_unit_id', 'race_id', 'x_coord_ha', 'y_coord_ha', 'zgde','household_vz_id']</argument>
             <argument name="fill_value" type="string">-1</argument>
             <argument name="demographic_attributes" type="string">{
 		    'household_id': 'household.household_id',
@@ -77,8 +77,8 @@
           <selectable name="household" type="selectable">False</selectable>
           <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
           </selectable>
-          <selectable name="travel_data" type="selectable">True</selectable>
         </datasets_to_preload>
+        <run_in_same_process type="boolean">True</run_in_same_process>
       </advanced>
       <years_to_run config_name="years" type="tuple">
         <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
