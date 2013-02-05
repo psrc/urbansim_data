@@ -4,5 +4,48 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      </models>
+    <travel_model_configuration type="dictionary">
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2005</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2010</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2015</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2020</year>
+        </run_description>
+      </years_to_run>
+    </travel_model_configuration>
+  </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2022</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_real_estate_price_model_1" return_value="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_building_transition_model_1" return_value="sc_building_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_RBLCM_1" return_value="sc_RBLCM" type="selectable">True</selectable>
+        <selectable name="sc_NRBLCM_1" return_value="sc_NRBLCM" type="selectable">True</selectable>
+        <selectable name="sc_workplace_location_choice_1" return_value="sc_workplace_location_choice" type="selectable">True</selectable>
+        <selectable name="new_employment_transition_model_1" return_value="sc_employment_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_relocation_model" return_value="sc_employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="sc_household_transition_model_1" return_value="sc_household_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_household_relocation_model_1" return_value="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model_1" return_value="sc_household_location_choice_model" type="selectable">True</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    </results_manager>
 </opus_project>
-
