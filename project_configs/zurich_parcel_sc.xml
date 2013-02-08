@@ -4,9 +4,199 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">by_sc</param>
+            <param name="table_name" param_type="string" required="True">annual_household_control_totals_rate_based</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/muelleki/sustaincity/opushome/data/zurich_kt_parcel/base_year_data/2000</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      </models>
+      <model name="sc_employment_transition_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">job</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Employment Transition Model</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">ETM</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_employment_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="control_totals" parser_action="quote_string" type="string">control_totals</argument>
+            <argument model_dependency_type="dataset" name="job_set" type="string">job</argument>
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">number_of_jobs</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="sc_employment_location_choice_model" type="model">
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel_group name="non_home_based" type="submodel_group">
+            <submodel hidden="Children" name="manufacturing" submodel_id="1" type="submodel">
+              <description type="string">manufacturing</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="construction" submodel_id="2" type="submodel">
+              <description type="string">construction</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect2"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="trade" submodel_id="3" type="submodel">
+              <description type="string">trade</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.rh_ln_surf_sect3"></variable_spec>
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="retail" submodel_id="4" type="submodel">
+              <description type="string">retail</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect4"></variable_spec>
+                <variable_spec name="job_x_building.rh_pop_dens_trade"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="hotels_restaurants" submodel_id="5" type="submodel">
+              <description type="string">hotels_restaurants</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect5"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="transport" submodel_id="6" type="submodel">
+              <description type="string">transport</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.rh_ln_surf_sect6"></variable_spec>
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="services" submodel_id="7" type="submodel">
+              <description type="string">services</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect7"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="health" submodel_id="8" type="submodel">
+              <description type="string">health</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect8"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+        </specification>
+      </model>
+    </models>
     <travel_model_configuration type="dictionary">
       <years_to_run key_name="year" type="category_with_special_keys">
         <run_description type="dictionary">
@@ -26,6 +216,11 @@
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="test_run" type="scenario">
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="travel_data" type="selectable">True</selectable>
+        </datasets_to_preload>
+      </advanced>
       <years_to_run config_name="years" type="tuple">
         <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2022</lastyear>
       </years_to_run>
