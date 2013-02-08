@@ -3,15 +3,6 @@
   <general>
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
-    <expression_library type="dictionary">
-      <variable name="household.sc_household_has_car" source="expression" type="variable_definition" use="both">(household.cars &gt; 0) #numpy.logical_or(household.cars &gt; 0, household.household_id &gt; 0)</variable>
-      <variable name="household.sc_number_of_workers_in_household" source="expression" type="variable_definition" use="both">household.aggregate(person.worker, function=sum)</variable>
-      <variable name="household.sc_level_of_education_hh" source="expression" type="variable_definition" use="both">household.aggregate(person.finlevedu, function=mean)</variable>
-      <variable name="household.sc_number_of_cars_in_household" source="primary attribute" type="variable_definition" use="both">household.cars</variable>
-      <variable name="household.sc_household_income" source="primary attribute" type="variable_definition" use="both">household.income</variable>
-      <variable name="household.sc_households_number_of_cars" source="primary attribute" type="variable_definition" use="both">household.cars</variable>
-      <variable name="household.sc_number_of_persons_in_household" source="primary attribute" type="variable_definition" use="both">household.persons</variable>
-    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
