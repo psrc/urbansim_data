@@ -47,7 +47,7 @@
       <model name="sc_real_estate_price_model" type="model">
         <structure type="dictionary">
           <run type="dictionary">
-            <output hidden="False" name="output" type="string">ln_rent_price</output>
+            <output hidden="False" name="output" type="string">living_unit.ln_rent_price</output>
           </run>
         </structure>
       </model>
@@ -63,7 +63,8 @@
           </init>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
-            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">exp(ln_rent_price)</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="expression" parser_action="quote_string" type="string"></argument>
+            <argument name="outcome_values" type="string">living_unit.ln_rent_price</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">rent_price</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
