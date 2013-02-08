@@ -57,13 +57,13 @@
             <argument model_dependency_type="dataset" name="household_dataset" type="string">household</argument>
             <argument name="keep_attributes" type="string">['building_id', 'cars', 'income', 'living_unit_id', 'race_id', 'x_coord_ha', 'y_coord_ha', 'zgde','household_vz_id']</argument>
             <argument name="fill_value" type="string">-1</argument>
-            <argument name="demographic_attributes" type="string">{
-		    'household_id': 'household.household_id',
-		    'age_of_head': 'household.aggregate(person.age * paris.person.is_head_of_household)',
-		    'children': 'household.aggregate(person.age &lt; 16)',
-		    'persons': 'household.number_of_agents(person)',
-		    'workers': 'household.aggregate(person.work_stat==1)',
-		    }</argument>
+            <argument name="demographic_attributes" type="dictionary">
+              <attribute name="household_id" type="string">household.household_id</attribute>
+              <attribute name="age_of_head" type="string">household.aggregate(person.age * paris.person.is_head_of_household)</attribute>
+              <attribute name="children" type="string">household.aggregate(person.age &lt; 16)</attribute>
+              <attribute name="persons" type="string">household.number_of_agents(person)</attribute>
+              <attribute name="workers" type="string">household.aggregate(person.work_stat==1)</attribute>
+            </argument>
           </run>
         </structure>
       </model>
