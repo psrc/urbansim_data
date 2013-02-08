@@ -65,7 +65,7 @@
               <attribute name="children" type="string">household.aggregate(person.age &lt; 16)</attribute>
               <attribute name="persons" type="string">household.number_of_agents(person)</attribute>
               <attribute name="workers" type="string">household.aggregate(person.work_stat==1)</attribute>
-              <attribute name="race_id type="string">household.aggregate(numpy.ma.masked_where(person.id == houshold.ref_per_id, person.place_of_birth))</attribute>
+              <attribute name="race_id" type="string">household.aggregate(numpy.ma.masked_where(person.id == houshold.ref_per_id, person.place_of_birth))</attribute>
             </argument>
             <argument name="demographic_attributes_p" type="dictionary">
               <attribute name="person_id" type="string">person.id</attribute>
