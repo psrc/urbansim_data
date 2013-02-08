@@ -1,0 +1,115 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+  </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">by_mini</param>
+            <param name="table_name" param_type="string" required="True">ALL</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_mini_parcel/base_year_data</param>
+            <param name="overwrite" param_type="boolean" required="True">False</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_sql_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">cz_us_run2</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_mini_parcel/runs/run_103.run_2012_06_20_13_19</param>
+            <param name="opus_data_year" param_type="string" required="True">ALL</param>
+            <param name="opus_table_name" param_type="string" required="True">ALL</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_csv_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_exports</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+            <param name="opus_table_name" param_type="string" required="True">target_vacancies</param>
+          </params>
+        </tool>
+        <tool name="csv_data_to_opus_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel</param>
+            <param name="csv_table_name" param_type="string" required="True">sc_household_location_choice_model_coefficients</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <output hidden="False" name="output" type="string">ln_rent_price</output>
+          </run>
+        </structure>
+      </model>
+      <model name="sc_postprocess_real_estate_price_model" type="model">
+        <dependencies type="list">['sc_real_estate_price_model']</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">exp(ln_rent_price)</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">rent_price</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">True</run_in_same_process>
+      </advanced>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2001</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_real_estate_price_model_1" return_value="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_building_transition_model_1" return_value="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM_1" return_value="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM_1" return_value="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM_from_template_1" return_value="sc_RBLCM_from_template" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM_from_template_1" return_value="sc_NRBLCM_from_template" type="selectable">False</selectable>
+        <selectable name="sc_building_location_choice_model_from_template_1" return_value="sc_building_location_choice_model_from_template" type="selectable">False</selectable>
+        <selectable name="sc_workplace_location_choice_1" return_value="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model_1" return_value="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model_1" return_value="sc_household_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_household_location_choice_model_1" return_value="sc_household_location_choice_model" type="selectable">False</selectable>
+        <selectable name="new_employment_transition_model_1" return_value="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" return_value="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="employment_relocation_model" return_value="employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="external_demographic_model_hh_1" return_value="external_demographic_model_hh" type="selectable">False</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+  </results_manager>
+</opus_project>
