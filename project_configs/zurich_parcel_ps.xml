@@ -3,6 +3,9 @@
   <general>
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="living_unit_x_household.sc_rent_price_to_income_lu" source="expression" type="variable_definition" use="both">((exp(living_unit.ln_rent_price) &gt; 0)* exp(living_unit.ln_rent_price))/(household.income * 1.0) </variable>
+    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
@@ -111,6 +114,23 @@
       <years_to_run config_name="years" type="tuple">
         <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2002</lastyear>
       </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+      </models_to_run>
     </scenario>
   </scenario_manager>
   <results_manager>
