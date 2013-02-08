@@ -25,17 +25,18 @@
         </tool>
         <tool name="opus_data_to_csv_tool">
           <params>
-            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_exports</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/muelleki/git/urbansim/tmp</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/muelleki/git/urbansim/data/zurich_mini_parcel/base_year_data</param>
             <param name="opus_data_year" param_type="string" required="True">2000</param>
-            <param name="opus_table_name" param_type="string" required="True">target_vacancies</param>
+            <param name="opus_table_name" param_type="string" required="True">sc_real_estate_price_model_coefficients</param>
+            <param name="execute_after_export" param_type="file_path" required="False">soffice</param>
           </params>
         </tool>
         <tool name="csv_data_to_opus_tool">
           <params>
-            <param name="csv_data_path" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel</param>
-            <param name="csv_table_name" param_type="string" required="True">sc_household_location_choice_model_coefficients</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data</param>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/muelleki/git/urbansim/tmp</param>
+            <param name="csv_table_name" param_type="string" required="True">sc_real_estate_price_model_coefficients</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/muelleki/git/urbansim/data/zurich_mini_parcel/base_year_data</param>
           </params>
         </tool>
       </tool_group>
