@@ -64,7 +64,7 @@
               <attribute name="age_of_head" type="string">household.aggregate(person.age, function=maximum)</attribute>
               <attribute name="persons" type="string">household.number_of_agents(person)</attribute>
               <attribute name="workers" type="string">household.aggregate(person.work_stat==1)</attribute>
-              <attribute name="race_id" type="string">household.aggregate(person.place_of_birth)</attribute>
+              <attribute name="race_id" type="string">household.aggregate(person.place_of_birth, function=median).astype(uint32)</attribute>
             </argument>
             <argument name="demographic_attributes_p" type="dictionary">
               <attribute name="person_id" type="string">person.person_id</attribute>
