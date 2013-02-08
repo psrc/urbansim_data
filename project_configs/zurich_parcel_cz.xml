@@ -1,13 +1,20 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
+<<<<<<< .mine
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+=======
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+>>>>>>> .r19632
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
   <data_manager>
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+<<<<<<< .mine
+      </models>
+=======
       <model name="sc_RBLCM" type="model">Use single buildings in development_event_history and allow for development of already built parcels (densification possible, without deconstruction)<specification inherit_parent_values="False" type="dictionary">
           <submodel hidden="Children" inherit_parent_values="False" name="SFH" submodel_id="1021" type="submodel">
             <description type="string">Submodel for single family houses.</description>
@@ -49,9 +56,16 @@
         </specification>
       </model>
     </models>
+>>>>>>> .r19632
   </model_manager>
   <scenario_manager>
+<<<<<<< .mine
+  </scenario_manager>
+=======
     </scenario_manager>
+  <results_manager>
+    </results_manager>
+>>>>>>> .r19632
   <results_manager>
     </results_manager>
 </opus_project>

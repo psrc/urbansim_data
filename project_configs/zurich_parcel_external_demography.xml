@@ -56,7 +56,7 @@
             <argument name="demographic_data_file" parser_action="quote_string" type="string">demography.hdf5</argument>
             <argument model_dependency_type="dataset" name="household_dataset" type="string">household</argument>
             <argument model_dependency_type="dataset" name="person_dataset" type="string">person</argument>
-            <argument name="keep_attributes" type="string">['building_id', 'cars', 'income', 'living_unit_id', 'race_id', 'x_coord_ha', 'y_coord_ha', 'zgde','household_vz_id']</argument>
+            <argument name="keep_attributes" type="string">['cars', 'income', 'living_unit_id', 'race_id', 'x_coord_ha', 'y_coord_ha', 'zgde','household_vz_id']</argument>
             <argument name="keep_attributes_p" type="string">['job_id']</argument>
             <argument name="fill_value" type="string">-1</argument>
             <argument name="demographic_attributes" type="dictionary">
@@ -65,13 +65,13 @@
               <attribute name="children" type="string">household.aggregate(person.age &lt; 16)</attribute>
               <attribute name="persons" type="string">household.number_of_agents(person)</attribute>
               <attribute name="workers" type="string">household.aggregate(person.work_stat==1)</attribute>
-              <attribute name="race_id" type="string">household.aggregate(numpy.ma.masked_where(person.id == houshold.ref_per_id, person.place_of_birth))</attribute>
+              <!-- <attribute name="race_id" type="string">household.aggregate(person.place_of_birth)</attribute> -->
             </argument>
             <argument name="demographic_attributes_p" type="dictionary">
-              <attribute name="person_id" type="string">person.id</attribute>
-              <attribute name="work_at_home" type="string">0</attribute>
+              <attribute name="person_id" type="string">person.person_id</attribute>
+              <!-- <attribute name="work_at_home" type="string">0</attribute> -->
               <attribute name="age" type="string">person.age</attribute>
-              <attribute name="household_id" type="string">person.hh_id</attribute>
+              <attribute name="household_id" type="string">person.household_id</attribute>
               <attribute name="sex" type="string">person.sex</attribute>
               <attribute name="worker" type="string">person.work_stat</attribute>
               <attribute name="partner_id" type="string">person.partner_id</attribute>
