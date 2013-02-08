@@ -56,22 +56,21 @@
             <argument name="demographic_data_file" parser_action="quote_string" type="string">demography.hdf5</argument>
             <argument model_dependency_type="dataset" name="household_dataset" type="string">household</argument>
             <argument model_dependency_type="dataset" name="person_dataset" type="string">person</argument>
-            <argument name="keep_attributes" type="string">['building_id', 'cars', 'income', 'living_unit_id', 'race_id', 'x_coord_ha', 'y_coord_ha', 'zgde','household_vz_id']</argument>
+            <argument name="keep_attributes" type="string">['cars', 'income', 'living_unit_id','household_vz_id']</argument>
             <argument name="keep_attributes_p" type="string">['job_id']</argument>
             <argument name="fill_value" type="string">-1</argument>
             <argument name="demographic_attributes" type="dictionary">
               <attribute name="household_id" type="string">household.household_id</attribute>
-              <attribute name="age_of_head" type="string">household.aggregate(person.age * paris.person.is_head_of_household)</attribute>
-              <attribute name="children" type="string">household.aggregate(person.age &lt; 16)</attribute>
+              <attribute name="age_of_head" type="string">household.aggregate(person.age, function=maximum)</attribute>
               <attribute name="persons" type="string">household.number_of_agents(person)</attribute>
               <attribute name="workers" type="string">household.aggregate(person.work_stat==1)</attribute>
-              <attribute name="race_id" type="string">household.aggregate(numpy.ma.masked_where(person.id == houshold.ref_per_id, person.place_of_birth))</attribute>
+              <attribute name="race_id" type="string">household.aggregate(person.place_of_birth)</attribute>
             </argument>
             <argument name="demographic_attributes_p" type="dictionary">
-              <attribute name="person_id" type="string">person.id</attribute>
-              <attribute name="work_at_home" type="string">0</attribute>
+              <attribute name="person_id" type="string">person.person_id</attribute>
+              <attribute name="work_at_home" type="string">(person.sex == 999).astype(float32)</attribute>
               <attribute name="age" type="string">person.age</attribute>
-              <attribute name="household_id" type="string">person.hh_id</attribute>
+              <attribute name="household_id" type="string">person.household_id</attribute>
               <attribute name="sex" type="string">person.sex</attribute>
               <attribute name="worker" type="string">person.work_stat</attribute>
               <attribute name="partner_id" type="string">person.partner_id</attribute>
@@ -98,26 +97,19 @@
         <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2001</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="sc_real_estate_price_model_new_1" return_value="sc_real_estate_price_model_new" type="selectable">False</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_real_estate_price_model_1" return_value="sc_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_building_transition_model_1" return_value="sc_building_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_RBLCM_1" return_value="sc_RBLCM" type="selectable">False</selectable>
-        <selectable name="sc_NRBLCM_1" return_value="sc_NRBLCM" type="selectable">False</selectable>
-        <selectable name="sc_RBLCM_from_template_1" return_value="sc_RBLCM_from_template" type="selectable">False</selectable>
-        <selectable name="sc_NRBLCM_from_template_1" return_value="sc_NRBLCM_from_template" type="selectable">False</selectable>
-        <selectable name="sc_building_location_choice_model_from_template_1" return_value="sc_building_location_choice_model_from_template" type="selectable">False</selectable>
-        <selectable name="sc_workplace_location_choice_1" return_value="sc_workplace_location_choice" type="selectable">False</selectable>
-        <selectable name="sc_household_transition_model_1" return_value="sc_household_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_household_relocation_model_1" return_value="sc_household_relocation_model" type="selectable">False</selectable>
-        <selectable name="sc_household_location_choice_model_1" return_value="sc_household_location_choice_model" type="selectable">False</selectable>
-        <selectable name="new_employment_transition_model_1" return_value="sc_employment_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_relocation_model" return_value="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
         <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="employment_relocation_model" return_value="employment_relocation_model" type="selectable">False</selectable>
-        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
-        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
         <selectable name="external_demographic_model_hh_1" return_value="external_demographic_model_hh" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
