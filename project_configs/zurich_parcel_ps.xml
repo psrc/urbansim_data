@@ -4,6 +4,8 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="household.sc_dist_to_station_hh" source="expression" type="variable_definition" use="both">household.disaggregate(parcel.dist_to_station, intermediates=[building,living_unit])</variable>
+      <variable name="household.sc_dist_to_zh_cbd_hh" source="expression" type="variable_definition" use="both">household.disaggregate(parcel.dist_to_zh_cbd, intermediates=[building,living_unit])</variable>
       <variable name="living_unit_x_household.sc_rent_price_to_income_lu" source="expression" type="variable_definition" use="both">((exp(living_unit.ln_rent_price) &gt; 0)* exp(living_unit.ln_rent_price))/(household.income * 1.0) </variable>
     </expression_library>
   </general>
@@ -21,88 +23,111 @@
     </tool_library>
   </data_manager>
   <model_manager>
-    <model name="sc_car_availability_model" type="model">
-      <structure type="dictionary">
-        <import name="import" type="dictionary">
-          <class_module type="string">opus_core.choice_model</class_module>
-          <class_name type="string">ChoiceModel</class_name>
-        </import>
-        <init type="dictionary">
-          <name name="name" type="string">ChoiceModel</name>
-          <argument model_dependency_type="dataset" name="choice_set" type="string">[1,2]</argument>
-          <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
-          <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
-          <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
-          <argument convert_blank_to_none="True" field_description="attribute/expression specifying submodel" model_dependency_type="variable" name="submodel_string" type="string"></argument>
-          <argument model_dependency_type="variable" name="choice_attribute_name" parser_action="quote_string" type="string">want_car=(household.cars &gt; 0)+1</argument>
-          <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
-          <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
-          <argument name="estimate_config" type="dictionary">
-            <key name="estimation_size_agents" type="float">0.05</key>
-          </argument>
-          <argument name="debuglevel" type="integer">0</argument>
-          <argument name="dataset_pool" type="string">dataset_pool</argument>
-        </init>
-        <run type="dictionary">
-          <argument name="specification" type="string">specification</argument>
-          <argument name="coefficients" type="string">coefficients</argument>
-          <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
-          <argument name="agents_index" type="string">cm_index</argument>
-          <argument convert_blank_to_none="True" name="chunk_specification" type="string"></argument>
-          <argument name="data_objects" type="string">datasets</argument>
-        </run>
-        <prepare_for_run type="dictionary">
-          <name name="name" type="string">prepare_for_run</name>
-          <output name="output" type="string">(specification, coefficients, cm_index)</output>
-          <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">household</argument>
-          <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">(household.cars &gt; -1)</argument>
-          <argument name="specification_storage" type="string">base_cache_storage</argument>
-          <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_car_availability_mode_specification</argument>
-          <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-          <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_car_availability_mode_coefficients</argument>
-          <argument name="cache_storage" type="string">base_cache_storage</argument>
-          <argument name="sample_coefficients" type="boolean">False</argument>
-          <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
-          <argument name="multiplicator" type="integer">1</argument>
-        </prepare_for_run>
-        <estimate type="dictionary">
-          <output name="output" type="string">(coefficients, dummy)</output>
-          <argument name="specification" type="string">specification</argument>
-          <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
-          <argument name="agents_index" type="string">cm_index</argument>
-          <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
-          <argument name="data_objects" type="string">datasets</argument>
-        </estimate>
-        <prepare_for_estimate type="dictionary">
-          <name name="name" type="string">prepare_for_estimate</name>
-          <output name="output" type="string">(specification, cm_index)</output>
-          <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">household</argument>
-          <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string"></argument>
-          <argument name="specification_storage" type="string">base_cache_storage</argument>
-          <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
-        </prepare_for_estimate>
-      </structure>
-      <specification dynamic="True" type="dictionary">
-        <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
-          <equation equation_id="1" name="Choice 1" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="constant"></variable_spec>
-            </variable_list>
-          </equation>
-          <equation equation_id="2" name="Choice 2" type="submodel_equation">
-            <variable_list type="variable_list">
-              <variable_spec name="constant"></variable_spec>
-              <variable_spec name="household.sc_dist_to_workplace"></variable_spec>
-              <variable_spec name="household.sc_household_income"></variable_spec>
-              <variable_spec name="household.sc_number_of_persons_in_household"></variable_spec>
-            </variable_list>
-          </equation>
-        </submodel>
-      </specification>
-      <estimation_config name="Estimation Configuration" parser_action="skip">
-        <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
-      </estimation_config>
-    </model>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_postprocess_car_availabilty_model" type="model">
+        <dependencies type="list">['sc_car_availabilty_model']</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string"></argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">cars</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="outcome_values" type="string">hh_has_car-1</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
+      <model name="sc_car_availability_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.choice_model</class_module>
+            <class_name type="string">ChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">ChoiceModel</name>
+            <argument model_dependency_type="dataset" name="choice_set" type="string">[1,2]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="attribute/expression specifying submodel" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument model_dependency_type="variable" name="choice_attribute_name" parser_action="quote_string" type="string">(household.cars &gt; 0)+1</argument>
+            <argument name="interaction_pkg" parser_action="quote_string" type="string">opus_core</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument name="estimate_config" type="dictionary">
+              <key name="estimation_size_agents" type="float">0.05</key>
+            </argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"></argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">hh_has_car</output>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, cm_index)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">(household.cars &gt; -1)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_car_availability_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_car_availability_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string"></argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">choice_model_template_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification dynamic="True" type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="1" name="Choice 1" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="constant"></variable_spec>
+                <variable_spec name="household.sc_level_of_education_hh"></variable_spec>
+              </variable_list>
+            </equation>
+            <equation equation_id="2" name="Choice 2" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec name="household.sc_dist_to_zh_cbd_hh"></variable_spec>
+                <variable_spec name="household.sc_household_income"></variable_spec>
+                <variable_spec name="household.sc_number_of_persons_in_household"></variable_spec>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+    </models>
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="test_run" type="scenario">
@@ -120,8 +145,8 @@
         <selectable name="sc_building_transition_model" type="selectable">False</selectable>
         <selectable name="sc_RBLCM" type="selectable">False</selectable>
         <selectable name="sc_NRBLCM" type="selectable">False</selectable>
-        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
         <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
         <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
         <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
@@ -130,6 +155,8 @@
         <selectable name="sc_household_transition_model" type="selectable">False</selectable>
         <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
         <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+        <selectable name="sc_car_availability_model_1" return_value="sc_car_availability_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model_1" return_value="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
