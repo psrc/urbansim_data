@@ -1,0 +1,98 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+  </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">cz_by_test</param>
+            <param name="table_name" param_type="string" required="True">development_event_history_PLCM</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_kt_parcel/base_year_data</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_sql_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">cz_us_run2</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_mini_parcel/runs/run_103.run_2012_06_20_13_19</param>
+            <param name="opus_data_year" param_type="string" required="True">ALL</param>
+            <param name="opus_table_name" param_type="string" required="True">ALL</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_csv_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/cz_exports</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_li_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+            <param name="opus_table_name" param_type="string" required="True">target_vacancies</param>
+          </params>
+        </tool>
+        <tool name="csv_data_to_opus_tool">
+          <params>
+            <param name="csv_data_path" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel</param>
+            <param name="csv_table_name" param_type="string" required="True">sc_household_location_choice_model_coefficients</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
+  <model_manager>
+    <travel_model_configuration type="dictionary">
+      <matsim4urbansim type="dictionary">
+        <controler_parameter type="dictionary">
+          <bounding_box_bottom type="float">240200</bounding_box_bottom>
+          <bounding_box_top type="float">245600</bounding_box_top>
+          <bounding_box_left type="float">685000</bounding_box_left>
+          <bounding_box_right type="float">692300</bounding_box_right>
+        </controler_parameter>
+      </matsim4urbansim>
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2000</year>
+        </run_description>
+      </years_to_run>
+    </travel_model_configuration>
+  </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <skip_non_travel_models_first_year type="boolean">True</skip_non_travel_models_first_year>
+      </advanced>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2000</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model_1" return_value="sc_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_building_transition_model_1" return_value="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM_1" return_value="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM_1" return_value="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM_from_template_1" return_value="sc_RBLCM_from_template" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM_from_template_1" return_value="sc_NRBLCM_from_template" type="selectable">False</selectable>
+        <selectable name="sc_building_location_choice_model_from_template_1" return_value="sc_building_location_choice_model_from_template" type="selectable">False</selectable>
+        <selectable name="sc_workplace_location_choice_1" return_value="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model_1" return_value="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model_1" return_value="sc_household_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_household_location_choice_model_1" return_value="sc_household_location_choice_model" type="selectable">False</selectable>
+        <selectable name="new_employment_transition_model_1" return_value="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" return_value="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="employment_relocation_model" return_value="employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+  </results_manager>
+</opus_project>
