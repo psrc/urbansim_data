@@ -3,6 +3,10 @@
   <general>
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="building.sc_vacant_job_space" source="expression" type="variable_definition" use="both">zurich_parcel.building.sc_total_spaces_0 - zurich_parcel.building.sc_occupied_spaces_0</variable>
+      <variable name="building.unnamed_variable" source="expression" type="variable_definition" use="both">numpy.minimum(building.number_of_agents(household), building.number_of_agents(living_unit))</variable>
+    </expression_library>
   </general>
   <data_manager>
   </data_manager>
@@ -48,10 +52,238 @@
           </submodel>
         </specification>
       </model>
+      <model name="alternative_sc_employment_location_choice_model" type="model">Computing capacities in sqft<dependencies type="list">['sc_employment_relocation_model']</dependencies>
+        <structure type="dictionary">
+          <group_by_attribute type="list">('home_based_status', 'name')<argument model_dependency_type="table" name="grouping_table" type="string">home_based_status</argument>
+            <argument name="grouping_column" type="string">name</argument>
+          </group_by_attribute>
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.employment_location_choice_model</class_module>
+            <class_name>EmploymentLocationChoiceModel</class_name>
+          </import>
+          <estimate type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">job</argument>
+            <argument hidden="True" name="agents_index" type="string">index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">specification</argument>
+            <output hidden="True" name="output" type="string">(coefficients, _)</output>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">(specification, coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_employment_location_choice_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_employment_location_choice_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">job</argument>
+            <argument hidden="True" name="agents_index" type="string">erm_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">specification</argument>
+            <argument name="maximum_runs" type="integer">3</argument>
+          </run>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">EmploymentLocationChoiceModel</name>
+            <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument model_dependency_type="dataset" name="location_set" type="string">building</argument>
+            <argument name="sample_size_locations" type="integer">50</argument>
+            <argument model_dependency_type="variable" name="capacity_string" parser_action="quote_string" type="string">zurich_parcel.building.vacant_SSS_job_space</argument>
+            <argument model_dependency_type="variable" name="estimation_weight_string" parser_action="quote_string" type="string">vacant_SSS_job_space</argument>
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">building.non_residential_sqft</argument>
+            <argument name="estimation_size_agents" type="float">2</argument>
+            <argument name="compute_capacity_flag" type="boolean">True</argument>
+            <argument model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">total_SSS_job_space</argument>
+            <argument name="run_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="agent_units_string" type="string"></key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+            </argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_estimate</name>
+            <output hidden="True" name="output" type="string">(specification, index)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">job</argument>
+            <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">jobs</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="portion_to_unplace" type="float">0</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_employment_location_choice_model_specification</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">(job.building_id&gt;0)</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel_group name="non_home_based" type="submodel_group">
+            <submodel hidden="Children" name="manufacturing" submodel_id="1" type="submodel">
+              <description type="string">manufacturing</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="construction" submodel_id="2" type="submodel">
+              <description type="string">construction</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect2"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="trade" submodel_id="3" type="submodel">
+              <description type="string">trade</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.rh_ln_surf_sect3"></variable_spec>
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="retail" submodel_id="4" type="submodel">
+              <description type="string">retail</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect4"></variable_spec>
+                <variable_spec name="job_x_building.rh_pop_dens_trade"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="hotels_restaurants" submodel_id="5" type="submodel">
+              <description type="string">hotels_restaurants</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect5"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="transport" submodel_id="6" type="submodel">
+              <description type="string">transport</description>
+              <variable_list type="variable_list">
+                <variable_spec name="job_x_building.rh_ln_surf_sect6"></variable_spec>
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="services" submodel_id="7" type="submodel">
+              <description type="string">services</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect7"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type8"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+            <submodel hidden="Children" name="health" submodel_id="8" type="submodel">
+              <description type="string">health</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect8"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+        </specification>
+      </model>
+      <model name="sc_employment_location_choice_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument model_dependency_type="variable" name="capacity_string" parser_action="quote_string" type="string">zurich_parcel.building.vacant_SSS_job_space</argument>
+          </init>
+        </structure>
+      </model>
     </models>
   </model_manager>
   <scenario_manager>
-    </scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      </scenario>
+  </scenario_manager>
   <results_manager>
     </results_manager>
 </opus_project>
