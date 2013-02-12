@@ -46,11 +46,11 @@
      <model type="model" name="development_proposal_choice_model">
         <structure type="dictionary">
           <import hidden="True" type="dictionary" name="import">
-            <class_module type="string">psrc_parcel.models.development_proposal_sampling_model_by_subarea</class_module>
-            <class_name>DevelopmentProposalSamplingModelBySubarea</class_name>
+            <class_module type="string">psrc_parcel.models.development_proposal_sampling_model_by_subarea_for_refinement</class_module>
+            <class_name>DevelopmentProposalSamplingModelBySubareaForRefinement</class_name>
           </import>
           <init type="dictionary">
-            <name hidden="True" type="string" name="name">DevelopmentProposalSamplingModelBySubarea</name>
+            <name hidden="True" type="string" name="name">DevelopmentProposalSamplingModelBySubareaForRefinement</name>
             <argument type="string" name="subarea_name" parser_action="quote_string">faz</argument>
             <argument type="string" name="intermediates_to_realestate" parser_action="quote_string">parcel, zone</argument>
             <argument type="string" name="proposal_set">development_project_proposal</argument>
