@@ -271,13 +271,6 @@
           </submodel_group>
         </specification>
       </model>
-      <model name="sc_employment_location_choice_model" type="model">
-        <structure type="dictionary">
-          <init type="dictionary">
-            <argument model_dependency_type="variable" name="capacity_string" parser_action="quote_string" type="string">zurich_parcel.building.vacant_SSS_job_space</argument>
-          </init>
-        </structure>
-      </model>
     </models>
   </model_manager>
   <scenario_manager>
