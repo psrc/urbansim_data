@@ -3,10 +3,6 @@
   <general>
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
-    <expression_library type="dictionary">
-      <variable name="building.sc_vacant_job_space" source="expression" type="variable_definition" use="both">zurich_parcel.building.sc_total_spaces_0 - zurich_parcel.building.sc_occupied_spaces_0</variable>
-      <variable name="building.unnamed_variable" source="expression" type="variable_definition" use="both">numpy.minimum(building.number_of_agents(household), building.number_of_agents(living_unit))</variable>
-    </expression_library>
   </general>
   <data_manager>
   </data_manager>
