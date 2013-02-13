@@ -1,7 +1,7 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
   </general>
   <data_manager>
@@ -43,7 +43,7 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="external_demographic_model_hh" type="model">
+      <model name="sc_external_demographic_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">zurich_parcel.models.external_demographic_model</class_module>
@@ -75,6 +75,7 @@
               <attribute name="worker" type="string">person.work_stat</attribute>
               <attribute name="partner_id" type="string">person.partner_id</attribute>
               <attribute name="workstat" type="string">person.work_stat</attribute>
+              <attribute name="finlevedu" type="string">person.loe</attribute>
             </argument>
           </run>
         </structure>
@@ -90,27 +91,30 @@
           <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
           </selectable>
         </datasets_to_preload>
-        <run_in_same_process type="boolean">True</run_in_same_process>
       </advanced>
       <years_to_run config_name="years" type="tuple">
         <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
-        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2001</lastyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2020</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_RBLCM" type="selectable">False</selectable>
-        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
-        <selectable name="sc_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        <selectable name="sc_external_demographic_model" type="selectable">True</selectable>
+        <selectable name="sc_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_RBLCM" type="selectable">True</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">True</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
         <selectable name="sc_household_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
-        <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
-        <selectable name="external_demographic_model_hh_1" return_value="external_demographic_model_hh" type="selectable">True</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
