@@ -31,6 +31,7 @@
             <argument name="base_year" type="integer">2000</argument>
             <argument name="current_year" type="string">year</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument hidden="True" name="demolish_buildings" type="boolean">False</argument>
             <output hidden="True" name="output" type="string">processed_locations</output>
           </run>
         </structure>
