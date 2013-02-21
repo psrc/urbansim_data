@@ -24,5 +24,7 @@
   <scenario_manager>
     </scenario_manager>
   <results_manager>
-    </results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      </indicator_batches>
+  </results_manager>
 </opus_project>
