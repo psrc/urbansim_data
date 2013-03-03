@@ -78,7 +78,7 @@
           <prepare_for_run type="dictionary">
         <name hidden="True" name="name" type="string">prepare_for_run</name>
           <argument name="agent_set" type="string" model_dependency_type="dataset">household</argument>
-          <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">household.building_id &lt;= 0)</argument>
+          <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">household.building_id &lt;= 0</argument>
           <argument name="agents_index" type="string" convert_blank_to_none="True"/>
          <output hidden="True" name="output" type="string">filtered_hhs_index_for_sam</output>
     </prepare_for_run>
