@@ -44,7 +44,7 @@
           <init type="dictionary">
           <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
           <argument name="subarea_id_name" parser_action="quote_string" type="string">faz_id</argument>
-          <argument name="submodel_string" type="string" convert_blank_to_none="True">sector_id</argument>
+          <argument name="submodel_string" type="string" parser_action="quote_string" convert_blank_to_none="True">sector_id</argument>
           <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="debuglevel" type="string">2</argument>
           </init>
