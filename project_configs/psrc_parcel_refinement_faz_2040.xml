@@ -26,7 +26,8 @@
           <run type="dictionary">
             <argument type="string" name="location_ids_to_process">processed_locations['add']</argument>
             <argument type="integer" name="n">50</argument>
-            <argument type="integer" name="year">2040</argument>
+            <argument type="integer" name="year">2041</argument>
+            <argument type="integer" name="current_year">2040</argument>
             <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">psrc_parcel.development_project_proposal.total_revenue</argument>
             <argument type="boolean" parser_action="quote_string" name="within_parcel_selection_compete_among_types">True</argument>
             <argument type="integer" name="within_parcel_selection_threshold">65</argument>
