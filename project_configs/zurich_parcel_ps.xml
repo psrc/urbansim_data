@@ -4,6 +4,8 @@
     <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="building.rh_zone_jobs_type99" source="expression" type="variable_definition" use="model variable">building.disaggregate(urbansim_parcel.zone.number_of_jobs_of_sector_99)</variable>
+      <variable name="job_x_building.rh_ln_surf_sect99" source="expression" type="variable_definition" use="model variable">(job.sector_id == 99 ) * ln(building.sqm_sector99)</variable>
       <variable name="household.sc_dist_to_station_hh" source="expression" type="variable_definition" use="both">household.disaggregate(parcel.dist_to_station, intermediates=[building,living_unit])</variable>
       <variable name="household.sc_dist_to_zh_cbd_hh" source="expression" type="variable_definition" use="both">household.disaggregate(parcel.dist_to_zh_cbd, intermediates=[building,living_unit])</variable>
       <variable name="living_unit_x_household.sc_rent_price_to_income_lu" source="expression" type="variable_definition" use="both">((exp(living_unit.ln_rent_price) &gt; 0)* exp(living_unit.ln_rent_price))/(household.income * 1.0) </variable>
@@ -202,6 +204,26 @@
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
                 <variable_spec name="building.rh_ln_surf"></variable_spec>
+              </variable_list>
+            </submodel>
+          </submodel_group>
+          <submodel_group name="other" type="submodel_group">
+            <submodel hidden="Children" name="other" submodel_id="99" type="submodel">
+              <description type="string">other</description>
+              <variable_list type="variable_list">
+                <variable_spec name="building.rh_ln_surf"></variable_spec>
+                <variable_spec name="job_x_building.rh_ln_surf_sect99"></variable_spec>
+                <variable_spec name="building.rh_zonal_income"></variable_spec>
+                <variable_spec name="job_x_building.rh_zone_jobs_same"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type1"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type2"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type3"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type4"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type5"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type6"></variable_spec>
+                <variable_spec name="zone.rh_zone_jobs_type7"></variable_spec>
+                <variable_spec name="building.sc_dist_to_highway"></variable_spec>
+                <variable_spec name="building.sc_dist_to_station"></variable_spec>
               </variable_list>
             </submodel>
           </submodel_group>
