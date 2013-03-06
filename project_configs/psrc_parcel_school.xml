@@ -60,6 +60,8 @@
       <variable use="model variable" source="expression" name="person.nschools_1000" type="variable_definition">person.disaggregate(psrc_parcel.parcel.number_of_schools_within_1000_radius, intermediates=[building, household])</variable>
       <variable use="model variable" source="Python class" name="person_x_school.travel_distance_to_school" type="variable_definition">psrc_parcel.person_x_school.network_distance_from_home_to_school</variable>
       <variable use="model variable" source="Python class" name="person_x_school.walking_time_to_school" type="variable_definition">psrc_parcel.person_x_school.am_total_transit_time_walk_from_home_to_school</variable>
+      <variable use="model variable" source="Python class" name="person_x_school.sq_walking_time_to_school" type="variable_definition">numpy.square(psrc_parcel.person_x_school.am_total_transit_time_walk_from_home_to_school)</variable>
+      <variable use="model variable" source="Python class" name="person_x_school.sq_distance_to_school" type="variable_definition">numpy.square(psrc_parcel.person_x_school.euclidean_distance_from_home_to_school)</variable>
       <variable use="model variable" source="expression" name="person.faz_school_totscore" type="variable_definition">person.disaggregate(psrc_parcel.faz.average_school_total_score, intermediates=[zone, parcel, building, household])</variable>
       <variable use="model variable" source="expression" name="person.faz_school_mathscore" type="variable_definition">person.disaggregate(psrc_parcel.faz.average_school_math_index, intermediates=[zone, parcel, building, household])</variable>
       <variable use="model variable" source="expression" name="person.faz_school_readscore" type="variable_definition">person.disaggregate(psrc_parcel.faz.average_school_reading_index, intermediates=[zone, parcel, building, household])</variable>
@@ -663,9 +665,9 @@
             <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string">age_category = (1 * (person.age &lt; 11)) + (2 * numpy.logical_and(person.age &gt;= 11, person.age &lt;= 14)) + (3 * (person.age &gt; 14))</argument>
             <argument name="debuglevel" type="string" hidden="True">debuglevel</argument>
             <argument name="dataset_pool" type="string" hidden="True">dataset_pool</argument>
-            <!-- <argument name="availability" type="string" parser_action="quote_string" convert_blank_to_none="True" model_dependency_type="variable">psrc_parcel.person.school_district_id == school.school_district_id</argument> -->
+            <argument name="availability" type="string" parser_action="quote_string" convert_blank_to_none="True" model_dependency_type="variable">(psrc_parcel.person.school_district_id == school.school_district_id) * psrc_parcel.school.is_in_category_SUBMODEL</argument>
             <argument name="run_config" type="dictionary">
-              <key name="sample_size_locations" type="integer">7</key>
+              <!-- <key name="sample_size_locations" type="integer">7</key> -->
               <key name="compute_capacity_flag" type="boolean">True</key>
               <key name="capacity_string" type="string">1.5*clip_to_zero(school.student_count - school.number_of_agents(person))</key>
               <key name="filter_by_groups" type="boolean" convert_blank_to_none="True">True</key>
@@ -674,7 +676,7 @@
             <argument name="estimate_config" type="dictionary">
               <!-- <key name="weights_for_estimation_string" type="string" convert_blank_to_none="True">school.student_count * (psrc_parcel.person.school_district_id == school.school_district_id)</key> -->
               <!-- <key name="weights_for_estimation_string" type="string" convert_blank_to_none="True" model_dependency_type="variable">psrc_parcel.person.school_district_id == school.school_district_id</key>-->
-              <key name="sample_size_locations" type="integer">7</key>
+             <!-- <key name="sample_size_locations" type="integer">7</key> -->
               <key name="filter_by_groups" type="boolean" convert_blank_to_none="True">True</key>
               <key name="group_definition_for_filtering_alternatives" type="string" convert_blank_to_none="True">psrc_parcel.person.school_district_id</key>
             </argument>
@@ -725,7 +727,8 @@
                <variable_list type="variable_list">
              <!--  <variable_spec name="person.lhhincome_imputed" coefficient_name="lhhincome"/>--> 
               <!--  <variable_spec name="person_x_school.travel_distance_to_school"/>-->
-                 <variable_spec name="person_x_school.walking_time_to_school"/> 
+              <!--    <variable_spec name="person_x_school.sq_walking_time_to_school"/>  -->
+                 <variable_spec name="person_x_school.sq_distance_to_school"/> 
             <!--    <variable_spec name="school.totscore"/> 
                 <variable_spec name="school.valid_totscore"/>
               <variable_spec name="person_x_school.lhhincome_x_totscore"/>  -->
@@ -740,14 +743,16 @@
           </submodel>
           <submodel hidden="Children" name="middle" submodel_id="2" type="submodel">
           <variable_list type="variable_list">
-           	<variable_spec name="person_x_school.walking_time_to_school"/> 
-        <!--	<variable_spec name="person_x_school.travel_distance_to_school"/>-->
+          <!-- 	<variable_spec name="person_x_school.sq_walking_time_to_school"/> 
+        	<variable_spec name="person_x_school.travel_distance_to_school"/>-->
+         <variable_spec name="person_x_school.sq_distance_to_school"/> 
           	</variable_list>
           </submodel>
           <submodel hidden="Children" name="high" submodel_id="3" type="submodel">
           <variable_list type="variable_list">
-         	<variable_spec name="person_x_school.walking_time_to_school"/> 
-          <!--	<variable_spec name="person_x_school.travel_distance_to_school"/>-->
+         <!--	<variable_spec name="person_x_school.sq_walking_time_to_school"/> 
+          	<variable_spec name="person_x_school.travel_distance_to_school"/>-->
+          <variable_spec name="person_x_school.sq_distance_to_school"/> 
           	</variable_list>
           </submodel>
         </specification>
@@ -846,7 +851,8 @@
 </model>
 </models>
 <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory>
+<!-- <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory>-->
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation_062012</cache_directory> 
 <save_estimation_results type="boolean">False</save_estimation_results>
 <base_year type="integer" field_identifier="Base Year">2006</base_year>
 <years type="tuple">
