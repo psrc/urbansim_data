@@ -851,8 +851,7 @@
 </model>
 </models>
 <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-<!-- <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory>-->
-<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation_062012</cache_directory> 
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory> 
 <save_estimation_results type="boolean">False</save_estimation_results>
 <base_year type="integer" field_identifier="Base Year">2006</base_year>
 <years type="tuple">
