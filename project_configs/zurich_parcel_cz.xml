@@ -48,6 +48,13 @@
           </submodel>
         </specification>
       </model>
+      <model name="sc_household_transition_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument convert_blank_to_none="True" name="control_totals" type="string">annual_household_control_totals</argument>
+          </run>
+        </structure>
+      </model>
       <model name="alternative_sc_employment_location_choice_model" type="model">Computing capacities in sqft<dependencies type="list">['sc_employment_relocation_model']</dependencies>
         <structure type="dictionary">
           <group_by_attribute type="list">('home_based_status', 'name')<argument model_dependency_type="table" name="grouping_table" type="string">home_based_status</argument>
