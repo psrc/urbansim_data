@@ -57,7 +57,7 @@
             <argument model_dependency_type="dataset" name="household_dataset" type="string">household</argument>
             <argument model_dependency_type="dataset" name="person_dataset" type="string">person</argument>
             <argument name="keep_attributes" type="string">['cars', 'income', 'living_unit_id','household_vz_id']</argument>
-            <argument name="keep_attributes_p" type="string">['job_id']</argument>
+            <argument name="keep_attributes_p" type="string">['job_id', 'home2work_distance_meter', 'home2work_travel_time_min', 'work2home_distance_meter', 'work2home_travel_time_min', 'mode', ]</argument>
             <argument name="fill_value" type="string">-1</argument>
             <argument name="demographic_attributes" type="dictionary">
               <attribute name="household_id" type="string">household.household_id</attribute>
@@ -82,15 +82,81 @@
       </model>
     </models>
     <travel_model_configuration type="dictionary">
-      <models type="selectable_list">
-        <selectable name="opus_matsim.sustain_city.models.get_cache_data_into_matsim_parcel" type="selectable">False</selectable>
-        <selectable name="opus_matsim.sustain_city.models.run_travel_model_parcel" type="selectable">False</selectable>
-        <selectable name="opus_matsim.sustain_city.models.get_matsim_data_into_cache" type="selectable">False</selectable>
-      </models>
+      <matsim4urbansim type="dictionary">
+        <population_sampling_rate type="float">0.02</population_sampling_rate>
+        <controler_parameter type="dictionary">
+          <cell_size type="integer">10000</cell_size>
+        </controler_parameter>
+      </matsim4urbansim>
+      <matsim_config type="dictionary">
+        <common type="dictionary">
+          <last_iteration type="integer">2</last_iteration>
+        </common>
+      </matsim_config>
+      <years_to_run key_name="year" type="category_with_special_keys">
+        <run_description type="dictionary">
+          <year type="integer">2001</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2002</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2003</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2004</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2005</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2010</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2015</year>
+        </run_description>
+        <run_description type="dictionary">
+          <year type="integer">2020</year>
+        </run_description>
+      </years_to_run>
     </travel_model_configuration>
   </model_manager>
   <scenario_manager>
-    </scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <advanced type="category">
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+        </datasets_to_preload>
+      </advanced>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2004</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_external_demographic_model" type="selectable">True</selectable>
+        <selectable name="sc_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">False</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
   <results_manager>
   </results_manager>
 </opus_project>
