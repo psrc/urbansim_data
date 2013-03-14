@@ -1,8 +1,13 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="parcel.sc_plan_type_id_smaller_4000" source="expression" type="variable_definition" use="both">parcel.plan_type_id &lt; 4000</variable>
+      <variable name="parcel.sc_plan_type_id_smaller_3000" source="expression" type="variable_definition" use="both">parcel.plan_type_id &lt; 3000</variable>
+      <variable name="building.sc_plan_type_id_of_building_location_smaller_4000" source="expression" type="variable_definition" use="both">building.disaggregate(parcel.plan_type_id &lt; 4000, intermediates=[parcel])</variable>
+    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
@@ -43,6 +48,22 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_building_transition_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="hh_dataset" parser_action="quote_string" type="string">household</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="sc_RBLCM" type="model">Use single buildings in development_event_history and allow for development of already built parcels (densification possible, without deconstruction)<structure type="dictionary">
+          <init type="dictionary">
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_smaller_4000, numpy.logical_and(parcel.is_street==0, sc_has_floor_capacity))</argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_of_building_location_smaller_4000, sc_quality_is_residential)</argument>
+          </prepare_for_estimate>
+        </structure>
+      </model>
       <model name="sc_external_demographic_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -81,43 +102,16 @@
         </structure>
       </model>
     </models>
+    <travel_model_configuration type="dictionary">
+      <models type="selectable_list">
+        <selectable name="opus_matsim.sustain_city.models.get_cache_data_into_matsim_parcel" type="selectable">False</selectable>
+        <selectable name="opus_matsim.sustain_city.models.run_travel_model_parcel" type="selectable">False</selectable>
+        <selectable name="opus_matsim.sustain_city.models.get_matsim_data_into_cache" type="selectable">False</selectable>
+      </models>
+    </travel_model_configuration>
   </model_manager>
   <scenario_manager>
-    <scenario executable="True" name="test_run" type="scenario">
-      <advanced type="category">
-        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="zone" type="selectable">True</selectable>
-          <selectable name="household" type="selectable">False</selectable>
-          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
-          </selectable>
-        </datasets_to_preload>
-      </advanced>
-      <years_to_run config_name="years" type="tuple">
-        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
-        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2020</lastyear>
-      </years_to_run>
-      <models_to_run config_name="models" type="selectable_list">
-        <selectable name="sc_external_demographic_model" type="selectable">True</selectable>
-        <selectable name="sc_income_regression_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_income_regression_model" type="selectable">True</selectable>
-        <selectable name="sc_car_availability_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
-        <selectable name="sc_building_transition_model" type="selectable">True</selectable>
-        <selectable name="sc_RBLCM" type="selectable">True</selectable>
-        <selectable name="sc_NRBLCM" type="selectable">True</selectable>
-        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">non_home_based</group_members>
-        </selectable>
-        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
-        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
-        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
-      </models_to_run>
-    </scenario>
-  </scenario_manager>
+    </scenario_manager>
   <results_manager>
   </results_manager>
 </opus_project>
