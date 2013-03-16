@@ -7,19 +7,7 @@
   <data_manager>
   </data_manager>
   <model_manager>
-    <travel_model_configuration type="dictionary">
-      <matsim_config type="dictionary">
-        <common type="dictionary">
-          <external_matsim_config type="dictionary">
-            <matsim_config name="2005" type="file">project_configs/zurich_parcel/external_matsim_config_pt.xml</matsim_config>
-            <matsim_config name="2010" type="file">project_configs/zurich_parcel/external_matsim_config_pt.xml</matsim_config>
-            <matsim_config name="2015" type="file">project_configs/zurich_parcel/external_matsim_config_pt_road_pricing.xml</matsim_config>
-            <matsim_config name="2020" type="file">project_configs/zurich_parcel/external_matsim_config_pt_road_pricing.xml</matsim_config>
-          </external_matsim_config>
-        </common>
-      </matsim_config>
-    </travel_model_configuration>
-  </model_manager>
+    </model_manager>
   <scenario_manager>
     </scenario_manager>
   <results_manager>
