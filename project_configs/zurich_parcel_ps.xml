@@ -34,7 +34,16 @@
     </tool_library>
   </data_manager>
   <model_manager>
-    </model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_employment_location_choice_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument model_dependency_type="variable" name="estimation_weight_string" parser_action="quote_string" type="string">exp(sqrt((building.disaggregate(parcel.x_coord_sp, intermediates=[building])-job.disaggregate(parcel.x_coord_sp_lag1, intermediates=[building]))**2+(job.disaggregate(parcel.y_coord_sp, intermediates=[building])-job.disaggregate(parcel.y_coord_sp_lag1, intermediates=[building]))**2)*-0.076)</argument>
+          </init>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
   <scenario_manager>
     <scenario executable="True" name="test_run" type="scenario">
       <advanced type="category">
