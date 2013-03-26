@@ -1,15 +1,80 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="county.sc_workstat_1_without_job_id" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(person.workstat==1, person.job_id&lt;0), intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_workstat_0_with_job_id" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(person.workstat==0, person.job_id&gt;=0), intermediates=[household, living_unit, building, parcel])</variable>
+    </expression_library>
+    <available_datasets type="list">['county', 'person', 'development_event_history_x_parcel', 'building_x_parcel', 'building', 'parcel', 'household', 'business', 'household_x_building', 'zone', 'tract', 'district14', 'district24', 'alldata', 'pdist', 'buildings_for_estimation', 'development_event_history', 'job_x_building', 'living_unit', 'city', 'living_unit_x_household', 'living_unit_x_person', 'building_x_person', 'person_x_job', ]</available_datasets>
   </general>
   <data_manager>
   </data_manager>
   <model_manager>
-    </model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_unset_job_id" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">person.job_id - (person.job_id + 1) * (person.workstat==0)</argument>
+            <argument convert_blank_to_none="True" name="outcome_attribute" parser_action="quote_string" type="string">job_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
+    </models>
+  </model_manager>
   <scenario_manager>
-    </scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2002</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_external_demographic_model" type="selectable">True</selectable>
+        <selectable name="sc_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">False</selectable>
+        <selectable name="sc_unset_job_id_1" return_value="sc_unset_job_id" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">False</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
   <results_manager>
-    </results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="persons">
+        <batch_visualization hidden="Children" name="employment_check" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_workstat_1_without_job_id', 'sc_workstat_0_with_job_id']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+    </indicator_batches>
+  </results_manager>
 </opus_project>
