@@ -42,6 +42,15 @@
     </tool_library>
   </data_manager>
   <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_external_demographic_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <output name="output" type="string">(household, person)</output>
+          </run>
+        </structure>
+      </model>
+    </models>
     <travel_model_configuration type="dictionary">
       <matsim4urbansim type="dictionary">
         <population_sampling_rate type="float">0.02</population_sampling_rate>
@@ -83,7 +92,12 @@
     </travel_model_configuration>
   </model_manager>
   <scenario_manager>
-    </scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2004</lastyear>
+      </years_to_run>
+    </scenario>
+  </scenario_manager>
   <results_manager>
   </results_manager>
 </opus_project>
