@@ -4,6 +4,9 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="building.sc_job_per_sqkm_in_zone" source="expression" type="variable_definition" use="both">building.disaggregate((zone.number_of_agents(job)/zone.aggregate(parcel.parcel_sqft, function=sum))*1000000)</variable>
+      <variable name="building.sc_hh_per_sqkm_in_zone" source="expression" type="variable_definition" use="both">building.disaggregate((zone.number_of_agents(household)/zone.aggregate(parcel.parcel_sqft, function=sum))*1000000)</variable>
+      <variable name="zone.sc_number_of_hh_in_zone" source="expression" type="variable_definition" use="both">zone.number_of_agents(household)</variable>
       <variable name="job_x_building.sc_share_of_jobs_sector1_in_zone" source="expression" type="variable_definition" use="model variable">(job.sector_id==1)*building.disaggregate(zone.aggregate(job.sector_id==1, intermediates=[building, parcel], function=sum)/zone.number_of_agents(job))</variable>
       <variable name="job_x_building.sc_share_of_jobs_sector2_in_zone" source="expression" type="variable_definition" use="model variable">(job.sector_id==2)*building.disaggregate(zone.aggregate(job.sector_id==2, intermediates=[building, parcel], function=sum)/zone.number_of_agents(job))</variable>
       <variable name="job_x_building.sc_share_of_jobs_sector3_in_zone" source="expression" type="variable_definition" use="model variable">(job.sector_id==3)*building.disaggregate(zone.aggregate(job.sector_id==3, intermediates=[building, parcel], function=sum)/zone.number_of_agents(job))</variable>
@@ -63,6 +66,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector1_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -76,6 +82,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector2_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -89,6 +98,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector3_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -102,6 +114,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector4_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -115,6 +130,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector5_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -128,6 +146,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector6_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -141,6 +162,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector7_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -154,6 +178,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector8_in_zone"></variable_spec>
               </variable_list>
             </submodel>
@@ -167,6 +194,9 @@
                 <variable_spec name="building.sc_acc_pt"></variable_spec>
                 <variable_spec name="building.sc_dist_to_highway"></variable_spec>
                 <variable_spec name="building.sc_dist_to_station"></variable_spec>
+                <variable_spec name="building.sc_dist_to_zh_cbd"></variable_spec>
+                <variable_spec name="building.sc_hh_per_sqkm_in_zone"></variable_spec>
+                <variable_spec name="building.sc_job_per_sqkm_in_zone"></variable_spec>
                 <variable_spec name="job_x_building.sc_share_of_jobs_sector99_in_zone"></variable_spec>
               </variable_list>
             </submodel>
