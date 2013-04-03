@@ -1,16 +1,23 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="living_unit_x_household.sc_share_of_hh_age_0_40_within_300m_lu" source="expression" type="variable_definition" use="model variable">(household.age_of_head&lt;40)*(living_unit.disaggregate(zurich_parcel.parcel.households_from_age_0_to_40_within_300_of_parcel, intermediates=[building]))/ (living_unit.disaggregate(urbansim_parcel.parcel.households_within_300_of_parcel, intermediates=[building])*1.0)</variable>
+      <variable name="living_unit_x_household.sc_share_of_hh_age_40_65_within_300m_lu" source="expression" type="variable_definition" use="model variable">(numpy.logical_and(household.age_of_head&gt;40,household.age_of_head&lt;65))*(living_unit.disaggregate(zurich_parcel.parcel.households_from_age_40_to_60_within_300_of_parcel, intermediates=[building]))/ (living_unit.disaggregate(urbansim_parcel.parcel.households_within_300_of_parcel, intermediates=[building])*1.0)</variable>
+      <variable name="living_unit_x_household.sc_share_of_hh_age_65_99_within_300m_lu" source="expression" type="variable_definition" use="model variable">(household.age_of_head&gt;64)*(living_unit.disaggregate(zurich_parcel.parcel.households_from_age_65_to_150_within_300_of_parcel, intermediates=[building]))/ (living_unit.disaggregate(urbansim_parcel.parcel.households_within_300_of_parcel, intermediates=[building])*1.0)</variable>
+      <variable name="living_unit_x_household.sc_dist_to_workplace_lu_0203" source="expression" type="variable_definition" use="both">(household.aggregate(person.worker)&gt;0)*living_unit.aggregate(household.aggregate((sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.x_coord_sp, intermediates=[building, job]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.y_coord_sp, intermediates=[building, job]))**2)**0.203),function=mean))</variable>
+      <variable name="job_x_building.sc_share_of_jobs_sector1_in_zone" source="expression" type="variable_definition" use="model variable">(job.sector_id==1)*building.disaggregate(zone.aggregate(job.sector_id==1, intermediates=[building, parcel], function=sum)/zone.number_of_agents(job))</variable>
+    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
       <tool_group name="opus_data_import_export_tools" setexpanded="True">
         <tool name="sql_data_to_opus_tool">
           <params>
-            <param name="database_name" param_type="string" required="True">_by_sc_v16</param>
-            <param name="table_name" param_type="string" required="True">zones</param>
+            <param name="database_name" param_type="string" required="True">by_sc</param>
+            <param name="table_name" param_type="string" required="True">annual_relocation_rates_for_households</param>
             <param name="opus_data_directory" param_type="dir_path" required="True">/home/schirpat/00_UrbanSim_workspace/data/zurich_kt_parcel/base_year_data</param>
           </params>
         </tool>
@@ -51,11 +58,11 @@
         <selectable name="sc_building_transition_model" type="selectable">False</selectable>
         <selectable name="sc_RBLCM" type="selectable">False</selectable>
         <selectable name="sc_NRBLCM" type="selectable">False</selectable>
-        <selectable name="sc_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="selectable_list">
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="selectable_list">
             <selectable name="manufacturing" type="selectable">True</selectable>
             <selectable name="health" type="selectable">True</selectable>
             <selectable name="construction" type="selectable">True</selectable>
@@ -70,8 +77,8 @@
         </selectable>
         <selectable name="sc_workplace_location_choice" type="selectable">False</selectable>
         <selectable name="sc_household_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
-        <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
         <selectable name="sc_employment_location_choice_model_1" return_value="sc_employment_location_choice_model" type="selectable">False</selectable>
       </models_to_run>
     </scenario>
