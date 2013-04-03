@@ -3,9 +3,6 @@
   <general>
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
-    <expression_library type="dictionary">
-      <variable name="living_unit_x_household.sc_dist_to_workplace_lu_0203" source="expression" type="variable_definition" use="both">(household.aggregate(person.worker)&gt;0)*living_unit.aggregate(household.aggregate((sqrt((person.disaggregate(parcel.x_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.x_coord_sp, intermediates=[building, job]))**2+(person.disaggregate(parcel.y_coord_sp, intermediates=[building, household])-person.disaggregate(parcel.y_coord_sp, intermediates=[building, job]))**2)**0.203),function=mean))</variable>
-    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
@@ -34,41 +31,9 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="sc_car_availability_model" type="model">
-        <structure type="dictionary">
-          <prepare_for_run type="dictionary">
-            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string"></argument>
-          </prepare_for_run>
-        </structure>
-      </model>
     </models>
   </model_manager>
   <scenario_manager>
-    <scenario executable="True" name="test_run" type="scenario">
-      <years_to_run config_name="years" type="tuple">
-        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2030</lastyear>
-      </years_to_run>
-      <models_to_run config_name="models" type="selectable_list">
-        <selectable name="sc_income_regression_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_income_regression_model" type="selectable">True</selectable>
-        <selectable name="sc_car_availability_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
-        <selectable name="sc_unset_job_id" type="selectable">True</selectable>
-        <selectable name="sc_building_transition_model" type="selectable">True</selectable>
-        <selectable name="sc_RBLCM" type="selectable">True</selectable>
-        <selectable name="sc_NRBLCM" type="selectable">True</selectable>
-        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">_all_</group_members>
-        </selectable>
-        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
-        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
-        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
-      </models_to_run>
-    </scenario>
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
