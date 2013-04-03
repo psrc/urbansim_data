@@ -861,7 +861,7 @@
       <model name="developer_model_Baseline" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -874,7 +874,7 @@
       <model name="developer_model_No_Project" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -887,7 +887,7 @@
       <model name="developer_model_Transit_Priority" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -900,7 +900,7 @@
       <model name="developer_model_Studio" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -913,7 +913,7 @@
       <model name="developer_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -925,7 +925,7 @@
       <model name="developer_model_Preferred" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -938,7 +938,7 @@
       <model name="developer_model_Equity" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
@@ -951,7 +951,7 @@
       <model name="developer_model_Infill" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
-            <class_module type="string">urbansim_parcel.proposal.developer_model</class_module>
+            <class_module type="string">bayarea.proposal.developer_model</class_module>
             <class_name type="string">DeveloperModel</class_name>
           </import>
           <init type="dictionary">
