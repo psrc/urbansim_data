@@ -1,0 +1,26 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <parent type="file">../project_configs/zurich_parcel_sc.xml</parent>
+  </general>
+  <data_manager>
+    </data_manager>
+  <model_manager>
+    <travel_model_configuration type="dictionary">
+      <matsim_config type="dictionary">
+        <common type="dictionary">
+          <external_matsim_config type="dictionary">
+            <matsim_config name="2015" type="file">project_configs/zurich_parcel/external_matsim_config_pt_road_pricing.xml</matsim_config>
+            <matsim_config name="2020" type="file">project_configs/zurich_parcel/external_matsim_config_pt_road_pricing.xml</matsim_config>
+            <matsim_config name="2025" type="file">project_configs/zurich_parcel/external_matsim_config_pt_road_pricing.xml</matsim_config>
+          </external_matsim_config>
+        </common>
+      </matsim_config>
+    </travel_model_configuration>
+  </model_manager>
+  <scenario_manager>
+    </scenario_manager>
+  <results_manager>
+    </results_manager>
+</opus_project>
