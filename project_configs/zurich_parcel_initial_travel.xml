@@ -62,8 +62,8 @@
         <skip_non_travel_models_first_year type="boolean">True</skip_non_travel_models_first_year>
       </advanced>
       <years_to_run config_name="years" type="tuple">
-        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2001</firstyear>
-        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2001</lastyear>
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2000</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
