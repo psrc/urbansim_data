@@ -1,0 +1,44 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the PSRC parcel project</description>
+    <parent type="file">psrc_parcel_refinement_faz_2040.xml</parent>
+    <expression_library type="dictionary">
+    </expression_library>
+ </general>
+ <scenario_manager>
+     <scenario type="scenario" executable="True" name="2030_refinement">
+     <parent type="scenario_name">2040_refinement</parent>
+      <base_year type="integer">2030</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2031</firstyear>
+        <lastyear type="integer">2033</lastyear>
+      </years_to_run>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2030refinements/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2030refinements/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <models_in_year type="dictionary">
+      <models_in_year_category  key_name="year" key_value="models_list" type="category_with_special_keys">
+       <doesnotmatter type="dictionary">
+          <year type="integer">2031</year>
+      <models_list type="list">["refinement_model"]</models_list>
+    </doesnotmatter>
+    <doesnotmatter2 type="dictionary">
+          <year type="integer">2032</year>
+      <models_list type="list">["modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "set_inmigrants_model", "household_relocation_model", "household_location_choice_model", "scaling_unplaced_households"]</models_list>
+    </doesnotmatter2>
+    </models_in_year_category> 
+      </models_in_year>
+      <advanced type="category">
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2030refinements/runs</cache_directory>
+      </advanced>
+    </scenario>
+ </scenario_manager>
+ </opus_project>
