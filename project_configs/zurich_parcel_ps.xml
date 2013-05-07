@@ -3,14 +3,6 @@
   <general>
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
-    <expression_library type="dictionary">
-      <variable name="living_unit_x_household.sc_acc_pt_lu_x_no_car" source="expression" type="variable_definition" use="both">(household.cars==0)*(ln(living_unit.disaggregate(parcel.pt_accessibility, intermediates=[building])))</variable>
-      <variable name="household.sc_building_pt_acc_X_dummy_nocar" source="expression" type="variable_definition" use="both">household.disaggregate(ln(parcel.pt_accessibility), intermediates=[building])* (numpy.ma.masked_where(household.cars==0, household.cars+1))</variable>
-      <variable name="building.sc_acc_pt" source="expression" type="variable_definition" use="both">ln(building.disaggregate(parcel.pt_accessibility))</variable>
-      <variable name="living_unit.sc_acc_pt_lu" source="expression" type="variable_definition" use="both">ln(living_unit.disaggregate(parcel.pt_accessibility, intermediates=[building]))</variable>
-      <variable name="parcel.sc_acc_pt" source="expression" type="variable_definition" use="both">ln(parcel.pt_accessibility)</variable>
-      <variable name="parcel.sc_acc_car_and_pt" source="expression" type="variable_definition" use="both">ln(parcel.car_accessibility) + ln(parcel.parcel.pt_accessibility)</variable>
-    </expression_library>
   </general>
   <data_manager>
     <tool_library setexpanded="True">
