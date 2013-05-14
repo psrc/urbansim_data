@@ -4,6 +4,16 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="county.sc_vacancy_sector99_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_99, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_99, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector8_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_8, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_8, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector7_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_7, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_7, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector6_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_6, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_6, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector5_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_5, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_5, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector4_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_4, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_4, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector3_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_3, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_3, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector2_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_2, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_2, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector1_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_1, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_1, intermediates=[parcel])))</variable>
+      <variable name="county.sc_resi_vacancy_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])))</variable>
       <variable name="county.sc_floor_capacity_county" source="expression" type="variable_definition" use="both">county.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
       <variable name="zone.sc_floor_capacity_zone" source="expression" type="variable_definition" use="both">zone.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
       <variable name="city.sc_floor_capacity_city" source="expression" type="variable_definition" use="both">city.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
@@ -22,19 +32,19 @@
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="sc_external_demographic_model" type="selectable">True</selectable>
-        <selectable name="sc_income_regression_model" type="selectable">False</selectable>
-        <selectable name="sc_postprocess_income_regression_model" type="selectable">False</selectable>
-        <selectable name="sc_car_availability_model" type="selectable">False</selectable>
+        <selectable name="sc_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">True</selectable>
         <selectable name="sc_unset_job_id_1" return_value="sc_unset_job_id" type="selectable">True</selectable>
-        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">False</selectable>
-        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_RBLCM" type="selectable">False</selectable>
-        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_RBLCM" type="selectable">True</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">True</selectable>
         <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
         <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
-        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
-        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">non_home_based</group_members>
+        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">_all_</group_members>
         </selectable>
         <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
         <selectable name="sc_household_transition_model" type="selectable">False</selectable>
@@ -45,6 +55,18 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="vacancies_per_sector">
+        <batch_visualization hidden="Children" name="county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_vacancy_sector2_county', 'sc_vacancy_sector1_county', 'sc_resi_vacancy_county', 'sc_vacancy_sector3_county', 'sc_vacancy_sector4_county', 'sc_vacancy_sector5_county', 'sc_vacancy_sector6_county', 'sc_vacancy_sector7_county', 'sc_vacancy_sector8_county', 'sc_vacancy_sector99_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="development_capacity">
         <batch_visualization hidden="Children" name="floor_capacity_ani_zone" type="batch_visualization">
           <settings>
