@@ -1,8 +1,15 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+    <expression_library type="dictionary">
+      <variable name="county.sc_floor_capacity_county" source="expression" type="variable_definition" use="both">county.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
+      <variable name="zone.sc_floor_capacity_zone" source="expression" type="variable_definition" use="both">zone.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
+      <variable name="city.sc_floor_capacity_city" source="expression" type="variable_definition" use="both">city.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
+      <variable name="parcel.sc_floor_capacity_expr" source="Python class" type="variable_definition" use="indicator">zurich_parcel.parcel.sc_floor_capacity</variable>
+      <variable name="city.sc_avg_car_accessibility_city" source="expression" type="variable_definition" use="both">city.aggregate(parcel.car_accessibility, function=mean)</variable>
+    </expression_library>
   </general>
   <data_manager>
   </data_manager>
@@ -38,6 +45,130 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="development_capacity">
+        <batch_visualization hidden="Children" name="floor_capacity_ani_zone" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_zone" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_city" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_map_zone" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_map_city" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['sc_floor_capacity_city']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="parcel_map">
+        <batch_visualization hidden="Children" name="area_capacity" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['sc_floor_capacity_expr', 'sc_area_capacity']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="accessibility">
+        <batch_visualization hidden="Children" name="per_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_avg_car_accessibility_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="persons">
         <batch_visualization hidden="Children" name="employment_check" type="batch_visualization">
           <settings>
