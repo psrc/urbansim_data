@@ -4,6 +4,8 @@
     <description type="string">Minimal user configuration for the Seattle parcel project</description>
     <parent type="file">seattle_parcel/configs/seattle_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable dataset="household" name="ln_household_income" source="expression" type="variable_definition" use="both">ln(household.income)</variable>
+      <variable dataset="household" name="size" source="expression" type="variable_definition" use="both">household.persons</variable>
       <variable dataset="parcel" name="lnunits" source="expression" type="variable_definition" use="both">(ln(urbansim_parcel.parcel.residential_units)).astype(float32)</variable>
     </expression_library>
   </general>
