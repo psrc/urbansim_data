@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE roadpricing SYSTEM "http://www.matsim.org/files/dtd/roadpricing_v1.dtd">
+<roadpricing type="cordon" name="Cordon Maut">
+ 
+<description>A cordon scheme for the municipality of Zurich. This file contains only links leading to the city of Zurich. Network used for definition: 
+ 
+</description>
+ 
+<links>
+<link id="127348" />
+<link id="127346" />
+<link id="127335" />
+<link id="127332" />
+<link id="111006" />
+<link id="110888" />
+<link id="110700" />
+<link id="110546" />
+<link id="110501" />
+<link id="109932" />
+<link id="109904" />
+<link id="108140" />
+<link id="106768" />
+<link id="106754" />
+<link id="106718" />
+<link id="106506" />
+<link id="106497" />
+<link id="106428" />
+<link id="106167" />
+<link id="106093" />
+<link id="106064" />
+<link id="106042" />
+<link id="106007" />
+<link id="105797" />
+<link id="105685" />
+<link id="105649" />
+<link id="103329" />
+<link id="103328" />
+<link id="103230" />
+<link id="101883" />
+<link id="101566" />
+<link id="101207" />
+<link id="129748" />
+</links>
+ 
+<!-- amount: [monetary unit] / [link length unit] -->
+ 
+<cost start_time="06:00" end_time="23:59" amount="5.0" />
+ 
+</roadpricing>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v1.dtd">
+<config>
+
+<!-- ====================================================================== -->
+
+	<module name="matsim4urbansimParameter" >      
+    
+       <!-- Specify the time of day (in seconds) for which the zone2zone impedance matrix and accessibilities should be calulated. By default this is set to 8am (28800 sec). -->
+       <param name="timeOfDay" value="28800" />
+        
+       <!-- Set shape file with zones. Activates the location distribution of persons for UrbanSim ZONE applications using the zone boundaries of the shape file. -->
+       <!--<param name="urbanSimZoneShapefileLocationDistribution" value="/full path to/zone.shp" /> -->
+       
+       <!-- Boolean. "true": MATSim expects a ptStops input file and runs the pseudo pt based on the given pt stops; "false": no pseudo pt based on ptStops is used in MATSim -->
+       <param name="usePtStops" value="true" />
+       <!-- Set a path to pt stop csv file ingluding columns for "id", "x"- and "y"-coordinate -->
+       <param name="ptStops" value="/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data/2000/matsim/network/Zones_Attributes.csv" />
+       
+       <!-- Boolean. "true": MATSim expects both an input file for ptTravelTimes and ptTravelDistances and runs the pseudo pt with the given times and distances. Providing a ptStops input file is mandatory! -->
+       <param name="useTravelTimesAndDistances" value="true" />
+       <!-- Set a path to pt travel times file (in VISUM JRT or TXT format) including columns for from ptStopId, to ptStopId and travel times in minutes -->
+       <param name="ptTravelTimes" value="/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data/2000/matsim/network/Reisezeiten_2007_OeV.JRT" />
+       <!-- Set a path to pt travel distances file (in VISUM JRD or TXT format) including columns for from ptStopId, to ptStopId and travel distances in meter -->
+       <param name="ptTravelDistances" value="/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data/2000/matsim/network/OeV_2007_7_8.JRD" />
+        
+	</module>
+
+<!-- ====================================================================== -->
+
+	<module name="changeLegMode" >
+		<param name="modes" value="car,pt" />
+	</module>
+
+<!-- ====================================================================== -->
+
+	<module name="strategy" >
+    
+        <!-- probability that a strategy is applied to a given a person.  despite its name, this really is a ``weight'' -->
+		<param name="ModuleProbability_4" value="0.1" />
+        
+        <!-- name of strategy (if not full class name, resolved in StrategyManagerConfigLoader) -->
+		<param name="Module_4" value="ChangeLegMode" /> 
+        
+	</module>
+    
+<!-- ====================================================================== -->
+
+	<module name="roadpricing">
+		<param name="tollLinksFile" value="/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/project_configs/zurich_parcel/tollLinksFile_Zurich_5.00_6-24_cordon.xml"/>
+	</module>
+
+<!-- ====================================================================== -->
+
+	<module name="scenario">
+	<!-- Set this parameter to true if roadpricing should be used, false if not. -->
+		<param name="useRoadpricing" value="true"/>
+	</module>
+
+<!-- ====================================================================== -->
+
+</config>

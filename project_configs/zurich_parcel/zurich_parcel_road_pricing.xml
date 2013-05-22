@@ -1,0 +1,74 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
+  </general>
+  <data_manager>
+    <tool_library setexpanded="True">
+      <tool_group name="opus_data_import_export_tools" setexpanded="True">
+        <tool name="sql_data_to_opus_tool">
+          <params>
+            <param name="database_name" param_type="string" required="True">by_sc</param>
+            <param name="table_name" param_type="string" required="True">persons households</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/muelleki/sustaincity/opushome/data/zurich_kt_parcel/base_year_data/2000</param>
+          </params>
+        </tool>
+        <tool name="opus_data_to_sql_tool">
+          <acts_on hidden="True">database,dataset,database_collection</acts_on>
+          <exports_to hidden="True">SQL</exports_to>
+          <class_module>opus_data_to_sql</class_module>
+          <params>
+            <param name="database_server_connection" param_type="db_connection_hook" required="True">scenario_database_server</param>
+            <param name="database_name" param_type="string" required="True">run211</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">/Network/Servers/ivt.ethz.ch/Volumes/ivt-home/muelleki/sustaincity/opushome/data/zurich_kt_parcel/runs/run_211.2013_03_30_15_12</param>
+            <param name="opus_data_year" param_type="string" required="True">ALL</param>
+            <param name="opus_table_name" param_type="string" required="True">ALL</param>
+          </params>
+        </tool>
+      </tool_group>
+    </tool_library>
+  </data_manager>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_car_availability_model" type="model">
+        <structure type="dictionary">
+          <prepare_for_run type="dictionary">
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string"></argument>
+          </prepare_for_run>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="test_run" type="scenario">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2030</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
+        <selectable name="sc_unset_job_id" type="selectable">True</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_RBLCM" type="selectable">True</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">True</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">_all_</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
+      </models_to_run>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      </indicator_batches>
+  </results_manager>
+</opus_project>
