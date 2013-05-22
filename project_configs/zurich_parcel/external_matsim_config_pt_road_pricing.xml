@@ -2,7 +2,14 @@
 <!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v1.dtd">
 <config>
 
-	<!-- ====================================================================== -->
+<!-- ====================================================================== -->
+
+	<module name="global" >
+		<param name="numberOfThreads" value="2" />
+	</module>
+
+<!-- ====================================================================== -->
+
 	<module name="matsim4urbansimParameter">
 		<!-- Specify the time of day (in seconds) for which the zone2zone impedance matrix and accessibilities should be calulated. By default this is set to 8am (28800 sec). -->
 		<param name="timeOfDay" value="28800"/>
@@ -20,13 +27,29 @@
 		<param name="ptTravelDistances" value="/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/data/zurich_kt_parcel/base_year_data/2000/matsim/network/OeV_2007_7_8.JRD"/>
 	</module>
 
-	<!-- ====================================================================== -->
+<!-- ====================================================================== -->
 
 	<module name="changeLegMode">
 		<param name="modes" value="car,pt"/>
 	</module>
 
-	<!-- ====================================================================== -->
+<!-- ====================================================================== -->
+
+	<module name="parallelEventHandling" >
+		<param name="synchronizeOnSimSteps" value="true" />
+
+		<!-- number of threads for parallel events handler.  0 or null means parallel events handler is disabled -->
+		<param name="numberOfThreads" value="1" />
+	</module>
+
+<!-- ====================================================================== -->
+
+	<module name="qsim" >
+		<!-- Use number of threads > 1 for parallel version using the specified number of threads -->
+		<param name="numberOfThreads" value="2" />
+	</module>
+
+<!-- ====================================================================== -->
 
 	<module name="strategy">
 		<!-- probability that a strategy is applied to a given a person.  despite its name, this really is a ``weight'' -->
@@ -35,19 +58,19 @@
 		<param name="Module_4" value="ChangeLegMode"/>
 	</module>
 
-	<!-- ====================================================================== -->
+<!-- ====================================================================== -->
 
 	<module name="roadpricing">
 		<param name="tollLinksFile" value="/Network/Servers/kosrae.ethz.ch/Volumes/ivt-home/zoelligc/sustaincity/opushome/project_configs/zurich_parcel/tollLinksFile_Zurich_5.00_6-24_cordon.xml"/>
 	</module>
 
-	<!-- ====================================================================== -->
+<!-- ====================================================================== -->
 
 	<module name="scenario">
 		<!-- Set this parameter to true if roadpricing should be used, false if not. -->
 		<param name="useRoadpricing" value="true"/>
 	</module>
 
-	<!-- ====================================================================== -->
+<!-- ====================================================================== -->
 
 </config>
