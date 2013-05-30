@@ -4,6 +4,10 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="city.sc_max_rent_price" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), function=maximum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_min_rent_price" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), function=minimum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_variance_rent_price" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), function=variance, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_mean_rent_price" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), intermediates=[building, parcel], function=mean)</variable>
       <variable name="county.sc_vacancy_sector99_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_99, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_99, intermediates=[parcel])))</variable>
       <variable name="county.sc_vacancy_sector8_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_8, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_8, intermediates=[parcel])))</variable>
       <variable name="county.sc_vacancy_sector7_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_7, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_7, intermediates=[parcel])))</variable>
@@ -55,14 +59,26 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="price_statistics">
+        <batch_visualization hidden="Children" name="per_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_max_rent_price', 'sc_min_rent_price', 'sc_variance_rent_price', 'sc_mean_rent_price']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="vacancies_per_sector">
         <batch_visualization hidden="Children" name="county" type="batch_visualization">
           <settings>
             <setting name="append_col_type">False</setting>
-            <setting name="output_style">1</setting>
+            <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_vacancy_sector2_county', 'sc_vacancy_sector1_county', 'sc_resi_vacancy_county', 'sc_vacancy_sector3_county', 'sc_vacancy_sector4_county', 'sc_vacancy_sector5_county', 'sc_vacancy_sector6_county', 'sc_vacancy_sector7_county', 'sc_vacancy_sector8_county', 'sc_vacancy_sector99_county']</indicators>
+          <indicators>['sc_vacancy_sector99_county', 'sc_vacancy_sector8_county', 'sc_vacancy_sector7_county', 'sc_vacancy_sector6_county', 'sc_vacancy_sector5_county', 'sc_vacancy_sector4_county', 'sc_vacancy_sector3_county', 'sc_vacancy_sector2_county', 'sc_vacancy_sector1_county', 'sc_resi_vacancy_county']</indicators>
           <output_type>tab</output_type>
           <dataset_name>county</dataset_name>
         </batch_visualization>
