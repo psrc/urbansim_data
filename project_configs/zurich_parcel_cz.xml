@@ -68,6 +68,16 @@
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="development_capacity">
+        <batch_visualization hidden="Children" name="floor_capacity_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
         <batch_visualization hidden="Children" name="floor_capacity_ani_zone" type="batch_visualization">
           <settings>
             <setting name="mapnik_bucket_labels">range_labels</setting>
