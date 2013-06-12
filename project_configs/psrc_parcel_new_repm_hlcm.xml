@@ -1222,7 +1222,7 @@
         <argument name="specification_storage" type="string">base_cache_storage</argument>
         <argument name="specification_table" parser_action="quote_string" type="string">expected_sales_unit_price_model_specification</argument>
         <!-- <argument name="dataset_filter" parser_action="quote_string" type="string">(development_project_proposal.bldg_count==1)  * (development_project_proposal.year_sold >= 1995)</argument> -->
-        <argument name="dataset_filter" parser_action="quote_string" type="string" convert_blank_to_none="True">est_filter = (development_project_proposal_component.building_type_id &lt;&gt; 10) * (safe_array_divide(development_project_proposal_component.expected_sales_price_per_sqft, safe_array_divide(development_project_proposal_component.land_value, development_project_proposal_component.parcel_sqft)) &lt; 75)</argument>
+        <argument name="dataset_filter" parser_action="quote_string" type="string" convert_blank_to_none="True">est_filter = (development_project_proposal_component.building_type_id &lt;&gt; 10) * (safe_array_divide(development_project_proposal_component.expected_sales_price_per_sqft, safe_array_divide(development_project_proposal_component.land_value, development_project_proposal_component.parcel_sqft)) &lt; 75) * (numpy.logical_or(ln(development_project_proposal_component.expected_sales_price_per_sqft) > 3.5,  development_project_proposal_component.building_type_id &lt;&gt; 12))</argument>
         <output hidden="True" name="output" type="string">(development_project_proposal_component, specification, index)</output>
        </prepare_for_estimate>
        <estimate type="dictionary">
@@ -1472,7 +1472,7 @@
               <variable_spec name="household_x_building.housing_range"/>
               <variable_spec name="building.iv_ln_price_residual"/>
               <!-- <variable_spec name="household_x_building.kids_x_kids"/> -->
-              <!-- <variable_spec name="building.ln_price_per_unit"/> -->
+               <variable_spec name="building.ln_price_per_unit"/> 
               <variable_spec name="building.lnempden_wwd_threshold"/>
               <!-- <variable_spec name="building.lnempden_threshold"/> -->
               <!-- <variable_spec name="building.lnpopden_threshold"/> -->
@@ -1521,7 +1521,7 @@
               <variable_spec name="building.iv_ln_price_residual"/>
               <variable_spec name="building.multifamily_type"/>
              <!--  <variable_spec name="household_x_building.kids_x_kids"/>-->
-             <!--  <variable_spec name="building.ln_price_per_unit"/>-->
+              <!--  <variable_spec name="building.ln_price_per_unit"/> -->
              <!--<variable_spec name="building.lnempden_threshold"/>-->
               <!--  <variable_spec name="building.lnpopden_threshold"/>-->
               <!--<variable_spec name="building.ngoodpubl_schools"/>-->
@@ -1534,8 +1534,8 @@
               <!-- <variable_spec name="household_x_building.income_x_size"/> -->
               <!--<variable_spec name="household_x_building.inc_x_mfr"/>-->
              <!-- <variable_spec name="household_x_building.inc_x_condo"/> -->
-             <!--  <variable_spec name="household_x_building.one_pers_x_not_sfr"/>
-              <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
+               <variable_spec name="household_x_building.one_pers_x_not_sfr"/>
+             <!-- <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
               <variable_spec name="household_x_building.single_x_lnretailden_wwd"/>
              <!-- <variable_spec name="household_x_building.disposable_inc"/>-->
               <!-- <variable_spec name="household_x_building.high_income_x_ln_sqft_per_unit"/>-->
@@ -1549,10 +1549,13 @@
               <variable_spec name="household_x_building.npers_x_condo_ifgt2"/>
               <!--<variable_spec name="household_x_building.mnl_bias" fixed_value="1"/>-->
               <variable_spec name="household_x_building.single_x_lnretailden_wwd"/>
+              <!-- <variable_spec name="household_x_building.big_not_in_seattle"/> -->
+              <variable_spec name="household_x_building.pers_lt_3_if_seattle"/>
               <!-- Might be put in to address household size issues 
               <variable_spec name="household_x_building.pers_gt_2_x_condo"/>
               <variable_spec name="household_x_building.kids_x_ngood_publ_schools"/>
-              <variable_spec name="household_x_building.pers_lt_3_if_seattle"/>
+              
+              
               -->
             </variable_list>
           </submodel>
@@ -1617,10 +1620,10 @@
    <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_estimation</cache_directory>
-      <base_year type="integer" field_identifier="Base Year">2000</base_year>
+      <base_year type="integer" field_identifier="Base Year">2006</base_year>
       <years type="tuple">
-        <firstyear type="integer" field_identifier="Base Year">2000</firstyear>
-        <lastyear type="integer" field_identifier="Base Year">2000</lastyear>
+        <firstyear type="integer" field_identifier="Base Year">2006</firstyear>
+        <lastyear type="integer" field_identifier="Base Year">2006</lastyear>
       </years>
     </estimation_config>
  </model_manager>
