@@ -1885,7 +1885,7 @@
             <argument name="household_set" type="string" model_dependency_type="dataset">household</argument>
             <argument name="job_set" type="string" model_dependency_type="dataset">job</argument>
             <argument name="person_set" type="string" model_dependency_type="dataset">person</argument>
-            <argument name="expand_person_set" type="string">False</argument>
+            <argument name="expand_person_set" type="string">True</argument>
           </run>
         </structure>
       </model>            
