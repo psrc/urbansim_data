@@ -1886,6 +1886,7 @@
             <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_households</argument>
             <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
             <argument name="sync_dataset" type="string">person</argument>
+            <argument name="reset_sync_dataset_attribute_value" type="string">{'job_id':-1}</argument>
           </run>
         </structure>
       </model>
