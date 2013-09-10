@@ -4,9 +4,9 @@
     <parent type="file">zurich_parcel/configs/cz_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
-      <variable name="development_event_history.sc_dummy_Smc" source="expression" type="variable_definition" use="both">development_event_history.developer_type == 3</variable>
-      <variable name="development_event_history.sc_dummy_Om" source="expression" type="variable_definition" use="both">development_event_history.developer_type == 2</variable>
-      <variable name="development_event_history.sc_dummy_O1" source="expression" type="variable_definition" use="both">development_event_history.developer_type == 1</variable>
+      <variable name="development_event_history_x_parcel.sc_dummy_Smc" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 3) * (parcel.parcel_id &gt; 0)</variable>
+      <variable name="development_event_history_x_parcel.sc_dummy_Om" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 2) * (parcel.parcel_id &gt; 0)</variable>
+      <variable name="development_event_history_x_parcel.sc_dummy_O1" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 1) * (parcel.parcel_id &gt; 0)</variable>
       <variable name="parcel.sc_euclidean_job_acc_beta_0_2" source="Python class" type="variable_definition" use="both">ln(zurich_parcel.parcel.jobs_within_500_of_parcel_exp_weighted_with_beta)</variable>
       <variable name="parcel.sc_euclidean_job_acc" source="Python class" type="variable_definition" use="both">zurich_parcel.parcel.jobs_within_300_of_parcel_weighted</variable>
       <variable name="development_event_history_x_parcel.sc_recreation_area_share_zone_for_Smc" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 3) * parcel.disaggregate(zone.aggregate(numpy.ma.masked_where(parcel.plan_type_id==7000, parcel.parcel_sqft))) / parcel.disaggregate(zone.zone_area)</variable>
