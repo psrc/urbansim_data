@@ -358,7 +358,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_D_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -382,9 +382,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_NRPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_NRPLCM_D_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_D_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -458,7 +458,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_4_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -482,9 +482,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_NRPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_NRPLCM_4_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_4_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -506,6 +506,100 @@
               <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
               <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
               <variable_spec name="parcel.sc_price_permitted_floor_m2"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_NRPLCM_5" type="model">Use aggregate buildings per project in development_event_history, remove correlated variables; removing price variable because of bad quality<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_between_2999_and_7000, numpy.logical_and(parcel.is_street==0, sc_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">NonResidentialProjectLocationChoiceModel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">NRPLCM_5</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">land_area</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" parser_action="quote_string" type="string">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" parser_action="quote_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_5_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">sc_quality_is_non_residential</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_NRPLCM_5_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_5_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">sc_quality_is_non_residential</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
             </variable_list>
           </submodel>
         </specification>
@@ -553,7 +647,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_3_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -577,9 +671,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_NRPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_NRPLCM_3_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_3_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -648,7 +742,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_2_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -672,9 +766,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_NRPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_NRPLCM_2_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_2_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -744,7 +838,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -768,9 +862,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_NRPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_NRPLCM_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_NRPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_NRPLCM_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1196,7 +1290,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_D_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_D_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1220,9 +1314,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_D_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_D_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_D_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_D_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1301,7 +1395,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D5</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D5_1000a</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -1324,7 +1418,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_1000a_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1348,9 +1442,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_1000a_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_1000a_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1420,7 +1514,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D5</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D5</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -1443,7 +1537,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1467,9 +1561,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1539,7 +1633,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D4</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D4</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -1562,7 +1656,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D4_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1586,9 +1680,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D4_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D4_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1654,7 +1748,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D3</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D3</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -1677,7 +1771,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D3_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1701,9 +1795,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D3_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D3_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1769,7 +1863,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D2</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D2</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -1792,7 +1886,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D2_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1816,9 +1910,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D2_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D2_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -1886,7 +1980,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -1909,7 +2003,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -1933,9 +2027,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2003,7 +2097,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel10</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_10</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2026,7 +2120,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_10_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2050,9 +2144,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_10_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_10_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2116,7 +2210,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2139,7 +2233,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2163,9 +2257,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2227,7 +2321,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel8</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_8</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2250,7 +2344,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_8_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2274,9 +2368,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_8_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_8_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2340,7 +2434,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel7</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_7</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2363,7 +2457,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_7_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2387,9 +2481,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_7_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_7_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2455,7 +2549,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel6</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_6</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2478,7 +2572,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_6_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2502,9 +2596,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_6_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_6_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2572,7 +2666,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel5</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_5</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2595,7 +2689,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_5_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2619,9 +2713,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_5_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_5_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2689,7 +2783,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel4</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_4</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2712,7 +2806,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_4_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2736,9 +2830,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_4_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_4_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2805,7 +2899,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel3</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_3</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2828,7 +2922,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_3_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2852,9 +2946,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_3_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_3_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -2924,7 +3018,7 @@
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel2</argument>
-            <argument name="short_name" parser_action="quote_string" type="string">RPLCM</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_2</argument>
             <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
             <argument name="debuglevel" type="string">debuglevel</argument>
             <argument name="run_config" type="dictionary">
@@ -2947,7 +3041,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_2_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -2971,9 +3065,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_2_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_2_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
@@ -3775,15 +3869,104 @@
       </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="dictionary">
-      <save_estimation_results type="boolean">False</save_estimation_results>
+      <save_estimation_results type="boolean">True</save_estimation_results>
     </estimation_config>
   </model_manager>
   <scenario_manager>
+    <scenario executable="True" name="Dev_run_baseline" type="scenario">
+      <advanced type="category">
+        <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
+        <debuglevel type="integer">4</debuglevel>
+        <flush_variables type="boolean">False</flush_variables>
+        <seed convert_blank_to_none="True" type="integer">None</seed>
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="living_unit" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+          <selectable name="living_units_history" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">False</run_in_same_process>
+        <skip_travel_model type="boolean">False</skip_travel_model>
+        <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
+      </advanced>
+      <cache_directory field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel_cz/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs" field_identifier="Scenario Runs Directory" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel_cz/runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel_cz/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <base_year field_identifier="Base Year" name="" type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2001</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2030</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_external_demographic_model" type="selectable">True</selectable>
+        <selectable name="sc_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">True</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">True</selectable>
+        <selectable name="sc_unset_job_id" type="selectable">True</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_RPLCM_9_D5_1" return_value="sc_RPLCM_9_D5" type="selectable">True</selectable>
+        <selectable name="sc_NRPLCM_5_1" return_value="sc_NRPLCM_5" type="selectable">True</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">_all_</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
+      </models_to_run>
+    </scenario>
     <scenario executable="True" name="test_run" type="scenario">
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="sc_real_estate_price_model_new_1" return_value="sc_real_estate_price_model_new" type="selectable">False</selectable>
-        <selectable name="sc_real_estate_price_model_1" return_value="sc_real_estate_price_model" type="selectable">False</selectable>
-        <selectable name="sc_postprocess_real_estate_price_model_1" return_value="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_RPLCM_9_D5_1" return_value="sc_RPLCM_9_D5" type="selectable">True</selectable>
+        <selectable name="sc_NRPLCM_3_1" return_value="sc_NRPLCM_3" type="selectable">True</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">True<group_members type="string">_all_</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">True</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">True</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
   </scenario_manager>
