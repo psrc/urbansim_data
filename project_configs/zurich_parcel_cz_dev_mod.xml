@@ -1,7 +1,7 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/cz_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable name="parcel.sc_euclidean_job_acc_300_beta_0_2" source="Python class" type="variable_definition" use="both">ln(zurich_parcel.parcel.jobs_within_300_of_parcel_exp_weighted_with_beta)</variable>
