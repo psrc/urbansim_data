@@ -72,17 +72,17 @@
       <tool_group name="opus_data_import_export_tools" setexpanded="True">
         <tool name="sql_data_to_opus_tool">
           <params>
-            <param name="database_name" param_type="string" required="True">cz_by</param>
-            <param name="table_name" param_type="string" required="True">ALL</param>
+            <param name="database_name" param_type="string" required="True">cz_scenarios</param>
+            <param name="table_name" param_type="string" required="True">development_event_history_20_20_60</param>
             <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_kt_parcel/base_year_data</param>
           </params>
         </tool>
         <tool name="opus_data_to_sql_tool">
           <params>
-            <param name="database_name" param_type="string" required="True">cz_us_run2</param>
-            <param name="opus_data_directory" param_type="dir_path" required="True">/home/zoelligc/eclipse-urbansim/data/zurich_mini_parcel/runs/run_103.run_2012_06_20_13_19</param>
-            <param name="opus_data_year" param_type="string" required="True">ALL</param>
-            <param name="opus_table_name" param_type="string" required="True">ALL</param>
+            <param name="database_name" param_type="string" required="True">cz_scenarios</param>
+            <param name="opus_data_directory" param_type="dir_path" required="True">data/zurich_kt_parcel/base_year_data</param>
+            <param name="opus_data_year" param_type="string" required="True">2000</param>
+            <param name="opus_table_name" param_type="string" required="True">development_event_history_plcm_plausible_us</param>
           </params>
         </tool>
         <tool name="opus_data_to_csv_tool">
