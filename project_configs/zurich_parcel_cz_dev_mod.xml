@@ -1,7 +1,7 @@
 <opus_project>
   <xml_version>2.0</xml_version>
   <general>
-    <parent type="file">zurich_parcel/configs/mini_cache.xml</parent>
+    <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
       <variable name="parcel.sc_euclidean_job_acc_300_beta_0_2" source="Python class" type="variable_definition" use="both">ln(zurich_parcel.parcel.jobs_within_300_of_parcel_exp_weighted_with_beta)</variable>
@@ -3871,6 +3871,54 @@
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="dictionary">
       <save_estimation_results type="boolean">True</save_estimation_results>
     </estimation_config>
+    <travel_model_configuration type="dictionary">
+      <matsim4urbansim type="dictionary">
+        <population_sampling_rate type="float">0.01</population_sampling_rate>
+        <controler_parameter type="dictionary">
+          <bounding_box_bottom type="float">223900</bounding_box_bottom>
+          <bounding_box_top type="float">283400</bounding_box_top>
+          <bounding_box_left type="float">669200</bounding_box_left>
+          <bounding_box_right type="float">710000</bounding_box_right>
+        </controler_parameter>
+        <matsim_data_to_compute type="selectable_list">
+          <selectable name="zone2zone_impedance" type="selectable">True</selectable>
+          <selectable name="agent_performance" type="selectable">True</selectable>
+          <selectable name="zone_based_accessibility" type="selectable">True</selectable>
+          <selectable name="parcel_based_accessibility" type="selectable">True</selectable>
+        </matsim_data_to_compute>
+        <custom_parameter type="string"></custom_parameter>
+        <backup type="selectable_list">
+          <selectable name="backup_run_data" type="selectable">True</selectable>
+        </backup>
+      </matsim4urbansim>
+      <matsim_config type="dictionary">
+        <common type="dictionary">
+          <network followers="input_plans_file,hotstart_plans_file,test_parameter,backup" type="file">data/zurich_kt_parcel/base_year_data/2000/matsim/network/network.multimodal-wu.xml.gz</network>
+          <last_iteration type="integer">100</last_iteration>
+          <warm_start_plans_file type="file"></warm_start_plans_file>
+          <hot_start type="selectable_list">
+            <selectable name="use_hot_start" type="selectable">True</selectable>
+          </hot_start>
+        </common>
+        <accessibility type="dictionary">
+          <cell_size type="integer">100</cell_size>
+          <accessibility_computation_area type="selectable_list">
+            <selectable name="from_shapefile" type="selectable">False</selectable>
+            <selectable name="from_bounding_box" type="selectable">True</selectable>
+            <selectable name="from_network" type="selectable">False</selectable>
+          </accessibility_computation_area>
+          <study_area_boundary_shape_file type="file"></study_area_boundary_shape_file>
+          <bounding_box_top type="float">0</bounding_box_top>
+          <bounding_box_left type="float">0</bounding_box_left>
+          <bounding_box_right type="float">0</bounding_box_right>
+          <bounding_box_bottom type="float">0</bounding_box_bottom>
+        </accessibility>
+        <urbansim_zone_random_location_distribution type="dictionary">
+          <by_radius type="float">500.</by_radius>
+          <by_zone_shape_file type="file"></by_zone_shape_file>
+        </urbansim_zone_random_location_distribution>
+      </matsim_config>
+    </travel_model_configuration>
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="Dev_run_baseline" type="scenario">
@@ -3910,16 +3958,16 @@
         <skip_travel_model type="boolean">False</skip_travel_model>
         <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
       </advanced>
-      <cache_directory field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel_cz/base_year_data</cache_directory>
+      <cache_directory field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/base_year_data</cache_directory>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs" field_identifier="Scenario Runs Directory" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel_cz/runs</argument>
+        <argument config_name="cache_directory_root" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs" field_identifier="Scenario Runs Directory" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/runs</argument>
         <argument name="cache_from_database" type="boolean">False</argument>
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel_cz/base_year_data</argument>
+          <argument field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/base_year_data</argument>
         </argument>
       </creating_baseyear_cache_configuration>
       <base_year field_identifier="Base Year" name="" type="integer">2000</base_year>
@@ -3952,11 +4000,14 @@
       </models_to_run>
     </scenario>
     <scenario executable="True" name="test_run" type="scenario">
+      <years_to_run config_name="years" type="tuple">
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2006</lastyear>
+      </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="sc_RBLCM" type="selectable">False</selectable>
         <selectable name="sc_NRBLCM" type="selectable">False</selectable>
-        <selectable name="sc_RPLCM_9_D5_1" return_value="sc_RPLCM_9_D5" type="selectable">True</selectable>
-        <selectable name="sc_NRPLCM_3_1" return_value="sc_NRPLCM_3" type="selectable">True</selectable>
+        <selectable name="sc_RPLCM_9_D5_1" return_value="sc_RPLCM_9_D5" type="selectable">False</selectable>
+        <selectable name="sc_NRPLCM_5_1" return_value="sc_NRPLCM_5" type="selectable">False</selectable>
         <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
         <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
         <selectable name="sc_employment_transition_model" type="selectable">True</selectable>
