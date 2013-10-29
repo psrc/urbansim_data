@@ -4,6 +4,90 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="city.sc_accessibility_sum_city" source="expression" type="variable_definition" use="indicator">city.aggregate(ln(parcel.car_accessibility), function=sum)</variable>
+      <variable name="county.sc_floor_space_transport_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector6), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_trade_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector3), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_service_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector7), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_retail_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector4), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_manufacturing_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector1), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_hotel_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector5), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_health_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector8), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_construction_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector2), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_floor_space_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.land_area * building.stories), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_persons_county" source="expression" type="variable_definition" use="both">county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_share_persons_pt_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / city.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_share_persons_car_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / city.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_share_persons_travelling_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='pt', person.mode=='car')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / city.aggregate(numpy.ma.masked_where(person.mode=='', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_share_persons_travelling_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(numpy.logical_not(person.mode=='pt', person.mode=='car'), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(numpy.ma.masked_where(person.mode=='', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_mode_share_check_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(numpy.logical_not(person.mode=='car'), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / city.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) + city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / city.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_mode_share_check_debug_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel]) + county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel]) + county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel]) + county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'none', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel]) + county.aggregate(numpy.ma.masked_where(numpy.logical_or(numpy.logical_or(person.mode=='car', person.mode=='pt'), numpy.logical_or(person.mode=='', person.mode=='none')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_share_persons_cryptic_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(numpy.logical_or(numpy.logical_or(person.mode=='car', person.mode=='pt'), numpy.logical_or(person.mode=='', person.mode=='none')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_share_persons_NULL_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_persons_pt_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_persons_car_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_persons_car_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_person_minutes_traveled_pt_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', work2home_travel_time_min + home2work_travel_time_min), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_person_minutes_traveled_car_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', work2home_travel_time_min + home2work_travel_time_min), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_person_meter_traveled_pt_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.work2home_distance_meter + person.home2work_distance_meter), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_person_meter_traveled_car_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', person.work2home_distance_meter + person.home2work_distance_meter), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_mode_share_check_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(numpy.logical_not(person.mode=='car'), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) + county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_share_persons_none_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'none', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(person.person_id&gt;=0, function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_share_persons_car_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(numpy.logical_not(person.mode=='car'), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_share_persons_pt_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel]) / county.aggregate(numpy.ma.masked_where(numpy.logical_not(numpy.logical_or(person.mode=='car', person.mode=='pt')), person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_persons_pt_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.person_id&gt;=0), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_person_meter_traveled_pt_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', person.work2home_distance_meter + person.home2work_distance_meter), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_person_minutes_traveled_pt_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'pt', work2home_travel_time_min + home2work_travel_time_min), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_person_minutes_traveled_car_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', work2home_travel_time_min + home2work_travel_time_min), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_person_meter_traveled_car_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(person.mode&lt;&gt;'car', person.work2home_distance_meter + person.home2work_distance_meter), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_resi_units_county" source="expression" type="variable_definition" use="indicator">county.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])</variable>
+      <variable name="county.sc_occupied_resi_spaces" source="expression" type="variable_definition" use="indicator">county.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel])</variable>
+      <variable name="city.sc_rent_price_sd_city" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), function=standard_deviation, intermediates=[building, parcel])</variable>
+      <variable name="city.INWORK_sc_variance" source="expression" type="variable_definition" use="both">city.aggregate(living_unit.rent_price, function=variance, intermediates=[building, parcel])</variable>
+      <variable name="city.INWORK_sc_min" source="expression" type="variable_definition" use="both">city.aggregate(living_unit.rent_price, function=minimum, intermediates=[building, parcel])</variable>
+      <variable name="city.INWORK_sc_max" source="expression" type="variable_definition" use="both">city.aggregate(living_unit.rent_price, function=maximum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(living_unit.rent_price, function=mean, intermediates=[building, parcel])</variable>
+      <variable name="city.INWORK_sc_sum" source="expression" type="variable_definition" use="both">city.aggregate(living_unit.rent_price, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.INWORK_sc_mean" source="expression" type="variable_definition" use="both">city.aggregate(living_unit.rent_price, function=mean, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_floor_capacity_non_residential_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.maximum(0, (numpy.ma.masked_where(numpy.logical_or(numpy.logical_and(parcel.plan_type_id&lt;3000, parcel.plan_type_id&gt;=7000), parcel.is_street==1), parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft)) - numpy.ma.masked_where(numpy.logical_or(numpy.logical_and(parcel.plan_type_id&lt;3000, parcel.plan_type_id&gt;=7000), parcel.is_street==1), parcel.aggregate(building.land_area * building.stories))))</variable>
+      <variable name="city.sc_floor_capacity_residential_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.maximum(0, (numpy.ma.masked_where(numpy.logical_or(parcel.plan_type_id&gt;=4000, parcel.is_street==1), parcel.disaggregate(plan_type.aggregate(development_constraint.maximum, function=maximum)) * parcel.parcel_sqft)) - numpy.ma.masked_where(numpy.logical_or(parcel.plan_type_id&gt;=4000, parcel.is_street==1), parcel.aggregate(building.land_area * building.stories))))</variable>
+      <variable name="city.sc_floor_space_health_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector8), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_service_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector7), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_transport_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector6), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_hotel_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector5), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_retail_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector4), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_trade_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector3), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_construction_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector2), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_floor_space_manufacturing_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector1), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_buildings_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.year_built&gt;2000), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_nb_persons_city" source="expression" type="variable_definition" use="indicator">city.aggregate(household.number_of_agents(persons), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_nb_jobs_county" source="expression" type="variable_definition" use="indicator">county.aggregate(building.number_of_agents(jobs), intermediates=[parcel])</variable>
+      <variable name="county.sc_nb_persons_county" source="expression" type="variable_definition" use="both">county.aggregate(household.number_of_agents(persons), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="county.sc_nb_buildings_county" source="expression" type="variable_definition" use="both">county.aggregate(parcel.number_of_agents(building))</variable>
+      <variable name="county.sc_nb_living_units_county" source="expression" type="variable_definition" use="indicator">county.aggregate(building.number_of_agents(living_units), intermediates=[parcel])</variable>
+      <variable name="county.sc_nb_hh_county" source="expression" type="variable_definition" use="indicator">county.aggregate(living_unit.number_of_agents(households), intermediates=[building, parcel])</variable>
+      <variable name="city.sc_floor_space_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.land_area * building.stories), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_resi_units_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.year_built&lt;2001, living_unit.year_built&gt;2000), function=sum, intermediates=[building, parcel])</variable>
+      <variable name="parcel.sc_resi_units_newly_built" source="expression" type="variable_definition" use="both">parcel.aggregate(numpy.ma.masked_where(living_unit.year_built&gt;2000, living_unit.year_built&gt;2000), function=sum, intermediates=[building])</variable>
+      <variable name="city.sc_occupied_resi_spaces_city" source="expression" type="variable_definition" use="indicator">city.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel])</variable>
+      <variable name="city.sc_resi_vacancy_city" source="expression" type="variable_definition" use="indicator">(1 - ((city.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])))</variable>
+      <variable name="city.sc_nb_hh_city" source="expression" type="variable_definition" use="indicator">city.aggregate(living_unit.number_of_agents(households), intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_units" source="expression" type="variable_definition" use="indicator">city.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])</variable>
+      <variable name="city.sc_rent_price_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), function=sum, intermediates=[building, parcel]) / city.aggregate(living_unit.living_unit_id&gt;=0, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_vacancy_sector99_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_99, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_99, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector8_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_8, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_8, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector7_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_7, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_7, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector6_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_6, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_6, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector5_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_5, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_5, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector4_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_4, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_4, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector3_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_3, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_3, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector2_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_2, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_2, intermediates=[parcel])))</variable>
+      <variable name="county.sc_vacancy_sector1_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_1, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_1, intermediates=[parcel])))</variable>
+      <variable name="county.sc_resi_vacancy" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])))</variable>
+      <variable name="county.sc_floor_capacity_county" source="expression" type="variable_definition" use="both">county.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
+      <variable name="zone.sc_floor_capacity_zone" source="expression" type="variable_definition" use="both">zone.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
+      <variable name="city.sc_floor_capacity_city" source="expression" type="variable_definition" use="both">city.aggregate(zurich_parcel.parcel.sc_floor_capacity)</variable>
+      <variable name="parcel.sc_floor_capacity_expr" source="Python class" type="variable_definition" use="indicator">zurich_parcel.parcel.sc_floor_capacity</variable>
+      <variable name="city.sc_avg_car_accessibility_city" source="expression" type="variable_definition" use="both">city.aggregate(parcel.car_accessibility, function=mean)</variable>
       <variable name="parcel.sc_euclidean_job_acc_300_beta_0_2" source="Python class" type="variable_definition" use="both">ln(zurich_parcel.parcel.jobs_within_300_of_parcel_exp_weighted_with_beta)</variable>
       <variable name="development_event_history_x_parcel.sc_dummy_purpose_3" source="expression" type="variable_definition" use="both">(development_event_history.verwendungszweck == 3) * (parcel.parcel_id &gt; 0)</variable>
       <variable name="development_event_history_x_parcel.sc_dummy_purpose_2" source="expression" type="variable_definition" use="both">(development_event_history.verwendungszweck == 2) * (parcel.parcel_id &gt; 0)</variable>
@@ -4022,5 +4106,458 @@
     </scenario>
   </scenario_manager>
   <results_manager>
-    </results_manager>
+    <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="travel_indicators">
+        <batch_visualization hidden="Children" name="travel_indicators_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_share_persons_pt_city', 'sc_share_persons_car_city', 'sc_share_persons_travelling_city', 'sc_mode_share_check_city', 'sc_person_minutes_traveled_pt_city', 'sc_person_minutes_traveled_car_city', 'sc_person_meter_traveled_pt_city', 'sc_person_meter_traveled_car_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="travel_indicators_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_share_persons_travelling_county', 'sc_mode_share_check_county', 'sc_share_persons_car_county', 'sc_share_persons_pt_county', 'sc_person_meter_traveled_pt_county', 'sc_person_minutes_traveled_pt_county', 'sc_person_minutes_traveled_car_county', 'sc_person_meter_traveled_car_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="travel_indicators_debug">
+        <batch_visualization hidden="Children" name="modes_and_shares" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_mode_share_check_debug_county', 'sc_share_persons_cryptic_county', 'sc_share_persons_NULL_county', 'sc_share_persons_none_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="testing">
+        <batch_visualization hidden="Children" name="acc_car_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_accessibility_sum_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="collection_for_postgres_parcel">
+        <batch_visualization hidden="Children" name="floor_capacity_parcel" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_expr']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="nb_buildings_parcel" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_nb_buildings_parcel']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="overall_numbers">
+        <batch_visualization hidden="Children" name="non_resi_sqft" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_non_resi_units_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="living_units" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_nb_living_units_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="collection_for_postgres">
+        <batch_visualization hidden="Children" name="nb_main_entities_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_nb_persons_city', 'sc_nb_living_units_city', 'sc_nb_buildings_city', 'sc_jobs_city', 'sc_nb_hh_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="nb_main_entities_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_nb_jobs_county', 'sc_nb_persons_county', 'sc_nb_buildings_county', 'sc_nb_living_units_county', 'sc_nb_hh_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_segments_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_non_residential_city', 'sc_floor_capacity_residential_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_zone" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_newly_built_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_sectors_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_transport_newly_built_county', 'sc_floor_space_trade_newly_built_county', 'sc_floor_space_service_newly_built_county', 'sc_floor_space_retail_newly_built_county', 'sc_floor_space_manufacturing_newly_built_county', 'sc_floor_space_hotel_newly_built_county', 'sc_floor_space_health_newly_built_county', 'sc_floor_space_construction_newly_built_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_sectors_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_manufacturing_newly_built', 'sc_floor_space_construction_newly_built', 'sc_floor_space_trade_newly_built', 'sc_floor_space_retail_newly_built', 'sc_floor_space_hotel_newly_built', 'sc_floor_space_transport_newly_built', 'sc_floor_space_service_newly_built', 'sc_floor_space_health_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_residential_units_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_resi_units_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_buildings_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_buildings_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="residential_units_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_occupied_resi_spaces', 'sc_resi_vacancy', 'sc_resi_units_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="residential_units_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_occupied_resi_spaces_city', 'sc_resi_vacancy_city', 'sc_resi_units']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="vacancy_per_sector_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_vacancy_sector99_county', 'sc_vacancy_sector8_county', 'sc_vacancy_sector7_county', 'sc_vacancy_sector6_county', 'sc_vacancy_sector5_county', 'sc_vacancy_sector4_county', 'sc_vacancy_sector3_county', 'sc_vacancy_sector2_county', 'sc_vacancy_sector1_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="travel_indicators_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_share_persons_pt_city', 'sc_share_persons_car_city', 'sc_share_persons_travelling_city', 'sc_mode_share_check_city', 'sc_person_minutes_traveled_pt_city', 'sc_person_minutes_traveled_car_city', 'sc_person_meter_traveled_pt_city', 'sc_person_meter_traveled_car_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="travel_indicators_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_share_persons_travelling_county', 'sc_mode_share_check_county', 'sc_share_persons_car_county', 'sc_share_persons_pt_county', 'sc_person_meter_traveled_pt_county', 'sc_person_minutes_traveled_pt_county', 'sc_person_minutes_traveled_car_county', 'sc_person_meter_traveled_car_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="price_statistics">
+        <batch_visualization hidden="Children" name="price_statistics_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+            <setting name="database_name">cz_temp</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_rent_price_sd_city', 'sc_rent_price_mean_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="vacancies_per_sector">
+        <batch_visualization hidden="Children" name="county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_vacancy_sector99_county', 'sc_vacancy_sector8_county', 'sc_vacancy_sector7_county', 'sc_vacancy_sector6_county', 'sc_vacancy_sector5_county', 'sc_vacancy_sector4_county', 'sc_vacancy_sector3_county', 'sc_vacancy_sector2_county', 'sc_vacancy_sector1_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="development_capacity">
+        <batch_visualization hidden="Children" name="floor_capacity_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_ani_zone" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>mapnik_animated_map</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>mapnik_animated_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_zone" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_city" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_map_zone" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_map_city" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['sc_floor_capacity_city']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="parcel_map">
+        <batch_visualization hidden="Children" name="area_capacity" type="batch_visualization">
+          <settings>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>mapnik_map</visualization_type>
+          <indicators>['sc_floor_capacity_expr', 'sc_area_capacity']</indicators>
+          <output_type>mapnik_map</output_type>
+          <dataset_name>parcel</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="vacancy">
+        <batch_visualization hidden="Children" name="Residential" type="batch_visualization">
+          <indicators>['sc_occupied_resi_spaces_city', 'sc_resi_vacancy_city', 'sc_resi_units', 'sc_target_resi_units']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+          <visualization_type>tab</visualization_type>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="Non_resi" type="batch_visualization">
+          <indicators>['sc_target_non_resi_units', 'sc_non_resi_vacancy_city', 'sc_non_resi_units_city', 'sc_occupied_non_resi_spaces_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+          <visualization_type>tab</visualization_type>
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="accessibility">
+        <batch_visualization hidden="Children" name="per_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_avg_car_accessibility_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+      <indicator_batch name="persons">
+        <batch_visualization hidden="Children" name="employment_check" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">1</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_workstat_1_without_job_id', 'sc_workstat_0_with_job_id']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
+    </indicator_batches>
+  </results_manager>
 </opus_project>
