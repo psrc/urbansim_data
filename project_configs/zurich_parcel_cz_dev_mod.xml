@@ -4037,6 +4037,7 @@
           <selectable name="travel_data" type="selectable">True</selectable>
           <selectable name="development_event_history" type="selectable">True</selectable>
           <selectable name="living_units_history" type="selectable">True</selectable>
+          <selectable name="city" type="selectable">True</selectable>
         </datasets_to_preload>
         <run_in_same_process type="boolean">False</run_in_same_process>
         <skip_travel_model type="boolean">False</skip_travel_model>
