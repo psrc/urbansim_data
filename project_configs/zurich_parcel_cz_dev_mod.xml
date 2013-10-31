@@ -3964,6 +3964,12 @@
           <bounding_box_left type="float">669200</bounding_box_left>
           <bounding_box_right type="float">710000</bounding_box_right>
         </controler_parameter>
+        <accessibility_parameter type="dictionary">
+          <use_MATSim_parameter type="selectable_list">
+            <selectable name="use_car_parameter_from_MATSim" type="selectable">True</selectable>
+            <selectable name="use_walk_parameter_from_MATSim" type="selectable">True</selectable>
+          </use_MATSim_parameter>
+        </accessibility_parameter>
         <matsim_data_to_compute type="selectable_list">
           <selectable name="zone2zone_impedance" type="selectable">True</selectable>
           <selectable name="agent_performance" type="selectable">True</selectable>
@@ -3992,10 +3998,10 @@
             <selectable name="from_network" type="selectable">False</selectable>
           </accessibility_computation_area>
           <study_area_boundary_shape_file type="file"></study_area_boundary_shape_file>
-          <bounding_box_top type="float">0</bounding_box_top>
-          <bounding_box_left type="float">0</bounding_box_left>
-          <bounding_box_right type="float">0</bounding_box_right>
-          <bounding_box_bottom type="float">0</bounding_box_bottom>
+          <bounding_box_top type="float">283400</bounding_box_top>
+          <bounding_box_left type="float">669200</bounding_box_left>
+          <bounding_box_right type="float">710000</bounding_box_right>
+          <bounding_box_bottom type="float">223900</bounding_box_bottom>
         </accessibility>
         <urbansim_zone_random_location_distribution type="dictionary">
           <by_radius type="float">500.</by_radius>
@@ -4005,6 +4011,85 @@
     </travel_model_configuration>
   </model_manager>
   <scenario_manager>
+    <scenario executable="True" name="Test_Dev_run_baseline" type="scenario">
+      <advanced type="category">
+        <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
+        <debuglevel type="integer">4</debuglevel>
+        <flush_variables type="boolean">False</flush_variables>
+        <seed convert_blank_to_none="True" type="integer">None</seed>
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="living_unit" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+          <selectable name="living_units_history" type="selectable">True</selectable>
+          <selectable name="city" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">False</run_in_same_process>
+        <skip_travel_model type="boolean">False</skip_travel_model>
+        <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
+      </advanced>
+      <cache_directory field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="" parser_action="prefix_with_opus_data_path" type="directory">zurich_mini_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs" field_identifier="Scenario Runs Directory" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">zurich_mini_parcel/runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">zurich_mini_parcel/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <base_year field_identifier="Base Year" name="" type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2001</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2002</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_external_demographic_model" type="selectable">False</selectable>
+        <selectable name="sc_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_income_regression_model" type="selectable">False</selectable>
+        <selectable name="sc_car_availability_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_car_availabilty_model" type="selectable">False</selectable>
+        <selectable name="sc_unset_job_id" type="selectable">False</selectable>
+        <selectable name="sc_building_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_RBLCM" type="selectable">False</selectable>
+        <selectable name="sc_NRBLCM" type="selectable">False</selectable>
+        <selectable name="sc_RPLCM_9_D5_1" return_value="sc_RPLCM_9_D5" type="selectable">False</selectable>
+        <selectable name="sc_NRPLCM_5_1" return_value="sc_NRPLCM_5" type="selectable">False</selectable>
+        <selectable name="sc_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_employment_location_choice_model" type="selectable">False<group_members type="string">_all_</group_members>
+        </selectable>
+        <selectable name="sc_workplace_location_choice" type="selectable">False</selectable>
+        <selectable name="sc_household_transition_model" type="selectable">False</selectable>
+        <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
+        <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+      </models_to_run>
+    </scenario>
     <scenario executable="True" name="Dev_run_baseline" type="scenario">
       <advanced type="category">
         <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
