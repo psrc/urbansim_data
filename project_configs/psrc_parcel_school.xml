@@ -935,7 +935,8 @@
             <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
             <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_school_of_category_1, intermediates=[building])</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_preschool = (psrc_parcel.person.age_category==1) * person.disaggregate(urbansim_parcel.household.number_of_adults==urbansim_parcel.household.number_of_non_home_based_workers)</argument>
+           <!-- <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_preschool = (psrc_parcel.person.age_category==1) * person.disaggregate(urbansim_parcel.household.number_of_adults==urbansim_parcel.household.number_of_non_home_based_workers)</argument>-->
+           <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_preschool = (psrc_parcel.person.age_category==1) * numpy.logical_or(person.student==1, person.student==2)</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
