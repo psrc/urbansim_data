@@ -1678,32 +1678,33 @@
       <travel_model_configuration type="dictionary">
         <travel_model_base_directory type="string">Version_1.0c</travel_model_base_directory>
         <emme2_batch_file_name type="string">MODEL1-0c.BAT</emme2_batch_file_name>
+        <matrix_h5_directory type="string" convert_blank_to_none="True">/Users/hana/psrc/h5skims/travel-model-matrices</matrix_h5_directory>
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">False</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">False</selectable>
-          <selectable name="opus_emme2.models.run_export_macros" type="selectable">True</selectable>
-          <selectable name="opus_emme2.models.get_emme2_data_into_cache" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.run_export_macros" type="selectable">False</selectable>
+          <selectable name="psrc_parcel.emme.models.get_emme2_data_into_cache" type="selectable">True</selectable>
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2006</year>
-            <bank type="list">['2006_06']</bank>
+            <bank type="integer">2006</bank>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2015</year>
-            <bank type="list">['2015_06']</bank>
+            <bank type="integer">2015</bank>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
-            <bank type="list">['2025_06']</bank>
+            <bank type="integer">2025</bank>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2035</year>
-            <bank type="list">['2035_06']</bank>
+            <bank type="integer">2035</bank>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2040</year>
-            <bank type="list">['2040_06']</bank>
+            <bank type="integer">2040</bank>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
