@@ -4,6 +4,10 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="development_event_history_x_parcel.sc_developer_id" source="primary attribute" type="variable_definition" use="both">development_event_history.bhnr * (parcel.parcel_id&gt;0)</variable>
+      <variable name="city.sc_building_footprints_to_area" source="expression" type="variable_definition" use="both">city.aggregate(building.land_area, function=sum, intermediates=[parcel]) / city.aggregate(parcel.parcel_sqft, function=sum)</variable>
+      <variable name="city.sc_resi_floor_space_per_capita" source="expression" type="variable_definition" use="both">city.aggregate(living_unit.area, function=sum, intermediates=[building, parcel]) / city.aggregate(household.number_of_agents(persons), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
+      <variable name="city.sc_jobs_to_inhabitants_ratio" source="expression" type="variable_definition" use="both">city.aggregate(building.number_of_agents(jobs), intermediates=[parcel]) / city.aggregate(household.number_of_agents(persons), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
       <variable name="city.sc_accessibility_sum_city" source="expression" type="variable_definition" use="indicator">city.aggregate(ln(parcel.car_accessibility), function=sum)</variable>
       <variable name="county.sc_floor_space_transport_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector6), function=sum, intermediates=[parcel])</variable>
       <variable name="county.sc_floor_space_trade_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector3), function=sum, intermediates=[parcel])</variable>
@@ -129,6 +133,8 @@
       <variable name="development_event_history_x_parcel.sc_acc_car_for_Om" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 2) * (ln(parcel.car_accessibility))</variable>
       <variable name="development_event_history_x_parcel.sc_acc_car_for_O1" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 1) * (ln(parcel.car_accessibility))</variable>
       <variable name="parcel.sc_acc_car" source="primary attribute" type="variable_definition" use="both">ln(parcel.car_accessibility)</variable>
+      <variable name="city.sc_nb_living_units_city" source="expression" type="variable_definition" use="indicator">city.aggregate(building.number_of_agents(living_units), intermediates=[parcel])</variable>
+      <variable name="city.sc_jobs_city" source="expression" type="variable_definition" use="both">city.aggregate(building.number_of_agents(jobs), intermediates=[parcel])</variable>
       <variable name="parcel.sc_new_bldgs_within_150_of_parcel" source="Python class" type="variable_definition" use="model variable">zurich_parcel.parcel.new_bldgs_within_150_of_parcel</variable>
       <variable name="development_event_history_x_parcel.sc_newcomers_for_Om" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 2) * (zurich_parcel.parcel.young_newcomers_within_300_of_parcel)</variable>
       <variable name="development_event_history_x_parcel.sc_newcomers_for_O1" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 1) * (zurich_parcel.parcel.young_newcomers_within_300_of_parcel)</variable>
@@ -1574,6 +1580,128 @@
             <variable_list type="variable_list">
               <variable_spec name="parcel.sc_acc_pt"></variable_spec>
               <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_RPLCM_9_D5_panel" type="model">add bhnr to investigate panel effect<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_smaller_3000, numpy.logical_and(parcel.is_street==0, sc_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">building_quality_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel9D5Panel</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM_9_D5_panel</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">land_area</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" parser_action="quote_string" type="string">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" parser_action="quote_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_panel_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_panel_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_RPLCM_9_D5_panel_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="SFH" submodel_id="1021" type="submodel">
+            <description type="string">Submodel for single family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="development_event_history_x_parcel.sc_acc_car_for_O1"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_acc_car_for_Om"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_acc_car_for_Smc"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="development_event_history.sc_developer_id"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_new_bldgs_within_150_of_parcel_for_O1"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_new_bldgs_within_150_of_parcel_for_Om"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_new_bldgs_within_150_of_parcel_for_Smc"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MFH" submodel_id="1025" type="submodel">
+            <description type="string">Submodel for multi family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="development_event_history_x_parcel.sc_acc_pt_for_O1"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_acc_pt_for_Om"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_acc_pt_for_Smc"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="development_event_history.sc_developer_id"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_recreation_area_share_zone_for_O1"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_recreation_area_share_zone_for_Om"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_recreation_area_share_zone_for_Smc"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" inherit_parent_values="False" name="Residential_with_side_use" submodel_id="1030" type="submodel">
+            <description type="string">Submodel for projects with side use.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="development_event_history.sc_developer_id"></variable_spec>
             </variable_list>
           </submodel>
         </specification>
@@ -4193,6 +4321,188 @@
   </scenario_manager>
   <results_manager>
     <indicator_batches name="Indicator Batches" setexpanded="True" type="group">
+      <indicator_batch name="collection_developers">
+        <batch_visualization hidden="Children" name="city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_building_footprints_to_area', 'sc_resi_floor_space_per_capita', 'sc_jobs_to_inhabitants_ratio']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="nb_main_entities_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_nb_persons_city', 'sc_nb_living_units_city', 'sc_nb_buildings_city', 'sc_jobs_city', 'sc_nb_hh_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="nb_main_entities_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_nb_jobs_county', 'sc_nb_persons_county', 'sc_nb_buildings_county', 'sc_nb_living_units_county', 'sc_nb_hh_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_segments_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_non_residential_city', 'sc_floor_capacity_residential_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="floor_capacity_zone" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_capacity_zone']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>zone</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_newly_built_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_sectors_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_transport_newly_built_county', 'sc_floor_space_trade_newly_built_county', 'sc_floor_space_service_newly_built_county', 'sc_floor_space_retail_newly_built_county', 'sc_floor_space_manufacturing_newly_built_county', 'sc_floor_space_hotel_newly_built_county', 'sc_floor_space_health_newly_built_county', 'sc_floor_space_construction_newly_built_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_floor_space_sectors_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_floor_space_manufacturing_newly_built', 'sc_floor_space_construction_newly_built', 'sc_floor_space_trade_newly_built', 'sc_floor_space_retail_newly_built', 'sc_floor_space_hotel_newly_built', 'sc_floor_space_transport_newly_built', 'sc_floor_space_service_newly_built', 'sc_floor_space_health_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_residential_units_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_resi_units_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_buildings_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_buildings_newly_built']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="residential_units_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_occupied_resi_spaces', 'sc_resi_vacancy', 'sc_resi_units_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="residential_units_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_occupied_resi_spaces_city', 'sc_resi_vacancy_city', 'sc_resi_units']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="vacancy_per_sector_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_vacancy_sector99_county', 'sc_vacancy_sector8_county', 'sc_vacancy_sector7_county', 'sc_vacancy_sector6_county', 'sc_vacancy_sector5_county', 'sc_vacancy_sector4_county', 'sc_vacancy_sector3_county', 'sc_vacancy_sector2_county', 'sc_vacancy_sector1_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="travel_indicators_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_share_persons_pt_city', 'sc_share_persons_car_city', 'sc_share_persons_travelling_city', 'sc_mode_share_check_city', 'sc_person_minutes_traveled_pt_city', 'sc_person_minutes_traveled_car_city', 'sc_person_meter_traveled_pt_city', 'sc_person_meter_traveled_car_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="travel_indicators_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_share_persons_travelling_county', 'sc_mode_share_check_county', 'sc_share_persons_car_county', 'sc_share_persons_pt_county', 'sc_person_meter_traveled_pt_county', 'sc_person_minutes_traveled_pt_county', 'sc_person_minutes_traveled_car_county', 'sc_person_meter_traveled_car_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
+      </indicator_batch>
       <indicator_batch name="travel_indicators">
         <batch_visualization hidden="Children" name="travel_indicators_city" type="batch_visualization">
           <settings>
