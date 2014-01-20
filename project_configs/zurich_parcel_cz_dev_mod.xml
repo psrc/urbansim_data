@@ -4111,6 +4111,13 @@
       </matsim4urbansim>
       <matsim_config type="dictionary">
         <common type="dictionary">
+          <external_matsim_config type="dictionary">
+            <matsim_config name="2005" type="file">project_configs/zurich_parcel/external_matsim_config_pt_v3.xml</matsim_config>
+            <matsim_config name="2010" type="file">project_configs/zurich_parcel/external_matsim_config_pt_v3.xml</matsim_config>
+            <matsim_config name="2015" type="file">project_configs/zurich_parcel/external_matsim_config_pt_v3.xml</matsim_config>
+            <matsim_config name="2020" type="file">project_configs/zurich_parcel/external_matsim_config_pt_v3.xml</matsim_config>
+            <matsim_config name="2025" type="file">project_configs/zurich_parcel/external_matsim_config_pt_v3.xml</matsim_config>
+          </external_matsim_config>
           <network followers="input_plans_file,hotstart_plans_file,test_parameter,backup" type="file">data/zurich_kt_parcel/base_year_data/2000/matsim/network/network.multimodal-wu.xml.gz</network>
           <last_iteration type="integer">100</last_iteration>
           <warm_start_plans_file type="file"></warm_start_plans_file>
