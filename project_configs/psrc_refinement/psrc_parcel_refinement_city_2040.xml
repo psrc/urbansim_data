@@ -237,7 +237,7 @@
            </import>
           <init type="dictionary">
           <name hidden="True" name="name" type="string">SubareaScalingJobsModel</name>
-          <argument name="subarea_id_name" parser_action="quote_string" type="string">zone_id</argument>
+          <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
           <argument name="debuglevel" type="string">2</argument>
           </init>
           <prepare_for_run type="dictionary">
