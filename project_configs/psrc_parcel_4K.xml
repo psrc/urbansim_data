@@ -1957,6 +1957,7 @@
         <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name>
         <matrix_h5_directory type="string" convert_blank_to_none="True">/Users/hana/psrc/4Kmodel/skims/h5</matrix_h5_directory>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
+        <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer</travel_model_input_file_writer>
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
