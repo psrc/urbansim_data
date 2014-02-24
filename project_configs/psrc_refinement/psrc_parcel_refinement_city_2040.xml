@@ -100,7 +100,8 @@
           </import>
           <init type="dictionary">
             <name hidden="True" name="name" type="string">SubareaHouseholdLocationChoiceModel</name>
-            <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
+            <argument name="subarea_id_name" parser_action="quote_string" type="string" model_dependency_type="variable">city_id</argument>
+            <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">building.disaggregate(numpy.in1d(zone.faz_id, [1900, 3320, 3427, 8320]), intermediates=[parcel]) </argument>
             <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True">opus_core.samplers.weighted_sampler</argument>
             <!-- <argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/> -->
             <argument name="sample_size_locations" type="integer">500</argument>
@@ -193,12 +194,12 @@
                 </import>
                 <init type="dictionary">
                   <name hidden="True" name="name" type="string">SubareaEmploymentLocationChoiceModel</name>
-                  <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
-                  <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string">psrc_parcel.building.vacant_non_home_based_job_space &gt; 0</argument>
+                  <argument name="subarea_id_name" parser_action="quote_string" type="string" model_dependency_type="variable">city_id</argument>
+                  <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string" model_dependency_type="variable">numpy.logical_and(psrc_parcel.building.vacant_non_home_based_job_space &gt; 0, building.disaggregate(numpy.in1d(zone.faz_id, [1130, 1200, 1900, 2000, 3320]), intermediates=[parcel]))</argument>
                   <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True">opus_core.samplers.weighted_sampler</argument>
                   <!-- <argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/> -->
                   <argument name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">total_SSS_job_space</argument>
-                  <argument name="number_of_agents_string" parser_action="quote_string" type="string">number_of_SSS_jobs</argument>                  
+                  <argument name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">number_of_SSS_jobs</argument>                  
                   <argument name="sample_size_locations" type="integer">500</argument>
                   <argument name="run_config" type="dictionary">
                     <key convert_blank_to_none="True" name="agent_units_string" type="string"/>
