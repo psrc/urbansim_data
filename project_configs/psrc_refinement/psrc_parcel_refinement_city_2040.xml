@@ -127,7 +127,8 @@
            </import>
           <init type="dictionary">
           <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
-          <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
+          <argument name="subarea_id_name" parser_action="quote_string" type="string" model_dependency_type="variable">city_id</argument>
+          <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">building.disaggregate(numpy.in1d(zone.faz_id, [1130, 1200, 1900, 2000, 3320]), intermediates=[parcel])</argument>
           <argument name="submodel_string" type="string" parser_action="quote_string" convert_blank_to_none="True">sector_id</argument>
           <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="debuglevel" type="string">2</argument>
@@ -156,7 +157,7 @@
           <init type="dictionary">
           <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
           <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
-          <argument name="filter" parser_action="quote_string" type="string"></argument>
+          <argument name="filter" parser_action="quote_string" type="string">building.disaggregate(numpy.in1d(zone.faz_id, [1900, 3320, 3427, 8320]), intermediates=[parcel])</argument>
           <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="debuglevel" type="string">2</argument>
           </init>
