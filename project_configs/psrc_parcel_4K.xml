@@ -1887,9 +1887,9 @@
 		 <triptables.auto.am type="dictionary">
 		   <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
 		</triptables.auto.am>
-		 <skims.transit.am.allmode  type="dictionary">
+		 <skims.transit.am.all_mode  type="dictionary">
           <atrtwa type="string">am_total_transit_time_walk</atrtwa>
-         </skims.transit.am.allmode>
+         </skims.transit.am.all_mode>
  		<triptables.transit.walkaccess type="dictionary">		
           <atrnwa type="string">am_transit_person_trip_table</atrnwa>
    	    </triptables.transit.walkaccess>
