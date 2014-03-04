@@ -1885,7 +1885,7 @@
            <awalk type="string">am_walking_person_trips</awalk>
 		 </triptables.nonmotorized.all>
 		 <triptables.autos.am type="dictionary">
-		   <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
+		   <avheda type="string">am_pk_period_drive_alone_vehicle_trips</avheda>
 		</triptables.autos.am>
 		 <skims.transit.am.all_mode  type="dictionary">
           <atrtwa type="string">am_total_transit_time_walk</atrtwa>
