@@ -2039,8 +2039,8 @@
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
-          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">False</selectable>
-          <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">False</selectable>
+          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">True</selectable>
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
