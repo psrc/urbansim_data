@@ -2004,13 +2004,50 @@
             <bank type="integer">['2010']</bank>
           </run_description>
         </years_to_run>
-        <export_macros type="dictionary">
-          <tazvmt1.mac type="dictionary">
-          <bank type="string">bank1</bank>
-          <scenario type="integer">-1</scenario>
-          <path type="string">export_macros</path>
-        </tazvmt1.mac>
-        </export_macros>
+	</travel_model_configuration>
+      </scenario>
+        <scenario executable="True" name="create2000skims" type="scenario">
+      <parent type="scenario_name">PSRC_baseline</parent>
+      <models_to_run config_name="models" type="selectable_list">
+      </models_to_run>
+      <models_in_year type="dictionary">
+      <models_in_year_category  key_name="year" key_value="models_list" type="category_with_special_keys">
+       <doesnotmatter type="dictionary">
+		  <year type="integer">2001</year>
+		  <models_list type="list">[]</models_list>	  
+    </doesnotmatter>
+    </models_in_year_category> 
+      </models_in_year>
+      <base_year type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2001</firstyear>
+        <lastyear type="integer">2001</lastyear>
+      </years_to_run>
+      <seed type="integer" convert_blank_to_none="True">1</seed>
+      <flush_variables type="boolean">True</flush_variables>
+      <advanced  type="category">
+       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list" inherit_parent_values="False">
+       <selectable name="travel_data" type="selectable">False</selectable>
+       </datasets_to_preload>
+      </advanced>
+      <travel_model_configuration type="dictionary"  inherit_parent_values="False">
+        <travel_model_base_directory type="string">d:\travel_model</travel_model_base_directory>
+        <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name>
+        <emme_command type="string">emme -ng 127.0.0.1</emme_command>
+        <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
+        <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
+        <models type="selectable_list">
+          <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">False</selectable>
+          <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">False</selectable>
+        </models>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2001</year>
+            <bank type="list">['2010']</bank>
+          </run_description>
+        </years_to_run>
 	</travel_model_configuration>
       </scenario>
     <scenario executable="True" name="import_skims" type="scenario">
