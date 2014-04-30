@@ -130,10 +130,12 @@
 <variable name="building.multifamily_type" source ="expression" type="variable_definition" use="model variable">(numpy.logical_or(building.building_type_id==4,building.building_type_id==12))</variable>
 <variable use="model variable" source="expression" name="building.schooldistr_totscore" type="variable_definition">building.disaggregate(psrc_parcel.parcel.average_school_district_total_score)</variable>
 <variable name="household_x_building.single_x_lnretailden_wwd" source="expression" type="variable_definition" use="model variable">(household.persons==1) * (household.age_of_head &lt; 50) * (building.disaggregate(ln(psrc_parcel.parcel.urbansim_parcel_package_employment_retail_wwd)) &gt; 4)</variable>
-<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum" type="variable_definition">(household.workers &gt; 0) * psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k</variable>
-<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum_notmissing" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k &gt; -99</variable>
+<!--<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum" type="variable_definition">(urbansim_parcel.household.number_of_workers_with_job &gt; 0) * psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k</variable>-->
+<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k</variable>
+<!--<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum_missing" type="variable_definition">((psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -99)*(urbansim_parcel.household.number_of_workers_with_job &gt; 0)).astype(bool8)</variable>-->
 <variable use="model variable" source="Python class" name="household_x_building.avg_network_distance_notmissing" type="variable_definition">psrc_parcel.household_x_building.avg_network_distance_from_home_to_work &gt; 0</variable>
-<variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(household.workers==0) * ( ((psrc_parcel.household.income_breaks_34000_64000_102000==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)) )</variable>
+<!--<variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(numpy.logical_or(urbansim_parcel.household.number_of_workers_with_job==0, numpy.logical_and(psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -99, urbansim_parcel.household.number_of_workers_with_job &gt; 0))) * ( ((psrc_parcel.household.income_breaks_34000_64000_102000==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)) )</variable>-->
+<variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -20) * psrc_parcel.household_x_building.avg_trip_weighted_zone_logsum</variable>
 
 </expression_library>
  </general>
@@ -1658,7 +1660,7 @@
               <variable_spec name="household_x_building.E_avg_network_distance"/>
               <!--<variable_spec name="household_x_building.avg_network_distance_notmissing"/>-->
               <variable_spec name="household_x_building.max_commute_logsum"/>
-             <!-- <variable_spec name="household_x_building.max_commute_logsum_notmissing"/>-->
+             <!-- <variable_spec name="household_x_building.max_commute_logsum_missing"/>-->
              <!--  <variable_spec name="building.Kitsap"/> -->
               <variable_spec name="household_x_building.c_same_area"/> 
              <!--  <variable_spec name="household_x_building.b_same_area_type"/> -->
