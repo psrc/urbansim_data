@@ -131,12 +131,21 @@
 <variable use="model variable" source="expression" name="building.schooldistr_totscore" type="variable_definition">building.disaggregate(psrc_parcel.parcel.average_school_district_total_score)</variable>
 <variable name="household_x_building.single_x_lnretailden_wwd" source="expression" type="variable_definition" use="model variable">(household.persons==1) * (household.age_of_head &lt; 50) * (building.disaggregate(ln(psrc_parcel.parcel.urbansim_parcel_package_employment_retail_wwd)) &gt; 4)</variable>
 <!--<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum" type="variable_definition">(urbansim_parcel.household.number_of_workers_with_job &gt; 0) * psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k</variable>-->
-<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum" type="variable_definition">psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k</variable>
+<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum" type="variable_definition">((psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k &gt; -20)*psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k) + ((psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k &lt;-19) * psrc_parcel.household_x_building.avg_trip_weighted_zone_logsum)</variable>
 <!--<variable use="model variable" source="expression" name="household_x_building.max_commute_logsum_missing" type="variable_definition">((psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -99)*(urbansim_parcel.household.number_of_workers_with_job &gt; 0)).astype(bool8)</variable>-->
 <variable use="model variable" source="Python class" name="household_x_building.avg_network_distance_notmissing" type="variable_definition">psrc_parcel.household_x_building.avg_network_distance_from_home_to_work &gt; 0</variable>
 <!--<variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(numpy.logical_or(urbansim_parcel.household.number_of_workers_with_job==0, numpy.logical_and(psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -99, urbansim_parcel.household.number_of_workers_with_job &gt; 0))) * ( ((psrc_parcel.household.income_breaks_34000_64000_102000==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)) )</variable>-->
 <variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -20) * psrc_parcel.household_x_building.avg_trip_weighted_zone_logsum</variable>
-
+<variable use="model variable" source="Python class" name="household_x_building.avg_network_distance" type="variable_definition">replace_value_with_mean(psrc_parcel.household_x_building.avg_network_distance_from_home_to_work, 0)</variable>
+<variable use="model variable" source="Python class" name="household_x_building.max_commute_home_to_work" type="variable_definition">replace_value_with_mean(psrc_parcel.household_x_building.max_drive_alone_hbw_am_travel_time_from_home_to_work, 180)</variable>
+<variable use="model variable" source="Python class" name="household_x_building.max_tranwalk_home_to_work" type="variable_definition">replace_value_with_mean(psrc_parcel.household_x_building.max_transit_walk_hbw_am_travel_time_from_home_to_work, 0)</variable>
+<variable use="model variable" source="expression" name="household_x_building.avg_work_logsum" type="variable_definition">psrc_parcel.household_x_building.avg_trip_weighted_zone_logsum</variable>
+<variable use="model variable" source="expression" name="building.mode_split_transit" type="variable_definition">building.disaggregate(psrc.zone.mode_split_transit_trips_over_all)</variable>
+<variable use="model variable" source="expression" name="building.twa_from_home_tranwalk" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_transit_walk)</variable>
+<variable use="model variable" source="expression" name="building.twa_from_home_bike" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_bike)</variable>
+<variable use="model variable" source="expression" name="building.twa_to_work_tranwalk" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_to_work_am_transit_walk)</variable>
+<variable use="model variable" source="expression" name="building.twa_to_work_bike" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_to_work_am_bike)</variable>
+<variable use="model variable" source="expression" name="household_x_building.low_mid_income_x_twa_from_home_tranwalk" type="variable_definition">(urbansim.household.is_income_1 + urbansim.household.is_income_2) * building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_transit_walk)</variable>
 </expression_library>
  </general>
  <model_manager>
@@ -1657,12 +1666,16 @@
           <submodel name="submodel" submodel_id="1" type="submodel" hidden="Children">
             <description type="string">Non-inmigrants</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.E_avg_network_distance"/>
+           <!-- <variable_spec name="building.mode_split_transit"/>-->
+           <!-- <variable_spec name="household_x_building.low_mid_income_x_twa_from_home_tranwalk"/>-->
+           <!-- <variable_spec name="household_x_building.max_tranwalk_home_to_work"/>-->
+          <!-- <variable_spec name="household_x_building.max_commute_home_to_work"/>-->
+             <variable_spec name="household_x_building.avg_network_distance"/>
               <!--<variable_spec name="household_x_building.avg_network_distance_notmissing"/>-->
-              <variable_spec name="household_x_building.max_commute_logsum"/>
+             <variable_spec name="household_x_building.max_commute_logsum"/>
              <!-- <variable_spec name="household_x_building.max_commute_logsum_missing"/>-->
              <!--  <variable_spec name="building.Kitsap"/> -->
-              <variable_spec name="household_x_building.c_same_area"/> 
+             <variable_spec name="household_x_building.c_same_area"/> 
              <!--  <variable_spec name="household_x_building.b_same_area_type"/> -->
              <!--  <variable_spec name="household_x_building.same_btype_if_sfr"/> -->
               <variable_spec name="household_x_building.same_btype_if_mfr"/>
@@ -1671,7 +1684,7 @@
               <variable_spec name="household_x_building.housing_range"/>
               <variable_spec name="building.iv_ln_price_residual"/>
               <!-- <variable_spec name="household_x_building.kids_x_kids"/> -->
-             <!--  <variable_spec name="building.ln_price_per_unit"/> -->
+              <!--<variable_spec name="building.ln_price_per_unit"/> -->
               <variable_spec name="building.lnempden_wwd_threshold"/>
               <!-- <variable_spec name="building.lnempden_threshold"/> -->
               <!-- <variable_spec name="building.lnpopden_threshold"/> -->
@@ -1688,10 +1701,10 @@
              <!-- <variable_spec name="household_x_building.inc_x_condo"/>-->
               <variable_spec name="household_x_building.one_pers_x_not_sfr"/>
               <!-- <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
-              <variable_spec name="household_x_building.big_not_in_seattle"/>
+              <variable_spec name="household_x_building.big_not_in_seattle"/>  
              <!--  <variable_spec name="household_x_building.disposable_inc"/> -->
               <!-- <variable_spec name="building.sqft_per_unit"/> -->
-              <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>
+              <!--<variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>-->
               <!--<variable_spec name="household_x_building.space_per_pers_gt1T"/>-->
               <variable_spec name="household_x_building.owner_x_is_not_mfr"/>
              <!--<variable_spec name="household_x_building.high_income_x_ln_sqft_per_unit"/> 
@@ -2002,7 +2015,7 @@
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
-            <bank type="list">['2010']</bank>
+            <bank type="list">['2040']</bank>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2035</year>
