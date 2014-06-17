@@ -146,6 +146,7 @@
 <variable use="model variable" source="expression" name="building.twa_to_work_tranwalk" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_to_work_am_transit_walk)</variable>
 <variable use="model variable" source="expression" name="building.twa_to_work_bike" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_to_work_am_bike)</variable>
 <variable use="model variable" source="expression" name="household_x_building.low_mid_income_x_twa_from_home_tranwalk" type="variable_definition">(urbansim.household.is_income_1 + urbansim.household.is_income_2) * building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_transit_walk)</variable>
+<variable use="model variable" source="expression" name="person_x_job.logsum_from_home_to_work" type="variable_definition">psrc_parcel.person_x_job.logsum_hbw_am_from_home_to_work_4k</variable>
 </expression_library>
  </general>
  <model_manager>
@@ -1841,7 +1842,7 @@
             <key name="number_of_agents_string" type="string">job.number_of_agents(person)</key>
           </argument>
             <argument name="estimate_config" type="dictionary">
-            <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
+            <key name="estimation" type="string">opus_core.bhhh_mnl_estimation_with_diagnose</key>
             <key name="sampler" type="string">opus_core.samplers.weighted_sampler</key>
             <key name="sample_size_locations" type="integer">30</key>
             <key name="weights_for_estimation_string" type="string">is_placed_job=(urbansim_parcel.job.zone_id &gt; 0).astype(int32)</key>
@@ -1861,16 +1862,16 @@
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
              <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="5"/>-->
-             <variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="1"/>
+             <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="1"/>-->
                <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_ne_19" fixed_value="-1.5"/> -->
-              <!--<variable_spec name="person_x_job.logsum_hbw_am_from_home_to_work"/>-->
+             <variable_spec name="person_x_job.logsum_from_home_to_work"/>
              <variable_spec name="person_x_job.network_distance_from_home_to_work"/>
               <variable_spec name="person_x_job.home_district_is_same_as_workplace_district"/>
-              <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/>-->
+             <variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/>
              <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_ne_19"/> -->  
-             <!-- <variable_spec name="person_x_job.home_dist_1_workplace_dist_1"/>-->
-              <!--<variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/> -->
-              <variable_spec name="person_x_job.home_area_type_3_workplace_area_type_1"/>
+             <!-- <variable_spec name="person_x_job.home_dist_1_workplace_dist_1"/>
+              <variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/>
+              <variable_spec name="person_x_job.home_area_type_3_workplace_area_type_1"/>-->
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_basic"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_retail"/>
               <variable_spec name="person_x_job.edu_x_job_is_in_employment_sector_group_fires"/>
