@@ -1294,21 +1294,21 @@
         <specification type="dictionary"/>
       </model>
       <model name="employment_location_choice_model" type="model">
-              <specification type="dictionary">
+              <specification type="dictionary" inherit_parent_values="False">
                 <submodel_group name="non_home_based" type="submodel_group">
                   <submodel hidden="Children" name="natural_resources" submodel_id="1" type="submodel">
                     <description type="string">Natural Resources</description>
                     <variable_list type="variable_list">
                       <variable_spec name="building.hbwavgtmda_bldg"/>
-                    <!--   <variable_spec name="building.is_near_art"/> -->
+                      <variable_spec name="building.is_near_art"/> 
                       <variable_spec name="building.ln_empden_zone_1"/>
-                     <!-- <variable_spec name="building.ln_unit_price_trunc"/>-->
+                      <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
-                     <!--   <variable_spec name="building.lnemp30da_bldg"/>-->
+                     <!--  <variable_spec name="building.lnemp30da_bldg"/>-->
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_1" fixed_value="1"/>
+                      <!--<variable_spec name="job_x_building.mnl_bias_sector_1" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="construction" submodel_id="2" type="submodel">
@@ -1317,7 +1317,13 @@
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_2" fixed_value="1"/>
+                      <variable_spec name="building.is_near_art"/> 
+                     <!-- <variable_spec name="building.is_near_highway"/>-->
+                      <variable_spec name="building.ln_empden_zone_2"/>
+                      <variable_spec name="building.lngcdacbd_bldg"/>
+                      <variable_spec name="building.lnpopden_bldg"/>
+                      <variable_spec name="building.lnsqft_bldg"/>
+                      <!--<variable_spec name="job_x_building.mnl_bias_sector_2" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="aerospace" submodel_id="3" type="submodel">
@@ -1326,15 +1332,16 @@
                       <variable_spec name="building.is_industrial_building"/>
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
-                      <variable_spec name="building.is_warehousing_building"/>
+                     <!-- <variable_spec name="building.is_warehousing_building"/>-->
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                      <variable_spec name="building.lnavginc_bldg"/>
-                    <!--   <variable_spec name="building.lnemp30da_bldg"/> -->
-                    <!--  <variable_spec name="building.lngcdacbdbell_bldg"/>-->
+                     <!-- <variable_spec name="building.lnavginc_bldg"/>-->
+                     <!-- <variable_spec name="building.lnemp30da_bldg"/>-->
+                     <!-- <variable_spec name="building.lngcdacbdbell_bldg"/>-->
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="building.lnsqft_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_3" fixed_value="1"/>
+                     <!-- <variable_spec name="building.lnsqft_bldg"/>-->
+                      <variable_spec name="building.ln_empden_zone_3"/>
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_3" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="durable_manufacturing" submodel_id="4" type="submodel">
@@ -1343,7 +1350,7 @@
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                      <variable_spec name="building.is_mixed_use_building"/>
+                     <!-- <variable_spec name="building.is_mixed_use_building"/>-->
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
                       <variable_spec name="building.is_office_building"/>
@@ -1351,12 +1358,12 @@
                       <variable_spec name="building.ln_empden_zone_4"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
-                      <variable_spec name="building.lnemp30da_bldg"/>
-                      <!--<variable_spec name="building.lnempden_bldg"/>-->
-                      <variable_spec name="building.lngcdacbd_bldg"/>
-                      <variable_spec name="building.lnpopden_bldg"/>
+                      <!--<variable_spec name="building.lnemp30da_bldg"/>-->
+                      <variable_spec name="building.lnempden_bldg"/>
+                      <!--<variable_spec name="building.lngcdacbd_bldg"/>-->
+                      <!--<variable_spec name="building.lnpopden_bldg"/>-->
                       <variable_spec name="building.lnsqft_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_4" fixed_value="1"/>
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_4" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="nondurable_manufacturing" submodel_id="5" type="submodel">
@@ -1372,13 +1379,13 @@
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.is_warehousing_building"/>
                       <variable_spec name="building.ln_empden_zone_5"/>
-                     <!-- <variable_spec name="building.ln_unit_price_trunc"/>-->
+                      <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_5" fixed_value="1"/>
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_5" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="wholesale" submodel_id="6" type="submodel">
@@ -1387,20 +1394,20 @@
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                    <!--   <variable_spec name="building.is_mixed_use_building"/>  -->
-                    <!--  <variable_spec name="building.is_near_art"/>-->
-                    <!--   <variable_spec name="building.is_near_highway"/> -->
+                     <!-- <variable_spec name="building.is_mixed_use_building"/> -->
+                      <variable_spec name="building.is_near_art"/>
+                     <!-- <variable_spec name="building.is_near_highway"/> -->
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.is_warehousing_building"/>
                       <variable_spec name="building.ln_empden_zone_6"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                      <variable_spec name="building.lnavginc_bldg"/>
+                     <!-- <variable_spec name="building.lnavginc_bldg"/>-->
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="building.lnsqft_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_6" fixed_value="1"/>
+                    <!--  <variable_spec name="building.lnsqft_bldg"/>-->
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_6" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="retail" submodel_id="7" type="submodel">
@@ -1408,18 +1415,18 @@
                     <variable_list type="variable_list">
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
-                    <!--  <variable_spec name="building.is_mixed_use_building"/> -->
+                      <variable_spec name="building.is_mixed_use_building"/> 
                      <variable_spec name="building.is_near_art"/>
-                    <!--   <variable_spec name="building.is_near_highway"/>-->
+                      <variable_spec name="building.is_near_highway"/>
                       <variable_spec name="building.is_warehousing_building"/>
                       <variable_spec name="building.ln_empden_zone_7"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                    <!--  <variable_spec name="building.lnavginc_bldg"/>-->
+                      <variable_spec name="building.lnavginc_bldg"/>
                     <!--  <variable_spec name="building.lnemp30da_bldg"/>-->
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbd_bldg"/>
-                      <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_7" fixed_value="1"/>
+                    <!--  <variable_spec name="building.lnpopden_bldg"/>-->
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_7" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="transportation_warehousing" submodel_id="8" type="submodel">
@@ -1427,6 +1434,8 @@
                     <variable_list type="variable_list">
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_industrial_building"/>
+                      <variable_spec name="building.is_commercial_building"/>
+                      <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
                       <variable_spec name="building.is_warehousing_building"/>
@@ -1437,32 +1446,33 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
                       <variable_spec name="building.lnsqft_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_8" fixed_value="1"/>
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_8" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="utilities" submodel_id="9" type="submodel">
                     <description type="string">Utilities</description>
                     <variable_list type="variable_list">
-                     <!-- <variable_spec name="building.hbwavgtmda_bldg"/>-->
-                      <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.ln_empden_zone_9"/>
+                      <variable_spec name="building.hbwavgtmda_bldg"/>
+                      <variable_spec name="building.is_commercial_building"/>
+                      <variable_spec name="building.is_office_building"/>
+                      <!--<variable_spec name="building.is_near_art"/>-->
+                     <!-- <variable_spec name="building.ln_empden_zone_9"/>-->
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
-                      <variable_spec name="building.lnempden_bldg"/>
-                      <variable_spec name="building.lngcdacbd_bldg"/>
-                      <variable_spec name="building.lnpopden_bldg"/>
+                     <!-- <variable_spec name="building.lnempden_bldg"/>-->
+                     <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
+                     <!-- <variable_spec name="building.lnpopden_bldg"/>-->
                       <variable_spec name="building.lnsqft_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_9" fixed_value="1"/>
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_9" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="telecom" submodel_id="10" type="submodel">
                     <description type="string">Telecom</description>
                     <variable_list type="variable_list">
-                      <variable_spec name="building.inugb_bldg"/>
+                    <!--  <variable_spec name="building.inugb_bldg"/>-->
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                      <!--<variable_spec name="building.is_mixed_use_building"/>!-->
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
                       <variable_spec name="building.is_office_building"/>
@@ -1474,7 +1484,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_10" fixed_value="1"/>
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_10" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="information" submodel_id="11" type="submodel">
@@ -1485,25 +1495,26 @@
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
+                      <variable_spec name="building.is_office_building"/>
                      <!-- <variable_spec name="building.is_near_art"/>-->
-                      <!-- <variable_spec name="building.is_near_highway"/>  -->
+                      <variable_spec name="building.is_near_highway"/> 
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_11"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                      <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
-                      <variable_spec name="building.lngcdacbdbell_bldg"/>
+                     <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
+                     <!-- <variable_spec name="building.lngcdacbdbell_bldg"/>-->
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_11" fixed_value="1"/>
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_11" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="finance" submodel_id="12" type="submodel">
                     <description type="string">Finance</description>
                     <variable_list type="variable_list">
-                     <!-- <variable_spec name="building.hbwavgtmda_bldg"/>-->
-                      <variable_spec name="building.inugb_bldg"/>
+                      <variable_spec name="building.hbwavgtmda_bldg"/>
+                    <!--  <variable_spec name="building.inugb_bldg"/>-->
                       <variable_spec name="building.is_commercial_building"/>
                      <!-- <variable_spec name="building.is_industrial_building"/>-->
                       <variable_spec name="building.is_mixed_use_building"/>
@@ -1511,19 +1522,20 @@
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_12"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                     <!--  <variable_spec name="building.lnavginc_bldg"/> -->
+                      <variable_spec name="building.lnavginc_bldg"/> 
                       <variable_spec name="building.lnemp30da_bldg"/>
-                      <variable_spec name="building.lnempden_bldg"/>
+                     <!-- <variable_spec name="building.lnempden_bldg"/>-->
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_12" fixed_value="1"/>
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_12" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="professional_services" submodel_id="13" type="submodel">
                     <description type="string">Professional services</description>
                     <variable_list type="variable_list">
+                      <variable_spec name="building.hbwavgtmda_bldg"/>
                       <variable_spec name="building.inugb_bldg"/>
-                      <variable_spec name="building.is_commercial_building"/>
+                      <!--<variable_spec name="building.is_commercial_building"/>-->
                       <variable_spec name="building.is_industrial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
                       <variable_spec name="building.is_near_art"/>
@@ -1531,67 +1543,66 @@
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_13"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
-                      <!-- <variable_spec name="building.lnavginc_bldg"/>  -->
+                      <variable_spec name="building.lnavginc_bldg"/> 
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                     <!--  <variable_spec name="building.lngcdacbdbell_bldg"/>-->
-                      <variable_spec name="building.lngcdacbd_bldg"/>
+                      <!--<variable_spec name="building.lngcdacbdbell_bldg"/>-->
+                      <!--<variable_spec name="building.lngcdacbd_bldg"/>-->
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_13" fixed_value="1"/>
+                     <!-- <variable_spec name="job_x_building.mnl_bias_sector_13" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="food_and_drink" submodel_id="14" type="submodel">
                     <description type="string">Food and drink</description>
                     <variable_list type="variable_list">
-                     <!--  <variable_spec name="building.hbwavgtmda_bldg"/> -->
+                     <!-- <variable_spec name="building.hbwavgtmda_bldg"/>-->
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
                       <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.is_near_highway"/>
+                      <!--<variable_spec name="building.is_near_highway"/>-->
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_14"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
-                      <variable_spec name="building.lngcdacbd_bldg"/>
-                     <!--  <variable_spec name="building.lngcdacbdbell_bldg"/>-->
-                       <variable_spec name="building.lngcdacbd_bldg"/>
+                     <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
+                    <!-- <variable_spec name="building.lngcdacbdbell_bldg"/>-->
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_14" fixed_value="1"/>
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_14" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="ed_services" submodel_id="15" type="submodel">
                     <description type="string">ed_services</description>
                     <variable_list type="variable_list">
-                    <!--  <variable_spec name="building.hbwavgtmda_bldg"/>-->
+                     <variable_spec name="building.hbwavgtmda_bldg"/>
                       <variable_spec name="building.inugb_bldg"/>
                       <variable_spec name="building.is_commercial_building"/>
                       <variable_spec name="building.is_industrial_building"/>
-                    <!--  <variable_spec name="building.is_mixed_use_building"/>-->
+                     <!--<variable_spec name="building.is_mixed_use_building"/>-->
                       <variable_spec name="building.is_near_art"/>
                       <variable_spec name="building.is_near_highway"/>
-                      <variable_spec name="building.is_office_building"/>
+                     <!-- <variable_spec name="building.is_office_building"/>-->
                       <variable_spec name="building.ln_empden_zone_15"/>
-                    <!--  <variable_spec name="building.ln_unit_price_trunc"/>-->
+                      <variable_spec name="building.ln_unit_price_trunc"/>
                       <variable_spec name="building.lnavginc_bldg"/>
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_15" fixed_value="1"/>
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_15" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="health" submodel_id="16" type="submodel">
                     <description type="string">Health</description>
                     <variable_list type="variable_list">
-                  <!--    <variable_spec name="building.hbwavgtmda_bldg"/> -->
+                     <variable_spec name="building.hbwavgtmda_bldg"/> 
                       <variable_spec name="building.inugb_bldg"/>
-                      <variable_spec name="building.is_commercial_building"/>
-                     <!-- <variable_spec name="building.is_industrial_building"/>-->
-                      <!-- <variable_spec name="building.is_mixed_use_building"/>  -->
+                    <!--  <variable_spec name="building.is_commercial_building"/>-->
+                    <!--  <variable_spec name="building.is_industrial_building"/>-->
+                    <!--   <variable_spec name="building.is_mixed_use_building"/>-->
                       <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.is_near_highway"/>
+                    <!--  <variable_spec name="building.is_near_highway"/>-->
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_16"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
@@ -1600,7 +1611,7 @@
                       <variable_spec name="building.lnempden_bldg"/>
                       <variable_spec name="building.lngcdacbdbell_bldg"/>
                       <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_16" fixed_value="1"/>
+                    <!--  <variable_spec name="job_x_building.mnl_bias_sector_16" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                   <submodel hidden="Children" name="other_services" submodel_id="17" type="submodel">
@@ -1611,7 +1622,7 @@
                       <variable_spec name="building.is_industrial_building"/>
                       <variable_spec name="building.is_mixed_use_building"/>
                       <variable_spec name="building.is_near_art"/>
-                      <variable_spec name="building.is_near_highway"/>
+                     <!-- <variable_spec name="building.is_near_highway"/>-->
                       <variable_spec name="building.is_office_building"/>
                       <variable_spec name="building.ln_empden_zone_17"/>
                       <variable_spec name="building.ln_unit_price_trunc"/>
@@ -1619,9 +1630,9 @@
                       <variable_spec name="building.lnemp30da_bldg"/>
                       <variable_spec name="building.lnempden_bldg"/>
                      <!-- <variable_spec name="building.lngcdacbd_bldg"/>-->
-                     <!-- <variable_spec name="building.lngcdacbdbell_bldg"/>-->
-                      <variable_spec name="building.lnpopden_bldg"/>
-                      <variable_spec name="job_x_building.mnl_bias_sector_17" fixed_value="1"/>
+                      <variable_spec name="building.lngcdacbdbell_bldg"/>
+                     <!-- <variable_spec name="building.lnpopden_bldg"/>-->
+                   <!--   <variable_spec name="job_x_building.mnl_bias_sector_17" fixed_value="1"/>-->
                     </variable_list>
                   </submodel>
                 </submodel_group>
