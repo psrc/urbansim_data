@@ -484,7 +484,33 @@
                   </submodel>
                 </submodel_group>
               </specification>
-      </model>      
+      </model>
+      <model copyable="True" hidden="False" name="governmental_employment_location_choice_model" type="model" inherit_parent_values="False">
+      <structure type="dictionary">
+           <import hidden="True" name="import" type="dictionary">
+                  <class_module type="string">urbansim_parcel.models.subarea_scaling_jobs_model</class_module>
+                  <class_name>SubareaScalingJobsModel</class_name>
+           </import>
+          <init type="dictionary">
+          <name hidden="True" name="name" type="string">SubareaScalingJobsModel</name>
+          <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
+          <argument name="debuglevel" type="string">2</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+          <name hidden="True" name="name" type="string">prepare_for_run</name>
+          <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
+          <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">numpy.logical_or(job.sector_id==18, job.sector_id==19)</argument>
+          <argument name="agents_index" type="string">erm_index</argument>
+          <output hidden="True" name="output" type="string">filtered_erm_index</output>
+          </prepare_for_run>
+          <run type="dictionary">
+              <argument name="location_set" type="string" model_dependency_type="dataset">building</argument>
+              <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
+              <argument name="agents_index" type="string">filtered_erm_index</argument>
+              <argument name="run_no_area" type="boolean">False</argument>
+          </run>
+       </structure>
+    </model>     
       </models>
          <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
@@ -509,19 +535,19 @@
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
         <selectable name="jobs_event_model" type="model_choice">False</selectable>
-        <selectable name="assign_city_to_households" type="model_choice">True</selectable>
+        <selectable name="assign_city_to_households" type="model_choice">False</selectable>
         <selectable name="assign_city_to_jobs" type="model_choice">True</selectable>
-        <selectable name="household_transition_model" type="model_choice">True</selectable>
+        <selectable name="household_transition_model" type="model_choice">False</selectable>
         <selectable name="set_inmigrants_model" type="model_choice">False</selectable>
         <selectable name="employment_transition_model" type="model_choice">True</selectable>
         <selectable name="job_person_consistency_keeper" type="model_choice">False</selectable>
         <selectable name="household_relocation_model" type="model_choice">False</selectable>
         <selectable name="household_location_choice_model" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_households_if_lower_accessibility" type="model_choice">False</selectable>
-        <selectable name="employment_relocation_model" type="model_choice">False</selectable>
+        <selectable name="employment_relocation_model" type="model_choice">True</selectable>
         <selectable name="employment_location_choice_model" type="model_choice">False<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="model_choice">False</selectable>
+        <selectable name="governmental_employment_location_choice_model" type="model_choice">True</selectable>
         <selectable name="distribute_unplaced_mining_utilities_jobs_model" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
         <selectable name="work_at_home_choice_model" type="model_choice">False</selectable>
@@ -567,7 +593,7 @@
         <selectable name="employment_relocation_model" type="model_choice">True</selectable>
         <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="distribute_unplaced_jobs_model" type="model_choice">False</selectable>
+        <selectable name="governmental_employment_location_choice_model" type="model_choice">True</selectable>
         <selectable name="distribute_unplaced_mining_utilities_jobs_model" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
         <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
