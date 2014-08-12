@@ -345,9 +345,9 @@
         <selectable name="jobs_event_model" type="model_choice">False</selectable>
         <selectable name="assign_city_to_households" type="model_choice">True</selectable>
         <selectable name="assign_city_to_jobs" type="model_choice">True</selectable>
-        <selectable name="household_transition_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model" type="model_choice">True</selectable>
         <selectable name="set_inmigrants_model" type="model_choice">True</selectable>
-        <selectable name="employment_transition_model" type="model_choice">False</selectable>
+        <selectable name="employment_transition_model" type="model_choice">True</selectable>
         <selectable name="job_person_consistency_keeper" type="model_choice">False</selectable>
         <selectable name="household_relocation_model" type="model_choice">False</selectable>
         <selectable name="household_location_choice_model" type="model_choice">False</selectable>
@@ -384,8 +384,8 @@
       <scenario executable="True" name="psrc_luv" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
        <models_to_run config_name="models" type="selectable_list">
-        <selectable name="delete_city_from_households" type="model_choice">True</selectable>
-        <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
+        <selectable name="delete_city_from_households" type="model_choice">False</selectable>
+        <selectable name="delete_city_from_jobs" type="model_choice">False</selectable>
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
@@ -419,19 +419,19 @@
 	   </yearset>
        <yearset type="dictionary">
           <year type="integer">2010</year>
-		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident"]</models_list>
+		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
        </yearset>
        <yearset type="dictionary">
           <year type="integer">2025</year>
-		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident"]</models_list>
+		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
        </yearset>
         <yearset type="dictionary">
           <year type="integer">2035</year>
-		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident"]</models_list>
+		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
        </yearset>
        <yearset type="dictionary">
           <year type="integer">2040</year>
-		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident"]</models_list>
+		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
        </yearset>
     </models_in_year_category> 
       </models_in_year>
@@ -441,7 +441,7 @@
         <lastyear type="integer">2040</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
-      <flush_variables type="boolean">True</flush_variables>
+      <flush_variables type="boolean">False</flush_variables>
       </scenario>
  </scenario_manager>
  </opus_project>
