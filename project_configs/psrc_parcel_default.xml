@@ -164,7 +164,7 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-      <model name="employment_transition_model" type="model" inherit_parent_values="False">
+      <model name="employment_transition_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module>urbansim.models.transition_model</class_module>
