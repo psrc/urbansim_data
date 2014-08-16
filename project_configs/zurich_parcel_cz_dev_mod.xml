@@ -4,6 +4,24 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="parcel.sc_municipal_taxindex_parc" source="primary attribute" type="variable_definition" use="both">parcel.municipal_taxindex</variable>
+      <variable name="parcel.sc_profit_proxi" source="expression" type="variable_definition" use="both">(parcel.disaggregate(zone.aggregate(exp(living_unit.ln_rent_price) / living_unit.area, function=mean, intermediates=[building])))/(parcel.disaggregate(city.avrg_landprice) * parcel.parcel_sqft)</variable>
+      <variable name="parcel.sc_generic_plan_type_9_parc" source="expression" type="variable_definition" use="both">(numpy.int_(parcel.plan_type_id/1000)==9) * 1</variable>
+      <variable name="parcel.sc_generic_plan_type_5_parc" source="expression" type="variable_definition" use="both">(numpy.int_(parcel.plan_type_id/1000)==5) * 1</variable>
+      <variable name="parcel.sc_generic_plan_type_7_parc" source="expression" type="variable_definition" use="both">(numpy.int_(parcel.plan_type_id/1000)==7) * 1</variable>
+      <variable name="parcel.sc_generic_plan_type_3_parc" source="expression" type="variable_definition" use="both">(numpy.int_(parcel.plan_type_id/1000)==3) * 1</variable>
+      <variable name="parcel.sc_generic_plan_type_2_parc" source="expression" type="variable_definition" use="both">(numpy.int_(parcel.plan_type_id/1000)==2) * 1</variable>
+      <variable name="parcel.sc_generic_plan_type_1_parc" source="expression" type="variable_definition" use="both">(numpy.int_(parcel.plan_type_id/1000)==1) * 1</variable>
+      <variable name="parcel.sc_generic_plan_type_parc" source="primary attribute" type="variable_definition" use="both">parcel.plan_type_id%1000</variable>
+      <variable name="parcel.sc_dist_to_station_parc" source="primary attribute" type="variable_definition" use="both">parcel.dist_to_station</variable>
+      <variable name="parcel.sc_lake_view_parc" source="primary attribute" type="variable_definition" use="both">parcel.gr_lake_view</variable>
+      <variable name="parcel.sc_sun_evening_parc" source="primary attribute" type="variable_definition" use="both">parcel.gr_sun_eve</variable>
+      <variable name="parcel.sc_land_price_comparis2014" source="primary attribute" type="variable_definition" use="both">parcel.purchasepricepersqmchf</variable>
+      <variable name="parcel.sc_slope_parc" source="primary attribute" type="variable_definition" use="both">parcel.gr_slope_deg</variable>
+      <variable name="parcel.sc_dist_to_zh_cbd_parc" source="primary attribute" type="variable_definition" use="both">parcel.dist_to_zh_cbd</variable>
+      <variable name="parcel.sc_acc_pt_parc" source="expression" type="variable_definition" use="both">ln(parcel.pt_accessibility)</variable>
+      <variable name="city.sc_year" source="primary attribute" type="variable_definition" use="indicator">city.year</variable>
+      <variable name="parcel.sc_avrg_price_per_sqm_lu_zone" source="expression" type="variable_definition" use="both">parcel.disaggregate(zone.aggregate(exp(living_unit.ln_rent_price) / living_unit.area, function=mean, intermediates=[building]))</variable>
       <variable name="parcel.sc_job_density_parcel" source="expression" type="variable_definition" use="both">urbansim_parcel.parcel.number_of_jobs / parcel.parcel_sqft</variable>
       <variable name="development_event_history_x_parcel.sc_developer_id" source="primary attribute" type="variable_definition" use="both">development_event_history.bhnr * (parcel.parcel_id&gt;0)</variable>
       <variable name="city.sc_building_footprints_to_area" source="expression" type="variable_definition" use="both">city.aggregate(building.land_area, function=sum, intermediates=[parcel]) / city.aggregate(parcel.parcel_sqft, function=sum)</variable>
@@ -77,6 +95,8 @@
       <variable name="city.sc_resi_vacancy_city" source="expression" type="variable_definition" use="indicator">(1 - ((city.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])))</variable>
       <variable name="city.sc_nb_hh_city" source="expression" type="variable_definition" use="indicator">city.aggregate(living_unit.number_of_agents(households), intermediates=[building, parcel])</variable>
       <variable name="city.sc_resi_units" source="expression" type="variable_definition" use="indicator">city.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])</variable>
+      <variable name="parcel.sc_newcomers_within_300_of_parcel" source="Python class" type="variable_definition" use="both">zurich_parcel.parcel.newcomers_within_300_of_parcel</variable>
+      <variable name="parcel.sc_dist_to_highwayaccess_parc" source="primary attribute" type="variable_definition" use="both">parcel.dist_to_highwayaccess</variable>
       <variable name="city.sc_rent_price_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(exp(living_unit.ln_rent_price), function=sum, intermediates=[building, parcel]) / city.aggregate(living_unit.living_unit_id&gt;=0, function=sum, intermediates=[building, parcel])</variable>
       <variable name="county.sc_vacancy_sector99_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_99, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_99, intermediates=[parcel])))</variable>
       <variable name="county.sc_vacancy_sector8_county" source="expression" type="variable_definition" use="indicator">(1 - ((county.aggregate(zurich_parcel.building.sc_occupied_spaces_8, intermediates=[parcel]))) / (county.aggregate(zurich_parcel.building.sc_total_spaces_8, intermediates=[parcel])))</variable>
@@ -133,7 +153,7 @@
       <variable name="development_event_history_x_parcel.sc_acc_car_for_Smc" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 3) * (ln(parcel.car_accessibility))</variable>
       <variable name="development_event_history_x_parcel.sc_acc_car_for_Om" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 2) * (ln(parcel.car_accessibility))</variable>
       <variable name="development_event_history_x_parcel.sc_acc_car_for_O1" source="expression" type="variable_definition" use="both">(development_event_history.developer_type == 1) * (ln(parcel.car_accessibility))</variable>
-      <variable name="parcel.sc_acc_car" source="primary attribute" type="variable_definition" use="both">ln(parcel.car_accessibility)</variable>
+      <variable name="parcel.sc_acc_car_parc" source="primary attribute" type="variable_definition" use="both">ln(parcel.car_accessibility)</variable>
       <variable name="city.sc_nb_living_units_city" source="expression" type="variable_definition" use="indicator">city.aggregate(building.number_of_agents(living_units), intermediates=[parcel])</variable>
       <variable name="city.sc_jobs_city" source="expression" type="variable_definition" use="both">city.aggregate(building.number_of_agents(jobs), intermediates=[parcel])</variable>
       <variable name="parcel.sc_new_bldgs_within_150_of_parcel" source="Python class" type="variable_definition" use="model variable">zurich_parcel.parcel.new_bldgs_within_150_of_parcel</variable>
@@ -196,6 +216,554 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_land_price_parcel_segmented" type="model">INWORK. Submodel id probably has to be a primary attribute.<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string">sc_generic_plan_type_parc</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_land_price_parcel_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(parcel.is_street&lt;&gt;1, numpy.logical_and(parcel.purchasepricepersqmchf&lt;&gt;-1, parcel.purchasepricepersqmchf&lt;4531))</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="Centre" submodel_id="3" type="submodel">
+            <description type="string">Land price in centre zones</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_acc_car_parc"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_highwayaccess_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_station_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_slope_parc"></variable_spec>
+              <variable_spec name="parcel.sc_sun_evening_parc"></variable_spec>
+              <variable_spec name="parcel.sc_taxlevel_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" inherit_parent_values="False" name="Residential_and_commercial" submodel_id="2" type="submodel">
+            <description type="string">Land price in residential and commercial zones</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_acc_car_parc"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_highwayaccess_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_station_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_slope_parc"></variable_spec>
+              <variable_spec name="parcel.sc_sun_evening_parc"></variable_spec>
+              <variable_spec name="parcel.sc_taxlevel_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="Residential" submodel_id="1" type="submodel">
+            <description type="string">Land price in residential zones</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_acc_car_parc"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_highwayaccess_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_station_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_slope_parc"></variable_spec>
+              <variable_spec name="parcel.sc_sun_evening_parc"></variable_spec>
+              <variable_spec name="parcel.sc_taxlevel_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_land_price_parcel_extensive" type="model">INWORK. correct table names for storing values <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_land_price_parcel_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(parcel.is_street&lt;&gt;1, numpy.logical_and(parcel.purchasepricepersqmchf&lt;&gt;-1, parcel.purchasepricepersqmchf&lt;4531))</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_acc_car_parc"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_highwayaccess_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_station_parc"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_slope_parc"></variable_spec>
+              <variable_spec name="parcel.sc_sun_evening_parc"></variable_spec>
+              <variable_spec name="parcel.sc_taxlevel_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_land_price_parcel_2" type="model">Including dummies for generic plan types<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_2_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_land_price_parcel_2_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(parcel.is_street&lt;&gt;1, numpy.logical_and(parcel.purchasepricepersqmchf&lt;&gt;-1, parcel.purchasepricepersqmchf&lt;4531))</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_2_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_2_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_3_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_5_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_7_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_9_parc"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_slope_parc"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_land_price_parcel_6" type="model">Duplicate 4, removing municipal_taxindex because of wrong sign<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_6_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_land_price_parcel_6_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(parcel.is_street&lt;&gt;1, numpy.logical_and(parcel.purchasepricepersqmchf&lt;&gt;-1, parcel.purchasepricepersqmchf&lt;4531))</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_6_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_2_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_3_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_5_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_7_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_9_parc"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_sun_evening_parc"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_land_price_parcel_4" type="model">Duplicate 2, replicate model 4 estimated in R<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_4_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_land_price_parcel_4_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(parcel.is_street&lt;&gt;1, numpy.logical_and(parcel.purchasepricepersqmchf&lt;&gt;-1, parcel.purchasepricepersqmchf&lt;4531))</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_4_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_2_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_3_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_5_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_7_parc"></variable_spec>
+              <variable_spec name="parcel.sc_generic_plan_type_9_parc"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+              <variable_spec name="parcel.sc_municipal_taxindex_parc"></variable_spec>
+              <variable_spec name="parcel.sc_sun_evening_parc"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_land_price_parcel" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_land_price_parcel_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_and(parcel.is_street&lt;&gt;1, numpy.logical_and(parcel.purchasepricepersqmchf&lt;&gt;-1, parcel.purchasepricepersqmchf&lt;4531))</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="Submodel" submodel_id="-2" type="submodel">
+            <description type="string">A sample submodel. In order to estimate the model, please add at least one variable.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_zh_cbd_parc"></variable_spec>
+              <variable_spec name="parcel.sc_fed_tax_revenue_pers"></variable_spec>
+              <variable_spec name="parcel.sc_lake_view_parc"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="median_land_price_city_temp" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">city</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">median_landprice_sim</output>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string"></argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">median_land_price_city_temp_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">median_land_price_city_temp_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">city</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">city.median_landprice</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">city</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_or(city_id == 1, city_id==2)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">median_land_price_city_temp_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="City2" submodel_id="2" type="submodel">
+            <description type="string">Time series model for municipality 2</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="city.sc_year"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="City1" submodel_id="1" type="submodel">
+            <description type="string">Time series model for municipality 1</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="city.sc_year"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
       <model hidden="False" name="SC_BLCM" type="model">Use single buildings in development_event_history<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
@@ -3859,6 +4427,484 @@
           <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
         </estimation_config>
       </model>
+      <model name="sc_RPLCM_18" type="model">duplicate RPLCM_17, try coefficient of real estate price and land price as proxi for profitability<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_smaller_3000, numpy.logical_and(parcel.is_street==0, sc_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">building_quality_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel18</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM18</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">land_area</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" parser_action="quote_string" type="string">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" parser_action="quote_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_18_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_18_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_18_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="SFH" submodel_id="1021" type="submodel">
+            <description type="string">Submodel for single family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_school"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_profit_proxi"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MFH" submodel_id="1025" type="submodel">
+            <description type="string">Submodel for multi family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_profit_proxi"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" inherit_parent_values="False" name="Residential_with_side_use" submodel_id="1030" type="submodel">
+            <description type="string">Submodel for projects with side use.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_profit_proxi"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_RPLCM_17" type="model">duplicate RPLCM_16, remove accessibility variables due to high correlation with rent price variable<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_smaller_3000, numpy.logical_and(parcel.is_street==0, sc_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">building_quality_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel17</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM17</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">land_area</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" parser_action="quote_string" type="string">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" parser_action="quote_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_17_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_17_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_17_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="SFH" submodel_id="1021" type="submodel">
+            <description type="string">Submodel for single family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_avrg_price_per_sqm_lu_zone"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_school"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MFH" submodel_id="1025" type="submodel">
+            <description type="string">Submodel for multi family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_avrg_price_per_sqm_lu_zone"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" inherit_parent_values="False" name="Residential_with_side_use" submodel_id="1030" type="submodel">
+            <description type="string">Submodel for projects with side use.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_avrg_price_per_sqm_lu_zone"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_RPLCM_16" type="model">duplicate RPLCM_15, add rent price per sqm<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_smaller_3000, numpy.logical_and(parcel.is_street==0, sc_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">building_quality_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel15</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM16</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">land_area</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" parser_action="quote_string" type="string">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" parser_action="quote_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_16_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_16_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_16_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="SFH" submodel_id="1021" type="submodel">
+            <description type="string">Submodel for single family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="parcel.sc_avrg_price_per_sqm_lu_zone"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_school"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MFH" submodel_id="1025" type="submodel">
+            <description type="string">Submodel for multi family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="parcel.sc_avrg_price_per_sqm_lu_zone"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" inherit_parent_values="False" name="Residential_with_side_use" submodel_id="1030" type="submodel">
+            <description type="string">Submodel for projects with side use.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="parcel.sc_avrg_price_per_sqm_lu_zone"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
+      <model name="sc_RPLCM_15" type="model">duplicate RPLCM, replace permitted floor price by land price<structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
+            <class_name type="string">AgentLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">AgentLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">parcel</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices_from_index</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_and(sc_plan_type_id_smaller_3000, numpy.logical_and(parcel.is_street==0, sc_is_unbuilt))</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">building_quality_id</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_string" parser_action="quote_string" type="string">parcel_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">ResidentialProjectLocationChoiceModel15</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">RPLCM15</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="capacity_string" type="string">zurich_parcel.parcel.area_capacity</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_units_string" parser_action="quote_string" type="string">land_area</key>
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="number_of_agents_string" parser_action="quote_string" type="string">built_area</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" model_dependency_type="variable" name="weights_for_estimation_string" parser_action="quote_string" type="string"></key>
+              <key name="sample_size_locations" type="integer">30</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+            </argument>
+          </init>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(alcm_specification, alcm_index)</output>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_15_specification</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument convert_blank_to_none="True" name="index_to_unplace" type="string"></argument>
+            <argument name="join_datasets" type="boolean">True</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="location_id_variable" parser_action="quote_string" type="string">parcel_id</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(alcm_coefficients, dummy)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_index" type="string">alcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+          </estimate>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_RPLCM_15_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_RPLCM_15_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
+            <argument name="agents_filter" parser_action="quote_string" type="string">sc_quality_is_residential</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string">new_building_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">alcm_coefficients</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">alcm_specification</argument>
+            <argument name="maximum_runs" type="integer">10</argument>
+          </run>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="SFH" submodel_id="1021" type="submodel">
+            <description type="string">Submodel for single family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_dist_to_school"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="MFH" submodel_id="1025" type="submodel">
+            <description type="string">Submodel for multi family houses.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_newcomers_within_300_of_parcel"></variable_spec>
+              <variable_spec name="parcel.sc_slope"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" inherit_parent_values="False" name="Residential_with_side_use" submodel_id="1030" type="submodel">
+            <description type="string">Submodel for projects with side use.</description>
+            <variable_list type="variable_list">
+              <variable_spec name="parcel.sc_acc_car"></variable_spec>
+              <variable_spec name="parcel.sc_acc_pt"></variable_spec>
+              <variable_spec name="development_event_history_x_parcel.sc_dev_fit_permitted_floor_m2_step_ln"></variable_spec>
+              <variable_spec name="parcel.sc_land_price"></variable_spec>
+              <variable_spec name="parcel.sc_new_bldgs_within_150_of_parcel"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
       <model name="SC_RPLCM" type="model">Use aggregate buildings per project in development_event_history<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">urbansim.models.agent_location_choice_model</class_module>
@@ -4082,6 +5128,14 @@
       </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="dictionary">
+      <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+        <selectable name="building" type="selectable">True</selectable>
+        <selectable name="household" type="selectable">True</selectable>
+        <selectable name="job" type="selectable">True</selectable>
+        <selectable name="parcel" type="selectable">True</selectable>
+        <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+        <selectable name="city" type="selectable">True</selectable>
+      </datasets_to_preload>
       <save_estimation_results type="boolean">True</save_estimation_results>
     </estimation_config>
     <travel_model_configuration type="dictionary">
@@ -4224,6 +5278,66 @@
         <selectable name="sc_household_transition_model" type="selectable">False</selectable>
         <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
         <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+      </models_to_run>
+    </scenario>
+    <scenario executable="True" name="Apply_REPM" type="scenario">
+      <advanced type="category">
+        <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
+        <debuglevel type="integer">4</debuglevel>
+        <flush_variables type="boolean">False</flush_variables>
+        <seed convert_blank_to_none="True" type="integer">None</seed>
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="living_unit" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+          <selectable name="living_units_history" type="selectable">True</selectable>
+          <selectable name="city" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">False</run_in_same_process>
+        <skip_travel_model type="boolean">False</skip_travel_model>
+        <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
+      </advanced>
+      <cache_directory field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs" field_identifier="Scenario Runs Directory" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <base_year field_identifier="Base Year" name="" type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2000</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_real_estate_price_model" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_real_estate_price_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
     <scenario executable="True" name="Dev_run_baseline" type="scenario">
