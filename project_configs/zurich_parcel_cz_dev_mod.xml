@@ -217,6 +217,25 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_postprocess_land_price_model" type="model">
+        <dependencies type="list">['sc_land_price_model_4']</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument name="outcome_values" type="string">purchasepricepersqmchf</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">purchasepricepersqmchf</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
       <model name="sc_land_price_parcel_segmented" type="model">INWORK. Submodel id probably has to be a primary attribute.<structure type="dictionary">
           <import name="import" type="dictionary">
             <class_module type="string">opus_core.regression_model</class_module>
@@ -566,6 +585,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
             <argument name="data_objects" type="string">datasets</argument>
+            <argument name="output" type="string">pruchasepricepersqmchf</argument>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -5518,6 +5538,66 @@
         <selectable name="sc_household_transition_model" type="selectable">False</selectable>
         <selectable name="sc_household_relocation_model" type="selectable">False</selectable>
         <selectable name="sc_household_location_choice_model" type="selectable">False</selectable>
+      </models_to_run>
+    </scenario>
+    <scenario executable="True" name="Apply_LPM" type="scenario">
+      <advanced type="category">
+        <model_system type="string">zurich_parcel.model_coordinators.model_system</model_system>
+        <debuglevel type="integer">4</debuglevel>
+        <flush_variables type="boolean">False</flush_variables>
+        <seed convert_blank_to_none="True" type="integer">None</seed>
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
+        <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
+          <selectable name="zone" type="selectable">True</selectable>
+          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="household" type="selectable">False</selectable>
+          <selectable name="living_unit" type="selectable">True</selectable>
+          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="buildings_for_estimation" type="selectable">False</selectable>
+          <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable">False<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable">True</selectable>
+          <selectable name="development_event_history" type="selectable">True</selectable>
+          <selectable name="living_units_history" type="selectable">True</selectable>
+          <selectable name="city" type="selectable">True</selectable>
+        </datasets_to_preload>
+        <run_in_same_process type="boolean">False</run_in_same_process>
+        <skip_travel_model type="boolean">False</skip_travel_model>
+        <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
+      </advanced>
+      <cache_directory field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/base_year_data</cache_directory>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/runs" field_identifier="Scenario Runs Directory" name="cache_directory_root" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/runs</argument>
+        <argument name="cache_from_database" type="boolean">False</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument field_description="Parent Directory for simulation runs, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">zurich_kt_parcel/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <base_year field_identifier="Base Year" name="" type="integer">2000</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear field_identifier="First Year of Simulation" name="" type="integer">2000</firstyear>
+        <lastyear field_identifier="Last Year of Simulation" name="" type="integer">2000</lastyear>
+      </years_to_run>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="sc_land_price_parcel_4_1" return_value="sc_land_price_parcel_4" type="selectable">True</selectable>
+        <selectable name="sc_postprocess_land_price_model_1" return_value="sc_postprocess_land_price_model" type="selectable">True</selectable>
       </models_to_run>
     </scenario>
     <scenario executable="True" name="Apply_REPM" type="scenario">
