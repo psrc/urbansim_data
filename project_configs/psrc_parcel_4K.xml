@@ -1905,28 +1905,28 @@
      <matrix_variable_map type="dictionary">
         <skims.auto.am type="dictionary">
           <aau1tm type="string">am_single_vehicle_to_work_travel_time</aau1tm>
-          <aau2tm type="string">am_double_vehicle_to_work_travel_time</aau2tm>
-          <aau3tm type="string">am_threeplus_vehicle_to_work_travel_time</aau3tm>
+         <!--  <aau2tm type="string">am_double_vehicle_to_work_travel_time</aau2tm> 
+          <aau3tm type="string">am_threeplus_vehicle_to_work_travel_time</aau3tm>  -->
           <aau1cs type="string">single_vehicle_to_work_travel_cost</aau1cs>
           <aau1ds type="string">single_vehicle_to_work_travel_distance</aau1ds>
          </skims.auto.am> 
          <skims.nonmotorized.am type="dictionary"> 
-          <abketm type="string">am_bike_to_work_travel_time</abketm>
+       <!--    <abketm type="string">am_bike_to_work_travel_time</abketm>-->
           <awlktm type="string">am_walk_time_in_minutes</awlktm>
 		 </skims.nonmotorized.am>
-		 <triptables.nonmotorized.all type="dictionary">
+		<!-- <triptables.nonmotorized.all type="dictionary">
 		   <abike type="string">am_biking_person_trips</abike>
            <awalk type="string">am_walking_person_trips</awalk>
-		 </triptables.nonmotorized.all>
+		 </triptables.nonmotorized.all>-->
 		 <triptables.autos.am type="dictionary">
 		   <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
 		</triptables.autos.am>
 		 <skims.transit.am.all_mode  type="dictionary">
           <atrtwa type="string">am_total_transit_time_walk</atrtwa>
          </skims.transit.am.all_mode>
- 		<triptables.transit.walkaccess type="dictionary">		
+ 		<!--<triptables.transit.walkaccess type="dictionary">		
           <atrnwa type="string">am_transit_person_trip_table</atrnwa>
-   	    </triptables.transit.walkaccess>
+   	    </triptables.transit.walkaccess>-->
    	    <modechoice.hbwork_inc1 type="dictionary">
          <lsum1 type="string">logsum_hbw_am_income_1</lsum1>
         </modechoice.hbwork_inc1>
@@ -1940,15 +1940,15 @@
           <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
         </modechoice.hbwork_inc4>
         
-       <modechoice.hbnonwork type="dictionary">
+     <!--  <modechoice.hbnonwork type="dictionary"> --> 
         <!--  <mf91 type="string">md_vehicle_miles_traveled</mf91>-->
-          <nweuda type="string">nweuda</nweuda>
+        <!--  <nweuda type="string">nweuda</nweuda>
           <nweus2 type="string">nweus2</nweus2>
           <nweus3 type="string">nweus3</nweus3>
           <nweutw type="string">nweutw</nweutw>
           <nweubk type="string">nweubk</nweubk>
           <nweuwk type="string">nweuwk</nweuwk>
-        </modechoice.hbnonwork>
+        </modechoice.hbnonwork>-->
       <!--  <bank3 type="dictionary">
           <mf91 type="string">pm_ev_ni_vehicle_miles_traveled</mf91>
         </bank3>-->
