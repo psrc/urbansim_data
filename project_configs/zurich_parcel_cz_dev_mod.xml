@@ -4,6 +4,7 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="parcel.land_price" source="primary attribute" type="variable_definition" use="both">parcel.land_price</variable>
       <variable name="development_event_history_x_parcel.sc_land_price_dynamic_median" source="expression" type="variable_definition" use="both">development_event_history.year_built==2000 * parcel.disaggregate(numpy.ma.masked_where(city.year==2000, city.medians_with_imputations)) + development_event_history.year_built==2001 * parcel.disaggregate(numpy.ma.masked_where(city.year==2001, city.medians_with_imputations)) + development_event_history.year_built==2002 * parcel.disaggregate(numpy.ma.masked_where(city.year==2002, city.medians_with_imputations)) + development_event_history.year_built==2003 * parcel.disaggregate(numpy.ma.masked_where(city.year==2003, city.medians_with_imputations)) + development_event_history.year_built==2004 * parcel.disaggregate(numpy.ma.masked_where(city.year==2004, city.medians_with_imputations)) + development_event_history.year_built==2005 * parcel.disaggregate(numpy.ma.masked_where(city.year==2005, city.medians_with_imputations)) + development_event_history.year_built==2006 * parcel.disaggregate(numpy.ma.masked_where(city.year==2006, city.medians_with_imputations)) + development_event_history.year_built==2007 * parcel.disaggregate(numpy.ma.masked_where(city.year==2007, city.medians_with_imputations)) + development_event_history.year_built==2008 * parcel.disaggregate(numpy.ma.masked_where(city.year==2008, city.medians_with_imputations)) + development_event_history.year_built==2009 * parcel.disaggregate(numpy.ma.masked_where(city.year==2009, city.medians_with_imputations)) + development_event_history.year_built==2010 * parcel.disaggregate(numpy.ma.masked_where(city.year==2010, city.medians_with_imputations))</variable>
       <variable name="development_event_history_x_parcel.sc_land_price_dynamic" source="expression" type="variable_definition" use="both">development_event_history.year_built * parcel.disaggregate(city.slopes) + parcel.disaggregate(city.intercepts)</variable>
       <variable name="parcel.sc_municipal_taxindex_parc" source="primary attribute" type="variable_definition" use="both">parcel.municipal_taxindex</variable>
@@ -218,6 +219,89 @@
   </data_manager>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="sc_real_estate_price_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.regression_model</class_module>
+            <class_name type="string">RegressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">RegressionModel</name>
+            <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': False, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string">Resources({'save_predicted_values_and_errors':True})</argument>
+            <argument name="debuglevel" type="integer">0</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">ln_rent_price</output>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string"></argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_real_estate_price_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_real_estate_price_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+            <argument name="sample_coefficients" type="boolean">False</argument>
+            <argument name="distribution" parser_action="quote_string" type="string">normal</argument>
+            <argument name="multiplicator" type="integer">1</argument>
+            <output name="output" type="string">(specification, coefficients, rm_index)</output>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument config_name="outcome_attribute" model_dependency_type="variable" name="dependent_variable" parser_action="quote_string" type="string">ln(rent_price)</argument>
+            <argument convert_blank_to_none="True" name="index" type="string">rm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <output name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">living_unit</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">living_unit.rent_price &gt; 0</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">regression_model_template_specification</argument>
+            <output name="output" type="string">(specification, rm_index)</output>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" inherit_parent_values="False" name="all" submodel_id="-2" type="submodel">
+            <description type="string">Rent price model according to diss of Loechl</description>
+            <variable_list type="variable_list">
+              <variable_spec name="constant"></variable_spec>
+              <variable_spec name="living_unit.sc_acc_car_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_acc_pt_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built21to30_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built81to90_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_built91tonow_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_building_is_pre_1921_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_dist_to_station_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_foreigners_within_300_of_building_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_highway_within_100m_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_is_house_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_jobs_G52_H_within_1km_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_lakeview_ha_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_ln_pop_ha_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_ln_sqm_per_unit_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_logit_slope_lu"></variable_spec>
+              <variable_spec name="living_unit.sc_sunhine_eve_lu"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+        <estimation_config name="Estimation Configuration" parser_action="skip">
+          <config_override config_name="models" name="Models to run before estimation" type="list">[]</config_override>
+        </estimation_config>
+      </model>
       <model name="sc_postprocess_land_price_model" type="model">
         <dependencies type="list">['sc_land_price_model_4']</dependencies>
         <structure type="dictionary">
@@ -257,6 +341,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
             <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">purchasepricepersqmchf</output>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -364,6 +449,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
             <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">purchasepricepersqmchf</output>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -438,7 +524,7 @@
             <argument name="coefficients" type="string">coefficients</argument>
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
-            <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">purchasepricepersqmchf</output>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -511,7 +597,7 @@
             <argument name="coefficients" type="string">coefficients</argument>
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
-            <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">purchasepricepersqmchf</output>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -575,9 +661,9 @@
             <name name="name" type="string">RegressionModel</name>
             <argument name="regression_procedure" parser_action="quote_string" type="string">opus_core.linear_regression</argument>
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="submodel_string" type="string"></argument>
-            <argument convert_blank_to_none="True" name="run_config" type="string"></argument>
-            <argument convert_blank_to_none="True" name="estimate_config" type="string"></argument>
-            <argument name="debuglevel" type="integer">0</argument>
+            <argument convert_blank_to_none="True" name="run_config" type="string">Resources({'exclude_outliers_from_initial_error': False, 'outlier_is_less_than':3, 'outlier_is_greater_than': 7})</argument>
+            <argument convert_blank_to_none="True" name="estimate_config" type="string">Resources({'save_predicted_values_and_errors':True})</argument>
+            <argument name="debuglevel" type="integer">4</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </init>
           <run type="dictionary">
@@ -586,12 +672,12 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
             <argument name="data_objects" type="string">datasets</argument>
-            <argument name="output" type="string">purchasepricepersqmchf</argument>
+            <output hidden="False" name="output" type="string">purchasepricepersqmchf</output>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
-            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string"></argument>
-            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">parcel.is_street&lt;&gt;1</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string"></argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_land_price_parcel_4_specification</argument>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
@@ -663,6 +749,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">parcel</argument>
             <argument convert_blank_to_none="True" hidden="True" name="index" type="string">rm_index</argument>
             <argument name="data_objects" type="string">datasets</argument>
+            <output hidden="False" name="output" type="string">purchasepricepersqmchf</output>
           </run>
           <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
@@ -5788,11 +5875,11 @@
           <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="zone" type="selectable">True</selectable>
-          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="target_vacancy" type="selectable">False</selectable>
           <selectable name="household" type="selectable">False</selectable>
-          <selectable name="living_unit" type="selectable">True</selectable>
-          <selectable name="building" type="selectable">True</selectable>
+          <selectable name="living_unit" type="selectable">False</selectable>
+          <selectable name="building" type="selectable">False</selectable>
           <selectable name="buildings_for_estimation" type="selectable">False</selectable>
           <selectable name="parcel" type="selectable">True<package_name type="string">urbansim_parcel</package_name>
           </selectable>
@@ -5802,7 +5889,7 @@
           </selectable>
           <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
-          <selectable name="job" type="selectable">True</selectable>
+          <selectable name="job" type="selectable">False</selectable>
           <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
           </selectable>
           <selectable name="travel_data" type="selectable">True</selectable>
@@ -5848,8 +5935,8 @@
           <argument name="package_order" type="list">['zurich_parcel','urbansim_parcel', 'urbansim', 'opus_core']</argument>
         </dataset_pool_configuration>
         <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list">
-          <selectable name="zone" type="selectable">True</selectable>
-          <selectable name="target_vacancy" type="selectable">True</selectable>
+          <selectable name="zone" type="selectable">False</selectable>
+          <selectable name="target_vacancy" type="selectable">False</selectable>
           <selectable name="household" type="selectable">False</selectable>
           <selectable name="living_unit" type="selectable">True</selectable>
           <selectable name="building" type="selectable">True</selectable>
@@ -5862,15 +5949,15 @@
           </selectable>
           <selectable name="development_template_component" type="selectable">False<package_name type="string">urbansim_parcel</package_name>
           </selectable>
-          <selectable name="job" type="selectable">True</selectable>
-          <selectable name="building_type" type="selectable">True<package_name type="string">zurich_parcel</package_name>
+          <selectable name="job" type="selectable">False</selectable>
+          <selectable name="building_type" type="selectable">False<package_name type="string">zurich_parcel</package_name>
           </selectable>
-          <selectable name="travel_data" type="selectable">True</selectable>
-          <selectable name="development_event_history" type="selectable">True</selectable>
-          <selectable name="living_units_history" type="selectable">True</selectable>
-          <selectable name="city" type="selectable">True</selectable>
+          <selectable name="travel_data" type="selectable">False</selectable>
+          <selectable name="development_event_history" type="selectable">False</selectable>
+          <selectable name="living_units_history" type="selectable">False</selectable>
+          <selectable name="city" type="selectable">False</selectable>
         </datasets_to_preload>
-        <run_in_same_process type="boolean">False</run_in_same_process>
+        <run_in_same_process type="boolean">True</run_in_same_process>
         <skip_travel_model type="boolean">False</skip_travel_model>
         <skip_non_travel_models_first_year type="boolean">False</skip_non_travel_models_first_year>
       </advanced>
