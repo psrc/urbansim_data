@@ -403,6 +403,10 @@
           <year type="integer">2000</year>
 		  <models_list type="list">["assign_city_to_households", "assign_city_to_jobs", "impute_residential_land_area_model", "compute_max_dev_capacity_model"]</models_list>       
 	   </yearset>
+	   <yearset type="dictionary">
+          <year type="integer">2001</year>
+		  <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "household_relocation_model", "household_location_choice_model_by_subarea", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+       </yearset>
        <yearset type="dictionary">
           <year type="integer">2002</year>
 		  <models_list type="list">["employment_transition_model", "employment_relocation_model", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident"]</models_list>
@@ -412,7 +416,7 @@
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2001</firstyear>
-        <lastyear type="integer">2002</lastyear>
+        <lastyear type="integer">2001</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
