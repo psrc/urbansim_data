@@ -4786,7 +4786,7 @@
             <name name="name" type="string">prepare_for_estimate</name>
             <output name="output" type="string">(alcm_specification, alcm_index)</output>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_PRPLCM_7_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_PRPLCM_7_specification</argument>
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
             <argument name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
             <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">development_event_history</argument>
@@ -4810,9 +4810,9 @@
             <name name="name" type="string">prepare_for_run</name>
             <output name="output" type="string">(alcm_specification, alcm_coefficients)</output>
             <argument name="coefficients_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">SC_PRPLCM_7_coefficients</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">sc_PRPLCM_7_coefficients</argument>
             <argument name="specification_storage" type="string">base_cache_storage</argument>
-            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">SC_PRPLCM_7_specification</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">sc_PRPLCM_7_specification</argument>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="agent_set" type="string">building</argument>
