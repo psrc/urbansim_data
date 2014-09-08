@@ -4,6 +4,35 @@
     <parent type="file">zurich_parcel/configs/kt_cache.xml</parent>
     <parent type="file">zurich_parcel/configs/zurich_kt_parcel.xml</parent>
     <expression_library type="dictionary">
+      <variable name="county.sc_sqm_rent_price_sale_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;2, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;2, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="county.sc_sqm_rent_price_ownuse_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="county.sc_sqm_rent_price_lease_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="county.sc_sqm_rent_price_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.exp(living_unit.ln_rent_price) / living_unit.area, function=mean, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_sqm_rent_price_ownuse_mean_city" source="expression" type="variable_definition" use="model variable">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="city.sc_sqm_rent_price_sale_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;2, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;2, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="city.sc_sqm_rent_price_lease_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="county.sc_buildings_newly_built_sale_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(building.verwendungszweck==2, building.year_built&gt;2000), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_buildings_newly_built_ownuse_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(building.verwendungszweck==3, building.year_built&gt;2000), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_buildings_newly_built_lease_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(building.verwendungszweck==1, building.year_built&gt;2000), function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_buildings_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate(building.year_built&gt;2000, function=sum, intermediates=[parcel])</variable>
+      <variable name="county.sc_resi_floor_space_newly_built_sale_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(living_unit.disaggregate(building.year_built)&gt;2000, living_unit.disaggregate(building.verwendungszweck)==2) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_floor_space_newly_built_ownuse_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==3) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_floor_space_newly_built_lease_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==1) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_floor_space_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate( (living_unit.disaggregate(building.year_built)&gt;2000) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_units_newly_built_county" source="expression" type="variable_definition" use="both">county.aggregate((living_unit.disaggregate(building.year_built)&gt;2000), function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_units_newly_built_sale_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==2) * living_unit.year_built&gt;2000, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_units_newly_built_ownuse_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==3) * living_unit.year_built&gt;2000, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="county.sc_resi_units_newly_built_lease_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==1) * living_unit.year_built&gt;2000, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_floor_space_newly_built_ownuse_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==3) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_floor_space_newly_built_sale_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==2) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_floor_space_newly_built_lease_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==1) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_floor_space_newly_built_city" source="expression" type="variable_definition" use="both">city.aggregate((living_unit.disaggregate(building.year_built)&gt;2000) * living_unit.area, function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_buildings_newly_built_ownuse_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and(building.year_built&gt;2000, building.verwendungszweck==3), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_buildings_newly_built_sale_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and(building.year_built&gt;2000, building.verwendungszweck==2), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_buildings_newly_built_lease_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and(building.year_built&gt;2000, building.verwendungszweck==1), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_resi_units_newly_built_ownuse_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==3), function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_units_newly_built_sale_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==2), function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_units_newly_built_lease_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.logical_and((living_unit.disaggregate(building.year_built)&gt;2000), living_unit.disaggregate(building.verwendungszweck)==1), function=sum, intermediates=[building, parcel])</variable>
       <variable name="development_event_history_x_parcel.sc_dynamic_tax_index" source="expression" type="variable_definition" use="both">(development_event_history.year_built==2000) * parcel.disaggregate(city.tax_index_2000) + (development_event_history.year_built==2001) * parcel.disaggregate(city.tax_index_2001) + (development_event_history.year_built==2002) * parcel.disaggregate(city.tax_index_2002) + (development_event_history.year_built==2003) * parcel.disaggregate(city.tax_index_2003) + (development_event_history.year_built==2004) * parcel.disaggregate(city.tax_index_2004) + (development_event_history.year_built==2005) * parcel.disaggregate(city.tax_index_2005) + (development_event_history.year_built==2006) * parcel.disaggregate(city.tax_index_2006) + (development_event_history.year_built==2007) * parcel.disaggregate(city.tax_index_2007) + (development_event_history.year_built==2008) * parcel.disaggregate(city.tax_index_2008) + (development_event_history.year_built==2009) * parcel.disaggregate(city.tax_index_2009) + (development_event_history.year_built&gt;=2010) * parcel.disaggregate(city.tax_index_2010)</variable>
       <variable name="parcel.sc_tax_index" source="expression" type="variable_definition" use="both">parcel.disaggregate(city.tax_index_2000)</variable>
       <variable name="development_event_history_x_parcel.sc_avrg_price_per_sqm_lu_zone_purpose_ownuse" source="expression" type="variable_definition" use="both">(development_event_history.verwendungszweck == 3) * parcel.disaggregate(zone.aggregate(numpy.exp(living_unit.ln_rent_price) / living_unit.area, function=mean, intermediates=[building, parcel]))</variable>
@@ -128,7 +157,7 @@
       <variable name="city.sc_floor_space_trade_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector3), function=sum, intermediates=[parcel])</variable>
       <variable name="city.sc_floor_space_construction_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector2), function=sum, intermediates=[parcel])</variable>
       <variable name="city.sc_floor_space_manufacturing_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.sqm_sector1), function=sum, intermediates=[parcel])</variable>
-      <variable name="city.sc_buildings_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.year_built&gt;2000), function=sum, intermediates=[parcel])</variable>
+      <variable name="city.sc_buildings_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(building.year_built&gt;2000, function=sum, intermediates=[parcel])</variable>
       <variable name="city.sc_nb_persons_city" source="expression" type="variable_definition" use="indicator">city.aggregate(household.number_of_agents(persons), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
       <variable name="county.sc_nb_jobs_county" source="expression" type="variable_definition" use="indicator">county.aggregate(building.number_of_agents(jobs), intermediates=[parcel])</variable>
       <variable name="county.sc_nb_persons_county" source="expression" type="variable_definition" use="both">county.aggregate(household.number_of_agents(persons), function=sum, intermediates=[household, living_unit, building, parcel])</variable>
@@ -136,7 +165,7 @@
       <variable name="county.sc_nb_living_units_county" source="expression" type="variable_definition" use="indicator">county.aggregate(building.number_of_agents(living_units), intermediates=[parcel])</variable>
       <variable name="county.sc_nb_hh_county" source="expression" type="variable_definition" use="indicator">county.aggregate(living_unit.number_of_agents(households), intermediates=[building, parcel])</variable>
       <variable name="city.sc_floor_space_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(building.year_built&lt;2001, building.land_area * building.stories), function=sum, intermediates=[parcel])</variable>
-      <variable name="city.sc_resi_units_newly_built" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.year_built&lt;2001, living_unit.year_built&gt;2000), function=sum, intermediates=[building, parcel])</variable>
+      <variable name="city.sc_resi_units_newly_built" source="expression" type="variable_definition" use="both">city.aggregate((living_unit.disaggregate(building.year_built)&gt;2000), function=sum, intermediates=[building, parcel])</variable>
       <variable name="parcel.sc_resi_units_newly_built" source="expression" type="variable_definition" use="both">parcel.aggregate(numpy.ma.masked_where(living_unit.year_built&gt;2000, living_unit.year_built&gt;2000), function=sum, intermediates=[building])</variable>
       <variable name="city.sc_occupied_resi_spaces_city" source="expression" type="variable_definition" use="indicator">city.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel])</variable>
       <variable name="city.sc_resi_vacancy_city" source="expression" type="variable_definition" use="indicator">(1 - ((city.aggregate(zurich_parcel.building.sc_occupied_spaces_0, intermediates=[parcel]))) / (city.aggregate(zurich_parcel.building.sc_total_spaces_0, intermediates=[parcel])))</variable>
@@ -9589,6 +9618,26 @@
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
+        <batch_visualization hidden="Children" name="price_statistics_city" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_sqm_rent_price_sale_mean_city', 'sc_sqm_rent_price_lease_mean_city', 'sc_sqm_rent_price_mean_city', 'sc_rent_price_sd_city', 'sc_rent_price_mean_city']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="price_statistics_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_sqm_rent_price_sale_mean_county', 'sc_sqm_rent_price_ownuse_mean_county', 'sc_sqm_rent_price_lease_mean_county', 'sc_sqm_rent_price_mean_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
         <batch_visualization hidden="Children" name="nb_main_entities_city" type="batch_visualization">
           <settings>
             <setting name="append_col_type">False</setting>
@@ -9655,7 +9704,7 @@
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_floor_space_newly_built_county']</indicators>
+          <indicators>['sc_floor_space_newly_built_county', 'sc_resi_floor_space_newly_built_sale_county', 'sc_resi_floor_space_newly_built_ownuse_county', 'sc_resi_floor_space_newly_built_lease_county', 'sc_resi_floor_space_newly_built_county']</indicators>
           <output_type>tab</output_type>
           <dataset_name>county</dataset_name>
         </batch_visualization>
@@ -9675,7 +9724,7 @@
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_floor_space_newly_built']</indicators>
+          <indicators>['sc_floor_space_newly_built', 'sc_resi_floor_space_newly_built_ownuse_city', 'sc_resi_floor_space_newly_built_sale_city', 'sc_resi_floor_space_newly_built_lease_city', 'sc_resi_floor_space_newly_built_city']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
@@ -9685,7 +9734,7 @@
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_floor_space_manufacturing_newly_built', 'sc_floor_space_construction_newly_built', 'sc_floor_space_trade_newly_built', 'sc_floor_space_retail_newly_built', 'sc_floor_space_hotel_newly_built', 'sc_floor_space_transport_newly_built', 'sc_floor_space_service_newly_built', 'sc_floor_space_health_newly_built']</indicators>
+          <indicators>['sc_floor_space_health_newly_built', 'sc_floor_space_service_newly_built', 'sc_floor_space_transport_newly_built', 'sc_floor_space_hotel_newly_built', 'sc_floor_space_retail_newly_built', 'sc_floor_space_trade_newly_built', 'sc_floor_space_construction_newly_built', 'sc_floor_space_manufacturing_newly_built']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
@@ -9695,9 +9744,19 @@
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_resi_units_newly_built']</indicators>
+          <indicators>['sc_resi_units_newly_built_ownuse_city', 'sc_resi_units_newly_built_sale_city', 'sc_resi_units_newly_built_lease_city', 'sc_resi_units_newly_built']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_residential_units_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_resi_units_newly_built_county', 'sc_resi_units_newly_built_sale_county', 'sc_resi_units_newly_built_ownuse_county', 'sc_resi_units_newly_built_lease_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
         </batch_visualization>
         <batch_visualization hidden="Children" name="new_buildings_city" type="batch_visualization">
           <settings>
@@ -9705,9 +9764,19 @@
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_buildings_newly_built']</indicators>
+          <indicators>['sc_buildings_newly_built_ownuse_city', 'sc_buildings_newly_built_sale_city', 'sc_buildings_newly_built_lease_city', 'sc_buildings_newly_built']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
+        </batch_visualization>
+        <batch_visualization hidden="Children" name="new_buildings_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_buildings_newly_built_sale_county', 'sc_buildings_newly_built_ownuse_county', 'sc_buildings_newly_built_lease_county', 'sc_buildings_newly_built_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
         </batch_visualization>
         <batch_visualization hidden="Children" name="residential_units_county" type="batch_visualization">
           <settings>
@@ -9795,15 +9864,15 @@
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="testing">
-        <batch_visualization hidden="Children" name="acc_car_city" type="batch_visualization">
+        <batch_visualization hidden="Children" name="new_residential_units_county" type="batch_visualization">
           <settings>
             <setting name="append_col_type">False</setting>
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_accessibility_sum_city']</indicators>
+          <indicators>['sc_resi_units_newly_built_county', 'sc_resi_units_newly_built_sale_county', 'sc_resi_units_newly_built_ownuse_county', 'sc_resi_units_newly_built_lease_county']</indicators>
           <output_type>tab</output_type>
-          <dataset_name>city</dataset_name>
+          <dataset_name>county</dataset_name>
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="collection_for_postgres_parcel">
@@ -10129,6 +10198,26 @@
         </batch_visualization>
       </indicator_batch>
       <indicator_batch name="price_statistics">
+        <batch_visualization hidden="Children" name="price_statistics_county" type="batch_visualization">
+          <settings>
+            <setting name="append_col_type">False</setting>
+            <setting name="output_style">3</setting>
+            <setting name="database_name">cz_temp</setting>
+            <setting name="mapnik_bucket_labels">range_labels</setting>
+            <setting name="mapnik_legend_lower_left">6.5,0.5</setting>
+            <setting name="mapnik_map_lower_left">0.5,0.5</setting>
+            <setting name="mapnik_page_dims">8.5,5.5</setting>
+            <setting name="mapnik_bucket_colors">#e0eee0, #c7e9c0, #a1d99b, #7ccd7c, #74c476, #41ab5d, #238b45, #006400, #00441b, #00340b</setting>
+            <setting name="mapnik_map_upper_right">6.0,5.0</setting>
+            <setting name="mapnik_resolution">96</setting>
+            <setting name="mapnik_bucket_ranges">linear_scale</setting>
+            <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
+          </settings>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_sqm_rent_price_sale_mean_county', 'sc_sqm_rent_price_lease_mean_county', 'sc_sqm_rent_price_mean_county', 'sc_sqm_rent_price_ownuse_mean_county']</indicators>
+          <output_type>tab</output_type>
+          <dataset_name>county</dataset_name>
+        </batch_visualization>
         <batch_visualization hidden="Children" name="price_statistics_city" type="batch_visualization">
           <settings>
             <setting name="append_col_type">False</setting>
@@ -10144,9 +10233,9 @@
             <setting name="mapnik_bucket_ranges">linear_scale</setting>
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
-          <visualization_type>mapnik_map</visualization_type>
-          <indicators>['sc_rent_price_sd_city', 'sc_rent_price_mean_city', 'sc_sqm_rent_price_mean_city']</indicators>
-          <output_type>mapnik_map</output_type>
+          <visualization_type>tab</visualization_type>
+          <indicators>['sc_sqm_rent_price_sale_mean_city', 'sc_sqm_rent_price_lease_mean_city', 'sc_sqm_rent_price_mean_city', 'sc_rent_price_sd_city', 'sc_rent_price_mean_city']</indicators>
+          <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
       </indicator_batch>
