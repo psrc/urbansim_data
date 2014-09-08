@@ -350,6 +350,20 @@
           </run>
        </structure>
     </model>
+    <model name="governmental_employment_location_choice_model" type="model">
+        <structure type="dictionary">
+		  <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
+            <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">numpy.logical_or(job.sector_id==18, job.sector_id==19)</argument>
+            <argument name="agents_index" type="string">erm_index</argument>
+            <output hidden="True" name="output" type="string">filtered_erm_index</output>
+          </prepare_for_run>
+          <run type="dictionary">
+              <argument name="agents_index" type="string">filtered_erm_index</argument>
+          </run>
+        </structure>
+      </model>
     <model copyable="True" hidden="False" name="scaling_unplaced_jobs" type="model">
       <structure type="dictionary">
            <import hidden="True" name="import" type="dictionary">
@@ -436,7 +450,7 @@
             <argument name="coefficients" type="string">coefficients</argument>
             <argument name="data_objects" type="string">datasets</argument>
             <argument name="specification" type="string">specification</argument>
-            <argument name="run_choice_model" type="boolean">False</argument>
+            <argument name="run_choice_model" type="boolean">True</argument>
             <argument name="choose_job_only_in_residence_zone" type="boolean">True</argument>
             <argument name="residence_id" parser_action="quote_string" type="string">city_id</argument>
           </run>
@@ -466,19 +480,19 @@
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
         <selectable name="jobs_event_model" type="model_choice">False</selectable>
-        <selectable name="assign_city_to_households" type="model_choice">True</selectable>
-        <selectable name="assign_city_to_jobs" type="model_choice">True</selectable>
-        <selectable name="household_transition_model" type="model_choice">True</selectable>
-        <selectable name="set_inmigrants_model" type="model_choice">True</selectable>
+        <selectable name="assign_city_to_households" type="model_choice">False</selectable>
+        <selectable name="assign_city_to_jobs" type="model_choice">False</selectable>
+        <selectable name="household_transition_model" type="model_choice">False</selectable>
+        <selectable name="set_inmigrants_model" type="model_choice">False</selectable>
         <selectable name="employment_transition_model" type="model_choice">True</selectable>
-        <selectable name="job_person_consistency_keeper" type="model_choice">False</selectable>
+        <selectable name="job_person_consistency_keeper" type="model_choice">True</selectable>
         <selectable name="household_relocation_model" type="model_choice">False</selectable>
         <selectable name="household_location_choice_model" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_households_if_lower_accessibility" type="model_choice">False</selectable>
-        <selectable name="employment_relocation_model" type="model_choice">False</selectable>
-        <selectable name="employment_location_choice_model" type="model_choice">False<group_members type="string">non_home_based</group_members>
+        <selectable name="employment_relocation_model" type="model_choice">True</selectable>
+        <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="governmental_employment_location_choice_model" type="model_choice">False</selectable>
+        <selectable name="governmental_employment_location_choice_model" type="model_choice">True</selectable>
         <selectable name="distribute_unplaced_mining_utilities_jobs_model" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
         <selectable name="work_at_home_choice_model" type="model_choice">False</selectable>
