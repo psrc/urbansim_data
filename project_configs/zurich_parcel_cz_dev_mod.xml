@@ -8,7 +8,7 @@
       <variable name="county.sc_sqm_rent_price_ownuse_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
       <variable name="county.sc_sqm_rent_price_lease_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/county.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
       <variable name="county.sc_sqm_rent_price_mean_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.exp(living_unit.ln_rent_price) / living_unit.area, function=mean, intermediates=[building, parcel])</variable>
-      <variable name="city.sc_sqm_rent_price_ownuse_mean_city" source="expression" type="variable_definition" use="model variable">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
+      <variable name="city.sc_sqm_rent_price_ownuse_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;3, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
       <variable name="city.sc_sqm_rent_price_sale_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;2, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;2, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
       <variable name="city.sc_sqm_rent_price_lease_mean_city" source="expression" type="variable_definition" use="both">city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, numpy.exp(living_unit.ln_rent_price) / living_unit.area), intermediates=[building, parcel])/city.aggregate(numpy.ma.masked_where(living_unit.disaggregate(building.verwendungszweck)&lt;&gt;1, living_unit.living_unit_id&gt;0), intermediates=[building, parcel])</variable>
       <variable name="county.sc_buildings_newly_built_sale_county" source="expression" type="variable_definition" use="both">county.aggregate(numpy.logical_and(building.verwendungszweck==2, building.year_built&gt;2000), function=sum, intermediates=[parcel])</variable>
@@ -9624,7 +9624,7 @@
             <setting name="output_style">3</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_sqm_rent_price_sale_mean_city', 'sc_sqm_rent_price_lease_mean_city', 'sc_sqm_rent_price_mean_city', 'sc_rent_price_sd_city', 'sc_rent_price_mean_city']</indicators>
+          <indicators>['sc_sqm_rent_price_sale_mean_city', 'sc_sqm_rent_price_lease_mean_city', 'sc_sqm_rent_price_mean_city', 'sc_rent_price_sd_city', 'sc_rent_price_mean_city', 'sc_sqm_rent_price_ownuse_mean_city']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
@@ -10234,7 +10234,7 @@
             <setting name="mapnik_legend_upper_right">6.9,5.0</setting>
           </settings>
           <visualization_type>tab</visualization_type>
-          <indicators>['sc_sqm_rent_price_sale_mean_city', 'sc_sqm_rent_price_lease_mean_city', 'sc_sqm_rent_price_mean_city', 'sc_rent_price_sd_city', 'sc_rent_price_mean_city']</indicators>
+          <indicators>['sc_sqm_rent_price_sale_mean_city', 'sc_sqm_rent_price_lease_mean_city', 'sc_sqm_rent_price_mean_city', 'sc_rent_price_sd_city', 'sc_rent_price_mean_city', 'sc_sqm_rent_price_ownuse_mean_city']</indicators>
           <output_type>tab</output_type>
           <dataset_name>city</dataset_name>
         </batch_visualization>
