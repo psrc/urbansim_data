@@ -374,6 +374,7 @@
           <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
           <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
           <argument name="submodel_string" type="string" parser_action="quote_string" convert_blank_to_none="True">sector_id</argument>
+          <argument name="weights" type="string" parser_action="quote_string" model_dependency_type="variable">building.disaggregate(5*(parcel.growth_center_id &gt;= 500) + (parcel.growth_center_id &lt; 500))</argument>          
           <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="debuglevel" type="string">2</argument>
           </init>
@@ -402,6 +403,7 @@
           <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
           <argument name="subarea_id_name" parser_action="quote_string" type="string">city_id</argument>
           <argument name="filter" parser_action="quote_string" type="string"></argument>
+          <argument name="weights" type="string" parser_action="quote_string" model_dependency_type="variable">building.disaggregate(2*(parcel.growth_center_id &gt;= 500) + (parcel.growth_center_id &lt; 500))</argument>          
           <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="debuglevel" type="string">2</argument>
           </init>
