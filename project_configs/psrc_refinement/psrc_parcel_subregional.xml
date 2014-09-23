@@ -499,6 +499,7 @@
   <scenario_manager>
     <scenario executable="True" name="psrc_luv_test" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Test subregional simulation</description>
        <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
@@ -557,6 +558,7 @@
       </scenario>
       <scenario executable="True" name="psrc_luv" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Subregional simulation</description>
        <models_to_run config_name="models" type="selectable_list">
         <selectable name="delete_city_from_households" type="model_choice">True</selectable>
         <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
