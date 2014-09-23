@@ -1958,6 +1958,7 @@
  <scenario_manager>
      <scenario executable="True" name="full4KTM" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Full run with integrated USim and Emme</description>
           <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
          <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
@@ -2042,6 +2043,7 @@
       </scenario>
       <scenario executable="True" name="noTM" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Run 4K USim and no TM</description>
           <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
          <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
@@ -2091,6 +2093,7 @@
       </scenario>
         <scenario executable="True" name="create2000skims" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Run Emme and import skims; no USim</description>
       <models_to_run config_name="models" type="selectable_list">
       </models_to_run>
       <models_in_year type="dictionary">
@@ -2135,6 +2138,7 @@
       </scenario>
     <scenario executable="True" name="import_skims" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Import skims from Emme; no USim</description>
        <models_to_run config_name="models" type="selectable_list">
       </models_to_run>
       <models_in_year type="dictionary">
