@@ -2188,7 +2188,7 @@
        </datasets_to_preload>
       </advanced>
       <travel_model_configuration type="dictionary"  inherit_parent_values="False">
-        <travel_model_base_directory type="string">d:\travel_model</travel_model_base_directory>
+        <travel_model_base_directory type="string">e:\travel_model</travel_model_base_directory>
         <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name>
         <emme_command type="string">emme -ng 127.0.0.1</emme_command>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
