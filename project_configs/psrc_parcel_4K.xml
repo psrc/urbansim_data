@@ -137,6 +137,8 @@
 <!--<variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(numpy.logical_or(urbansim_parcel.household.number_of_workers_with_job==0, numpy.logical_and(psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -99, urbansim_parcel.household.number_of_workers_with_job &gt; 0))) * ( ((psrc_parcel.household.income_breaks_34000_64000_102000==1) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_1)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==2) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_2)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==3) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_3)) + ((psrc_parcel.household.income_breaks_34000_64000_102000==4) * building.disaggregate(psrc.zone.trip_weighted_average_logsum_hbw_am_income_4)) )</variable>-->
 <variable use="model variable" source="expression" name="household_x_building.zero_workers_x_avg_work_logsum" type="variable_definition">(psrc_parcel.household_x_building.max_logsum_hbw_am_from_home_to_work_4k == -20) * psrc_parcel.household_x_building.avg_trip_weighted_zone_logsum</variable>
 <variable use="model variable" source="Python class" name="household_x_building.avg_network_distance" type="variable_definition">replace_value_with_mean(psrc_parcel.household_x_building.avg_network_distance_from_home_to_work, 0)</variable>
+<variable use="model variable" source="Python class" name="household_x_building.avg_network_cost" type="variable_definition">(psrc_parcel.household_x_building.avg_network_cost_from_home_to_work*(urbansim_parcel.household.number_of_workers_with_job&gt;0)) + psrc_parcel.household_x_building.avg_trip_weighted_zone_gen_cost_if_no_workers</variable>
+<variable use="model variable" source="Python class" name="household_x_building.max_network_cost" type="variable_definition">(psrc_parcel.household_x_building.max_network_cost_from_home_to_work*(urbansim_parcel.household.number_of_workers_with_job&gt;0)) + psrc_parcel.household_x_building.avg_trip_weighted_zone_gen_cost_if_no_workers</variable>
 <variable use="model variable" source="Python class" name="household_x_building.max_commute_home_to_work" type="variable_definition">replace_value_with_mean(psrc_parcel.household_x_building.max_drive_alone_hbw_am_travel_time_from_home_to_work, 180)</variable>
 <variable use="model variable" source="Python class" name="household_x_building.max_tranwalk_home_to_work" type="variable_definition">replace_value_with_mean(psrc_parcel.household_x_building.max_transit_walk_hbw_am_travel_time_from_home_to_work, 0)</variable>
 <variable use="model variable" source="expression" name="household_x_building.avg_work_logsum" type="variable_definition">psrc_parcel.household_x_building.avg_trip_weighted_zone_logsum</variable>
@@ -147,6 +149,8 @@
 <variable use="model variable" source="expression" name="building.twa_to_work_bike" type="variable_definition">building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_to_work_am_bike)</variable>
 <variable use="model variable" source="expression" name="household_x_building.low_mid_income_x_twa_from_home_tranwalk" type="variable_definition">(urbansim.household.is_income_1 + urbansim.household.is_income_2) * building.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_transit_walk)</variable>
 <variable use="model variable" source="expression" name="person_x_job.logsum_from_home_to_work" type="variable_definition">psrc_parcel.person_x_job.logsum_hbw_am_from_home_to_work_4k</variable>
+<variable use="model variable" source="expression" name="household_x_building.housing_range_wtoll" type="variable_definition">numpy.logical_or(((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/(building.disaggregate(urbansim_parcel.parcel.building_sqft)).astype(float32))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/psrc_parcel.household_x_building.income_minus_toll) &lt; .1, (((((0.06/12)*(urbansim_parcel.building.unit_price*urbansim_parcel.building.building_sqft_per_unit+(building.sqft_per_unit/building.disaggregate(urbansim_parcel.parcel.building_sqft))*building.disaggregate(parcel.land_value))*(1+0.06/12)**360)/(((1+0.06/12)**360)-1)*12)/psrc_parcel.household_x_building.income_minus_toll)&gt;.3))</variable>
+<variable use="model variable" source="Python class" name="person_x_job.ln_travel_cost_from_home_to_work" type="variable_definition">ln_shifted(psrc_parcel.person_x_job.travel_cost_from_home_to_work)</variable>
 </expression_library>
  </general>
  <model_manager>
@@ -1682,7 +1686,8 @@
            <!-- <variable_spec name="household_x_building.low_mid_income_x_twa_from_home_tranwalk"/>-->
            <!-- <variable_spec name="household_x_building.max_tranwalk_home_to_work"/>-->
           <!-- <variable_spec name="household_x_building.max_commute_home_to_work"/>-->
-             <variable_spec name="household_x_building.avg_network_distance"/>
+            <!--  <variable_spec name="household_x_building.avg_network_distance"/>  -->
+             <variable_spec name="household_x_building.avg_network_cost"/>
               <!--<variable_spec name="household_x_building.avg_network_distance_notmissing"/>-->
              <variable_spec name="household_x_building.max_commute_logsum"/>
              <!-- <variable_spec name="household_x_building.max_commute_logsum_missing"/>-->
@@ -1693,7 +1698,7 @@
               <variable_spec name="household_x_building.same_btype_if_mfr"/>
               <!-- <variable_spec name="household_x_building.same_building_type"/>  -->
               <variable_spec name="building.multifamily_type"/>
-              <variable_spec name="household_x_building.housing_range"/>
+              <variable_spec name="household_x_building.housing_range_wtoll"/>
               <variable_spec name="building.iv_ln_price_residual"/>
               <!-- <variable_spec name="household_x_building.kids_x_kids"/> -->
               <!--<variable_spec name="building.ln_price_per_unit"/> -->
@@ -1741,7 +1746,8 @@
               <!--<variable_spec name="household_x_building.c_same_area"/>
               <variable_spec name="household_x_building.b_same_area_type"/>-->
               <!-- <variable_spec name="household_x_building.same_btype_if_sfr"/>  -->
-              <variable_spec name="household_x_building.housing_range"/>
+              <variable_spec name="household_x_building.avg_network_cost"/>
+              <variable_spec name="household_x_building.housing_range_wtoll"/>
               <variable_spec name="building.iv_ln_price_residual"/>
               <variable_spec name="building.multifamily_type"/>
              <!--  <variable_spec name="household_x_building.kids_x_kids"/>-->
@@ -1873,12 +1879,13 @@
             <description type="string">No submodel</description>
             <variable_list type="variable_list">
              <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="5"/>-->
-             <!--<variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="1"/>-->
+             <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_19" fixed_value="1"/> -->
                <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_ne_19" fixed_value="-1.5"/> -->
              <variable_spec name="person_x_job.logsum_from_home_to_work"/>
-             <variable_spec name="person_x_job.network_distance_from_home_to_work"/>
+             <!--  <variable_spec name="person_x_job.network_distance_from_home_to_work"/> -->
+              <variable_spec name="person_x_job.ln_travel_cost_from_home_to_work"/> 
               <variable_spec name="person_x_job.home_district_is_same_as_workplace_district"/>
-             <variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/>
+              <variable_spec name="person_x_job.home_dist_19_workplace_dist_19"/> 
              <!-- <variable_spec name="person_x_job.home_dist_19_workplace_dist_ne_19"/> -->  
              <!-- <variable_spec name="person_x_job.home_dist_1_workplace_dist_1"/>
               <variable_spec name="person_x_job.home_dist_6_workplace_dist_6"/>
