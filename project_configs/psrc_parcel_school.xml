@@ -90,6 +90,8 @@
 	<variable name="person_x_school.income_x_povertyshare" source="expression" type="variable_definition" use="model variable">ln(person.disaggregate(urbansim_parcel.household.income_imputed))*school.disaggregate(psrc_parcel.parcel.percent_poverty_wwd)</variable>
       <variable use="model variable" source="expression" name="person_x_school.traveldist_if_out_distr" type="variable_definition">psrc_parcel.person_x_school.network_distance_from_home_to_school*numpy.logical_not(psrc_parcel.person_x_school.same_school_district)</variable>
       <variable use="model variable" source="expression" name="person_x_school.walktime_if_same_distr" type="variable_definition">psrc_parcel.person_x_school.am_total_transit_time_walk_from_home_to_school*psrc_parcel.person_x_school.same_school_district</variable>
+    <variable use="model variable" source="Python class" name="person_x_school.ln_travel_distance_to_school" type="variable_definition">ln_shifted(psrc_parcel.person_x_school.network_distance_from_home_to_school)</variable>
+    <variable use="model variable" source="Python class" name="school.ln_staff" type="variable_definition">ln_shifted(school.staff)</variable>
       </expression_library>
     <available_datasets type="list">['school', 'person', 'mode','person_trip','building','parcel','household_x_building','zone','faz','large_area','gridcell','city','county','alldata', 'person_trip_x_zone', 'household']</available_datasets>
  </general>
@@ -1176,8 +1178,8 @@
     <parent type="scenario_name">PSRC_baseline</parent>
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <firstyear type="integer">2041</firstyear>
+        <lastyear type="integer">2041</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
