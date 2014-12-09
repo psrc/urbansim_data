@@ -1203,7 +1203,7 @@
       <selectable name="school_choice_model_private_for_younger_siblings" type="model_choice">True</selectable>
       <selectable name="school_choice_model_preschool" type="model_choice">True</selectable>
       <selectable name="college_location_model" type="model_choice">True</selectable>
-      <selectable name="convert_to_new_zones_model" type="model_choice">True</selectable>
+      <selectable name="convert_to_new_zones_model" type="model_choice">False</selectable>
       </models_to_run>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
