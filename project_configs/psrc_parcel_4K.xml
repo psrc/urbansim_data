@@ -2356,7 +2356,7 @@
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2041</year>
-            <bank type="integer">['2041']</bank>
+            <bank type="list">['2041']</bank>
           </run_description>
         </years_to_run>
 	</travel_model_configuration>
