@@ -2345,6 +2345,7 @@
        </datasets_to_preload>
       </advanced>
       <travel_model_configuration type="dictionary"  inherit_parent_values="False">
+      <travel_model_base_directory type="string">e:\travel_model</travel_model_base_directory>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
