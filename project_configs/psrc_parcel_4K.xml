@@ -2316,8 +2316,8 @@
       </models_in_year>
       <base_year type="integer">2000</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2001</firstyear>
-        <lastyear type="integer">2001</lastyear>
+        <firstyear type="integer">2041</firstyear>
+        <lastyear type="integer">2041</lastyear>
       </years_to_run>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfiguration</class_name>
@@ -2326,7 +2326,7 @@
         <argument name="baseyear_cache" type="class">
        	  <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs/run_69.with_school_models</argument>
         </argument>
        <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
         <argument name="advanced" type="category">
@@ -2345,6 +2345,8 @@
        </datasets_to_preload>
       </advanced>
       <travel_model_configuration type="dictionary"  inherit_parent_values="False">
+        <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
+        <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">False</selectable>
@@ -2353,8 +2355,8 @@
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2001</year>
-            <bank type="integer">2010</bank>
+            <year type="integer">2041</year>
+            <bank type="integer">['2041']</bank>
           </run_description>
         </years_to_run>
 	</travel_model_configuration>
