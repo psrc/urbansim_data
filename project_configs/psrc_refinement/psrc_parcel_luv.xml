@@ -56,13 +56,14 @@
           </init>
           <prepare_for_run type="dictionary">
           <name hidden="True" name="name" type="string">prepare_for_run</name>
-          <output hidden="True" type="string" name="output">(project_proposals, proposal_components)</output>
+          <argument model_dependency_type="dataset" name="building_dataset" type="string">building</argument>
+          <output hidden="True" type="string" name="output">(project_proposals, proposal_components, to_be_demolished_buildings)</output>
           </prepare_for_run>
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="development_proposal_set" type="string">project_proposals</argument>
             <argument model_dependency_type="dataset" name="building_dataset" type="string">building</argument>
             <argument name="development_proposal_component_set" type="string">proposal_components</argument>
-            <argument hidden="True" name="buildings_to_be_demolished" type="string">[]</argument>
+            <argument hidden="True" name="buildings_to_be_demolished" type="string">to_be_demolished_buildings</argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
