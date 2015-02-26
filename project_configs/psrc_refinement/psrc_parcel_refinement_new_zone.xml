@@ -53,7 +53,7 @@
           <init type="dictionary">
             <name hidden="True" type="string" name="name">DevelopmentProposalSamplingModelBySubareaForRefinement</name>
             <argument type="string" name="subarea_name" parser_action="quote_string">new_zone</argument>
-            <argument type="string" name="intermediates_to_realestate" parser_action="quote_string">parcel, zone</argument>
+            <argument type="string" name="intermediates_to_realestate" parser_action="quote_string">parcel</argument>
             <argument type="string" name="proposal_set">development_project_proposal</argument>
             <argument type="string" parser_action="quote_string" name="weight_string">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument>
             <argument type="string" convert_blank_to_none="True" parser_action="quote_string" name="filter_attribute"/>
