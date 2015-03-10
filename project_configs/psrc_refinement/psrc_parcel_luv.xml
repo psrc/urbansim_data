@@ -306,7 +306,7 @@
             <argument name="chunk_specification" type="string">{'records_per_chunk':5000}</argument>
             <argument name="flush_after_each_subarea" type="boolean">True</argument>
             <argument name="run_no_area" type="boolean">False</argument>
-            <argument name="maximum_runs" type="integer">3</argument>
+            <argument name="maximum_runs" type="integer">2</argument>
             <argument hidden="True" name="coefficients" type="string">_coefficients</argument>
             <argument hidden="True" name="data_objects" type="string">datasets</argument>
             <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
@@ -784,7 +784,7 @@
        </yearset>
     </models_in_year_category> 
       </models_in_year>
-      <base_year type="integer">2000</base_year>
+      <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2011</firstyear>
         <lastyear type="integer">2040</lastyear>
