@@ -1879,6 +1879,26 @@
           </run>
         </structure>
       </model>
+      <model name="households_event_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>psrc_parcel.models.agent_event_model</class_module>
+            <class_name>AgentEventModel</class_name>
+          </import>
+         <init type="dictionary">
+            <name hidden="True" name="name" type="string">AgentEventModel</name>
+            </init>
+          <run type="dictionary">
+            <name name="name" type="string">AgentEventModel</name>
+            <argument name="location_set" type="string" model_dependency_type="dataset">parcel</argument>
+            <argument name="agent_set" type="string" model_dependency_type="dataset">household</argument>
+            <argument name="agent_event_set" type="string" model_dependency_type="dataset">households_event</argument>
+            <argument name="disaggregate_to" type="string" model_dependency_type="dataset">building</argument>
+            <argument name="current_year" type="string" hidden="True" >year</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
       <model name="household_transition_model" type="model">
         <structure type="dictionary">
           <run type="dictionary">
