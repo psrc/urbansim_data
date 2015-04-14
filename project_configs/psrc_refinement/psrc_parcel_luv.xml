@@ -71,7 +71,8 @@
       <model type="model" name="development_proposal_choice_model">
         <structure type="dictionary">
         <init type="dictionary">
-        <argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>
+            <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModel</name>
+        	<argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>
       	</init>
       	</structure>
       </model>  
