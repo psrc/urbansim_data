@@ -68,14 +68,32 @@
           </run>
         </structure>
       </model>
-      <model type="model" name="development_proposal_choice_model">
-        <structure type="dictionary">
-        <init type="dictionary">
-            <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModel</name>
+      <model type="model" name="development_proposal_choice_model" inherit_parent_values="False">
+         <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model', "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model"]</dependencies>
+         <structure type="dictionary">
+          <import hidden="True" type="dictionary" name="import">
+            <!-- <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_with_minimum</class_module> -->
+             <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_no_demand_constraints</class_module> 
+            <class_name>DevelopmentProjectProposalSamplingModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" type="string" name="name">DevelopmentProjectProposalSamplingModel</name>
+            <argument type="string" name="proposal_set">development_project_proposal</argument>
         	<argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>
-      	</init>
-      	</structure>
-      </model>  
+          </init>
+          <run type="dictionary">
+            <argument type="integer" name="n">100</argument>
+            <!-- <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">exp_roi = exp(psrc_parcel.development_project_proposal.expected_rate_of_return_on_investment)</argument> -->
+            <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">psrc_parcel.development_project_proposal.total_revenue</argument>
+            <argument type="boolean" parser_action="quote_string" name="within_parcel_selection_compete_among_types">True</argument>
+            <argument type="integer" name="within_parcel_selection_threshold">65</argument>
+            <argument type="integer" name="within_parcel_selection_n">10</argument>
+            <argument type="boolean" name="within_parcel_selection_MU_same_weight">True</argument>
+            <argument type="boolean" name="within_parcel_selection_transpose_interpcl_weight">True</argument>
+            <output hidden="True" type="string" name="output">(development_project_proposal, demolished_buildings)</output>
+          </run>
+        </structure>
+      </model>
       <model type="model" name="development_proposal_choice_model_by_subarea">
         <structure type="dictionary">
           <import hidden="True" type="dictionary" name="import">
