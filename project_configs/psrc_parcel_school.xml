@@ -18,9 +18,9 @@
       <variable use="model variable" source="expression" name="person.hhworkers" type="variable_definition">person.disaggregate(household.workers)</variable>
       <variable use="model variable" source="expression" name="person.hhnonworkers" type="variable_definition">person.disaggregate(urbansim_parcel.household.number_of_adults-household.workers)</variable>
       <variable use="model variable" source="expression" name="person.has_nonworkers" type="variable_definition">person.disaggregate((urbansim_parcel.household.number_of_adults-household.workers) &gt; 0)</variable>
-      <variable use="model variable" source="expression" name="person.timetocbd" type="variable_definition">person.disaggregate(urbansim_parcel.parcel.travel_time_to_cbd, intermediates=[building, household])</variable>
-      <variable use="model variable" source="expression" name="person.timetocbd_if_oldest" type="variable_definition">person.disaggregate(urbansim_parcel.parcel.travel_time_to_cbd, intermediates=[building, household])*(psrc_parcel.person.has_older_sibling==0)</variable>      
-      <variable use="model variable" source="expression" name="person.timetocbd_if_not_oldest" type="variable_definition">person.disaggregate(urbansim_parcel.parcel.travel_time_to_cbd, intermediates=[building, household])*psrc_parcel.person.has_older_sibling</variable>           
+      <variable use="model variable" source="expression" name="person.timetocbd" type="variable_definition">person.disaggregate(psrc.zone.travel_time_hbw_am_drive_alone_to_cbd, intermediates=[parcel, building, household])</variable>
+      <variable use="model variable" source="expression" name="person.timetocbd_if_oldest" type="variable_definition">person.disaggregate(psrc.zone.travel_time_hbw_am_drive_alone_to_cbd, intermediates=[parcel, building, household])*(psrc_parcel.person.has_older_sibling==0)</variable>      
+      <variable use="model variable" source="expression" name="person.timetocbd_if_not_oldest" type="variable_definition">person.disaggregate(psrc.zone.travel_time_hbw_am_drive_alone_to_cbd, intermediates=[parcel, building, household])*psrc_parcel.person.has_older_sibling</variable>           
       <variable use="model variable" source="expression" name="person.lives_in_rural" type="variable_definition">person.disaggregate(numpy.logical_not(parcel.is_inside_urban_growth_boundary), intermediates=[building, household])</variable>
       <variable use="model variable" source="expression" name="person.older_sibl_priv" type="variable_definition">psrc_parcel.person.has_older_sibling_in_private_school</variable>
       <variable use="model variable" source="expression" name="person.older_sibl_home" type="variable_definition">psrc_parcel.person.has_older_sibling_in_home_school</variable>
@@ -1053,8 +1053,11 @@
               <key name="sample_size_locations" type="integer">100</key>
               <key name="sample_proportion_locations" type="integer" convert_blank_to_none="True"/>
               <key name="compute_capacity_flag" type="boolean">True</key>
-              <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(15*school.staff - school.number_of_agents(person))</key>
-              <key name="number_of_units_string" type="string" convert_blank_to_none="True">15*school.staff</key>
+             <!--  <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(15*school.staff - school.number_of_agents(person))</key> -->
+              <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(1.15* school.fte2010 - school.number_of_agents(person))</key>
+             <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">15*school.staff</key>  --> 
+            <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">1.15* school.fte2010</key> -->
+            <key name="number_of_units_string" type="string" convert_blank_to_none="True">school.fte2010</key>
               <key name="number_of_agents_string" type="string" convert_blank_to_none="True">school.number_of_agents(person)</key>
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="sample_alternatives_by_group" type="boolean">True</key>
@@ -1160,7 +1163,8 @@
       </model>
 </models>
 <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
-<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory> 
+<!-- <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</cache_directory>  -->
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_estimation_4K</cache_directory>
 <save_estimation_results type="boolean">False</save_estimation_results>
 <base_year type="integer" field_identifier="Base Year">2006</base_year>
 <years type="tuple">
@@ -1176,18 +1180,18 @@
   <scenario_manager>  
       <scenario executable="True" name="psrc_with_school_models" type="scenario">
     <parent type="scenario_name">PSRC_baseline</parent>
-      <base_year type="integer">2000</base_year>
+      <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2041</firstyear>
-        <lastyear type="integer">2041</lastyear>
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2011</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
       <models_to_run config_name="models" type="selectable_list"> 
-      <selectable name="modify_workers_jobs_after_moving_households_if_lower_accessibility" type="model_choice">True</selectable>
-      <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
-      <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
-      <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
+      <selectable name="modify_workers_jobs_after_moving_households_if_lower_accessibility" type="model_choice">False</selectable>
+      <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
+      <selectable name="work_at_home_choice_model" type="model_choice">False</selectable>
+      <selectable name="workplace_choice_model_for_resident" type="model_choice">False</selectable>
       <selectable name="home_school_for_oldest_child_model" type="model_choice">True</selectable>
       <selectable name="home_school_for_younger_children_model" type="model_choice">True</selectable>
       <selectable name="public_private_school_for_oldest_child_model" type="model_choice">True</selectable>
@@ -1213,7 +1217,7 @@
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
           <!-- <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school</argument> -->
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs/run_231ref</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/LUVrefinements/run_133ref</argument>
           <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</argument>-->
         </argument>
         <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
