@@ -1951,18 +1951,18 @@
  		<!--<triptables.transit.walkaccess type="dictionary">		
           <atrnwa type="string">am_transit_person_trip_table</atrnwa>
    	    </triptables.transit.walkaccess>-->
-   	    <modechoice.hbwork_inc1 type="dictionary">
+   	    <modechoice.all.hbwork_inc1 type="dictionary">
          <lsum1 type="string">logsum_hbw_am_income_1</lsum1>
-        </modechoice.hbwork_inc1>
-        <modechoice.hbwork_inc2 type="dictionary">
+        </modechoice.all.hbwork_inc1>
+        <modechoice.all.hbwork_inc2 type="dictionary">
           <lsum2 type="string">logsum_hbw_am_income_2</lsum2>
-        </modechoice.hbwork_inc2>  
-        <modechoice.hbwork_inc3 type="dictionary">
+        </modechoice.all.hbwork_inc2>  
+        <modechoice.all.hbwork_inc3 type="dictionary">
           <lsum3 type="string">logsum_hbw_am_income_3</lsum3>
-        </modechoice.hbwork_inc3>  
-        <modechoice.hbwork_inc4 type="dictionary">
+        </modechoice.all.hbwork_inc3>  
+        <modechoice.all.hbwork_inc4 type="dictionary">
           <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
-        </modechoice.hbwork_inc4>
+        </modechoice.all.hbwork_inc4>
         
      <!--  <modechoice.hbnonwork type="dictionary"> --> 
         <!--  <mf91 type="string">md_vehicle_miles_traveled</mf91>-->
@@ -2316,14 +2316,14 @@
        </datasets_to_preload>
       </advanced>
       <travel_model_configuration type="dictionary"  inherit_parent_values="False">
-        <travel_model_base_directory type="string">f:\4k\src</travel_model_base_directory>
+        <travel_model_base_directory type="string">f:\4k\</travel_model_base_directory>
         <!-- <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name> -->
         <emme_command type="string">emme -ng 127.0.0.1</emme_command>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
-          <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
-          <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.get_cache_data_into_emme4" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.run_travel_model" type="selectable">True</selectable>
           <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">True</selectable>
           <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">True</selectable>
         </models>
