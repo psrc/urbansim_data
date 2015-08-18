@@ -22,7 +22,7 @@
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <argument name="refinement_dataset_name" parser_action="quote_string" type="string">refinement</argument>
             <argument name="refinement_storage" type="string">base_cache_storage</argument>
-            <argument name="refinement_table_name" parser_action="quote_string" type="string" model_dependency_type="table">refinements</argument>
+            <argument name="refinement_table_name" parser_action="quote_string" type="string" model_dependency_type="table">tractcity_refinements</argument>
             <output hidden="True" name="output" type="string">refinement</output>
           </prepare_for_run>
           <run type="dictionary">
