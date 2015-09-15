@@ -676,31 +676,44 @@
     </estimation_config>
         <travel_model_configuration type="dictionary"  inherit_parent_values="False">
      <matrix_variable_map type="dictionary">
-        <skims.auto.am type="dictionary">
+         <results type="dictionary">
           <aau1tm type="string">am_single_vehicle_to_work_travel_time</aau1tm>
           <aau1tl type="string">am_single_vehicle_to_work_toll</aau1tl>
-         <!--  <aau2tm type="string">am_double_vehicle_to_work_travel_time</aau2tm> 
-          <aau3tm type="string">am_threeplus_vehicle_to_work_travel_time</aau3tm>  -->
+          <aau1cs type="string">single_vehicle_to_work_travel_cost</aau1cs>
+          <aau1ds type="string">single_vehicle_to_work_travel_distance</aau1ds>
+          <awlktm type="string">am_walk_time_in_minutes</awlktm>
+          <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
+          <atrtwa type="string">am_total_transit_time_walk</atrtwa>
+         <lsum1 type="string">logsum_hbw_am_income_1</lsum1>
+         <lsum2 type="string">logsum_hbw_am_income_2</lsum2>
+         <lsum3 type="string">logsum_hbw_am_income_3</lsum3>
+         <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
+        </results>
+        <!-- <skims.auto.am type="dictionary">
+          <aau1tm type="string">am_single_vehicle_to_work_travel_time</aau1tm>
+          <aau1tl type="string">am_single_vehicle_to_work_toll</aau1tl>
+         <aau2tm type="string">am_double_vehicle_to_work_travel_time</aau2tm> 
+          <aau3tm type="string">am_threeplus_vehicle_to_work_travel_time</aau3tm>  
           <aau1cs type="string">single_vehicle_to_work_travel_cost</aau1cs>
           <aau1ds type="string">single_vehicle_to_work_travel_distance</aau1ds>
          </skims.auto.am> 
          <skims.nonmotorized.am type="dictionary"> 
-       <!--    <abketm type="string">am_bike_to_work_travel_time</abketm>-->
+         <abketm type="string">am_bike_to_work_travel_time</abketm>
           <awlktm type="string">am_walk_time_in_minutes</awlktm>
 		 </skims.nonmotorized.am>
-		<!-- <triptables.nonmotorized.all type="dictionary">
+		 <triptables.nonmotorized.all type="dictionary">
 		   <abike type="string">am_biking_person_trips</abike>
            <awalk type="string">am_walking_person_trips</awalk>
-		 </triptables.nonmotorized.all>-->
+		 </triptables.nonmotorized.all>
 		 <triptables.autos.am type="dictionary">
 		   <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
 		</triptables.autos.am>
 		 <skims.transit.am.all_mode  type="dictionary">
           <atrtwa type="string">am_total_transit_time_walk</atrtwa>
          </skims.transit.am.all_mode>
- 		<!--<triptables.transit.walkaccess type="dictionary">		
+ 		<triptables.transit.walkaccess type="dictionary">		
           <atrnwa type="string">am_transit_person_trip_table</atrnwa>
-   	    </triptables.transit.walkaccess>-->
+   	    </triptables.transit.walkaccess>
    	    <modechoice.hbwork_inc1 type="dictionary">
          <lsum1 type="string">logsum_hbw_am_income_1</lsum1>
         </modechoice.hbwork_inc1>
@@ -712,7 +725,7 @@
         </modechoice.hbwork_inc3>  
         <modechoice.hbwork_inc4 type="dictionary">
           <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
-        </modechoice.hbwork_inc4>
+        </modechoice.hbwork_inc4> -->
       </matrix_variable_map>
     </travel_model_configuration>
  </model_manager>
@@ -766,7 +779,7 @@
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
       </scenario>
-      <scenario executable="True" name="psrc_luv" type="scenario">
+    <scenario executable="True" name="psrc_luv" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
       <description type="string">Subregional simulation for LUV (11-40), including TM skims</description>
        <models_to_run config_name="models" type="selectable_list">
@@ -841,42 +854,32 @@
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel\base_year_data_4K_luv_ct_40yr\inputs_run_122_4ktmskims_114plus_rev_mpds_actors_events_red_segale</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel\base_year_data_4K_luv_ct_40yr\inputs_run_173_includes_run169_plus_sync_persons_2extra_rgcs_job_capacity_fix</argument>
           <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
-        <travel_model_base_directory type="string">e:\travel_model</travel_model_base_directory>
-        <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name>
+        <travel_model_base_directory type="string">f:\4k\skims</travel_model_base_directory>
+        <!-- <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name> -->
         <emme_command type="string">emme -ng 127.0.0.1</emme_command>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">False</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">False</selectable>
-          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">False</selectable>
           <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">True</selectable>
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2005</year>
-            <bank type="list">['2010']</bank>
-          </run_description>
-          <run_description type="dictionary">
             <year type="integer">2015</year>
             <bank type="list">['2010']</bank>
+            <emme2_batch_file_name type="string">psrc_4k.bat 4k_2010.ctl</emme2_batch_file_name>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
             <bank type="list">['2040']</bank>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2035</year>
-            <bank type="list">['2040']</bank>
-          </run_description>
-          <run_description type="dictionary">
-            <year type="integer">2040</year>
-            <bank type="list">['2040']</bank>
+            <emme2_batch_file_name type="string">psrc_4k.bat 4k_2040.ctl</emme2_batch_file_name>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
@@ -1033,7 +1036,7 @@
       <models_in_year_category  key_name="year" key_value="models_list" type="category_with_special_keys">
        <yearset type="dictionary">
           <year type="integer">2015</year>
-		  <models_list type="list">["households_event_model", "jobs_event_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+		  <models_list type="list">[]</models_list>
        </yearset>
        <yearset type="dictionary">
           <year type="integer">2020</year>
@@ -1057,10 +1060,10 @@
        </yearset>
     </models_in_year_category> 
       </models_in_year>
-      <base_year type="integer">2039</base_year>
+      <base_year type="integer">2010</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2040</firstyear>
-        <lastyear type="integer">2040</lastyear>
+        <firstyear type="integer">2015</firstyear>
+        <lastyear type="integer">2016</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
@@ -1071,30 +1074,27 @@
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs/run_122</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel\base_year_data_4K_luv_ct_40yr\inputs_run_173_includes_run169_plus_sync_persons_2extra_rgcs_job_capacity_fix</argument>
           <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
-        <travel_model_base_directory type="string">e:\travel_model</travel_model_base_directory>
-        <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name>
+        <travel_model_base_directory type="string">f:\4k\skims</travel_model_base_directory>
+        <!-- <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name> -->
         <emme_command type="string">emme -ng 127.0.0.1</emme_command>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
           <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">False</selectable>
           <selectable name="opus_emme2.models.run_travel_model" type="selectable">False</selectable>
-          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">False</selectable>
           <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">True</selectable>
         </models>
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
-            <year type="integer">2005</year>
-            <bank type="list">['2010']</bank>
-          </run_description>
-          <run_description type="dictionary">
             <year type="integer">2015</year>
             <bank type="list">['2010']</bank>
+            <emme2_batch_file_name type="string">psrc_4k.bat 4k_2010.ctl</emme2_batch_file_name>
           </run_description>
           <run_description type="dictionary">
             <year type="integer">2025</year>
