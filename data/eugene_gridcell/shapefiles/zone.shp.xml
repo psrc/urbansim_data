@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<!--<!DOCTYPE metadata SYSTEM "http://www.esri.com/metadata/esriprof80.dtd">-->
+<metadata xml:lang="en"><Esri><MetaID>{1F5614DC-91E6-45DD-88A2-48E60B5A380E}</MetaID><CreaDate>20081106</CreaDate><CreaTime>13042200</CreaTime><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20081106" Time="130422">DeleteField zone AREA;PERIMETER;ZONE_;TAZ;TAZ_NUM;DOWNTOWN;DIST29;DIST9;POP8094;EMP8094;ACRES;POPAC94;EMPAC94;AREATYPE;ACCPOP__AB;PEAKHWYTIM;YRBUILT__A;USEDSQFT__;USEDUNITS_;USEDUNITS1 zone</Process></lineage></DataProperties></Esri></metadata>
