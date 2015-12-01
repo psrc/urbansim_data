@@ -2,7 +2,7 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">Configuration for the PSRC parcel project</description>
-    <parent type="file">psrc_parcel_default.xml</parent>
+    <parent type="file">psrc_parcel_4K.xml</parent>
     <expression_library type="dictionary">
     </expression_library>
  </general>
@@ -139,6 +139,52 @@
           </run>
        </structure>
     </model>
+    <model name="household_relocation_model" type="model">
+        <structure type="dictionary">
+        <init type="dictionary">
+            <argument name="probabilities" parser_action="quote_string" convert_blank_to_none="True" type="string"/>
+        </init>
+        <prepare_for_run type="dictionary">
+          <argument name="rate_storage" type="string" convert_blank_to_none="True"/>
+          <argument name="rate_table" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
+        </prepare_for_run>
+     </structure>
+     </model>
+    <model name="household_location_choice_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim.models.subarea_household_location_choice_model</class_module>
+            <class_name>SubareaHouseholdLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">SubareaHouseholdLocationChoiceModel</name>
+            <argument name="subarea_id_name" parser_action="quote_string" type="string">census_block_group_id</argument>
+            <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True">opus_core.samplers.weighted_sampler</argument>
+            <!--<argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/>-->
+            <argument name="sample_size_locations" type="integer">500</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="lottery_max_iterations" type="integer">20</key>
+              <key name="include_mnl_bias_correction_term" type="boolean">False</key>
+              <key name="accept_unavailability_of_choices" type="boolean">True</key>
+            </argument>
+          </init>
+          <run type="dictionary">
+            <argument name="chunk_specification" type="string">{'records_per_chunk':2000}</argument>
+            <argument name="flush_after_each_subarea" type="boolean">True</argument>
+            <argument name="run_no_area" type="boolean">False</argument>
+            <argument name="maximum_runs" type="integer">3</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="set_inmigrants_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">household.census_block_group_id &lt; 0</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">is_inmigrant</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
  </models>
  </model_manager>
  <scenario_manager>
@@ -183,6 +229,44 @@
         <selectable copyable="True" type="selectable" name="building" followers="my_dataset">True</selectable>
         <selectable copyable="True" type="selectable" name="person">True</selectable>
         <selectable copyable="True" type="selectable" name="home_based_status">True</selectable>
+      </datasets_to_preload>
+      </advanced>
+    </scenario>
+    <scenario type="scenario" executable="True" name="household_initialization">
+     <parent type="scenario_name">urbansim_parcel_baseline</parent>
+     <base_year type="integer">2010</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2011</firstyear>
+        <lastyear type="integer">2011</lastyear>
+      </years_to_run>
+      <seed type="integer" convert_blank_to_none="True">1</seed>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/HHprep/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/HHprep/base_year_data</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="household_relocation_model" type="selectable">True</selectable>
+        <selectable name="set_inmigrants_model" type="selectable">True</selectable>
+        <selectable name="household_location_choice_model" type="model_choice">True</selectable>
+      </models_to_run>
+      <advanced type="category">
+      <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/HHprep/runs</cache_directory>
+         <flush_variables type="boolean">False</flush_variables>
+        <dataset_pool_configuration type="class">
+          <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.dataset_pool_configuration</class_module>
+          <argument name="package_order" type="list">['psrc_parcel', 'urbansim_parcel', 'urbansim', 'opus_core']</argument>
+        </dataset_pool_configuration>
+        <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
+      <datasets_to_preload inherit_parent_values="False" parser_action="list_to_dictionary" type="selectable_list">
+        <selectable copyable="True" type="selectable" name="household">True</selectable>
+        <selectable copyable="True" type="selectable" name="building" followers="my_dataset">True</selectable>
       </datasets_to_preload>
       </advanced>
     </scenario>
