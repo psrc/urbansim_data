@@ -25,6 +25,25 @@
         </structure>
         <specification type="dictionary"/>
       </model>
+      <model name="expression_model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.qc_models.expression_model</class_module>
+            <class_name type="string">ExpressionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">ExpressionModel</name>
+            <argument name="dataset_pool" type="string" convert_blank_to_none="True">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+          <name name="name" type="string">run</name>
+          <argument name="expressions" type="string">[]</argument>
+          <argument name="use_default_expressions" type="boolean">True</argument>
+          <argument name="allow_missing" type="boolean">False</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"/>
+      </model>
     </models>
     <templates hidden="True"/>
   </model_manager>
@@ -38,6 +57,7 @@
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="dataset_size_model" type="selectable">True</selectable>
+        <selectable name="expression_model" type="selectable">True</selectable>
       </models_to_run>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="FALSE" type="string">CreatingBaseyearCacheConfiguration</class_name>
