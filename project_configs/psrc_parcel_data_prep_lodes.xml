@@ -32,12 +32,15 @@
                   <argument name="geography_dataset" type="string" model_dependency_type="dataset">census_block</argument>
                   <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
                   <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
-                  <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+                  <!--<argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>-->
+                  <argument name="choices" parser_action="quote_string" type="string">urbansim.random_choices_from_index</argument>
                   <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
                   <argument name="location_set" type="string" model_dependency_type="dataset">building</argument>
-                  <argument name="capacity_string" parser_action="quote_string" type="string">vacant_SSS_job_space</argument>
-                  <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_non_home_based_job_space &gt; 0</argument>
-                  <argument name="compute_capacity_flag" type="boolean">True</argument>
+                  <argument name="capacity_string" parser_action="quote_string" type="string">job_capacity</argument>
+                  <argument name="simulation_weight_string" parser_action="quote_string" type="string">clip_to_zero(psrc_parcel.building.total_non_home_based_job_space)</argument>
+                  <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string">urbansim_parcel.building.total_non_home_based_job_space &gt; 0</argument>
+                  <argument name="compute_capacity_flag" type="boolean">False</argument>
+                  <argument name="sample_size_locations" type="integer">200</argument>
                   <key name="number_of_units_string" type="string" convert_blank_to_none="True"/>
                   <argument name="run_config" type="dictionary">
                     <key convert_blank_to_none="True" name="agent_units_string" type="string"/>
@@ -66,6 +69,10 @@
                 </run>
               </structure>
  </model>
+       <model name="public_sector_model" type="model">
+        <structure type="dictionary">
+        </structure>
+      </model>
  </models>
  </model_manager>
  <scenario_manager>
