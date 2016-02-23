@@ -47,7 +47,7 @@
                   <name hidden="True" name="name" type="string">EmploymentLocationChoiceModelByGeography</name>
                   <argument name="geography_dataset" type="string">zone</argument>
                   <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
-                  <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True">None</argument>
+                  <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
                   <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
                   <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
                   <argument name="location_set" type="string">building</argument>
@@ -160,6 +160,7 @@
             <name hidden="True" name="name" type="string">SubareaHouseholdLocationChoiceModel</name>
             <argument name="subarea_id_name" parser_action="quote_string" type="string">census_block_group_id</argument>
             <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True">opus_core.samplers.weighted_sampler</argument>
+            <argument name="simulation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.building.vacant_residential_units</argument>
             <!--<argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/>-->
             <argument name="sample_size_locations" type="integer">500</argument>
             <argument name="run_config" type="dictionary">
@@ -175,15 +176,6 @@
             <argument name="maximum_runs" type="integer">3</argument>
           </run>
         </structure>
-      </model>
-      <model name="set_inmigrants_model" type="model">
-        <structure type="dictionary">
-          <run type="dictionary">
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">household.census_block_group_id &lt; 0</argument>
-            <argument name="outcome_attribute" parser_action="quote_string" type="string">is_inmigrant</argument>
-          </run>
-        </structure>
-        <specification type="dictionary"/>
       </model>
  </models>
  </model_manager>
@@ -234,10 +226,10 @@
     </scenario>
     <scenario type="scenario" executable="True" name="household_initialization">
      <parent type="scenario_name">urbansim_parcel_baseline</parent>
-     <base_year type="integer">2010</base_year>
+     <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <firstyear type="integer">2015</firstyear>
+        <lastyear type="integer">2015</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <creating_baseyear_cache_configuration type="class">
@@ -252,7 +244,6 @@
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="household_relocation_model" type="selectable">True</selectable>
-        <selectable name="set_inmigrants_model" type="selectable">True</selectable>
         <selectable name="household_location_choice_model" type="model_choice">True</selectable>
       </models_to_run>
       <advanced type="category">
