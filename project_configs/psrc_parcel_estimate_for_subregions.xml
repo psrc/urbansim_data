@@ -411,8 +411,7 @@
            <argument name="submodel_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">7</key>
-              <key name="sample_alternatives_by_group" type="boolean">True</key>
-              <key name="group_definition_for_sampling_alternatives" type="string" model_dependency_type="variable">psrc_parcel.household.nonneg_large_area_id_lag1</key>
+              <key name="sample_alternatives_by_group" type="boolean">False</key>
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
               <key name="accept_unavailability_of_choices" type="boolean">False</key>
             </argument>
