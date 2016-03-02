@@ -23,7 +23,7 @@
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <output hidden="True" name="output" type="string">erm_resources</output>
-            <argument name="rate_storage" type="string">None</argument>
+            <argument name="rate_storage" type="string" convert_blank_to_none="True"/>
             <argument name="rate_table" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
           </prepare_for_run>
           <run type="dictionary">
@@ -45,7 +45,7 @@
                 </import>
                 <init type="dictionary">
                   <name hidden="True" name="name" type="string">EmploymentLocationChoiceModelByGeography</name>
-                  <argument name="geography_dataset" type="string">zone</argument>
+                  <argument name="geography_dataset" type="string">city</argument>
                   <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
                   <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True"/>
                   <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
@@ -54,7 +54,7 @@
                   <argument name="capacity_string" parser_action="quote_string" type="string">vacant_SSS_job_space</argument>
                   <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_non_home_based_job_space &gt; 0</argument>
                   <argument name="compute_capacity_flag" type="boolean">True</argument>
-                  <key name="number_of_units_string" type="string">None</key>
+                  <argument name="number_of_units_string" type="string" convert_blank_to_none="True"/>
                   <argument name="run_config" type="dictionary">
                     <key convert_blank_to_none="True" name="agent_units_string" type="string"/>
                     <key name="lottery_max_iterations" type="integer">10</key>
@@ -232,9 +232,10 @@
  <scenario_manager>
      <scenario type="scenario" executable="True" name="job_initialization">
      <parent type="scenario_name">urbansim_parcel_baseline</parent>
+     <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2001</firstyear>
-        <lastyear type="integer">2001</lastyear>
+        <firstyear type="integer">2015</firstyear>
+        <lastyear type="integer">2015</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <creating_baseyear_cache_configuration type="class">
@@ -252,9 +253,9 @@
         <!-- -->
         <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="governmental_employment_location_choice_model_without_filter" type="model_choice">True</selectable>
-        <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
-        <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
+        <selectable name="governmental_employment_location_choice_model_without_filter" type="model_choice">False</selectable>
+        <selectable name="work_at_home_choice_model" type="model_choice">False</selectable>
+        <selectable name="workplace_choice_model_for_resident" type="model_choice">False</selectable>
       </models_to_run>
       <advanced type="category">
       <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/jobsdataprep/runs</cache_directory>
