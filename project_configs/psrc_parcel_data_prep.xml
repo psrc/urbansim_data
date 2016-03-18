@@ -57,6 +57,7 @@
                   <argument name="filter" convert_blank_to_none="True" parser_action="quote_string" type="string">urbansim_parcel.building.is_non_residential &gt; 0</argument>
                   <argument name="compute_capacity_flag" type="boolean">False</argument>
                   <argument name="number_of_units_string" type="string" convert_blank_to_none="True"/>
+		  <argument name="sample_size_locations" type="integer">100</argument>
                   <argument name="run_config" type="dictionary">
                     <key convert_blank_to_none="True" name="agent_units_string" type="string"/>
                   </argument>
@@ -132,7 +133,7 @@
     <output hidden="True" name="output" type="string">filtered_erm_index</output>
     </prepare_for_run>
           <run type="dictionary">
-              <argument name="geography_set" type="string">zone</argument>
+              <argument name="geography_set" type="string">city</argument>
               <argument name="location_set" type="string">building</argument>
               <argument name="agent_set" type="string">job</argument>
               <argument name="agents_index" type="string">filtered_erm_index</argument>
@@ -253,7 +254,7 @@
         <!-- -->
         <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>
-        <selectable name="governmental_employment_location_choice_model_without_filter" type="model_choice">False</selectable>
+        <selectable name="governmental_employment_location_choice_model_without_filter" type="model_choice">True</selectable>
         <selectable name="work_at_home_choice_model" type="model_choice">False</selectable>
         <selectable name="workplace_choice_model_for_resident" type="model_choice">False</selectable>
       </models_to_run>
