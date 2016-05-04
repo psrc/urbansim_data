@@ -150,7 +150,7 @@
 	    <argument name="ct_growth_rate_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.household_growth_rate_luv</argument>
 	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
 	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
-	     <argument name="annual_rate" parser_action="quote_string" type="boolean">False</argument>
+	     <argument name="annual_rate" parser_action="quote_string" type="boolean">True</argument>
 	     <argument name="dataset_pool" type="string">dataset_pool</argument>
 	  </run>
 	</structure>
