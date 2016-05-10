@@ -149,7 +149,7 @@
 	    <!--<argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_households</argument>
 	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.household_growth_rate_luv</argument>-->
 	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.parcel.residential_units</argument>
-	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.02 * psrc_parcel.control_total.household_total_growth_luv</argument>
+	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.household_total_growth_luv</argument>
 	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
 	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
 	     <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
@@ -180,7 +180,7 @@
 	    <!--<argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_jobs</argument>
 	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.job_growth_rate_luv</argument>-->
 	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">job_capacity=parcel.aggregate(psrc_parcel.building.job_capacity_computed_if_necessary)</argument>
-	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.02 * psrc_parcel.control_total.job_total_growth_luv</argument>
+	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.job_total_growth_luv</argument>
 	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
 	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
 	     <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
