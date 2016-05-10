@@ -44,6 +44,7 @@
           </run>
         </structure>
       </model>
+
       <model inherit_parent_values="False" name="development_proposal_choice_model" type="model">
         <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model', "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model"]</dependencies>
         <structure type="dictionary">
@@ -127,60 +128,60 @@
         </structure>
       </model>
       <model name="cap_residential_development_model" type="model">
-        <structure type="dictionary">
-          <import name="import" type="dictionary">
-            <class_module>psrc_parcel.models.cap_development_model</class_module>
-            <class_name>CapDevelopmentModel</class_name>
-          </import>
-          <init type="dictionary">
-            <name name="name" type="string">CapDevelopmentModel</name>
-            <argument name="dataset" model_dependency_type="dataset" type="string">parcel</argument>
-            <argument name="model_name" parser_action="quote_string" type="string">Residential Cap Development Model</argument>
-            <argument name="model_short_name" parser_action="quote_string" type="string">ResCapDM</argument>
-          </init>
-          <prepare_for_run type="dictionary">
-            <name name="name" type="string">prepare_for_run</name>
-            <argument name="control_total_table" parser_action="quote_string" type="string">annual_household_control_totals</argument>
-            <argument name="control_total_storage" type="string">base_cache_storage</argument>
-          </prepare_for_run>
-          <run type="dictionary">
-            <argument name="year" type="string">year</argument>
-            <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_households</argument>
-            <argument name="ct_growth_rate_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.household_growth_rate_luv</argument>
-            <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
-            <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
-            <argument name="annual_rate" parser_action="quote_string" type="boolean">False</argument>
-            <argument name="dataset_pool" type="string">dataset_pool</argument>
-          </run>
-        </structure>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module>psrc_parcel.models.cap_development_model</class_module>
+	    <class_name>CapDevelopmentModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">CapDevelopmentModel</name>
+	    <argument name="dataset" model_dependency_type="dataset" type="string">parcel</argument>
+	    <argument name="model_name" parser_action="quote_string" type="string">Residential Cap Development Model</argument>
+	    <argument name="model_short_name" parser_action="quote_string" type="string">ResCapDM</argument>
+	  </init>
+	  <prepare_for_run type="dictionary">
+	    <name name="name" type="string">prepare_for_run</name>
+	    <argument name="control_total_table" parser_action="quote_string" type="string">annual_household_control_totals</argument>
+	    <argument name="control_total_storage" type="string">base_cache_storage</argument>
+	  </prepare_for_run>
+	  <run type="dictionary">
+	    <argument name="year" type="string">year</argument>
+	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_households</argument>
+	    <argument name="ct_growth_rate_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.household_growth_rate_luv</argument>
+	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
+	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
+	     <argument name="annual_rate" parser_action="quote_string" type="boolean">True</argument>
+	     <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
       </model>
       <model name="cap_nonresidential_development_model" type="model">
-        <structure type="dictionary">
-          <import name="import" type="dictionary">
-            <class_module>psrc_parcel.models.cap_development_model</class_module>
-            <class_name>CapDevelopmentModel</class_name>
-          </import>
-          <init type="dictionary">
-            <name name="name" type="string">CapDevelopmentModel</name>
-            <argument name="dataset" model_dependency_type="dataset" type="string">parcel</argument>
-            <argument name="model_name" parser_action="quote_string" type="string">Non-Residential Cap Development Model</argument>
-            <argument name="model_short_name" parser_action="quote_string" type="string">NResCapDM</argument>
-          </init>
-          <prepare_for_run type="dictionary">
-            <name name="name" type="string">prepare_for_run</name>
-            <argument name="control_total_table" parser_action="quote_string" type="string">annual_employment_control_totals</argument>
-            <argument name="control_total_storage" type="string">base_cache_storage</argument>
-          </prepare_for_run>
-          <run type="dictionary">
-            <argument name="year" type="string">year</argument>
-            <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_jobs</argument>
-            <argument name="ct_growth_rate_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.job_growth_rate_luv</argument>
-            <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
-            <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
-            <argument name="annual_rate" parser_action="quote_string" type="boolean">False</argument>
-            <argument name="dataset_pool" type="string">dataset_pool</argument>
-          </run>
-        </structure>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module>psrc_parcel.models.cap_development_model</class_module>
+	    <class_name>CapDevelopmentModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">CapDevelopmentModel</name>
+	    <argument name="dataset" model_dependency_type="dataset" type="string">parcel</argument>
+	    <argument name="model_name" parser_action="quote_string" type="string">Non-Residential Cap Development Model</argument>
+	    <argument name="model_short_name" parser_action="quote_string" type="string">NResCapDM</argument>
+	  </init>
+	  <prepare_for_run type="dictionary">
+	    <name name="name" type="string">prepare_for_run</name>
+	    <argument name="control_total_table" parser_action="quote_string" type="string">annual_employment_control_totals</argument>
+	    <argument name="control_total_storage" type="string">base_cache_storage</argument>
+	  </prepare_for_run>
+	  <run type="dictionary">
+	    <argument name="year" type="string">year</argument>
+	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_jobs</argument>
+	    <argument name="ct_growth_rate_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.job_growth_rate_luv</argument>
+	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
+	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
+	     <argument name="annual_rate" parser_action="quote_string" type="boolean">False</argument>
+	     <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
       </model>
       <model name="increase_HU_density" type="model">
         <dependencies type="list">[]</dependencies>
@@ -224,7 +225,7 @@
         </structure>
         <specification type="dictionary"></specification>
       </model>
-      <model name="increase_job_capacity" type="model">
+     <model name="increase_job_capacity" type="model">
         <dependencies type="list">[]</dependencies>
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -863,11 +864,11 @@
         <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
         <selectable name="building_construction_model" type="model_choice">True</selectable>
         <selectable name="increase_HU_density" type="model_choice">True</selectable>
-        <selectable name="increase_job_capacity" type="model_choice">True</selectable>
+	<selectable name="increase_job_capacity" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
-        <selectable name="jobs_event_model" type="model_choice">True</selectable>
-        <selectable name="households_event_model" type="model_choice">True</selectable>
+        <selectable name="jobs_event_model" type="model_choice">False</selectable>
+        <selectable name="households_event_model" type="model_choice">False</selectable>
         <selectable name="household_transition_model" type="model_choice">True</selectable>
         <selectable name="set_inmigrants_model" type="model_choice">True</selectable>
         <selectable name="employment_transition_model" type="model_choice">True</selectable>
@@ -966,12 +967,12 @@
         <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
-        <selectable name="cap_residential_development_model" type="model_choice">True</selectable>
-        <selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
+	<selectable name="cap_residential_development_model" type="model_choice">True</selectable>
+	<selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model_luv2" type="model_choice">True</selectable>
         <selectable name="building_construction_model" type="model_choice">True</selectable>
         <selectable name="increase_HU_density" type="model_choice">True</selectable>
-        <selectable name="increase_job_capacity" type="model_choice">True</selectable>
+	<selectable name="increase_job_capacity" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
         <selectable name="jobs_event_model" type="model_choice">False</selectable>
@@ -1072,12 +1073,12 @@
         <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
-        <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
-        <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
-        <selectable name="cap_residential_development_model" type="model_choice">True</selectable>
-        <selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
+        <selectable name="expected_sales_unit_price_component_model" type="model_choice">False</selectable>
+        <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">False</selectable>
+	<selectable name="cap_residential_development_model" type="model_choice">True</selectable>
+	<selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model_luv2" type="model_choice">True</selectable>
-        <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
+        <selectable name="development_proposal_choice_model" type="model_choice">False</selectable>
         <selectable name="building_construction_model" type="model_choice">False</selectable>
         <selectable name="increase_HU_density" type="model_choice">False</selectable>
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">False</selectable>
@@ -1143,7 +1144,7 @@
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
           <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel\base_year_data_4K_luv_ct_40yr\inputs_run_173_includes_run169_plus_sync_persons_2extra_rgcs_job_capacity_fix</argument>-->
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/luv_scenario_test</argument>
+          <argument name="existing_cache_to_copy" type="directory">/Volumes/e$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/luv_scenario_test</argument>
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
