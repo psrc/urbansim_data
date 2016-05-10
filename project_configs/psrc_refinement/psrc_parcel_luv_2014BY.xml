@@ -204,7 +204,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
             <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.residential_units*1.25).astype(int32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">residential_units</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.growth_center_id &gt;= 500) </argument>
+            <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.growth_center_id &gt;= 500)*building.disaggregate(parcel.growth_center_id &lt; 600) </argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -225,7 +225,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
             <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.residential_units*1.25).astype(int32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">residential_units</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string">building.disaggregate(parcel.growth_center_id &gt;= 500) </argument>
+            <argument name="dataset_filter" parser_action="quote_string" type="string">building.disaggregate(parcel.growth_center_id &gt;= 500)*building.disaggregate(parcel.growth_center_id &lt; 600) </argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -246,7 +246,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
             <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.non_residential_sqft*1.25).astype(int32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">non_residential_sqft</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.growth_center_id &gt;= 500) </argument>
+            <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.growth_center_id &gt;= 500)*building.disaggregate(parcel.growth_center_id &lt; 600) </argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -267,7 +267,7 @@
             <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
             <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.job_capacity*1.25).astype(int32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">job_capacity</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string">building.disaggregate(parcel.growth_center_id &gt;= 500) </argument>
+            <argument name="dataset_filter" parser_action="quote_string" type="string">building.disaggregate(parcel.growth_center_id &gt;= 500)*building.disaggregate(parcel.growth_center_id &lt; 600) </argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
