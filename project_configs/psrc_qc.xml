@@ -68,10 +68,10 @@
     <scenario_manager>
     <scenario executable="True" name="run_qc" type="scenario">
       <model_system type="string">opus_core.model_coordinators.model_system</model_system>
-      <base_year type="integer">2010</base_year>
+      <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <firstyear type="integer">2015</firstyear>
+        <lastyear type="integer">2015</lastyear>
       </years_to_run>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="dataset_size_model" type="selectable">True</selectable>
@@ -82,7 +82,8 @@
         <class_name hidden="FALSE" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="FALSE" type="string">opus_core.configurations.creating_baseyear_cache_configuration</class_module>
         <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/qc/runs</argument>
-        <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</argument>
+        <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</argument>-->
+        <argument name="existing_cache_to_copy" type="directory">/Volumes/e$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/luv_scenario_test</argument>
         <argument name="cache_from_database" type="boolean">False</argument>
       </creating_baseyear_cache_configuration>
       <dataset_pool_configuration type="class">

@@ -56,12 +56,13 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModel</name>
             <argument name="proposal_set" type="string">development_project_proposal</argument>
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>
+            <!--<argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>-->
+	    <argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument> 
           </init>
           <run type="dictionary">
             <argument name="n" type="integer">100</argument>
-            <!-- <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">exp_roi = exp(psrc_parcel.development_project_proposal.expected_rate_of_return_on_investment)</argument> -->
-            <argument convert_blank_to_none="True" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.total_revenue</argument>
+            <!--  <argument type="string" parser_action="quote_string" name="within_parcel_selection_weight_string" convert_blank_to_none="True">exp_roi = exp(psrc_parcel.development_project_proposal.expected_rate_of_return_on_investment)</argument> -->
+           <argument convert_blank_to_none="True" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.total_revenue</argument>
             <argument name="within_parcel_selection_compete_among_types" parser_action="quote_string" type="boolean">True</argument>
             <argument name="within_parcel_selection_threshold" type="integer">65</argument>
             <argument name="within_parcel_selection_n" type="integer">10</argument>
@@ -81,7 +82,8 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModelLuv2</name>
             <argument name="proposal_set" type="string">development_project_proposal</argument>
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>
+	    <argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument> 
+            <!--<argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>-->
           </init>
           <run type="dictionary">
             <argument name="n" type="integer">100</argument>
@@ -107,8 +109,8 @@
             <argument model_dependency_type="dataset" name="subarea_name" parser_action="quote_string" type="string">city</argument>
             <argument model_dependency_type="dataset" name="intermediates_to_realestate" parser_action="quote_string" type="string">parcel</argument>
             <argument model_dependency_type="dataset" name="proposal_set" type="string">development_project_proposal</argument>
-            <!-- <argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument> -->
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>
+             <argument type="string" parser_action="quote_string" name="weight_string" model_dependency_type="variable">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument> 
+           <!-- <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.expected_sales_price_per_sqft_luv</argument>-->
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter_attribute" parser_action="quote_string" type="string"></argument>
           </init>
           <run type="dictionary">
