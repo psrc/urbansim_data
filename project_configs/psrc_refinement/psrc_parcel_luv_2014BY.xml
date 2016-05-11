@@ -179,7 +179,7 @@
 	    <argument name="year" type="string">year</argument>
 	    <!--<argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_jobs</argument>
 	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.job_growth_rate_luv</argument>-->
-	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">job_capacity=parcel.aggregate(psrc_parcel.building.job_capacity_computed_if_necessary)</argument>
+	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.parcel.job_capacity</argument>
 	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.job_total_growth_luv</argument>
 	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
 	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
@@ -1079,7 +1079,7 @@
         <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
-        <selectable name="expected_sales_unit_price_component_model" type="model_choice">False</selectable>
+        <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">False</selectable>
 	<selectable name="cap_residential_development_model" type="model_choice">True</selectable>
 	<selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
@@ -1111,7 +1111,7 @@
         <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
           <yearset type="dictionary">
             <year type="integer">2015</year>
-            <models_list type="list">["assign_city_to_households","household_transition_model", "assign_city_to_jobs", "employment_transition_model"]</models_list>
+            <models_list type="list">[]</models_list>
           </yearset>
           <yearset type="dictionary">
             <year type="integer">2020</year>
@@ -1138,7 +1138,7 @@
       <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2015</firstyear>
-        <lastyear type="integer">2015</lastyear>
+        <lastyear type="integer">2016</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <flush_variables type="boolean">True</flush_variables>
