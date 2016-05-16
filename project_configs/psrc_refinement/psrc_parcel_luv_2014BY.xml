@@ -149,13 +149,15 @@
 	  <run type="dictionary">
 	    <argument name="year" type="string">year</argument>
 	    <!--<argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_households</argument>
-	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.household_growth_rate_luv</argument>-->
+	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.household_growth_rate_luv</argument>
+	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.household_total_growth_luv</argument>-->
 	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.parcel.residential_units</argument>
-	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.household_total_growth_luv</argument>
+	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">demand=1.01 * control_total.total_number_of_households</argument>
 	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
 	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
-	     <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
-	     <argument name="growth_rate" parser_action="quote_string" type="boolean">False</argument>
+	    <argument name="compare_absolute_numbers" parser_action="quote_string" type="boolean">True</argument>
+	    <!-- <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
+	     <argument name="growth_rate" parser_action="quote_string" type="boolean">False</argument>-->
 	     <argument name="dataset_pool" type="string">dataset_pool</argument>
 	  </run>
 	</structure>
@@ -180,13 +182,15 @@
 	  <run type="dictionary">
 	    <argument name="year" type="string">year</argument>
 	    <!--<argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.parcel.number_of_jobs</argument>
-	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.job_growth_rate_luv</argument>-->
+	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.control_total.job_growth_rate_luv</argument>
+	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.job_total_growth_luv</argument>-->
 	    <argument name="target_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">psrc_parcel.parcel.job_capacity</argument>
-	    <argument name="ct_growth_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.job_total_growth_luv</argument>
+	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">demand=1.01 * control_total.total_number_of_jobs</argument>
 	    <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
 	    <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
-	     <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
-	     <argument name="growth_rate" parser_action="quote_string" type="boolean">False</argument>
+	    <argument name="compare_absolute_numbers" parser_action="quote_string" type="boolean">True</argument>
+	    <!-- <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
+	     <argument name="growth_rate" parser_action="quote_string" type="boolean">False</argument>-->
 	     <argument name="dataset_pool" type="string">dataset_pool</argument>
 	  </run>
 	</structure>
@@ -1081,7 +1085,7 @@
         <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
-        <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+        <selectable name="expected_sales_unit_price_component_model" type="model_choice">False</selectable>
         <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">False</selectable>
 	<selectable name="cap_residential_development_model" type="model_choice">True</selectable>
 	<selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
