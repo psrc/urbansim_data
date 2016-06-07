@@ -66,7 +66,7 @@
             <argument name="within_parcel_selection_compete_among_types" parser_action="quote_string" type="boolean">True</argument>
             <argument name="within_parcel_selection_threshold" type="integer">65</argument>
             <argument name="within_parcel_selection_n" type="integer">10</argument>
-            <argument name="within_parcel_selection_MU_same_weight" type="boolean">True</argument>
+            <argument name="within_parcel_selection_MU_same_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">True</argument>
             <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
@@ -92,7 +92,7 @@
             <argument name="within_parcel_selection_compete_among_types" parser_action="quote_string" type="boolean">True</argument>
             <argument name="within_parcel_selection_threshold" type="integer">65</argument>
             <argument name="within_parcel_selection_n" type="integer">10</argument>
-            <argument name="within_parcel_selection_MU_same_weight" type="boolean">True</argument>
+            <argument name="within_parcel_selection_MU_same_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">True</argument>
             <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
