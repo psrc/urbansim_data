@@ -21,6 +21,10 @@
           </init>
           <run type="dictionary">
           <name name="name" type="string">run</name>
+          <argument name="target_size" type="dictionary">
+          <parcels type="integer">1276387</parcels>
+          <households type="integer">1507599</households>
+          </argument>
           </run>
         </structure>
         <specification type="dictionary"/>
@@ -83,7 +87,7 @@
         <class_module hidden="FALSE" type="string">opus_core.configurations.creating_baseyear_cache_configuration</class_module>
         <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/qc/runs</argument>
         <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</argument>-->
-        <argument name="existing_cache_to_copy" type="directory">/Volumes/e$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/luv_scenario_test</argument>
+        <argument name="existing_cache_to_copy" type="directory">/Volumes/e$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/luv_flu_updated</argument>
         <argument name="cache_from_database" type="boolean">False</argument>
       </creating_baseyear_cache_configuration>
       <dataset_pool_configuration type="class">
