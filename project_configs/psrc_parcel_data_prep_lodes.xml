@@ -86,7 +86,7 @@
           <prepare_for_run type="dictionary">
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
-            <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">job.sector_id==19</argument>
+            <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">numpy.in1d(job.sector_id, [15,19])</argument>
             <argument name="agents_index" type="string">erm_index</argument>
             <output hidden="True" name="output" type="string">filtered_erm_index</output>
           </prepare_for_run>
@@ -117,7 +117,7 @@
             <name hidden="True" name="name" type="string">prepare_for_run</name>
             <argument name="agent_set" type="string" model_dependency_type="dataset">job</argument>
             <!--<argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">job.sector_id==18</argument>-->
-            <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">numpy.logical_or(job.sector_id==18, job.sector_id==19)</argument>
+            <argument name="agents_filter" type="string" parser_action="quote_string" model_dependency_type="variable">numpy.in1d(job.sector_id, [15, 18, 19])</argument>
             <argument name="agents_index" type="string">erm_index</argument>
             <output hidden="True" name="output" type="string">filtered_erm_index</output>
           </prepare_for_run>
@@ -157,7 +157,7 @@
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="public_sector_model" type="model_choice">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
-        <selectable name="employment_location_choice_model" type="model_choice">False<group_members type="string">non_home_based</group_members>
+        <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
         </selectable>        
         <selectable name="work_at_home_choice_model" type="model_choice">False</selectable>
         <selectable name="workplace_choice_model_for_resident" type="model_choice">False</selectable>
