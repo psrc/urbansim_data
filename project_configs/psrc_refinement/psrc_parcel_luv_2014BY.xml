@@ -1227,7 +1227,7 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
-        <travel_model_base_directory type="string">d:\4K_V405\TravelModel</travel_model_base_directory>
+        <travel_model_base_directory type="string">d:\4K_V405</travel_model_base_directory>
         <!-- <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name> -->
         <emme_command type="string">emme -ng 127.0.0.1</emme_command>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
@@ -1241,7 +1241,7 @@
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2014</year>
-            <bank type="list">['2010']</bank>
+            <bank type="list">['2015']</bank>
             <emme2_batch_file_name type="string">psrc_4k.bat 4k_2015.ctl</emme2_batch_file_name>
           </run_description>
           <run_description type="dictionary">
