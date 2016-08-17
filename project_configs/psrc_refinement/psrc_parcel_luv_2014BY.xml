@@ -1139,6 +1139,117 @@
         </years_to_run>
       </travel_model_configuration>
     </scenario>
+    <scenario executable="True" name="psrc_luv_with_full_TM" type="scenario">
+      <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Subregional simulation for LUV (15-40), running full TM; control growth in non-LUV years</description>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="delete_city_from_households" type="model_choice">True</selectable>
+        <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
+        <selectable name="real_estate_price_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
+        <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+	<selectable name="cap_residential_development_model" type="model_choice">True</selectable>
+	<selectable name="cap_nonresidential_development_model" type="model_choice">True</selectable>
+        <selectable name="development_proposal_choice_model_luv2" type="model_choice">True</selectable>
+        <selectable name="building_construction_model" type="model_choice">True</selectable>
+        <selectable name="increase_HU_density" type="model_choice">True</selectable>
+	<selectable name="increase_job_capacity" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
+        <selectable name="jobs_event_model" type="model_choice">False</selectable>
+        <selectable name="households_event_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model" type="model_choice">True</selectable>
+        <selectable name="set_inmigrants_model" type="model_choice">True</selectable>
+        <selectable name="employment_transition_model" type="model_choice">True</selectable>
+        <selectable name="job_person_consistency_keeper" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="household_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_households_if_lower_accessibility" type="model_choice">False</selectable>
+        <selectable name="employment_relocation_model" type="model_choice">True</selectable>
+        <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="governmental_employment_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="distribute_unplaced_mining_utilities_jobs_model" type="model_choice">False</selectable>
+        <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">False</selectable>
+        <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
+        <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
+      </models_to_run>
+      <models_in_year type="dictionary">
+        <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
+          <yearset type="dictionary">
+	   <year type="integer">2014</year>
+	   <models_list type="list">["assign_work_at_home_to_workers", "work_at_home_choice_model_by_tractcity",  "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident"]</models_list>
+	   </yearset>
+	   <yearset type="dictionary">
+            <year type="integer">2015</year>
+            <models_list type="list">["increase_existing_HU_density", "increase_existing_job_capacity", "real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2020</year>
+            <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2025</year>
+            <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2030</year>
+            <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2035</year>
+            <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2040</year>
+            <models_list type="list">["real_estate_price_model", "postprocess_real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model", "set_inmigrants_model", "employment_transition_model", "job_person_consistency_keeper", "development_proposal_choice_model_by_subarea", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
+          </yearset>
+        </models_in_year_category>
+      </models_in_year>
+      <base_year type="integer">2014</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2014</firstyear>
+        <lastyear type="integer">2040</lastyear>
+      </years_to_run>
+      <seed convert_blank_to_none="True" type="integer">1</seed>
+      <flush_variables type="boolean">True</flush_variables>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel\base_year_2014_inputs</argument>
+          <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
+        </argument>
+      </creating_baseyear_cache_configuration>
+      <travel_model_configuration inherit_parent_values="False" type="dictionary">
+        <travel_model_base_directory type="string">d:\4k_V405</travel_model_base_directory>
+        <emme_command type="string">emme -ng 127.0.0.1</emme_command>
+        <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
+        <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
+        <models type="selectable_list">
+          <selectable name="opus_emme2.models.get_cache_data_into_emme2" type="selectable">True</selectable>
+          <selectable name="opus_emme2.models.run_travel_model" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.run_export_skims" type="selectable">True</selectable>
+          <selectable name="psrc_parcel.emme.models.get_emme4_data_from_h5_into_cache" type="selectable">True</selectable>
+        </models>
+        <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <year type="integer">2014</year>
+            <bank type="list">['2014']</bank>
+            <emme2_batch_file_name type="string">psrc_4k.bat 4k_2015.ctl</emme2_batch_file_name>
+          </run_description>
+          <run_description type="dictionary">
+            <year type="integer">2025</year>
+            <bank type="list">['2040']</bank>
+            <emme2_batch_file_name type="string">psrc_4k.bat 4k_2040.ctl</emme2_batch_file_name>
+          </run_description>
+        </years_to_run>
+      </travel_model_configuration>
+    </scenario>
     <scenario executable="True" name="psrc_luv_test" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
       <description type="string">Subregional simulation for LUV (11-40), including TM skims</description>
@@ -1241,7 +1352,7 @@
         <years_to_run key_name="year" type="category_with_special_keys">
           <run_description type="dictionary">
             <year type="integer">2014</year>
-            <bank type="list">['2015']</bank>
+            <bank type="list">['2014']</bank>
             <emme2_batch_file_name type="string">psrc_4k.bat 4k_2015.ctl</emme2_batch_file_name>
           </run_description>
           <run_description type="dictionary">
