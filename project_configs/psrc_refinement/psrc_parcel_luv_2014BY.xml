@@ -1337,7 +1337,7 @@
 	   </yearset>
 	   <yearset type="dictionary">
             <year type="integer">2015</year>
-            <models_list type="list">[""employment_transition_model", assign_city_to_jobs", "employment_transition_model_by_subarea", "household_transition_model", "assign_city_to_households", "household_transition_model_by_subarea", "work_at_home_choice_model_by_subarea"]</models_list>
+            <models_list type="list">["employment_transition_model", "assign_city_to_jobs", "employment_transition_model_by_subarea", "household_transition_model", "assign_city_to_households", "household_transition_model_by_subarea", "work_at_home_choice_model_by_subarea"]</models_list>
           </yearset>
           <yearset type="dictionary">
             <year type="integer">2020</year>
