@@ -1184,7 +1184,7 @@
     </scenario>
     <scenario executable="True" name="psrc_luv_with_full_TM" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
-      <description type="string">Subregional simulation for LUV (15-40), running full TM; control growth in non-LUV years</description>
+      <description type="string">Subregional simulation for LUV (15-40), including full TM; control growth in non-LUV years</description>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="delete_city_from_households" type="model_choice">True</selectable>
         <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
@@ -1264,13 +1264,13 @@
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel\base_year_2014_inputs</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/luv_flu_updated</argument>
           <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
-        <travel_model_base_directory type="string">d:\4k_V405</travel_model_base_directory>
-        <emme_command type="string">emme -ng 127.0.0.1</emme_command>
+        <travel_model_base_directory type="string">e:\4k_V405</travel_model_base_directory>
+        <emme_command type="string">emme</emme_command>
         <locations_to_disaggregate type="list">['parcel', 'building']</locations_to_disaggregate>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
