@@ -43,7 +43,7 @@
           <name name="name" type="string">run</name>
           <argument name="expressions" type="string">[]</argument>
           <argument name="use_default_expressions" type="boolean">True</argument>
-          <argument name="allow_missing" type="boolean">False</argument>
+          <argument name="fault_tolerant" type="boolean">False</argument>
           </run>
         </structure>
         <specification type="dictionary"/>
@@ -86,8 +86,8 @@
         <class_name hidden="FALSE" type="string">CreatingBaseyearCacheConfiguration</class_name>
         <class_module hidden="FALSE" type="string">opus_core.configurations.creating_baseyear_cache_configuration</class_module>
         <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/qc/runs</argument>
-        <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data</argument>-->
-        <argument name="existing_cache_to_copy" type="directory">/Volumes/e$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/luv_flu_updated</argument>
+        <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/luv_flu_updated</argument>
+        <!--<argument name="existing_cache_to_copy" type="directory">/Volumes/e$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/luv_flu_updated</argument>-->
         <argument name="cache_from_database" type="boolean">False</argument>
       </creating_baseyear_cache_configuration>
       <dataset_pool_configuration type="class">
