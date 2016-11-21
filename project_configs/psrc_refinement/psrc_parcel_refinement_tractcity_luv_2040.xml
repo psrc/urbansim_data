@@ -28,7 +28,7 @@
           <run type="dictionary">
             <name hidden="True" name="name" type="string">run</name>
             <argument model_dependency_type="dataset" name="refinement_dataset" type="string">refinement</argument>
-            <argument name="base_year" type="integer">2010</argument>
+            <argument name="base_year" type="integer">2014</argument>
             <argument name="current_year" type="string">year</argument>
             <!-- <argument name="current_year" type="string">2011</argument>  -->
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
@@ -296,7 +296,7 @@
   <scenario_manager>
     <scenario executable="True" name="2040_refinement" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
-      <base_year type="integer">2010</base_year>
+      <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2041</firstyear>
         <lastyear type="integer">2043</lastyear>
@@ -309,7 +309,7 @@
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2040LUVrefinements/base_year_data</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/LUV_refinements_2040</argument>
         </argument>
       </creating_baseyear_cache_configuration>
       <models_in_year type="dictionary">
