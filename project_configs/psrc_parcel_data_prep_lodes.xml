@@ -263,6 +263,26 @@
         </structure>
         <specification type="dictionary"></specification>
       </model>
+      <model name="distribute_unplaced_jobs_model" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.models.distribute_unplaced_jobs_model</class_module>
+            <class_name>DistributeUnplacedJobsModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">DistributeUnplacedJobsModel</name>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.is_governmental</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">job</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+            <argument model_dependency_type="dataset" name="location_set" type="string">building</argument>
+            <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">numpy.in1d(job.sector_id, [15, 18, 19])</argument>
+          </run>
+        </structure>
+      </model>
  </models>
  </model_manager>
  <scenario_manager>
@@ -299,7 +319,7 @@
         <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
           <yearset type="dictionary">
            <year type="integer">2016</year>
-           <models_list type="list">["compute_job_tract_model", "employment_relocation_model", "edu_sector_tract_model",  "employment_relocation_model", "public_sector_tract_model", "employment_relocation_model", {"non_home_based_employment_tract_location_choice_model": {"group_members":"non_home_based"}}]</models_list>
+           <models_list type="list">["compute_job_tract_model", "employment_relocation_model", "edu_sector_tract_model",  "employment_relocation_model", "public_sector_tract_model", "employment_relocation_model", {"non_home_based_employment_tract_location_choice_model": {"group_members":"non_home_based"}}, "distribute_unplaced_jobs_model"]</models_list>
            </yearset>
         </models_in_year_category>
       </models_in_year>
