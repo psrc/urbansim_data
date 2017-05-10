@@ -784,8 +784,8 @@
             <argument name="run_config" type="dictionary">
               <key name="sample_size_locations" type="integer">50</key>
               <key name="compute_capacity_flag" type="boolean">False</key>
-              <key name="capacity_string" type="string">15*clip_to_zero(school.student_count - school.number_of_agents(person))</key>
-			<key name="weights_for_simulation_string" type="string">clip_to_zero(school.student_count + 1 - school.number_of_agents(person))</key>
+              <key name="capacity_string" type="string">15*clip_to_zero(school.student_count2014  - school.number_of_agents(person))</key>
+	      <key name="weights_for_simulation_string" type="string">clip_to_zero(school.student_count2014  - school.number_of_agents(person))</key>
               <key name="lottery_max_iterations" type="integer">10</key>      
             </argument>
           </init>
@@ -833,13 +833,14 @@
               <key name="sample_alternatives_by_group" type="boolean">True</key>
               <key name="group_definition_for_sampling_alternatives" type="string" convert_blank_to_none="True">psrc_parcel.person.age_category</key>
               <key name="compute_capacity_flag" type="boolean">False</key>
-              <key name="capacity_string" type="string">15*clip_to_zero(school.student_count - school.number_of_agents(person))</key>
+              <key name="capacity_string" type="string">15*clip_to_zero(school.student_count2014  - school.number_of_agents(person))</key>
+	      <key name="weights_for_simulation_string" type="string">clip_to_zero(school.student_count2014 - school.number_of_agents(person))</key>
               <key name="lottery_max_iterations" type="integer">10</key>
               <key name="number_of_units_string" type="string">number_of_students=school.number_of_agents(person)</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <!--  <key name="weights_for_estimation_string" type="string" convert_blank_to_none="True">school.student_count</key>-->
-              <key name="weights_for_estimation_string" type="string" convert_blank_to_none="True">school.student_count</key>
+              <key name="weights_for_estimation_string" type="string" convert_blank_to_none="True">school.student_count2014</key>
               <key name="sample_size_locations" type="integer">100</key>
               <key name="sample_alternatives_by_group" type="boolean">True</key>
               <key name="group_definition_for_sampling_alternatives" type="string" convert_blank_to_none="True">psrc_parcel.person.age_category</key>
@@ -1020,6 +1021,63 @@
           </run>
         </structure>
       </model>
+            <model name="school_choice_model_public_assign_2" type="model">
+	<dependencies type="list">[]</dependencies>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module type="string">opus_core.simple_model</class_module>
+	    <class_name type="string">SimpleModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">SimpleModel</name>
+	  </init>
+	  <run type="dictionary">
+	    <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
+	    <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.elem_id, intermediates=[building])</argument>
+	    <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_2 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==2)</argument>
+	    <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
+      </model>
+	    <model name="school_choice_model_public_assign_3" type="model">
+	<dependencies type="list">[]</dependencies>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module type="string">opus_core.simple_model</class_module>
+	    <class_name type="string">SimpleModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">SimpleModel</name>
+	  </init>
+	  <run type="dictionary">
+	    <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
+	    <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.mschool_id, intermediates=[building])</argument>
+	    <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_3 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==3)</argument>
+	    <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
+      </model>
+      <model name="school_choice_model_public_assign_4" type="model">
+	<dependencies type="list">[]</dependencies>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module type="string">opus_core.simple_model</class_module>
+	    <class_name type="string">SimpleModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">SimpleModel</name>
+	  </init>
+	  <run type="dictionary">
+	    <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
+	    <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.hschool_id, intermediates=[building])</argument>
+	    <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_4 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==4)</argument>
+	    <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
+      </model>
     <model copyable="True" hidden="False" name="college_location_model" type="model" inherit_parent_values="False">
       <structure type="dictionary">
            <import name="import" type="dictionary">
@@ -1054,10 +1112,12 @@
               <key name="sample_proportion_locations" type="integer" convert_blank_to_none="True"/>
               <key name="compute_capacity_flag" type="boolean">True</key>
              <!--  <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(15*school.staff - school.number_of_agents(person))</key> -->
-              <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(1.15* school.fte2010 - school.number_of_agents(person))</key>
+             <!-- <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(1.15* school.fte2014 - school.number_of_agents(person))</key>-->
+	      <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(1.3* school.fte2014 - school.number_of_agents(person))</key>
              <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">15*school.staff</key>  --> 
             <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">1.15* school.fte2010</key> -->
-            <key name="number_of_units_string" type="string" convert_blank_to_none="True">school.fte2010</key>
+            <!--<key name="number_of_units_string" type="string" convert_blank_to_none="True">1.15*school.fte2014</key>-->
+	    <key name="number_of_units_string" type="string" convert_blank_to_none="True">1.3*school.fte2014</key>
               <key name="number_of_agents_string" type="string" convert_blank_to_none="True">school.number_of_agents(person)</key>
               <key name="lottery_max_iterations" type="integer">3</key>
               <key name="sample_alternatives_by_group" type="boolean">True</key>
@@ -1074,7 +1134,8 @@
           </prepare_for_run>
           <run type="dictionary">
             <argument name="agent_set" type="string" model_dependency_type="dataset">person</argument>
-            <argument name="agents_filter" type="string" convert_blank_to_none="True" parser_action="quote_string" model_dependency_type="variable">is_student_in_college_with_residence = (person.student &lt; 3) * (person.student &gt; 0) * (psrc_parcel.person.age_category==5) * (urbansim_parcel.person.building_id &gt; 0)</argument>
+            <!--<argument name="agents_filter" type="string" convert_blank_to_none="True" parser_action="quote_string" model_dependency_type="variable">is_student_in_college_with_residence = (person.student &lt; 3) * (person.student &gt; 0) * (psrc_parcel.person.age_category==5) * (urbansim_parcel.person.building_id &gt; 0)</argument>-->
+	    <argument name="agents_filter" type="string" convert_blank_to_none="True" parser_action="quote_string" model_dependency_type="variable">is_student_in_college_with_residence = (person.student == 1) * (person.employment_status &lt;&gt; 1) * (psrc_parcel.person.age_category==5) * (urbansim_parcel.person.building_id &gt; 0)</argument>
             <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
             <argument name="coefficients" type="string">collcm_coefficients</argument>
             <argument name="specification" type="string">collcm_specification</argument>     
@@ -1180,10 +1241,10 @@
   <scenario_manager>  
       <scenario executable="True" name="psrc_with_school_models" type="scenario">
     <parent type="scenario_name">PSRC_baseline</parent>
-      <base_year type="integer">2010</base_year>
+      <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2011</firstyear>
-        <lastyear type="integer">2011</lastyear>
+        <firstyear type="integer">2026</firstyear>
+        <lastyear type="integer">2026</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
@@ -1200,6 +1261,9 @@
       <selectable name="school_choice_model_public" type="model_choice">False</selectable>
       <selectable name="school_choice_model_public_no_schools_in_district" type="model_choice">False</selectable>
       <selectable name="initiate_school_id_in_persons" type="model_choice">True</selectable>
+      <!--<selectable name="school_choice_model_public_assign_2" type="model_choice">True</selectable>
+      <selectable name="school_choice_model_public_assign_3" type="model_choice">True</selectable>
+      <selectable name="school_choice_model_public_assign_4" type="model_choice">True</selectable>-->
       <selectable name="school_choice_model_public_distance_2" type="model_choice">True</selectable>
       <selectable name="school_choice_model_public_distance_3" type="model_choice">True</selectable>
       <selectable name="school_choice_model_public_distance_4" type="model_choice">True</selectable>
@@ -1217,8 +1281,9 @@
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
           <!-- <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school</argument> -->
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/LUVrefinements/run_133ref</argument>
+          <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/LUVrefinements/run_133ref</argument> -->
           <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_data_school_estimation</argument>-->
+	  <argument name="existing_cache_to_copy" type="directory">/Volumes/d$/opusgit/urbansim_data/data/psrc_parcel/runs/run_64R.schools_base</argument>
         </argument>
         <argument hidden="True" name="unroll_gridcells" type="boolean">False</argument>
         <argument name="advanced" type="category">
