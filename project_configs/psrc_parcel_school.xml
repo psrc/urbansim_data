@@ -976,9 +976,10 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_2, intermediates=[building])</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_2_with_enrollment, intermediates=[building])</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_2 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==2)</argument>
+            <!--<argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_2_without_school = (person.disaggregate(school.student_count2014 &lt;= 0)) * (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==2)</argument>-->
+<argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_2 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==2)</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -995,9 +996,10 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_3, intermediates=[building])</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_3_with_enrollment, intermediates=[building])</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_3 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==3)</argument>
+<!--            <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_3_without_school = (person.disaggregate(school.student_count2014 &lt;= 0)) * (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==3)</argument>-->
+ <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_3 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==3)</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -1014,9 +1016,10 @@
           </init>
           <run type="dictionary">
             <argument name="dataset" type="string" model_dependency_type="dataset">person</argument>
-            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_4, intermediates=[building])</argument>
+            <argument name="expression" parser_action="quote_string" type="string" model_dependency_type="variable">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_4_with_enrollment, intermediates=[building])</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
-            <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_4 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==4)</argument>
+            <!--<argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_4_without_school = (person.disaggregate(school.student_count2014 &lt;= 0)) * (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==4)</argument>-->
+<argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_public_school_4 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==4)</argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
           </run>
         </structure>
@@ -1243,8 +1246,8 @@
     <parent type="scenario_name">PSRC_baseline</parent>
       <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2026</firstyear>
-        <lastyear type="integer">2026</lastyear>
+        <firstyear type="integer">2041</firstyear>
+        <lastyear type="integer">2041</lastyear>
       </years_to_run>
       <seed type="integer" convert_blank_to_none="True">1</seed>
       <flush_variables type="boolean">True</flush_variables>
@@ -1261,9 +1264,9 @@
       <selectable name="school_choice_model_public" type="model_choice">False</selectable>
       <selectable name="school_choice_model_public_no_schools_in_district" type="model_choice">False</selectable>
       <selectable name="initiate_school_id_in_persons" type="model_choice">True</selectable>
-      <!--<selectable name="school_choice_model_public_assign_2" type="model_choice">True</selectable>
-      <selectable name="school_choice_model_public_assign_3" type="model_choice">True</selectable>
-      <selectable name="school_choice_model_public_assign_4" type="model_choice">True</selectable>-->
+      <selectable name="school_choice_model_public_assign_2" type="model_choice">False</selectable>
+      <selectable name="school_choice_model_public_assign_3" type="model_choice">False</selectable>
+      <selectable name="school_choice_model_public_assign_4" type="model_choice">False</selectable>
       <selectable name="school_choice_model_public_distance_2" type="model_choice">True</selectable>
       <selectable name="school_choice_model_public_distance_3" type="model_choice">True</selectable>
       <selectable name="school_choice_model_public_distance_4" type="model_choice">True</selectable>
