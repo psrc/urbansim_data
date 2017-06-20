@@ -8,6 +8,128 @@
   </general>
   <model_manager>
     <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model copyable="True" name="expected_sales_unit_price_component_model" type="model">
+        <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model']</dependencies>
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.expected_sales_unit_price_comp_model</class_module>
+            <class_name>ExpectedSalesUnitPriceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">ExpectedSalesUnitPriceModel</name>
+            <argument model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">building_type_id</argument>
+            <argument model_dependency_type="variable" name="filter_attribute" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.is_size_fit</argument>
+            <argument name="outcome_attribute_name" parser_action="quote_string" type="string">ln_expected_sales_price_per_sqft</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument name="parcel_filter_for_new_development" parser_action="quote_string" type="string">has_vacant_land=(urbansim_parcel.parcel.vacant_land_area==parcel.parcel_sqft) * (parcel.parcel_sqft &gt; 0)</argument>
+            <!-- <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">low_improvement_ratio_non_gov=numpy.logical_and(urbansim_parcel.parcel.improvement_value / ( urbansim_parcel.parcel.unit_price * urbansim_parcel.parcel.existing_units ) &lt; 0.33, parcel.aggregate(urbansim_parcel.building.is_governmental)==0)</argument>-->
+            <!-- <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;2.5)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or(numpy.logical_and((safe_array_divide(parcel.parcel_sqft,parcel.aggregate(building.job_capacity))&gt;100),(parcel.aggregate(building.job_capacity)&lt;15000)),(safe_array_divide(parcel.parcel_sqft,urbansim_parcel.parcel.residential_units)&gt;250)))*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;300))</argument> -->
+            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;3)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_not(parcel.aggregate(urbansim_parcel.building.age_masked, function=mean)&lt;10))*(numpy.logical_or((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;6),(parcel.land_use_type_id&lt;&gt;15)))*(parcel.aggregate(building.job_capacity)&lt;500)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;250))</argument>
+            <argument convert_blank_to_none="True" name="template_filter" parser_action="quote_string" type="string"></argument>
+            <argument hidden="True" name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">expected_sales_unit_price_component_model_specification</argument>
+            <argument hidden="True" name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">expected_sales_unit_price_component_model_coefficients</argument>
+            <argument convert_blank_to_none="True" hidden="True" name="spec_replace_module_variable_pair" type="string"></argument>
+            <argument hidden="False" name="proposed_units_variable" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.units_proposed_plus_minimum_1DU_per_legal_lot_yield</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument hidden="False" name="accept_only_larger_proposals_for_redevelopment" type="boolean">True</argument>
+            <output hidden="True" name="output" type="string">(development_project_proposal, development_project_proposal_component, specification, coefficients)</output>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="dataset" type="string">development_project_proposal_component</argument>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+          </run>
+          <prepare_for_estimate type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_estimate</name>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="estimation_table" parser_action="quote_string" type="string">sales_price_extract_components</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">expected_sales_unit_price_model_specification</argument>
+            <!-- <argument name="dataset_filter" parser_action="quote_string" type="string">(development_project_proposal.bldg_count==1)  * (development_project_proposal.year_sold >= 1995)</argument> -->
+            <argument convert_blank_to_none="True" name="dataset_filter" parser_action="quote_string" type="string">est_filter = (development_project_proposal_component.building_type_id &lt;&gt; 10) * (safe_array_divide(development_project_proposal_component.expected_sales_price_per_sqft, safe_array_divide(development_project_proposal_component.land_value, development_project_proposal_component.parcel_sqft)) &lt; 75) * (numpy.logical_or(ln(development_project_proposal_component.expected_sales_price_per_sqft) &gt; 3.5,  development_project_proposal_component.building_type_id &lt;&gt; 12))</argument>
+            <output hidden="True" name="output" type="string">(development_project_proposal_component, specification, index)</output>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <argument hidden="True" name="specification" type="string">specification</argument>
+            <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">ln_expected_sales_price_per_sqft=ln(development_project_proposal_component.expected_sales_price_per_sqft)</argument>
+            <!-- <argument config_name="outcome_attribute" name="dependent_variable" parser_action="quote_string" type="string">development_project_proposal.expected_sales_price_per_unit</argument>-->
+            <argument name="dataset" type="string">development_project_proposal_component</argument>
+            <argument hidden="True" name="index" type="string">index</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.estimate_linear_regression</argument>
+            <output hidden="True" name="output" type="string">(coefficients, dummy)</output>
+          </estimate>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" name="civil" submodel_id="3" type="submodel">
+            <description type="string">Commercial</description>
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!--<variable_spec name="development_project_proposal.scbd"/>
+             <variable_spec name="development_project_proposal.bcbd"/>
+            <variable_spec name="development_project_proposal.lnimvalue"/>
+           <variable_spec name="development_project_proposal.lnlvalue_psf"/>
+            <variable_spec name="development_project_proposal.lnimvalue_pbsf"/>
+             <variable_spec name="development_project_proposal.cbd"/> -->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="industrial" submodel_id="8" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!--  <variable_spec name="development_project_proposal.lnimvalue_pbsf"/> -->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="apartment" submodel_id="12" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!--  <variable_spec name="development_project_proposal.lnimvalue_punit"/>-->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="condominium" submodel_id="4" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="office" submodel_id="13" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!--<variable_spec name="development_project_proposal.bcbd"/>
+            <variable_spec name="development_project_proposal.lnimvalue_pbsf"/>-->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="single_family_residential" submodel_id="19" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!--   <variable_spec name="development_project_proposal.lnimvalue_punit"/>-->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="transportation" submodel_id="20" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!-- <variable_spec name="development_project_proposal.lnimvalue_pbsf"/>-->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+          <submodel hidden="Children" name="warehousing" submodel_id="21" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec name="development_project_proposal_component.lnclvalue_psf"></variable_spec>
+              <!-- <variable_spec name="development_project_proposal.lnimvalue_pbsf"/>-->
+              <variable_spec name="constant"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
       <model copyable="True" name="expected_sales_unit_price_component_model_relaxed_redevelopment" type="model">
         <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model']</dependencies>
         <structure type="dictionary">
@@ -1079,9 +1201,9 @@
         </years_to_run>
       </travel_model_configuration>
     </scenario>
-    <scenario executable="True" name="psrc_luv_growth_control" type="scenario">
+    <scenario executable="True" name="Just_Friends" type="scenario">
       <parent type="scenario_name">PSRC_baseline</parent>
-      <description type="string">Subregional simulation for LUV (15-40), including TM skims; control growth in non-LUV years</description>
+      <description type="string">Non-LUV controls, including TM skims</description>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="delete_city_from_households" type="model_choice">True</selectable>
         <selectable name="delete_city_from_jobs" type="model_choice">True</selectable>
