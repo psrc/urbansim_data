@@ -305,11 +305,15 @@
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2040LUVrefinements/runs</argument>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2040_luv_refinements_test</argument>
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+<<<<<<< Updated upstream
           <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/LUV_refinements_2040</argument>
+=======
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/luv_refinements_test_2040_II</argument>
+>>>>>>> Stashed changes
         </argument>
       </creating_baseyear_cache_configuration>
       <models_in_year type="dictionary">
@@ -325,7 +329,7 @@
         </models_in_year_category>
       </models_in_year>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="refinement_model" type="selectable">False</selectable>
+        <selectable name="refinement_model" type="selectable">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="expected_sales_unit_price_component_model" type="model_choice">False</selectable>
@@ -351,7 +355,7 @@
       </models_to_run>
       <advanced type="category">
         <datasets_to_cache_after_each_model type="list">['building', 'parcel', 'household', 'person', 'job', 'development_project_proposal', 'development_project_proposal_component', 'travel_data', 'gridcell']</datasets_to_cache_after_each_model>
-        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2040LUVrefinements/runs</cache_directory>
+        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2040_luv_refinements_test</cache_directory>
         <flush_variables type="boolean">False</flush_variables>
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>

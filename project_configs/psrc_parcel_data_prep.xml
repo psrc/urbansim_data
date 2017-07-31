@@ -183,7 +183,7 @@
             <output hidden="True" name="output" type="string">filtered_erm_index</output>
           </prepare_for_run>
           <run type="dictionary">
-            <argument name="geography_set" type="string">city</argument>
+            <argument name="geography_set" type="string">tractcity</argument>
             <argument name="location_set" type="string">building</argument>
             <argument name="agent_set" type="string">job</argument>
             <argument name="agents_index" type="string">filtered_erm_index</argument>
@@ -215,7 +215,7 @@
             <argument model_dependency_type="variable" name="estimation_weight_string" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_residential_units</argument>
             <!--<argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/>-->
             <argument name="sample_size_locations" type="integer">500</argument>
-	     <argument name="filter" parser_action="quote_string" type="string" model_dependency_type="variable">building.disaggregate(city.aggregate(urbansim_parcel.parcel.number_of_households), intermediates=[parcel]) &lt; building.disaggregate(psrc_parcel.city.household_control_total_2015, intermediates=[parcel])</argument>  
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">building.disaggregate(city.aggregate(urbansim_parcel.parcel.number_of_households), intermediates=[parcel]) &lt; building.disaggregate(psrc_parcel.city.household_control_total_2015, intermediates=[parcel])</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">20</key>
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
@@ -286,7 +286,7 @@
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
       <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2015</firstyear>
+        <firstyear type="integer">2014</firstyear>
         <lastyear type="integer">2015</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
@@ -326,7 +326,7 @@
           <selectable copyable="True" name="zone" type="selectable">False</selectable>
           <selectable copyable="True" name="building" type="selectable">False</selectable>
           <selectable copyable="True" name="person" type="selectable">False</selectable>
-          <selectable copyable="True" name="home_based_status" type="selectable">True</selectable>
+          <selectable copyable="True" name="home_based_status" type="selectable">False</selectable>
         </datasets_to_preload>
       </advanced>
     </scenario>
