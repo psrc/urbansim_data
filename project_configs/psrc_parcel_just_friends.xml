@@ -165,7 +165,7 @@
           </import>
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProposalSamplingModelBySubarea</name>
-            <argument model_dependency_type="dataset" name="subarea_id_name" parser_action="quote_string" type="string">county_id</argument>
+            <argument model_dependency_type="dataset" name="subarea_id_name" parser_action="quote_string" type="string">large_area_id</argument>
             <argument model_dependency_type="dataset" name="proposal_set" type="string">development_project_proposal</argument>
             <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">exprevpsft = expfin(0.09 * development_project_proposal.expected_sales_price_per_sqft)</argument>
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter_attribute" parser_action="quote_string" type="string"></argument>
