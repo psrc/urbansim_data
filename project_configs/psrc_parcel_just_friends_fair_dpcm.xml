@@ -6,6 +6,17 @@
     </general>
     <model_manager>
         <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+        <model name="development_proposal_choice_model_by_subarea" type="model">
+        <structure type="dictionary">
+        <init type="dictionary">
+        <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">exppricepsft = expfin(development_project_proposal.disaggregate(parcel.unit_price))</argument>
+        </init>
+        <run type="dictionary">
+            <argument name="within_parcel_selection_threshold" type="integer">85</argument>
+            <argument name="within_parcel_selection_n" type="integer">15</argument>
+        </run>
+        </structure>
+      </model>
       <model inherit_parent_values="False" name="development_proposal_choice_model" type="model">
         <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model', "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model"]</dependencies>
         <structure type="dictionary">
