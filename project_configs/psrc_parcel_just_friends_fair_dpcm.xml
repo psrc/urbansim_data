@@ -9,6 +9,7 @@
         <model name="development_proposal_choice_model_by_subarea" type="model">
         <structure type="dictionary">
         <init type="dictionary">
+        <argument model_dependency_type="dataset" name="subarea_id_name" parser_action="quote_string" type="string">county_id</argument>
         <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">exppricepsft = expfin(development_project_proposal.disaggregate(parcel.unit_price))</argument>
         </init>
         <run type="dictionary">
