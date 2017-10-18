@@ -375,7 +375,7 @@
       <description type="string">LUB, including TM skims</description>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
-        <selectable name="postprocess_real_estate_price_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model" type="model_choice">False</selectable>

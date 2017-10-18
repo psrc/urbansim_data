@@ -28,7 +28,7 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModel</name>
             <argument name="proposal_set" type="string">development_project_proposal</argument>
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">exppricepsft = expfin(development_project_proposal.disaggregate(parcel.unit_price))</argument>
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">exppricepsft = expfin(development_project_proposal.disaggregate(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1*(parcel.land_use_type_id <> 26) + 3.44*(parcel.land_use_type_id == 26)))</argument>
           </init>
           <run type="dictionary">
             <argument name="n" type="integer">100</argument>
