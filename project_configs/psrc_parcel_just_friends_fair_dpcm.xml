@@ -13,8 +13,9 @@
             <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft2 = development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8)))</argument>
           </init>
           <run type="dictionary">
-            <argument name="within_parcel_selection_threshold" type="integer">60</argument>
+            <argument name="within_parcel_selection_threshold" type="integer">40</argument>
             <argument name="within_parcel_selection_n" type="integer">15</argument>
+			<argument convert_blank_to_none="True" model_dependency_type="variable" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.building_sqft</argument>
             <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
           </run>
         </structure>
@@ -40,7 +41,7 @@
             <argument name="within_parcel_selection_MU_same_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">True</argument>
             <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
-            <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
+			<output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
       </model>
