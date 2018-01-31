@@ -1,56 +1,61 @@
 <opus_project>
-    <xml_version>2.0</xml_version>
-    <general>
-        <description type="string">Configuration for the PSRC parcel project</description>
-        <parent type="file">psrc_parcel_just_friends.xml</parent>
-    </general>
-    <model_manager>
-        <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
-        <model name="development_proposal_choice_model_by_subarea" type="model">
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the PSRC parcel project</description>
+    <parent type="file">psrc_parcel_just_friends.xml</parent>
+  </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="development_proposal_choice_model_by_subarea" type="model">
         <structure type="dictionary">
-        <init type="dictionary">
-        <argument model_dependency_type="dataset" name="subarea_id_name" parser_action="quote_string" type="string">county_id</argument>
-        <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft2 = development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8))**2)</argument>
-        </init>
-        <run type="dictionary">
-            <argument name="within_parcel_selection_threshold" type="integer">85</argument>
+          <init type="dictionary">
+            <argument model_dependency_type="dataset" name="subarea_id_name" parser_action="quote_string" type="string">county_id</argument>
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8)))</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="within_parcel_selection_threshold" type="integer">40</argument>
             <argument name="within_parcel_selection_n" type="integer">15</argument>
-        </run>
+			<argument convert_blank_to_none="True" model_dependency_type="variable" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.building_sqft</argument>
+            <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
+          </run>
         </structure>
       </model>
       <model inherit_parent_values="False" name="development_proposal_choice_model" type="model">
         <dependencies type="list">['real_estate_price_model', 'postprocess_real_estate_price_model', "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model"]</dependencies>
         <structure type="dictionary">
           <import hidden="True" name="import" type="dictionary">
-            <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_no_demand_constraints</class_module>
+            <class_module type="string">psrc_parcel.models.development_project_proposal_sampling_model_with_minimum</class_module>
             <class_name>DevelopmentProjectProposalSamplingModel</class_name>
           </import>
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModel</name>
             <argument name="proposal_set" type="string">development_project_proposal</argument>
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">exppricepsft = expfin(development_project_proposal.disaggregate(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26))))</argument>
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8)))</argument>
           </init>
           <run type="dictionary">
             <argument name="n" type="integer">100</argument>
-            <argument convert_blank_to_none="True" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">psrc_parcel.development_project_proposal.total_revenue</argument>
+            <argument convert_blank_to_none="True" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.building_sqft</argument>
             <argument name="within_parcel_selection_compete_among_types" parser_action="quote_string" type="boolean">True</argument>
-            <argument name="within_parcel_selection_threshold" type="integer">85</argument>
+            <argument name="within_parcel_selection_threshold" type="integer">40</argument>
             <argument name="within_parcel_selection_n" type="integer">15</argument>
             <argument name="within_parcel_selection_MU_same_weight" type="boolean">False</argument>
-            <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">True</argument>
-            <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
+            <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">False</argument>
+            <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
+			<output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
       </model>
       <model copyable="True" name="expected_sales_unit_price_component_model" type="model">
-      <structure type="dictionary">
-      <prepare_for_run type="dictionary">
-      <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;3)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_not(parcel.aggregate(urbansim_parcel.building.age_masked, function=mean)&lt;20))*(numpy.logical_or((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;6),(parcel.land_use_type_id&lt;&gt;15)))*(parcel.aggregate(building.job_capacity)&lt;500)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;250))</argument>
-      </prepare_for_run>
-      </structure>
-       </model>
-        </models>
-    </model_manager>
-    <scenario_manager>
+        <structure type="dictionary">
+          <prepare_for_run type="dictionary">
+            <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;3)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_not(parcel.aggregate(urbansim_parcel.building.age_masked, function=mean)&lt;20))*(numpy.logical_or((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;6),(parcel.land_use_type_id&lt;&gt;15)))*(parcel.aggregate(building.job_capacity)&lt;500)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;250))</argument>
+          </prepare_for_run>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
     </scenario_manager>
-    </opus_project>
+  <results_manager>
+    </results_manager>
+</opus_project>
