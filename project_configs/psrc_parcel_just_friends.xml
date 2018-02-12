@@ -303,6 +303,14 @@
           </run>
         </structure>
       </model>
+      <model name="employment_location_choice_model" type="model">
+      <structure type="dictionary">
+      <init type="dictionary">
+      <name hidden="True" name="name" type="string">EmploymentLocationChoiceModel</name>
+      <argument name="simulation_weight_string" parser_action="quote_string" type="string">((numpy.logical_not(psrc_parcel.building.has_vacancy_for_new_sector) * urbansim_parcel.building.fraction_of_jobs_of_sector_SUBMODEL)+ (psrc_parcel.building.has_vacancy_for_new_sector * psrc_parcel.building.fraction_of_jobs_of_sector_SUBMODEL_static))*psrc_parcel.building.vacant_SSS_job_space</argument>		  
+      </init>
+      </structure>
+      </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
