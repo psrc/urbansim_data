@@ -1,0 +1,23 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the PSRC parcel project</description>
+    <parent type="file">psrc_parcel_just_friends_fair_dpcm.xml</parent>
+  </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="development_proposal_choice_model_by_subarea" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument model_dependency_type="dataset" name="subarea_id_name" parser_action="quote_string" type="string">county_id</argument>
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8)))*(1.0*(development_project_proposal.proposal_id > 0) + 0.25*psrc_parcel.development_project_proposal.has_residential_component*development_project_proposal.disaggregate(numpy.in1d(parcel.growth_center_id, [514, 519, 520])))</argument>
+          </init>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    </scenario_manager>
+  <results_manager>
+    </results_manager>
+</opus_project>
