@@ -421,7 +421,7 @@
       <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2014</firstyear>
-        <lastyear type="integer">2040</lastyear>
+        <lastyear type="integer">2050</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <flush_variables type="boolean">True</flush_variables>
