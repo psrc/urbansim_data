@@ -99,11 +99,15 @@
       <variable name="building.ln_sqft_per_unit" source="expression" type="variable_definition" use="model variable">ln_shifted(building.sqft_per_unit)</variable>
       <variable name="building.ln_resunit" source="expression" type="variable_definition" use="model variable">ln_shifted(building.residential_units)</variable>
       <variable name="household_x_building.pers_gt_2_x_condo" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'condo_residential')</variable>
+      <variable source="expression" type="variable_definition" use="model variable" name="household_x_building.one_or_two_pers_x_not_sfr">(psrc_parcel.household.persons &lt; 3) * numpy.logical_not(urbansim.building.is_single_family_residential)</variable>
       <variable name="household_x_building.npers_x_condo" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.persons * building.disaggregate(building_type.building_type_name == 'condo_residential')</variable>
       <variable name="household_x_building.npers_x_condo_ifgt2" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons * (psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'condo_residential'))-2</variable>
       <variable name="household_x_building.npers_x_mfr_ifgt2" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.persons * (psrc_parcel.household.persons &gt; 2) * building.disaggregate(building_type.building_type_name == 'multi_family_residential')</variable>
       <variable name="household_x_building.big_not_in_seattle" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons &gt; 3) * numpy.logical_not(urbansim_parcel.building.large_area_id ==6)</variable>
-      <variable name="household_x_building.per_capita_income_x_size" source="expression" type="variable_definition" use="model variable">ln_bounded(urbansim.household.income)/psrc_parcel.household.persons * ln(psrc_parcel.building.sqft_per_unit)/psrc_parcel.household.persons</variable>
+      <!--<variable name="household_x_building.per_capita_income_x_size" source="expression" type="variable_definition" use="model variable">ln_bounded(urbansim.household.income)/psrc_parcel.household.persons * ln(psrc_parcel.building.sqft_per_unit)/psrc_parcel.household.persons</variable>-->
+      <variable name="household_x_building.per_capita_income_x_size" source="expression" type="variable_definition" use="model variable">urbansim.household.income/(psrc_parcel.household.persons).astype(float32) * psrc_parcel.building.sqft_per_unit/(psrc_parcel.household.persons).astype(float32)</variable>
+      <variable name="household_x_building.is_invalid_income" source="expression" type="variable_definition" use="model variable">(household.income &lt; 1)* (building.building_id &gt; 0)</variable>
+      
       <variable name="household_x_building.pers_lt_3_if_seattle" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons &lt; 3) * (urbansim_parcel.building.large_area_id==6)</variable>
       <variable name="household_x_building.two_pers_x_not_sfr" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons == 2) * numpy.logical_not(urbansim.building.is_single_family_residential)</variable>
       <variable name="parcel.lnsgcdacbd_pbsf" source="expression" type="variable_definition" use="model variable">ln_shifted(parcel.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_cbd) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32)))</variable>
@@ -1696,12 +1700,13 @@
               <!-- <variable_spec name="building.lnretailden_wwd"/>
               <variable_spec name="building.lnparkarea_wwd"/>
               <variable_spec name="building.park_wwd_bldg"/> -->
-              <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>
-              <!--  <variable_spec name="household_x_building.income_x_size"/> -->
+              <!--   <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>
+             <variable_spec name="household_x_building.income_x_size"/> 
+	      <variable_spec name="household_x_building.is_invalid_income"/> -->
               <!--  <variable_spec name="household_x_building.inc_x_mfr"/> -->
               <!-- <variable_spec name="household_x_building.inc_x_condo"/>-->
-              <variable_spec name="household_x_building.one_pers_x_not_sfr"></variable_spec>
-              <!-- <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
+              <!-- <variable_spec name="household_x_building.one_pers_x_not_sfr"></variable_spec>-->
+              <variable_spec name="household_x_building.one_or_two_pers_x_not_sfr"/> 
               <variable_spec name="household_x_building.big_not_in_seattle"></variable_spec>
               <!--  <variable_spec name="household_x_building.disposable_inc"/> -->
               <!-- <variable_spec name="building.sqft_per_unit"/> -->
@@ -1744,12 +1749,12 @@
               <!-- <variable_spec name="building.lnretailden_wwd"/>-->
               <!-- <variable_spec name="building.park_wwd"/>  -->
               <!--<variable_spec name="building.lnparkarea_wwd"/>-->
-              <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>
+             <!-- <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>-->
               <!-- <variable_spec name="household_x_building.income_x_size"/> -->
               <!--<variable_spec name="household_x_building.inc_x_mfr"/>-->
               <!-- <variable_spec name="household_x_building.inc_x_condo"/> -->
-              <variable_spec name="household_x_building.one_pers_x_not_sfr"></variable_spec>
-              <!-- <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
+              <!--<variable_spec name="household_x_building.one_pers_x_not_sfr"></variable_spec>-->
+              <variable_spec name="household_x_building.one_or_two_pers_x_not_sfr"/>
               <variable_spec name="household_x_building.single_x_lnretailden_wwd"></variable_spec>
               <!-- <variable_spec name="household_x_building.disposable_inc"/>-->
               <!-- <variable_spec name="household_x_building.high_income_x_ln_sqft_per_unit"/>-->
@@ -1886,7 +1891,8 @@
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
-      <cache_directory field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/estimation/wpcm</cache_directory>
+      <!--<cache_directory field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/estimation/wpcm</cache_directory>-->
+      <cache_directory field_description="Directory for base_year cache, relative to OPUS_DATA_PATH or OPUS_HOME/data, e.g. seattle_parcel/base_year_data" field_identifier="Cache Directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/estimation2017Dec</cache_directory>
       <estimation_database_configuration type="class">
         <argument name="database_name" type="string">psrc_2014_urbansim2_estimation</argument>
       </estimation_database_configuration>
