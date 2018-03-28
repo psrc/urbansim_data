@@ -17,7 +17,7 @@
             <argument name="within_parcel_selection_n" type="integer">15</argument>
 			<argument convert_blank_to_none="True" model_dependency_type="variable" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.building_sqft</argument>
             <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
-	    <argument name="between_parcel_selection_elimination_threshold" type="boolean">0</argument>
+	    <argument name="between_parcel_selection_elimination_threshold" type="integer">0</argument>
           </run>
         </structure>
       </model>
