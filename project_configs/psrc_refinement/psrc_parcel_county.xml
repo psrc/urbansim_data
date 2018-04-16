@@ -646,23 +646,23 @@
 	  </yearset>
 	  <yearset type="dictionary">
 	    <year type="integer">2015</year>
-	    <models_list type="list">[""]</models_list>
+	    <models_list type="list">[]</models_list>
 	    </yearset>
 	  <yearset type="dictionary">
 	    <year type="integer">2016</year>
-	    <models_list type="list">[""]</models_list>
+	    <models_list type="list">[]</models_list>
 	    </yearset>
 	    <yearset type="dictionary">
 	    <year type="integer">2017</year>
-	    <models_list type="list">[""]</models_list>
+	    <models_list type="list">[]</models_list>
 	    </yearset>
 	    <yearset type="dictionary">
 	    <year type="integer">2018</year>
-	    <models_list type="list">[""]</models_list>
+	    <models_list type="list">[]</models_list>
 	    </yearset>
 	    <yearset type="dictionary">
 	    <year type="integer">2019</year>
-	    <models_list type="list">[""]</models_list>
+	    <models_list type="list">[]</models_list>
 	    </yearset>
           <yearset type="dictionary">
             <year type="integer">2020</year>
