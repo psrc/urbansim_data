@@ -543,32 +543,8 @@
 	    <year type="integer">2014</year>
 	    <models_list type="list">["assign_work_at_home_to_workers", "work_at_home_choice_model_by_tractcity",  "work_at_home_choice_model_by_city", "workplace_choice_model_for_resident"]</models_list>
 	  </yearset>
-	  <yearset type="dictionary">
-	    <year type="integer">2015</year>
-	    <models_list type="list">[]</models_list>
-	    </yearset>
-	  <yearset type="dictionary">
-	    <year type="integer">2016</year>
-	    <models_list type="list">[]</models_list>
-	    </yearset>
-	    <yearset type="dictionary">
-	    <year type="integer">2017</year>
-	    <models_list type="list">[]</models_list>
-	    </yearset>
-	    <yearset type="dictionary">
-	    <year type="integer">2018</year>
-	    <models_list type="list">[]</models_list>
-	    </yearset>
-	    <yearset type="dictionary">
-	    <year type="integer">2019</year>
-	    <models_list type="list">[]</models_list>
-	    </yearset>
-	    <yearset type="dictionary">
-            <year type="integer">2020</year>
-	    <models_list type="list">["assign_county_to_households", "assign_county_to_jobs", "household_transition_model_by_subarea", "set_inmigrants_model", "employment_transition_model_by_subarea", "job_person_consistency_keeper", "household_relocation_model",  "employment_relocation_model_by_subarea", "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_county_from_households", "delete_county_from_jobs"]</models_list>
-          </yearset>
           <yearset type="dictionary">
-            <year type="integer">2021</year>
+            <year type="integer">2020</year>
 	    <models_list type="list">["real_estate_price_model", "expected_sales_unit_price_component_model", "postprocess_expected_sales_unit_price_component_model", "development_proposal_choice_model_by_subarea", "building_construction_model", "assign_county_to_households", "assign_county_to_jobs", "household_transition_model_by_subarea", "set_inmigrants_model", "employment_transition_model_by_subarea", "job_person_consistency_keeper", "household_relocation_model", "household_location_choice_model", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "delete_county_from_households", "delete_county_from_jobs"]</models_list>
           </yearset>
           <yearset type="dictionary">
