@@ -4,17 +4,17 @@
     <description type="string">Configuration for the PSRC parcel project</description>
     <parent type="file">psrc_parcel_default.xml</parent>
     <expression_library type="dictionary">
-      <variable name="parcel.lngcdacbd" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_cbd)))).astype(float32)</variable>
-      <variable name="parcel.lngcdaemp" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(psrc.zone.generalized_cost_weighted_access_to_employment_hbw_am_drive_alone)))).astype(float32)</variable>
-      <variable name="parcel.lngcdapop" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(psrc.zone.generalized_cost_weighted_access_to_population_hbw_am_drive_alone)))).astype(float32)</variable>
-      <variable name="parcel.hbwavgtmda" source="expression" type="variable_definition" use="model variable">subtract_mean(parcel.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_drive_alone))</variable>
-      <variable name="parcel.lnemp10wa" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_walk)))).astype(float32)</variable>
-      <variable name="parcel.lnemp20wa" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_walk)))).astype(float32)</variable>
-      <variable name="parcel.lnemp30da" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone)))).astype(float32)</variable>
-      <variable name="parcel.lnemp20da" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_drive_alone)))).astype(float32)</variable>
-      <variable name="parcel.lnemp10da" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_drive_alone)))).astype(float32)</variable>
-      <variable name="parcel.lnemp30tw" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_transit_walk)))).astype(float32)</variable>
-      <variable name="parcel.lnemp20tw" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_transit_walk)))).astype(float32)</variable>
+      <variable name="parcel.lngcdacbd" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_cbd))).astype(float32)</variable>
+      <variable name="parcel.lngcdaemp" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(psrc.zone.generalized_cost_weighted_access_to_employment_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable name="parcel.lngcdapop" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(psrc.zone.generalized_cost_weighted_access_to_population_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable name="parcel.hbwavgtmda" source="expression" type="variable_definition" use="model variable">parcel.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_drive_alone)</variable>
+      <variable name="parcel.lnemp10wa" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_walk))).astype(float32)</variable>
+      <variable name="parcel.lnemp20wa" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_walk))).astype(float32)</variable>
+      <variable name="parcel.lnemp30da" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable name="parcel.lnemp20da" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable name="parcel.lnemp10da" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_drive_alone))).astype(float32)</variable>
+      <variable name="parcel.lnemp30tw" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_30_minutes_travel_time_hbw_am_transit_walk))).astype(float32)</variable>
+      <variable name="parcel.lnemp20tw" source="expression" type="variable_definition" use="model variable">(ln(parcel.disaggregate(urbansim_parcel.zone.employment_within_20_minutes_travel_time_hbw_am_transit_walk))).astype(float32)</variable>
       <!--<variable name="parcel.lnempden" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.number_of_jobs_per_acre)))).astype(float32)</variable>
       <variable name="parcel.lnpopden" source="expression" type="variable_definition" use="model variable">(subtract_mean(ln(parcel.disaggregate(urbansim_parcel.zone.population_per_acre)))).astype(float32)</variable>-->
       <variable name="parcel.lns_bldgage" source="expression" type="variable_definition" use="model variable">(ln_shifted(parcel.aggregate(urbansim_parcel.building.age_masked, function=mean))).astype(float32)</variable>
@@ -62,15 +62,15 @@
       <variable name="parcel.is_in_cbd" source="expression" type="variable_definition" use="model variable">parcel.disaggregate(numpy.logical_or(zone.seattle_cbd, zone.bellevue_cbd))</variable>
       <variable name="parcel.is_in_scbd" source="expression" type="variable_definition" use="model variable">parcel.disaggregate(zone.seattle_cbd)</variable>
       <!-- <variable source="expression" type="variable_definition" use="model variable" name="parcel.retail_food_empden">ln_bounded(building.disaggregate(urbansim.gridcell.sector_7_employment_within_walking_distance + urbansim.gridcell.sector_14_employment_within_walking_distance + urbansim.gridcell.sector_17_employment_within_walking_distance))</variable>-->
-      <variable name="parcel.lnempden_wwd" source="expression" type="variable_definition" use="model variable">subtract_mean(ln(psrc_parcel.parcel.employment_density_within_walking_distance))</variable>
-      <variable name="parcel.lnpopden_wwd" source="expression" type="variable_definition" use="model variable">subtract_mean(ln(psrc_parcel.parcel.population_density_within_walking_distance))</variable>
-      <variable name="parcel.lnretailden_wwd" source="expression" type="variable_definition" use="model variable">subtract_mean(ln(psrc_parcel.parcel.retail_density_within_walking_distance))</variable>
-      <variable name="parcel.lnretail_wwd" source="expression" type="variable_definition" use="model variable">subtract_mean(ln(psrc_parcel.parcel.urbansim_parcel_package_employment_retail_wwd))</variable>
+      <variable name="parcel.lnempden_wwd" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.parcel.employment_density_within_walking_distance)</variable>
+      <variable name="parcel.lnpopden_wwd" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.parcel.population_density_within_walking_distance)</variable>
+      <variable name="parcel.lnretailden_wwd" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.parcel.retail_density_within_walking_distance)</variable>
+      <variable name="parcel.lnretail_wwd" source="expression" type="variable_definition" use="model variable">ln(psrc_parcel.parcel.urbansim_parcel_package_employment_retail_wwd)</variable>
       <variable name="building.lnempden_wwd_threshold" source="expression" type="variable_definition" use="model variable">((building.disaggregate(psrc_parcel.parcel.employment_density_within_walking_distance))&gt;25)*(ln(building.disaggregate(psrc_parcel.parcel.employment_density_within_walking_distance)-25+1)).astype(float32) </variable>
       <variable name="parcel.park_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.parcel.psrc_parcel_package_is_park_wwd</variable>
-      <variable name="parcel.lnsbsqftden_wwd" source="expression" type="variable_definition" use="model variable">subtract_mean(ln_shifted(psrc_parcel.parcel.building_density_wwd))</variable>
+      <variable name="parcel.lnsbsqftden_wwd" source="expression" type="variable_definition" use="model variable">ln_shifted(psrc_parcel.parcel.building_density_wwd)</variable>
       <variable name="parcel.lnparkarea_wwd" source="expression" type="variable_definition" use="model variable">ln_shifted(psrc_parcel.parcel.psrc_parcel_package_park_area_wwd)</variable>
-      <variable name="parcel.lndevcapacity" source="expression" type="variable_definition" use="model variable">subtract_mean(ln_shifted(psrc_parcel.parcel.developable_capacity)*(psrc_parcel.parcel.developable_capacity &gt; 0))</variable>
+      <variable name="parcel.lndevcapacity" source="expression" type="variable_definition" use="model variable">ln_shifted(psrc_parcel.parcel.developable_capacity)*(psrc_parcel.parcel.developable_capacity &gt; 0)</variable>
       <variable name="parcel.isdevcap_gt0" source="expression" type="variable_definition" use="model variable">psrc_parcel.parcel.developable_capacity &gt; 0</variable>
       <variable name="parcel.isdevcap_le0" source="expression" type="variable_definition" use="model variable">(psrc_parcel.parcel.developable_capacity &gt; 0) == 0</variable>
       <variable name="parcel.lndevcapacity_psf" source="expression" type="variable_definition" use="model variable">ln_shifted(psrc_parcel.parcel.developable_capacity/ (parcel.parcel_sqft).astype(float32))</variable>
@@ -184,7 +184,7 @@
             <description type="string">Civil and Quasi-Public</description>
             <variable_list type="variable_list">
               <!-- <variable_spec name="parcel.lnpopden"/>-->
-              <!-- <variable_spec name="parcel.lnpopden_wwd"/>-->
+               <variable_spec name="parcel.lnpopden_wwd"/>
               <!--<variable_spec name="parcel.lnemp30da"/>-->
               <!-- <variable_spec name="parcel.lnemp20tw"/>-->
               <!--<variable_spec name="parcel.lnemp30tw"/>-->
@@ -226,7 +226,7 @@
               <variable_spec name="constant"></variable_spec>
               <!--  <variable_spec name="parcel.hbwavgtmda_pbsf"/> -->
               <!-- <variable_spec name="parcel.hbwavgtmda"/>  -->
-              <variable_spec name="parcel.lnsavglotsqft"></variable_spec>
+              <!--<variable_spec name="parcel.lnsavglotsqft"></variable_spec>-->
               <!-- <variable_spec name="parcel.povertyshare"/>-->
               <variable_spec name="parcel.lnretailden_wwd"></variable_spec>
               <!-- Included in BMA but not selected  
@@ -423,7 +423,7 @@
               <!--  <variable_spec name="parcel.lnemp20da"/>-->
               <!--  <variable_spec name="parcel.lnemp30tw"/> -->
               <variable_spec name="parcel.lngcdacbd"></variable_spec>
-              <variable_spec name="parcel.lngcdaemp"></variable_spec>
+              <!-- <variable_spec name="parcel.lngcdaemp"></variable_spec>-->
               <!--<variable_spec name="parcel.art300"/>-->
               <variable_spec name="parcel.art600"></variable_spec>
               <!--<variable_spec name="parcel.hwy200"/>-->
@@ -454,8 +454,8 @@
               <!-- <variable_spec name="parcel.is_waterfront"/>-->
               <!-- <variable_spec name="parcel.hbwavgtmda_pbsf"/> -->
               <!-- <variable_spec name="parcel.bldgage_pbsf"/> -->
-              <variable_spec name="parcel.lnimprval"></variable_spec>
-              <variable_spec name="parcel.imprvalle0"></variable_spec>
+               <!-- <variable_spec name="parcel.lnimprval"></variable_spec>-->
+               <!-- <variable_spec name="parcel.imprvalle0"></variable_spec>-->
               <variable_spec name="parcel.povertyshare"></variable_spec>
               <variable_spec name="parcel.hbwavgtmda"></variable_spec>
               <variable_spec name="parcel.lnempden_wwd"></variable_spec>
@@ -473,7 +473,7 @@
             <variable_list type="variable_list">
               <variable_spec name="parcel.lnretailden_wwd"></variable_spec>
               <!--<variable_spec name="parcel.park_wwd"/>-->
-              <variable_spec name="parcel.lnparkarea_wwd"></variable_spec>
+              <!--<variable_spec name="parcel.lnparkarea_wwd"></variable_spec>-->
               <variable_spec name="parcel.lnemp20tw"></variable_spec>
               <!--<variable_spec name="parcel.lnemp10da"/>-->
               <variable_spec name="parcel.lnemp20da"></variable_spec>
@@ -506,10 +506,10 @@
               <variable_spec name="parcel.lndevcapacity"></variable_spec>
               <!-- <variable_spec name="parcel.lndevcapacity_psf"/>-->
               <variable_spec name="parcel.isdevcap_le0"></variable_spec>
-              <variable_spec name="parcel.povertyshare"></variable_spec>
+              <!--<variable_spec name="parcel.povertyshare"></variable_spec>-->
               <variable_spec name="parcel.wealthshare"></variable_spec>
               <variable_spec name="parcel.is_waterfront"></variable_spec>
-              <variable_spec name="parcel.art600"></variable_spec>
+              <!--<variable_spec name="parcel.art600"></variable_spec>-->
               <!-- <variable_spec name="parcel.age_lt_10"/> -->
               <variable_spec name="parcel.lnslotsqft_x_nugb"></variable_spec>
               <variable_spec name="parcel.ninugb"></variable_spec>
@@ -540,10 +540,10 @@
           <submodel hidden="Children" name="condominium" submodel_id="15" type="submodel">
             <description type="string">Condominium Residential</description>
             <variable_list type="variable_list">
-              <variable_spec name="parcel.lnpopden"></variable_spec>
+              <!--<variable_spec name="parcel.lnpopden"></variable_spec>-->
               <!--<variable_spec name="parcel.lnpopden_wwd"/>-->
               <!--<variable_spec name="parcel.park_wwd"/>-->
-              <variable_spec name="parcel.lnparkarea_wwd"></variable_spec>
+              <!--<variable_spec name="parcel.lnparkarea_wwd"></variable_spec>-->
               <!--<variable_spec name="parcel.lnemp30tw"/>-->
               <!--<variable_spec name="parcel.lnemp10da"/>-->
               <variable_spec name="parcel.lnemp20da"></variable_spec>
@@ -558,25 +558,25 @@
               <!-- <variable_spec name="parcel.lns_bldgage"/>
              <variable_spec name="parcel.lns_bldgagesf"/>-->
               <variable_spec name="parcel.lnsunits"></variable_spec>
-              <variable_spec name="parcel.lnsbsftounits"></variable_spec>
+              <!-- <variable_spec name="parcel.lnsbsftounits"></variable_spec>-->
               <!--  <variable_spec name="parcel.lnsbsqft_all"/>-->
               <!-- <variable_spec name="parcel.lnsbsqft_all_psf"/>
               <variable_spec name="parcel.bsqft_all_psf_gt_1"/>-->
               <!-- <variable_spec name="parcel.lnsavglotsqft"/> -->
               <variable_spec name="parcel.lnslotsqft"></variable_spec>
-              <variable_spec name="parcel.no_good_publ_schools"></variable_spec>
-              <variable_spec name="parcel.ngoodpubl_schools"></variable_spec>
+              <!--<variable_spec name="parcel.no_good_publ_schools"></variable_spec>-->
+              <!--<variable_spec name="parcel.ngoodpubl_schools"></variable_spec>-->
               <!--<variable_spec name="parcel.lnngoodpubl_schools_percap"/>-->
               <!--<variable_spec name="parcel.ngoodpubl_schools_x_cbd"/>-->
-              <variable_spec name="parcel.lndevcapacity"></variable_spec>
+              <!--<variable_spec name="parcel.lndevcapacity"></variable_spec>-->
               <!--<variable_spec name="parcel.lndevcapacity_psf"/>-->
               <variable_spec name="parcel.wealthshare"></variable_spec>
               <variable_spec name="parcel.is_waterfront"></variable_spec>
               <variable_spec name="parcel.lnempden"></variable_spec>
               <!--  <variable_spec name="parcel.lnemp20tw"/>-->
               <!-- <variable_spec name="parcel.lnsunits_pbsf"/> -->
-              <variable_spec name="parcel.lnimprval"></variable_spec>
-              <variable_spec name="parcel.imprvalle0"></variable_spec>
+              <!--<variable_spec name="parcel.lnimprval"></variable_spec>
+              <variable_spec name="parcel.imprvalle0"></variable_spec>-->
               <variable_spec name="constant"></variable_spec>
               <!-- <variable_spec name="parcel.hbwavgtmda_pbsf"/> -->
               <!-- Included in BMA but not selected  
@@ -833,12 +833,12 @@
               <variable_spec name="parcel.faz_school_totscore"></variable_spec>
               <!--<variable_spec name="parcel.lnyardsqft"/> -->
               <!-- <variable_spec name="parcel.lnsavglotsqft"/>-->
-              <variable_spec name="parcel.povertyshare"></variable_spec>
+              <!--<variable_spec name="parcel.povertyshare"></variable_spec>-->
               <variable_spec name="parcel.wealthshare"></variable_spec>
               <variable_spec name="parcel.is_waterfront"></variable_spec>
               <variable_spec name="parcel.lnsbsqftden_wwd"></variable_spec>
-              <variable_spec name="parcel.lnimprval"></variable_spec>
-              <variable_spec name="parcel.imprvalle0"></variable_spec>
+              <!--<variable_spec name="parcel.lnimprval"></variable_spec>
+              <variable_spec name="parcel.imprvalle0"></variable_spec>-->
               <variable_spec name="parcel.lnemp10da"></variable_spec>
               <variable_spec name="constant"></variable_spec>
               <!--  <variable_spec name="parcel.hbwavgtmda_pbsf"/> -->
@@ -920,7 +920,7 @@
               <variable_spec name="parcel.lnpopden_wwd"></variable_spec>
               <!--<variable_spec name="parcel.lnavginc"/>-->
               <variable_spec name="parcel.lnemp10da"></variable_spec>
-              <variable_spec name="parcel.lngcdacbd"></variable_spec>
+              <!--<variable_spec name="parcel.lngcdacbd"></variable_spec>-->
               <variable_spec name="parcel.lngcdaemp"></variable_spec>
               <!--<variable_spec name="parcel.lngcdapop"/>-->
               <variable_spec name="parcel.art300"></variable_spec>
@@ -938,7 +938,7 @@
               <variable_spec name="parcel.is_waterfront"></variable_spec>
               <!--<variable_spec name="parcel.lnemp20tw"/>-->
               <variable_spec name="parcel.lnsbsqftden_wwd"></variable_spec>
-              <variable_spec name="parcel.faz_school_totscore"></variable_spec>
+              <!--<variable_spec name="parcel.faz_school_totscore"></variable_spec>-->
               <variable_spec name="parcel.lnemp10wa"></variable_spec>
               <!--  <variable_spec name="parcel.lnempden_wwd"/>-->
               <!-- <variable_spec name="parcel.lnemp20da"/> -->
@@ -1027,7 +1027,7 @@
               <!--<variable_spec name="parcel.lnemp30tw"/>-->
               <!--<variable_spec name="parcel.lnemp20da"/>-->
               <variable_spec name="parcel.lngcdacbd"></variable_spec>
-              <variable_spec name="parcel.lngcdaemp"></variable_spec>
+              <!--<variable_spec name="parcel.lngcdaemp"></variable_spec>-->
               <!--<variable_spec name="parcel.lngcdapop"/>-->
               <!--<variable_spec name="parcel.art600"/>-->
               <!--<variable_spec name="parcel.hwy200"/>
@@ -1035,7 +1035,7 @@
               <!-- <variable_spec name="parcel.ln_invfar"/>-->
               <!--<variable_spec name="parcel.lns_bldgage"/>
               <variable_spec name="parcel.lns_bldgagesf"/>-->
-              <variable_spec name="parcel.lnsbsqft_all"></variable_spec>
+             <!-- <variable_spec name="parcel.lnsbsqft_all"></variable_spec>-->
               <!-- <variable_spec name="parcel.lnsbsqft_all_psf"/> -->
               <!-- <variable_spec name="parcel.bsqft_all_psf_gt_1"/>-->
               <variable_spec name="parcel.lnslotsqft"></variable_spec>
@@ -1048,10 +1048,10 @@
               <!-- <variable_spec name="parcel.lnmaxdevcapacity"/>-->
               <variable_spec name="parcel.wealthshare"></variable_spec>
               <!--  <variable_spec name="parcel.lnsunits_psf"/> -->
-              <variable_spec name="parcel.povertyshare"></variable_spec>
+              <!--<variable_spec name="parcel.povertyshare"></variable_spec>-->
               <variable_spec name="parcel.lnempden_wwd"></variable_spec>
               <variable_spec name="parcel.art300"></variable_spec>
-              <variable_spec name="parcel.lnemp10da"></variable_spec>
+              <!--<variable_spec name="parcel.lnemp10da"></variable_spec>-->
               <variable_spec name="parcel.lnparkarea_wwd"></variable_spec>
               <variable_spec name="parcel.is_waterfront"></variable_spec>
               <variable_spec name="parcel.lnslotsqft_x_nugb"></variable_spec>

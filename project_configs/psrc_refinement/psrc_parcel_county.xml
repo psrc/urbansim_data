@@ -62,7 +62,7 @@
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
             <argument name="attribute" parser_action="quote_string" type="string">county_id</argument>
-	    <argument name="write_to_cache" type="boolean">True</argument>
+	    <argument name="write_to_cache" type="boolean">False</argument>
           </run>
         </structure>
         <specification type="dictionary"></specification>
@@ -81,7 +81,7 @@
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="dataset" type="string">job</argument>
             <argument name="attribute" parser_action="quote_string" type="string">county_id</argument>
-	    <argument name="write_to_cache" type="boolean">True</argument>
+	    <argument name="write_to_cache" type="boolean">False</argument>
           </run>
         </structure>
         <specification type="dictionary"></specification>
@@ -546,6 +546,8 @@
       <parent type="scenario_name">PSRC_baseline</parent>
       <description type="string">County-level simulation with TM skims</description>
       <models_to_run config_name="models" type="selectable_list">
+	<selectable name="delete_county_from_households" type="model_choice">True</selectable>
+	<selectable name="delete_county_from_jobs" type="model_choice">True</selectable>
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
         <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
