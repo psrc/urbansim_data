@@ -62,7 +62,6 @@
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
             <argument name="attribute" parser_action="quote_string" type="string">county_id</argument>
-	    <argument name="write_to_cache" type="boolean">False</argument>
           </run>
         </structure>
         <specification type="dictionary"></specification>
@@ -81,10 +80,49 @@
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="dataset" type="string">job</argument>
             <argument name="attribute" parser_action="quote_string" type="string">county_id</argument>
-	    <argument name="write_to_cache" type="boolean">False</argument>
           </run>
         </structure>
         <specification type="dictionary"></specification>
+      </model>
+      <model name="delete_and_recompute_county_for_households" type="model">
+	<dependencies type="list">[]</dependencies>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module type="string">opus_core.models.delete_and_recompute_attribute_model</class_module>
+	    <class_name type="string">DeleteAndRecomputeAttributeModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">DeleteAndRecomputeAttributeModel</name>
+	    <argument name="model_name" parser_action="quote_string" type="string">Delete and recompute county_id attribute for Households if present</argument>
+	  </init>
+	  <run type="dictionary">
+	    <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
+	    <argument name="attribute" parser_action="quote_string" type="string">county_id</argument>
+	    <argument name="expression" parser_action="quote_string" type="string">psrc_parcel.household.county_id</argument>
+	    <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
+	<specification type="dictionary"></specification>
+      </model>
+      <model name="delete_and_recompute_county_for_jobs" type="model">
+	<dependencies type="list">[]</dependencies>
+	<structure type="dictionary">
+	  <import name="import" type="dictionary">
+	    <class_module type="string">opus_core.models.delete_and_recompute_attribute_model</class_module>
+	    <class_name type="string">DeleteAndRecomputeAttributeModel</class_name>
+	  </import>
+	  <init type="dictionary">
+	    <name name="name" type="string">DeleteAndRecomputeAttributeModel</name>
+	    <argument name="model_name" parser_action="quote_string" type="string">Delete and recompute county_id attribute for Jobs if present</argument>
+	  </init>
+	  <run type="dictionary">
+	    <argument model_dependency_type="dataset" name="dataset" type="string">job</argument>
+	    <argument name="attribute" parser_action="quote_string" type="string">county_id</argument>
+	    <argument name="expression" parser_action="quote_string" type="string">psrc_parcel.job.county_id</argument>
+	    <argument name="dataset_pool" type="string">dataset_pool</argument>
+	  </run>
+	</structure>
+	<specification type="dictionary"></specification>
       </model>
       <model name="household_transition_model_by_subarea" type="model">
         <structure type="dictionary">
