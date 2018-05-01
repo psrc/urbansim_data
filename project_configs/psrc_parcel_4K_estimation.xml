@@ -347,7 +347,7 @@
                 <variable_spec name="parcel.imprvalle0"/>      -->
               <variable_spec name="constant"></variable_spec>
               <!--<variable_spec name="parcel.hbwavgtmda_pbsf"/>-->
-              <variable_spec name="parcel.hbwavgtmda"></variable_spec>
+              <!--<variable_spec name="parcel.hbwavgtmda"></variable_spec>-->
               <!-- Included in BMA but not selected  
               <variable_spec name="parcel.age_gt_60"/>
               <variable_spec name="parcel.age_lt_10"/>
@@ -999,7 +999,7 @@
               <variable_spec name="parcel.lnslotsqft_x_nugb"></variable_spec>
               <variable_spec name="parcel.ninugb"></variable_spec>
               <!--<variable_spec name="parcel.lnsavglotsqft"/>-->
-              <variable_spec name="parcel.hbwavgtmda"></variable_spec>
+              <!--<variable_spec name="parcel.hbwavgtmda"></variable_spec>-->
               <!-- <variable_spec name="parcel.hbwavgtmda_pbsf"/> -->
               <!-- Included in BMA but not selected 
                <variable_spec name="parcel.lnpopden_wwd"/>
