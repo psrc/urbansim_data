@@ -72,6 +72,7 @@
             <argument name="within_parcel_selection_n" type="integer">15</argument>
             <argument convert_blank_to_none="True" name="type" parser_action="quote_string" type="string"></argument>
 	    <argument name="between_parcel_selection_elimination_threshold" type="integer">30</argument>
+	    <argument name="targets_attributes_to_remove" type="string">["county_id"]</argument>
             <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
