@@ -15,10 +15,18 @@
           <run type="dictionary">
             <argument name="within_parcel_selection_threshold" type="integer">50</argument>
             <argument name="within_parcel_selection_n" type="integer">15</argument>
-	    <argument convert_blank_to_none="True" model_dependency_type="variable" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.building_sqft</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="within_parcel_selection_weight_string" parser_action="quote_string" type="string">urbansim_parcel.development_project_proposal.building_sqft</argument>
             <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
-	    <argument name="between_parcel_selection_elimination_threshold" type="integer">30</argument>
+            <argument name="between_parcel_selection_elimination_threshold" type="integer">30</argument>
           </run>
+        </structure>
+      </model>
+      <model name="employment_location_choice_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <!--<argument name="simulation_weight_string" parser_action="quote_string" type="string">((numpy.logical_not(psrc_parcel.building.has_vacancy_for_new_sector) * urbansim_parcel.building.fraction_of_jobs_of_sector_SUBMODEL)+ (psrc_parcel.building.has_vacancy_for_new_sector * psrc_parcel.building.fraction_of_jobs_of_sector_SUBMODEL_static))*psrc_parcel.building.vacant_SSS_job_space</argument>-->
+            <argument name="simulation_weight_string" parser_action="quote_string" type="string">((numpy.logical_not(psrc_parcel.building.has_vacancy_for_new_sector) * urbansim_parcel.building.fraction_of_jobs_of_sector_SUBMODEL)+(psrc_parcel.building.has_vacancy_for_new_sector * psrc_parcel.building.fraction_of_jobs_of_sector_SUBMODEL_static))*safe_array_divide(psrc_parcel.building.vacant_SSS_job_space, psrc_parcel.building.total_SSS_job_space)</argument>
+          </init>
         </structure>
       </model>
       <model inherit_parent_values="False" name="development_proposal_choice_model" type="model">
@@ -42,8 +50,8 @@
             <argument name="within_parcel_selection_MU_same_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
-	    <argument name="between_parcel_selection_elimination_threshold" type="boolean">30</argument>
-	    <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
+            <argument name="between_parcel_selection_elimination_threshold" type="boolean">30</argument>
+            <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
       </model>
@@ -57,7 +65,17 @@
     </models>
   </model_manager>
   <scenario_manager>
-    </scenario_manager>
+    <scenario executable="True" name="Just_Friends" type="scenario">
+      <seed convert_blank_to_none="True" type="integer">1</seed>
+      <creating_baseyear_cache_configuration type="class">
+        <argument name="baseyear_cache" type="class">
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/land_use_baseline_run125_inputs_repm</argument>
+          <!--<argument name="existing_cache_to_copy" type="directory">/Volumes/d$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/land_use_baseline</argument>-->
+          <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
+        </argument>
+      </creating_baseyear_cache_configuration>
+    </scenario>
+  </scenario_manager>
   <results_manager>
     </results_manager>
 </opus_project>
