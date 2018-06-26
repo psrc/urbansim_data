@@ -50,7 +50,8 @@
             <argument name="within_parcel_selection_MU_same_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_transpose_interpcl_weight" type="boolean">False</argument>
             <argument name="within_parcel_selection_include_no_demand_proposals" type="boolean">True</argument>
-            <argument name="between_parcel_selection_elimination_threshold" type="boolean">30</argument>
+            <argument name="between_parcel_selection_elimination_threshold" type="boolean">True</argument>
+            <argument name="between_parcel_selection_elimination_threshold" type="integer">30</argument>
             <output hidden="True" name="output" type="string">(development_project_proposal, demolished_buildings)</output>
           </run>
         </structure>
@@ -66,14 +67,22 @@
   </model_manager>
   <scenario_manager>
     <scenario executable="True" name="Just_Friends" type="scenario">
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
+        <selectable name="development_proposal_choice_model_by_subarea" type="model_choice">False</selectable>
+      </models_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <creating_baseyear_cache_configuration type="class">
         <argument name="baseyear_cache" type="class">
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/land_use_baseline_run125_inputs_repm</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/land_use_baseline_run125_inputs_regvacrate</argument>
           <!--<argument name="existing_cache_to_copy" type="directory">/Volumes/d$/opusgit/urbansim_data/data/psrc_parcel/base_year_2014_inputs/land_use_baseline</argument>-->
           <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
         </argument>
       </creating_baseyear_cache_configuration>
+      <travel_model_configuration inherit_parent_values="False" type="dictionary">
+        <travel_model_base_directory type="string">d:\4k_V405\JF</travel_model_base_directory>
+        <!-- <emme2_batch_file_name type="string">run_model_common_tg_beta.bat 3700 3733 3750 3751 4000</emme2_batch_file_name> -->
+      </travel_model_configuration>
     </scenario>
   </scenario_manager>
   <results_manager>

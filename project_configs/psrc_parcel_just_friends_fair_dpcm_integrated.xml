@@ -200,7 +200,7 @@
             <daysim_exchange_dir type="string">urbansim_outputs/2040</daysim_exchange_dir>
             <year type="integer">2040</year>
             <bank type="list">['2040']</bank>
-            <emme2_batch_file_name type="string">run_soundcast_2040.bat</emme2_batch_file_name>
+            <emme2_batch_file_name type="string">run_soundcast_2025.bat</emme2_batch_file_name>
           </run_description>
         </years_to_run>
       </travel_model_configuration>
