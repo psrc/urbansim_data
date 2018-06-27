@@ -2,7 +2,7 @@
   <xml_version>2.0</xml_version>
   <general>
     <description type="string">Configuration for parcelizing LODES job data </description>
-    <parent type="file">psrc_parcel_4K.xml</parent>
+    <parent type="file">psrc_parcel_just_friends.xml</parent>
     <expression_library type="dictionary">
     </expression_library>
   </general>
@@ -283,6 +283,19 @@
           </run>
         </structure>
       </model>
+      <model copyable="True" hidden="False" name="work_at_home_choice_model_by_subarea" type="model">
+        <structure type="dictionary">
+        <init type="dictionary">
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">job.home_based_status==1</argument>
+          </init>
+        <prepare_for_run type="dictionary">
+            <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">urbansim_parcel.person.is_worker</argument>
+          </prepare_for_run>
+        <run type="dictionary">
+        <argument name="residence_id" parser_action="quote_string" type="string">faz_id</argument>
+        </run>
+      </structure>
+      </model>  
     </models>
   </model_manager>
   <scenario_manager>
@@ -305,6 +318,8 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
+        <selectable name="assign_work_at_home_to_workers" type="selectable">True</selectable>
+        <selectable name="work_at_home_choice_model_by_subarea" type="selectable">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="edu_sector_model" type="model_choice">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
