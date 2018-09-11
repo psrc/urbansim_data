@@ -157,7 +157,7 @@
           <run type="dictionary">
             <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
             <!--<argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.residential_units*building.disaggregate(psrc_parcel.parcel.modify_rgc_hh_capacity)).astype(int32)</argument>-->
-            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.residential_units*1.25).astype(int32)</argument>--&gt;
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.residential_units*1.25).astype(int32)</argument>
             <argument name="outcome_attribute" parser_action="quote_string" type="string">residential_units</argument>
             <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.growth_center_id &gt;= 500)*building.disaggregate(parcel.growth_center_id &lt; 600) </argument>
             <argument name="dataset_pool" type="string">dataset_pool</argument>
@@ -2037,7 +2037,7 @@
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrcl_parcel/inputs</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/inputs</argument>
           <!--<argument name="existing_cache_to_copy" type="directory">D:/opus/data/psrc_parcel/base_year_data_1K_luv_ct</argument>-->
         </argument>
       </creating_baseyear_cache_configuration>
