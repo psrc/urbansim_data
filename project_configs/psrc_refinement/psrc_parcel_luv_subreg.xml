@@ -695,7 +695,7 @@
             <argument name="specification" type="string">specification</argument>
             <argument name="run_choice_model" type="boolean">True</argument>
             <argument name="choose_job_only_in_residence_zone" type="boolean">True</argument>
-            <argument name="residence_id" parser_action="quote_string" type="string">city_id</argument>
+            <argument name="residence_id" parser_action="quote_string" type="string">subreg_id</argument>
             <argument name="match_choice_attribute_to_jobs" type="boolean">True</argument>
           </run>
         </structure>
