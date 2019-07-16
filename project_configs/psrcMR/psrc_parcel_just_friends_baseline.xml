@@ -308,6 +308,7 @@
           <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/MRinputs_test</argument>
         </argument>
       </creating_baseyear_cache_configuration>
+     </scenario>
   </scenario_manager>
   <results_manager>
     </results_manager>
