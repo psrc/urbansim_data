@@ -73,11 +73,9 @@
       <description type="string">LUB, including TM skims</description>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
-        <selectable name="postprocess_real_estate_price_model" type="model_choice">False</selectable>
         <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
         <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
-        <selectable name="development_proposal_choice_model_by_subarea" type="model_choice">False</selectable>
         <selectable name="building_construction_model" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
         <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
@@ -110,7 +108,7 @@
       <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2014</firstyear>
-        <lastyear type="integer">2015</lastyear>
+        <lastyear type="integer">2040</lastyear>
       </years_to_run>
       <flush_variables type="boolean">True</flush_variables>
       <creating_baseyear_cache_configuration type="class">
@@ -265,6 +263,51 @@
         </years_to_run>
       </travel_model_configuration>
     </scenario>
+    <scenario executable="True" name="Just_Friends_Test" type="scenario">
+      <parent type="scenario_name">PSRC_baseline</parent>
+      <description type="string">Test scenario</description>
+      <models_to_run config_name="models" type="selectable_list">
+        <selectable name="real_estate_price_model" type="model_choice">False</selectable>
+        <selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+        <selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+        <selectable name="development_proposal_choice_model" type="model_choice">True</selectable>
+        <selectable name="building_construction_model" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_households" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
+        <selectable name="jobs_event_model" type="model_choice">False</selectable>
+        <selectable name="households_event_model" type="model_choice">False</selectable>
+        <selectable name="household_transition_model" type="model_choice">True</selectable>
+        <selectable name="set_inmigrants_model" type="model_choice">True</selectable>
+        <selectable name="employment_transition_model" type="model_choice">True</selectable>
+        <selectable name="job_person_consistency_keeper" type="model_choice">True</selectable>
+        <selectable name="household_relocation_model" type="model_choice">True</selectable>
+        <selectable name="household_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="modify_workers_jobs_after_moving_households_if_lower_accessibility" type="model_choice">True</selectable>
+        <selectable name="employment_relocation_model" type="model_choice">True</selectable>
+        <selectable name="employment_location_choice_model" type="model_choice">True<group_members type="string">non_home_based</group_members>
+        </selectable>
+        <selectable name="governmental_employment_location_choice_model" type="model_choice">True</selectable>
+        <selectable name="distribute_unplaced_mining_utilities_jobs_model" type="model_choice">False</selectable>
+        <selectable name="modify_workers_jobs_after_moving_jobs" type="model_choice">True</selectable>
+        <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
+        <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
+      </models_to_run>
+      <base_year type="integer">2014</base_year>
+      <years_to_run config_name="years" type="tuple">
+        <firstyear type="integer">2015</firstyear>
+        <lastyear type="integer">2015</lastyear>
+      </years_to_run>
+      <flush_variables type="boolean">True</flush_variables>
+      <creating_baseyear_cache_configuration type="class">
+        <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
+        <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/MRuns</argument>
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/base_year_2014_inputs/MRinputs_test</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
   </scenario_manager>
   <results_manager>
     </results_manager>
