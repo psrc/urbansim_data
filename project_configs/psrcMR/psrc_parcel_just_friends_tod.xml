@@ -17,7 +17,7 @@
 	  </import>
 	  <init type="dictionary">
 	    <name name="name" type="string">SimpleModel</name>
-	    <argument name="model_name" parser_action="quote_string" type="string">Increase HU Density in Centers</argument>
+	    <argument name="model_name" parser_action="quote_string" type="string">Increase HU Density in TODs</argument>
 	  </init>
 	  <run type="dictionary">
 	    <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
@@ -40,7 +40,7 @@
 	  </import>
 	  <init type="dictionary">
 	    <name name="name" type="string">SimpleModel</name>
-	    <argument name="model_name" parser_action="quote_string" type="string">Increase Exising HU Density in Centers</argument>
+	    <argument name="model_name" parser_action="quote_string" type="string">Increase Existing HU Density in TODs</argument>
 	  </init>
 	  <run type="dictionary">
 	    <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
@@ -63,7 +63,7 @@
 	  </import>
 	  <init type="dictionary">
 	    <name name="name" type="string">SimpleModel</name>
-	    <argument name="model_name" parser_action="quote_string" type="string">Increase Job Density in Centers</argument>
+	    <argument name="model_name" parser_action="quote_string" type="string">Increase Job Density in TODs</argument>
 	  </init>
 	  <run type="dictionary">
 	    <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
@@ -86,7 +86,7 @@
 	  </import>
 	  <init type="dictionary">
 	    <name name="name" type="string">SimpleModel</name>
-	    <argument name="model_name" parser_action="quote_string" type="string">Increase Exising Job Density in Centers</argument>
+	    <argument name="model_name" parser_action="quote_string" type="string">Increase Existing Job Density in TODs</argument>
 	  </init>
 	  <run type="dictionary">
 	    <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
