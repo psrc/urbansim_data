@@ -123,70 +123,70 @@
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
       	<urbansim_to_tm_variable_mapping type="dictionary">
-        <households type="dictionary">
-          <variable name="hhno" type="string">(household.household_id).astype(int32)</variable>
-          <variable name="hhsize" type="string">(household.persons).astype(int32)</variable>
-          <variable name="hhincome" type="string">(household.income / 1.005**(2040-2040)).astype(int32)</variable>
-          <!-- The income variable is divided by a factor to account for real income growth. The exponent is the difference between the end year (the first number) and the start year (the second number). To not use RIG, make the end year the same as the start year. -->
-          <variable name="hownrent" type="string">(numpy.logical_or(household.tenure == 1, household.tenure == 2) + 2*(household.tenure == 3) + 9*(household.tenure &gt; 3)).astype(int32)</variable>
-          <variable name="hhparcel" type="string">(urbansim_parcel.household.parcel_id).astype(int32)</variable>
-          <variable name="hhtaz" type="string">(urbansim_parcel.household.zone_id).astype(int32)</variable>
-          <variable name="hrestype" type="string">(household.disaggregate(1*urbansim.building.is_single_family_residential + 2*urbansim.building.is_multi_family_residential + 3*urbansim.building.is_condo_residential + 4*urbansim.building.is_mobile_home)).astype(int32)</variable>
-          <variable name="hhexpfac" type="string">(household.household_id &gt; 0).astype(int32)</variable>
-          <variable name="__filter__" type="string"> (urbansim_parcel.household.parcel_id &gt; 0)*(household.number_of_agents(person) &gt; 0) </variable>
-          <variable name="__out_table_name__" type="string">Household</variable>
-        </households>
-        <persons type="dictionary">
-          <variable name="hhno" type="string">(person.household_id).astype(int32)</variable>
-          <variable name="pno" type="string">(person.member_id).astype(int32)</variable>
-          <variable name="pptyp" type="string">(1*(person.employment_status==1) + 2*(person.employment_status==2)*(person.student==0) + 3*(person.employment_status &lt; 1)*(person.student==0)*(person.age &gt; 64) + 4*(person.employment_status &lt; 1)*(person.student==0)*(person.age &gt; 15)*(person.age &lt; 65) + 5*(person.employment_status!=1)*(person.student==1)*(person.age &gt; 18) + 6*(person.employment_status!=1)*(person.student==1)*(person.age &gt; 15)*(person.age &lt; 19) + 7*(person.age &gt; 4)*(person.age &lt; 16) + 8*(person.age &lt; 5)).astype(int32)</variable>
-          <variable name="pagey" type="string">(person.age).astype(int32)</variable>
-          <variable name="pgend" type="string">(person.sex).astype(int32)</variable>
-          <variable name="pwtyp" type="string">(1*(person.employment_status==1)*(urbansim_parcel.person.is_worker_with_job==1) + 2*(person.employment_status==2)*(urbansim_parcel.person.is_worker_with_job==1)).astype(int32)</variable>
-          <variable name="pwpcl" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="pwtaz" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="pstyp" type="string">(person.student*(numpy.logical_or(person.student==1, person.student==2))).astype(int32)</variable>
-          <variable name="pspcl" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="pstaz" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="ptpass" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="ppaidprk" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="psexpfac" type="string">(person.person_id &gt; 0).astype(int32)</variable>
-          <variable name="pdairy" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="puwarrp" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="puwdepp" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="puwmode" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
-          <variable name="__filter__" type="string">urbansim_parcel.person.parcel_id &gt; 0</variable>
-          <variable name="__out_table_name__" type="string">Person</variable>
-        </persons>
-        <parcels type="dictionary">
-          <variable name="parcelid" type="string">parcel.parcel_id</variable>
-          <variable name="xcoord_p" type="string">parcel.x_coord_sp</variable>
-          <variable name="ycoord_p" type="string">parcel.y_coord_sp</variable>
-          <variable name="sqft_p" type="string">parcel.parcel_sqft</variable>
-          <variable name="taz_p" type="string">parcel.zone_id</variable>
-          <variable name="lutype_p" type="string">parcel.land_use_type_id</variable>
-          <variable name="hh_p" type="string">(urbansim_parcel.parcel.number_of_households).astype(int32)</variable>
-          <variable name="stugrd_p" type="string">(parcel.aggregate(school.student_count2014 * (psrc_parcel.school.is_in_category_2 + psrc_parcel.school.is_in_category_3))).astype(int32)</variable>
-          <variable name="stuhgh_p" type="string">(parcel.aggregate(school.student_count2014 * psrc_parcel.school.is_in_category_4)).astype(int32)</variable>
-          <variable name="stuuni_p" type="string">(parcel.aggregate(school.fte2014 * psrc_parcel.school.is_in_category_5)).astype(int32)</variable>
-          <variable name="empedu_p" type="string">(parcel.aggregate((job.sector_id==15) + (job.sector_id==19), intermediates=[building])).astype(int32)</variable>
-          <variable name="empfoo_p" type="string">(parcel.aggregate(job.sector_id==14, intermediates=[building])).astype(int32)</variable>
-          <variable name="empgov_p" type="string">(parcel.aggregate(job.sector_id==18, intermediates=[building])).astype(int32)</variable>
-          <variable name="empind_p" type="string">(parcel.aggregate((job.sector_id &gt; 2) * (job.sector_id &lt; 10) * (job.sector_id &lt;&gt; 7), intermediates=[building])).astype(int32)</variable>
-          <variable name="empmed_p" type="string">(parcel.aggregate(job.sector_id==16, intermediates=[building])).astype(int32)</variable>
-          <variable name="empofc_p" type="string">(parcel.aggregate((job.sector_id &gt; 9) * (job.sector_id &lt; 14), intermediates=[building])).astype(int32)</variable>
-          <variable name="empret_p" type="string">(parcel.aggregate(job.sector_id==7, intermediates=[building])).astype(int32)</variable>
-          <variable name="empsvc_p" type="string">(parcel.aggregate(job.sector_id==17, intermediates=[building])).astype(int32)</variable>
-          <variable name="empoth_p" type="string">(parcel.aggregate((job.sector_id==1) + (job.sector_id==2), intermediates=[building])).astype(int32)</variable>
-          <variable name="emprsc_p" type="string">(parcel.aggregate(job.sector_id &gt; 19, intermediates=[building])).astype(int32)</variable> # zeros
+          <households type="dictionary">
+            <variable name="hhno" type="string">(household.household_id).astype(int32)</variable>
+            <variable name="hhsize" type="string">(household.persons).astype(int32)</variable>
+            <variable name="hhincome" type="string">(household.income / 1.005**(2040-2040)).astype(int32)</variable>
+            <!-- The income variable is divided by a factor to account for real income growth. The exponent is the difference between the end year (the first number) and the start year (the second number). To not use RIG, make the end year the same as the start year. -->
+            <variable name="hownrent" type="string">(numpy.logical_or(household.tenure == 1, household.tenure == 2) + 2*(household.tenure == 3) + 9*(household.tenure &gt; 3)).astype(int32)</variable>
+            <variable name="hhparcel" type="string">(urbansim_parcel.household.parcel_id).astype(int32)</variable>
+            <variable name="hhtaz" type="string">(urbansim_parcel.household.zone_id).astype(int32)</variable>
+            <variable name="hrestype" type="string">(household.disaggregate(1*urbansim.building.is_single_family_residential + 2*urbansim.building.is_multi_family_residential + 3*urbansim.building.is_condo_residential + 4*urbansim.building.is_mobile_home)).astype(int32)</variable>
+            <variable name="hhexpfac" type="string">(household.household_id &gt; 0).astype(int32)</variable>
+            <variable name="__filter__" type="string"> (urbansim_parcel.household.parcel_id &gt; 0)*(household.number_of_agents(person) &gt; 0) </variable>
+            <variable name="__out_table_name__" type="string">Household</variable>
+          </households>
+          <persons type="dictionary">
+            <variable name="hhno" type="string">(person.household_id).astype(int32)</variable>
+            <variable name="pno" type="string">(person.member_id).astype(int32)</variable>
+            <variable name="pptyp" type="string">(1*(person.employment_status==1) + 2*(person.employment_status==2)*(person.student==0) + 3*(person.employment_status &lt; 1)*(person.student==0)*(person.age &gt; 64) + 4*(person.employment_status &lt; 1)*(person.student==0)*(person.age &gt; 15)*(person.age &lt; 65) + 5*(person.employment_status!=1)*(person.student==1)*(person.age &gt; 18) + 6*(person.employment_status!=1)*(person.student==1)*(person.age &gt; 15)*(person.age &lt; 19) + 7*(person.age &gt; 4)*(person.age &lt; 16) + 8*(person.age &lt; 5)).astype(int32)</variable>
+            <variable name="pagey" type="string">(person.age).astype(int32)</variable>
+            <variable name="pgend" type="string">(person.sex).astype(int32)</variable>
+            <variable name="pwtyp" type="string">(1*(person.employment_status==1)*(urbansim_parcel.person.is_worker_with_job==1) + 2*(person.employment_status==2)*(urbansim_parcel.person.is_worker_with_job==1)).astype(int32)</variable>
+            <variable name="pwpcl" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="pwtaz" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="pstyp" type="string">(person.student*(numpy.logical_or(person.student==1, person.student==2))).astype(int32)</variable>
+            <variable name="pspcl" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="pstaz" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="ptpass" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="ppaidprk" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="psexpfac" type="string">(person.person_id &gt; 0).astype(int32)</variable>
+            <variable name="pdairy" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="puwarrp" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="puwdepp" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="puwmode" type="string">(-1 * (person.person_id &gt; 0)).astype(int32)</variable>
+            <variable name="__filter__" type="string">urbansim_parcel.person.parcel_id &gt; 0</variable>
+            <variable name="__out_table_name__" type="string">Person</variable>
+          </persons>
+          <parcels type="dictionary">
+            <variable name="parcelid" type="string">parcel.parcel_id</variable>
+            <variable name="xcoord_p" type="string">parcel.x_coord_sp</variable>
+            <variable name="ycoord_p" type="string">parcel.y_coord_sp</variable>
+            <variable name="sqft_p" type="string">parcel.parcel_sqft</variable>
+            <variable name="taz_p" type="string">parcel.zone_id</variable>
+            <variable name="lutype_p" type="string">parcel.land_use_type_id</variable>
+            <variable name="hh_p" type="string">(urbansim_parcel.parcel.number_of_households).astype(int32)</variable>
+            <variable name="stugrd_p" type="string">(parcel.aggregate((psrc_parcel.person.student &lt; 3) * ((psrc_parcel.person.age_category==1) +  (psrc_parcel.person.age_category==2) + (psrc_parcel.person.age_category==3)), intermediates=[school])).astype(int32)</variable>
+            <variable name="stuhgh_p" type="string">(parcel.aggregate((psrc_parcel.person.student &lt; 3) * (psrc_parcel.person.age_category==4), intermediates=[school])).astype(int32)</variable>
+            <variable name="stuuni_p" type="string">(parcel.aggregate((psrc_parcel.person.student &lt; 3) * (psrc_parcel.person.age_category==5), intermediates=[school])).astype(int32)</variable>
+            <variable name="empedu_p" type="string">(parcel.aggregate((job.sector_id==8) + (job.sector_id==13), intermediates=[building])).astype(int32)</variable>
+            <variable name="empfoo_p" type="string">(parcel.aggregate(job.sector_id==10, intermediates=[building])).astype(int32)</variable>
+            <variable name="empgov_p" type="string">(parcel.aggregate(job.sector_id==12, intermediates=[building])).astype(int32)</variable>
+            <variable name="empind_p" type="string">(parcel.aggregate((job.sector_id==3) + (job.sector_id==4), intermediates=[building])).astype(int32)</variable>
+            <variable name="empmed_p" type="string">(parcel.aggregate(job.sector_id==9, intermediates=[building])).astype(int32)</variable>
+            <variable name="empofc_p" type="string">(parcel.aggregate(job.sector_id==7, intermediates=[building])).astype(int32)</variable>
+            <variable name="empret_p" type="string">(parcel.aggregate(job.sector_id==5, intermediates=[building])).astype(int32)</variable>
+            <variable name="empsvc_p" type="string">(parcel.aggregate(job.sector_id==11, intermediates=[building])).astype(int32)</variable>
+            <variable name="empoth_p" type="string">(parcel.aggregate((job.sector_id==1) + (job.sector_id==2), intermediates=[building])).astype(int32)</variable>
+            <variable name="emprsc_p" type="string">(parcel.aggregate(job.sector_id &gt; 13, intermediates=[building])).astype(int32)</variable> # zeros
             <variable name="emptot_p" type="string">(urbansim_parcel.parcel.number_of_jobs).astype(int32)</variable>
-          <variable name="parkdy_p" type="string">(parcel.parking_space_daily).astype(int32)</variable>
-          <variable name="parkhr_p" type="string">(parcel.parking_space_hourly).astype(int32)</variable>
-          <variable name="ppricdyp" type="string">(parcel.parking_price_daily * 100).astype(int32)</variable>
-          <variable name="pprichrp" type="string">(parcel.parking_price_hourly * 100).astype(int32)</variable>
-          <variable name="nparks" type="string">(1*(parcel.land_use_type_id==19)).astype(int32)</variable>
-          <variable name="aparks" type="string">(1*(parcel.land_use_type_id==19) * (parcel_sqft)).astype(int32)</variable>
-        </parcels>
+            <variable name="parkdy_p" type="string">(parcel.parking_space_daily).astype(int32)</variable>
+            <variable name="parkhr_p" type="string">(parcel.parking_space_hourly).astype(int32)</variable>
+            <variable name="ppricdyp" type="string">(parcel.parking_price_daily * 100).astype(int32)</variable>
+            <variable name="pprichrp" type="string">(parcel.parking_price_hourly * 100).astype(int32)</variable>
+            <variable name="nparks" type="string">(1*(parcel.land_use_type_id==19)).astype(int32)</variable>
+            <variable name="aparks" type="string">(1*(parcel.land_use_type_id==19) * (parcel_sqft)).astype(int32)</variable>
+          </parcels>
       </urbansim_to_tm_variable_mapping>
       <meta_data type="dictionary">
         <households type="dictionary">
