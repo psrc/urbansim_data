@@ -2554,7 +2554,7 @@
               <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
               <key name="compute_capacity_flag" type="boolean">True</key>
               <!--  <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(15*school.staff - school.number_of_agents(person))</key> -->
-              <key convert_blank_to_none="True" name="capacity_string" type="string">clip_to_zero(1.15* school.fte2010 - school.number_of_agents(person))</key>
+              <key convert_blank_to_none="True" name="capacity_string" type="string">clip_to_zero(1.5* school.fte2010 - school.number_of_agents(person))</key>
               <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">15*school.staff</key>  -->
               <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">1.15* school.fte2010</key> -->
               <key convert_blank_to_none="True" name="number_of_units_string" type="string">school.fte2010</key>
