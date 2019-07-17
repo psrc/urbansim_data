@@ -278,12 +278,12 @@
         </models>
         <daysim_base_directory parser_action="prefix_with_opus_data_path" type="directory">D:/opusgit/urbansim_data/data/psrc_parcel/2014SoundCastData</daysim_base_directory>
         <years_to_run key_name="year" type="category_with_special_keys">
-          <run_description type="dictionary">
+          <!--<run_description type="dictionary">
             <daysim_exchange_dir type="string">urbansim_outputs/2025</daysim_exchange_dir>
             <year type="integer">2025</year>
             <bank type="list">['2025']</bank>
             <emme2_batch_file_name type="string">run_soundcast_2025.bat</emme2_batch_file_name>
-          </run_description>
+          </run_description>-->
           <run_description type="dictionary">
             <daysim_exchange_dir type="string">urbansim_outputs/2040</daysim_exchange_dir>
             <year type="integer">2040</year>
