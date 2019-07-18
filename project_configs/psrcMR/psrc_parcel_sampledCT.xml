@@ -1,0 +1,83 @@
+<opus_project>
+    <xml_version>2.0</xml_version>
+    <general>
+        <description type="string">Creates cache from sampled control totals</description>
+        <parent type="file">psrc_parcel_just_friends_baseline.xml</parent>
+        <expression_library type="dictionary">
+        </expression_library>
+    </general>
+    <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+    <model name="create_control_totals_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>inprocess.hana.models.create_control_totals_model</class_module>
+            <class_name>CreateControlTotalsModel</class_name>
+          </import>
+          <run type="dictionary">
+          <argument name="ct_directory" parser_action="quote_string" type="string">/Users/hana/opus/urbansim_data/data/psrc_parcel/BMforTM/run_val2018_census_block_group/control_totals</argument>
+          <argument name="sample_range" type="string">[1, 101]</argument>
+          <argument name="dataset_pool" type="string">dataset_pool</argument>
+          <argument name="id_name" type="string">[]</argument>
+          <output name="output" type="string">sampled_control_totals</output>
+          </run>
+    </model>
+    <model name="household_transition_model_by_subarea" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module>urbansim.models.transition_model</class_module>
+            <class_name>TransitionModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">TransitionModel</name>
+            <argument name="dataset" type="string">household</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">Household Transition Model by Subarea</argument>
+            <argument name="model_short_name" parser_action="quote_string" type="string">HTMS</argument>
+            <argument name="control_total_dataset" type="string">sampled_control_totals</argument>            
+          </init>
+          <!--<prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_household_control_totals</argument>
+            <argument name="control_total_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>-->
+          <run type="dictionary">
+            <argument name="year" type="string">year</argument>
+            <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_households</argument>
+            <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
+            <argument name="sync_dataset" type="string">person</argument>
+            <argument name="reset_sync_dataset_attribute_value" type="string">{'job_id':-1}</argument>
+            <argument model_dependency_type="variable" name="sampling_threshold" parser_action="quote_string" type="string">safe_array_divide(control_total.number_of_agents(household), control_total.total_number_of_households) &gt; 0.3</argument>
+            <argument name="sampling_hierarchy" type="string">['census_block_group_id', 'county_id']</argument>
+          </run>
+        </structure>
+      </model>
+    </models>            
+    </model_manager>
+    <scenario_manager>
+        <scenario executable="True" name="run_soundcast_2040" type="scenario">
+          <parent type="scenario_name">PSRC_baseline</parent>
+          <description type="string">Run SoundCast in 2040 with sampled CTs</description>
+          <models_to_run config_name="models" type="selectable_list">
+            <selectable name="create_control_totals_model" type="model_choice">True</selectable>
+            <selectable name="household_transition_model_by_subarea" type="model_choice">True</selectable>
+          </models_to_run>
+          <base_year type="integer">2014</base_year>
+          <years_to_run config_name="years" type="tuple">
+              <firstyear type="integer">2041</firstyear>
+              <lastyear type="integer">2041</lastyear>
+          </years_to_run>
+          <creating_baseyear_cache_configuration type="class">
+              <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
+              <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+              <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs</argument>
+              <argument name="baseyear_cache" type="class">
+                <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+                <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+                <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/inputs</argument>
+              </argument>
+          </creating_baseyear_cache_configuration>                        
+        </scenario>
+    </scenario_manager>
+    <results_manager>
+    </results_manager>
+</opus_project>                        
