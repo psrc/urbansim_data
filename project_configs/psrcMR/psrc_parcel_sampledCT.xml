@@ -14,13 +14,17 @@
             <class_module>inprocess.hana.models.create_control_totals_model</class_module>
             <class_name>CreateControlTotalsModel</class_name>
           </import>
+          <init type="dictionary">
+          <name hidden="True" name="name" type="string">CreateControlTotalsModel</name>
+          </init>
           <run type="dictionary">
           <argument name="ct_directory" parser_action="quote_string" type="string">/Users/hana/opus/urbansim_data/data/psrc_parcel/BMforTM/run_val2018_census_block_group/control_totals</argument>
           <argument name="sample_range" type="string">[1, 101]</argument>
           <argument name="dataset_pool" type="string">dataset_pool</argument>
-          <argument name="id_name" type="string">[]</argument>
+          <argument name="out_table_name" parser_action="quote_string" type="string">annual_sampled_household_control_totals</argument>
           <output name="output" type="string">sampled_control_totals</output>
           </run>
+      </structure>
     </model>
     <model name="household_transition_model_by_subarea" type="model">
         <structure type="dictionary">
@@ -35,11 +39,13 @@
             <argument name="model_short_name" parser_action="quote_string" type="string">HTMS</argument>
             <argument name="control_total_dataset" type="string">sampled_control_totals</argument>            
           </init>
-          <!--<prepare_for_run type="dictionary">
+          <prepare_for_run type="dictionary">
             <name name="name" type="string">prepare_for_run</name>
-            <argument name="control_total_table" parser_action="quote_string" type="string">annual_household_control_totals</argument>
-            <argument name="control_total_storage" type="string">base_cache_storage</argument>
-          </prepare_for_run>-->
+            <argument name="control_total_table" parser_action="quote_string" type="string">annual_sampled_household_control_totals</argument>
+            <argument name="control_total_dataset_name" parser_action="quote_string" type="string">annual_household_control_total</argument>
+            <argument name="control_total_storage" type="string">dataset_pool.get_storage()</argument>
+            <output name="output" type="string">sampled_control_totals</output>
+          </prepare_for_run>
           <run type="dictionary">
             <argument name="year" type="string">year</argument>
             <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_households</argument>
@@ -47,9 +53,74 @@
             <argument name="sync_dataset" type="string">person</argument>
             <argument name="reset_sync_dataset_attribute_value" type="string">{'job_id':-1}</argument>
             <argument model_dependency_type="variable" name="sampling_threshold" parser_action="quote_string" type="string">safe_array_divide(control_total.number_of_agents(household), control_total.total_number_of_households) &gt; 0.3</argument>
-            <argument name="sampling_hierarchy" type="string">['census_block_group_id', 'county_id']</argument>
+            <argument name="sampling_hierarchy" type="string">['census_block_group_id', 'region_id']</argument>
           </run>
         </structure>
+      </model>
+      <model copyable="True" hidden="False" name="scaling_households" type="model">
+        <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">urbansim_parcel.models.subarea_scaling_agents_model</class_module>
+            <class_name>SubareaScalingAgentsModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
+            <argument name="subarea_id_name" parser_action="quote_string" type="string">census_block_group_id</argument>
+            <argument name="filter" parser_action="quote_string" type="string"></argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">household.building_id &lt;= 0</argument>
+            <argument convert_blank_to_none="True" name="agents_index" type="string"></argument>
+            <output hidden="True" name="output" type="string">filtered_hhs_index_for_sam</output>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="location_set" type="string">building</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">household</argument>
+            <argument name="agents_index" type="string">filtered_hhs_index_for_sam</argument>
+            <argument name="run_no_area" type="boolean">False</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="assign_block_group_to_households" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+            <argument name="model_name" parser_action="quote_string" type="string">Assign census_block_group_id Attribute to Households</argument>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">psrc_parcel.household.census_block_group_id</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">census_block_group_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
+      <model name="delete_block_group_from_households" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.delete_attribute_model</class_module>
+            <class_name type="string">DeleteAttributeModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">DeleteAttributeModel</name>
+            <argument name="model_name" parser_action="quote_string" type="string">Delete census_block_group_id Attribute from Households</argument>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
+            <argument name="attribute" parser_action="quote_string" type="string">census_block_group_id</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
       </model>
     </models>            
     </model_manager>
@@ -59,7 +130,10 @@
           <description type="string">Run SoundCast in 2040 with sampled CTs</description>
           <models_to_run config_name="models" type="selectable_list">
             <selectable name="create_control_totals_model" type="model_choice">True</selectable>
+            <selectable name="assign_block_group_to_households" type="model_choice">True</selectable>
             <selectable name="household_transition_model_by_subarea" type="model_choice">True</selectable>
+            <selectable name="scaling_households" type="model_choice">True</selectable>
+            <selectable name="delete_block_group_from_households" type="model_choice">True</selectable>
           </models_to_run>
           <base_year type="integer">2014</base_year>
           <years_to_run config_name="years" type="tuple">
@@ -73,9 +147,28 @@
               <argument name="baseyear_cache" type="class">
                 <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
                 <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-                <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/inputs</argument>
+                <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/MRuns/run_7.run_2019_07_17_15_42</argument>
               </argument>
-          </creating_baseyear_cache_configuration>                        
+          </creating_baseyear_cache_configuration>
+          <advanced type="category" inherited="psrc_parcel">
+                  <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list" inherited="psrc_parcel">
+          <selectable name="zone" type="selectable" inherited="psrc_parcel">False</selectable>
+          <selectable name="household" type="selectable" inherited="psrc_parcel">True</selectable>
+          <selectable name="building" type="selectable" inherited="psrc_parcel">True</selectable>
+          <selectable name="parcel" type="selectable" inherited="psrc_parcel">True<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="person" type="selectable" inherited="psrc_parcel">True<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template" type="selectable" inherited="psrc_parcel">False<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="development_template_component" type="selectable" inherited="psrc_parcel">False<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="job" type="selectable" inherited="psrc_parcel">False</selectable>
+          <selectable name="building_type" type="selectable" inherited="psrc_parcel">False<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
+          </selectable>
+          <selectable name="travel_data" type="selectable" inherited="psrc_parcel">True</selectable>
+        </datasets_to_preload>
+        </advanced>
         </scenario>
     </scenario_manager>
     <results_manager>
