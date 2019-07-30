@@ -125,8 +125,8 @@
     </models>            
     </model_manager>
     <scenario_manager>
-        <scenario executable="True" name="run_soundcast_2040" type="scenario">
-          <parent type="scenario_name">PSRC_baseline</parent>
+        <scenario executable="True" name="run_soundcast_2040_sampled_controls" type="scenario">
+          <parent type="scenario_name">Just_Friends_Integrated</parent>
           <description type="string">Run SoundCast in 2040 with sampled CTs</description>
           <models_to_run config_name="models" type="selectable_list">
             <selectable name="create_control_totals_model" type="model_choice">True</selectable>
@@ -150,25 +150,48 @@
                 <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/MRuns/run_7.run_2019_07_17_15_42</argument>
               </argument>
           </creating_baseyear_cache_configuration>
-          <advanced type="category" inherited="psrc_parcel">
-                  <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list" inherited="psrc_parcel">
-          <selectable name="zone" type="selectable" inherited="psrc_parcel">False</selectable>
-          <selectable name="household" type="selectable" inherited="psrc_parcel">True</selectable>
-          <selectable name="building" type="selectable" inherited="psrc_parcel">True</selectable>
-          <selectable name="parcel" type="selectable" inherited="psrc_parcel">True<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="person" type="selectable" inherited="psrc_parcel">True<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="development_template" type="selectable" inherited="psrc_parcel">False<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="development_template_component" type="selectable" inherited="psrc_parcel">False<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="job" type="selectable" inherited="psrc_parcel">False</selectable>
-          <selectable name="building_type" type="selectable" inherited="psrc_parcel">False<package_name type="string" inherited="psrc_parcel">urbansim_parcel</package_name>
-          </selectable>
-          <selectable name="travel_data" type="selectable" inherited="psrc_parcel">True</selectable>
-        </datasets_to_preload>
-        </advanced>
+        <travel_model_configuration type="dictionary">
+          <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <daysim_exchange_dir type="string">urbansim_outputs/2040</daysim_exchange_dir>
+            <year type="integer">2041</year>
+            <bank type="list">['2040']</bank>
+            <emme2_batch_file_name type="string">run_soundcast_2040.bat</emme2_batch_file_name>
+          </run_description>
+        </years_to_run>
+        </travel_model_configuration>
+        </scenario>
+        <scenario executable="True" name="run_soundcast_2040" type="scenario">
+          <parent type="scenario_name">Just_Friends_Integrated</parent>
+          <description type="string">Run SoundCast in 2040</description>
+          <models_to_run config_name="models" type="selectable_list">
+          </models_to_run>
+          <base_year type="integer">2014</base_year>
+          <years_to_run config_name="years" type="tuple">
+              <firstyear type="integer">2041</firstyear>
+              <lastyear type="integer">2041</lastyear>
+          </years_to_run>
+          <creating_baseyear_cache_configuration type="class">
+              <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
+              <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
+              <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/runs</argument>
+              <argument name="baseyear_cache" type="class">
+                <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+                <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+                <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/MRuns/run_19</argument>
+                <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">/Volumes/Model Data 2/Uncertainty/urbansim_data/MRuns/baseline/run_19.aws05</argument>-->
+              </argument>
+          </creating_baseyear_cache_configuration>
+        <travel_model_configuration type="dictionary">
+          <years_to_run key_name="year" type="category_with_special_keys">
+          <run_description type="dictionary">
+            <daysim_exchange_dir type="string">urbansim_outputs/2040</daysim_exchange_dir>
+            <year type="integer">2041</year>
+            <bank type="list">['2040']</bank>
+            <emme2_batch_file_name type="string">run_soundcast_2040.bat</emme2_batch_file_name>
+          </run_description>
+        </years_to_run>
+        </travel_model_configuration>
         </scenario>
     </scenario_manager>
     <results_manager>
