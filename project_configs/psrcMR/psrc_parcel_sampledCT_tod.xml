@@ -1,0 +1,24 @@
+<opus_project>
+    <xml_version>2.0</xml_version>
+    <general>
+        <description type="string">Creates cache from sampled control totals</description>
+        <parent type="file">psrc_parcel_sampledCT_baseline.xml</parent>
+        <expression_library type="dictionary">
+        </expression_library>
+    </general>
+    <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+    <model name="create_control_totals_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+          <argument name="ct_directory" parser_action="quote_string" type="string">G:/Model Data 2/Uncertainty/BMforTM/run_val2018_tod_census_block_group/control_totals</argument>
+          </run>
+      </structure>
+    </model>
+    </models>            
+    </model_manager>
+    <scenario_manager>
+    </scenario_manager>
+    <results_manager>
+    </results_manager>
+</opus_project>                        

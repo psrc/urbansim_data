@@ -18,8 +18,9 @@
           <name hidden="True" name="name" type="string">CreateControlTotalsModel</name>
           </init>
           <run type="dictionary">
-          <argument name="ct_directory" parser_action="quote_string" type="string">/Users/hana/opus/urbansim_data/data/psrc_parcel/BMforTM/run_val2018_census_block_group/control_totals</argument>
-          <argument name="sample_range" type="string">[1, 101]</argument>
+          <!--<argument name="ct_directory" parser_action="quote_string" type="string">/Users/hana/opus/urbansim_data/data/psrc_parcel/BMforTM/run_val2018_census_block_group/control_totals</argument>-->
+          <argument name="ct_directory" parser_action="quote_string" type="string">G:/Model Data 2/Uncertainty/BMforTM/run_val2018_baseline_census_block_group/control_totals</argument>
+          <argument name="sample_range" type="string">[1, 501]</argument>
           <argument name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="out_table_name" parser_action="quote_string" type="string">annual_sampled_household_control_totals</argument>
           <output name="output" type="string">sampled_control_totals</output>
@@ -127,7 +128,7 @@
     <scenario_manager>
         <scenario executable="True" name="run_soundcast_2040_sampled_controls" type="scenario">
           <parent type="scenario_name">Just_Friends_Integrated</parent>
-          <description type="string">Run SoundCast in 2040 with sampled CTs</description>
+          <description type="string">Run SoundCast in 2040 with sampled CTs (baseline)</description>
           <models_to_run config_name="models" type="selectable_list">
             <selectable name="create_control_totals_model" type="model_choice">True</selectable>
             <selectable name="assign_block_group_to_households" type="model_choice">True</selectable>
