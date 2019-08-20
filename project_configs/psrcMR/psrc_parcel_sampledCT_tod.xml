@@ -11,7 +11,7 @@
     <model name="create_control_totals_model" type="model">
         <structure type="dictionary">
           <run type="dictionary">
-          <argument name="ct_directory" parser_action="quote_string" type="string">G:/Model Data 2/Uncertainty/BMforTM/run_val2018_tod_census_block_group/control_totals</argument>
+          <argument name="ct_directory" parser_action="quote_string" type="string">N:/Uncertainty/BMforTM/run_val2018_tod_census_block_group/control_totals</argument>
           </run>
       </structure>
     </model>

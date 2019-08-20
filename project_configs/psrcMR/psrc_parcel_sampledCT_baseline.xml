@@ -19,7 +19,7 @@
           </init>
           <run type="dictionary">
           <!--<argument name="ct_directory" parser_action="quote_string" type="string">/Users/hana/opus/urbansim_data/data/psrc_parcel/BMforTM/run_val2018_census_block_group/control_totals</argument>-->
-          <argument name="ct_directory" parser_action="quote_string" type="string">G:/Model Data 2/Uncertainty/BMforTM/run_val2018_baseline_census_block_group/control_totals</argument>
+          <argument name="ct_directory" parser_action="quote_string" type="string">N:/Uncertainty/BMforTM/run_val2018_baseline_census_block_group/control_totals</argument>
           <argument name="sample_range" type="string">[1, 501]</argument>
           <argument name="dataset_pool" type="string">dataset_pool</argument>
           <argument name="out_table_name" parser_action="quote_string" type="string">annual_sampled_household_control_totals</argument>
