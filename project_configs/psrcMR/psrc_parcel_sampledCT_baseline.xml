@@ -135,6 +135,8 @@
             <selectable name="household_transition_model_by_subarea" type="model_choice">True</selectable>
             <selectable name="scaling_households" type="model_choice">True</selectable>
             <selectable name="delete_block_group_from_households" type="model_choice">True</selectable>
+            <selectable name="work_at_home_choice_model" type="model_choice">True</selectable>
+            <selectable name="workplace_choice_model_for_resident" type="model_choice">True</selectable>
           </models_to_run>
           <base_year type="integer">2014</base_year>
           <years_to_run config_name="years" type="tuple">
