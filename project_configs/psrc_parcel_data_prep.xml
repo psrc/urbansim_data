@@ -215,7 +215,7 @@
             <argument model_dependency_type="variable" name="estimation_weight_string" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_residential_units</argument>
             <!--<argument name="number_of_units_string" parser_action="quote_string" type="string" convert_blank_to_none="True"/>-->
             <argument name="sample_size_locations" type="integer">500</argument>
-            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">building.disaggregate(city.aggregate(urbansim_parcel.parcel.number_of_households), intermediates=[parcel]) &lt; building.disaggregate(psrc_parcel.city.household_control_total_2015, intermediates=[parcel])</argument>
+            <!--<argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">building.disaggregate(city.aggregate(urbansim_parcel.parcel.number_of_households), intermediates=[parcel]) &lt; building.disaggregate(psrc_parcel.city.household_control_total_2015, intermediates=[parcel])</argument>-->
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">20</key>
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
@@ -332,20 +332,20 @@
     </scenario>
     <scenario executable="True" name="household_initialization" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
-      <base_year type="integer">2014</base_year>
+      <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2015</firstyear>
-        <lastyear type="integer">2015</lastyear>
+        <firstyear type="integer">2019</firstyear>
+        <lastyear type="integer">2019</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/HHprep/runs</argument>
+        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/HHparcel/runs</argument>
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/HHprep/base_year_data</argument>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/HHparcel/base_year_data</argument>
         </argument>
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
@@ -353,7 +353,7 @@
         <selectable name="household_location_choice_model" type="model_choice">True</selectable>
       </models_to_run>
       <advanced type="category">
-        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/HHprep</cache_directory>
+        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/HHparcel</cache_directory>
         <flush_variables type="boolean">False</flush_variables>
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>

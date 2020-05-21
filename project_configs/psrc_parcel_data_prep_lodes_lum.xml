@@ -301,25 +301,29 @@
   <scenario_manager>
     <scenario executable="True" name="parcelize_jobs" type="scenario">
       <parent type="scenario_name">urbansim_parcel_baseline</parent>
-      <base_year type="integer">2014</base_year>
+      <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2015</firstyear>
-        <lastyear type="integer">2016</lastyear>
+        <firstyear type="integer">2019</firstyear>
+        <lastyear type="integer">2020</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <creating_baseyear_cache_configuration type="class">
         <class_name hidden="True" type="string">CreatingBaseyearCacheConfigurationNoDB</class_name>
         <class_module hidden="True" type="string">urbansim.configurations.creating_baseyear_cache_configuration</class_module>
-        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/beta_lodes_parcelization/output</argument>
+<!--        <argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/beta_lodes_parcelization/output</argument>
+<argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/JobParcel/runs</argument>-->
+<argument config_name="cache_directory_root" name="scenario_runs_directory" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2018_job_parcelization/runs</argument>
         <argument name="baseyear_cache" type="class">
           <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
           <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
-          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/beta_lodes_parcelization/input</argument>
+<!--          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/beta_lodes_parcelization/input</argument>
+<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/JobParcel/base_year_data</argument>-->
+<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2018_job_parcelization/base_year_data</argument>
         </argument>
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="assign_work_at_home_to_workers" type="selectable">True</selectable>
-        <selectable name="work_at_home_choice_model_by_subarea" type="selectable">True</selectable>
+        <selectable name="assign_work_at_home_to_workers" type="selectable">False</selectable>
+        <selectable name="work_at_home_choice_model_by_subarea" type="selectable">False</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="edu_sector_model" type="model_choice">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
@@ -333,13 +337,15 @@
       <models_in_year type="dictionary">
         <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
           <yearset type="dictionary">
-            <year type="integer">2016</year>
+            <year type="integer">2020</year>
             <models_list type="list">["compute_job_tract_model", "employment_relocation_model", "edu_sector_tract_model",  "employment_relocation_model", "public_sector_tract_model", "employment_relocation_model", {"non_home_based_employment_tract_location_choice_model": {"group_members":"non_home_based"}}, "distribute_unplaced_jobs_model"]</models_list>
           </yearset>
         </models_in_year_category>
       </models_in_year>
       <advanced type="category">
-        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/beta_lodes_parcelization/output</cache_directory>
+<!--        <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/beta_lodes_parcelization/output</cache_directory>
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/JobParcel</cache_directory>-->
+<cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/2018_job_parcelization</cache_directory>
         <flush_variables type="boolean">False</flush_variables>
         <dataset_pool_configuration type="class">
           <class_name hidden="True" type="string">DatasetPoolConfiguration</class_name>
