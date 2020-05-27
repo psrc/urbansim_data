@@ -286,13 +286,15 @@
       <model copyable="True" hidden="False" name="work_at_home_choice_model_by_subarea" type="model">
         <structure type="dictionary">
         <init type="dictionary">
-            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">job.home_based_status==1</argument>
+            <!--<argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">job.home_based_status==1</argument>-->
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string" convert_blank_to_none="True">numpy.logical_not(numpy.in1d(job.sector_id, [12, 13]))</argument>
           </init>
         <prepare_for_run type="dictionary">
             <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">urbansim_parcel.person.is_worker</argument>
           </prepare_for_run>
         <run type="dictionary">
         <argument name="residence_id" parser_action="quote_string" type="string">faz_id</argument>
+        <argument name="modify_home_based_status" type="boolean">True</argument>
         </run>
       </structure>
       </model>  
@@ -322,8 +324,8 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
-        <selectable name="assign_work_at_home_to_workers" type="selectable">False</selectable>
-        <selectable name="work_at_home_choice_model_by_subarea" type="selectable">False</selectable>
+        <selectable name="assign_work_at_home_to_workers" type="selectable">True</selectable>
+        <selectable name="work_at_home_choice_model_by_subarea" type="selectable">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="edu_sector_model" type="model_choice">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
