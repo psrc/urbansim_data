@@ -325,6 +325,7 @@
       </creating_baseyear_cache_configuration>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="assign_work_at_home_to_workers" type="selectable">True</selectable>
+        <selectable name="compute_job_tract_model" type="selectable">True</selectable>
         <selectable name="work_at_home_choice_model_by_subarea" type="selectable">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="edu_sector_model" type="model_choice">True</selectable>
