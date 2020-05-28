@@ -293,7 +293,7 @@
             <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">urbansim_parcel.person.is_worker</argument>
           </prepare_for_run>
         <run type="dictionary">
-        <argument name="residence_id" parser_action="quote_string" type="string">faz_id</argument>
+        <argument name="residence_id" parser_action="quote_string" type="string">census_tract_id</argument>
         <argument name="modify_home_based_status" type="boolean">True</argument>
         </run>
       </structure>
