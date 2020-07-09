@@ -279,6 +279,78 @@
           </submodel>
         </specification>
       </model>
+      <model name="household_location_choice_tract_model" type="model">
+         <structure type="dictionary">
+          <import hidden="True" name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.subarea_household_location_choice_model</class_module>
+            <class_name>SubareaHouseholdLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">SubareaHouseholdLocationChoiceModel</name>
+            <argument name="subarea_id_name" parser_action="quote_string" type="string">census_tract_id</argument>
+            <argument convert_blank_to_none="True" name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument name="filter" parser_action="quote_string" type="string" convert_blank_to_none="True" model_dependency_type="variable"/>
+            <argument model_dependency_type="variable" name="simulation_weight_string" parser_action="quote_string" type="string">urbansim_parcel.building.vacant_residential_units</argument>
+           <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="location_set" type="string" model_dependency_type="dataset" >building</argument>
+            <argument name="number_of_units_string" parser_action="quote_string" type="string" model_dependency_type="variable">residential_units</argument>
+            <argument name="number_of_agents_string" parser_action="quote_string" type="string" model_dependency_type="variable">number_of_households</argument>
+            <argument name="location_id_string" parser_action="quote_string" type="string">building_id</argument>
+            <argument name="sample_size_locations" type="integer">500</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string" model_dependency_type="variable">vacant_residential_units</argument>
+            <argument name="submodel_string" parser_action="quote_string" type="string" model_dependency_type="variable">inmigrant_code=household.is_inmigrant+1</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="lottery_max_iterations" type="integer">20</key>
+              <key name="include_mnl_bias_correction_term" type="boolean">False</key>
+              <key name="accept_unavailability_of_choices" type="boolean">True</key>
+              <key name="sample_alternatives_by_group" type="boolean">False</key>
+            <key name="group_definition_for_sampling_alternatives" type="string" model_dependency_type="variable">psrc_parcel.household.nonneg_large_area_id_lag1</key>
+          </argument>
+          <argument name="variable_package" parser_action="quote_string" type="string">urbansim_parcel</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name hidden="True" name="name" type="string">prepare_for_run</name>
+            <output hidden="True" name="output" type="string">(_specification, _coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string" model_dependency_type="table">household_location_choice_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string" model_dependency_type="table">household_location_choice_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="agent_set" type="string" model_dependency_type="dataset">household</argument>
+            <argument hidden="True" name="agents_index" type="string">hrm_index</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':2000}</argument>
+            <argument hidden="True" name="coefficients" type="string">_coefficients</argument>
+            <argument hidden="True" name="data_objects" type="string">datasets</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="specification" type="string">_specification</argument>
+            <argument name="flush_after_each_subarea" type="boolean">True</argument>
+            <argument name="run_no_area" type="boolean">False</argument>
+            <argument name="maximum_runs" type="integer">3</argument>
+          </run>
+        </structure>
+        </model>
+        <model name="compute_household_tract_model" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+            <argument name="model_name" parser_action="quote_string" type="string">Compute households census tract</argument>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">household</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">household.disaggregate(census_block_group.census_tract_id)</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">census_tract_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
     </models>
   </model_manager>
   <scenario_manager>
@@ -335,7 +407,7 @@
       <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2019</firstyear>
-        <lastyear type="integer">2019</lastyear>
+        <lastyear type="integer">2020</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <creating_baseyear_cache_configuration type="class">
@@ -352,6 +424,14 @@
         <selectable name="household_relocation_model" type="selectable">True</selectable>
         <selectable name="household_location_choice_model" type="model_choice">True</selectable>
       </models_to_run>
+      <models_in_year type="dictionary">
+        <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
+          <yearset type="dictionary">
+            <year type="integer">2020</year>
+            <models_list type="list">["compute_household_tract_model", "household_relocation_model", "household_location_choice_tract_model"]</models_list>
+          </yearset>
+        </models_in_year_category>
+      </models_in_year>
       <advanced type="category">
         <cache_directory parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/BY2018prep/HHparcel</cache_directory>
         <flush_variables type="boolean">False</flush_variables>
