@@ -14,6 +14,7 @@
       </models_to_run>
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list" inherit_parent_values="False">
       <selectable copyable="True" type="selectable" name="travel_data">True</selectable>
+      <selectable copyable="True" type="selectable" name="buildings">False</selectable>
       </datasets_to_preload>
       <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
