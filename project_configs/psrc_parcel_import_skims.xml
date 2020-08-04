@@ -12,10 +12,12 @@
       <description type="string">Import TM skims to update travel_data</description>
       <models_to_run config_name="models" type="selectable_list" inherit_parent_values="False">
       </models_to_run>
+      <advanced type="category">
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list" inherit_parent_values="False">
       <selectable copyable="True" type="selectable" name="travel_data">True</selectable>
-      <selectable copyable="True" type="selectable" name="buildings">False</selectable>
+      <selectable copyable="True" type="selectable" name="zones">True</selectable>
       </datasets_to_preload>
+      </advanced>
       <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2019</firstyear>
