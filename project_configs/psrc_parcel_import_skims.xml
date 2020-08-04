@@ -43,7 +43,7 @@
           <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
         </results>
       </matrix_variable_map>
-        <travel_model_base_directory type="string">f:\2018-4k</travel_model_base_directory>
+        <travel_model_base_directory type="string">e:\4K_V405\2018_base_year</travel_model_base_directory>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
           <selectable name="inprocess.hana.opus_daysim.models.get_cache_data_into_daysim" type="selectable">False</selectable>
