@@ -23,8 +23,8 @@
       <datasets_to_cache_after_each_model type="list">[]</datasets_to_cache_after_each_model>
       <datasets_to_preload parser_action="list_to_dictionary" type="selectable_list" inherit_parent_values="False">
       <selectable copyable="True" type="selectable" name="travel_data">True</selectable>
-      <selectable copyable="True" type="selectable" name="zones">True</selectable>
-      <selectable copyable="True" type="selectable" name="households">False</selectable>
+      <selectable copyable="True" type="selectable" name="zone">True</selectable>
+      <selectable copyable="True" type="selectable" name="household">False</selectable>
       <selectable copyable="True" name="person" type="selectable">False</selectable>
       </datasets_to_preload>
       </advanced>
