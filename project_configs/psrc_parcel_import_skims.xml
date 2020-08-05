@@ -3,7 +3,7 @@
   <general>
     <description type="string">Configuration for the PSRC parcel project</description>
     <parent type="file">psrc_parcel_default.xml</parent>
-    <expression_library type="dictionary">
+    <expression_library type="dictionary" inherit_parent_values="False">
     </expression_library>
   </general>
   <scenario_manager>
