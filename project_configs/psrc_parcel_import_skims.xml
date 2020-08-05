@@ -6,6 +6,27 @@
     <expression_library type="dictionary" inherit_parent_values="False">
     </expression_library>
   </general>
+  <model_manager inherit_parent_values="False">
+      <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      </models>
+      <travel_model_configuration inherit_parent_values="False" type="dictionary">
+      <matrix_variable_map type="dictionary">
+        <results type="dictionary">
+          <aau1tm type="string">am_single_vehicle_to_work_travel_time</aau1tm>
+          <aau1tl type="string">am_single_vehicle_to_work_toll</aau1tl>
+          <aau1cs type="string">single_vehicle_to_work_travel_cost</aau1cs>
+          <aau1ds type="string">single_vehicle_to_work_travel_distance</aau1ds>
+          <awlktm type="string">am_walk_time_in_minutes</awlktm>
+          <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
+          <atrtwa type="string">am_total_transit_time_walk</atrtwa>
+          <lsum1 type="string">logsum_hbw_am_income_1</lsum1>
+          <lsum2 type="string">logsum_hbw_am_income_2</lsum2>
+          <lsum3 type="string">logsum_hbw_am_income_3</lsum3>
+          <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
+        </results>
+      </matrix_variable_map>
+     </travel_model_configuration> 
+  </model_manager>
   <scenario_manager>
     <scenario executable="True" name="import_skims" type="scenario">
       <parent type="scenario_name">PSRC_export_TM_skims</parent>
@@ -44,21 +65,6 @@
         </argument>
       </creating_baseyear_cache_configuration>
       <travel_model_configuration inherit_parent_values="False" type="dictionary">
-      <matrix_variable_map type="dictionary">
-        <results type="dictionary">
-          <aau1tm type="string">am_single_vehicle_to_work_travel_time</aau1tm>
-          <aau1tl type="string">am_single_vehicle_to_work_toll</aau1tl>
-          <aau1cs type="string">single_vehicle_to_work_travel_cost</aau1cs>
-          <aau1ds type="string">single_vehicle_to_work_travel_distance</aau1ds>
-          <awlktm type="string">am_walk_time_in_minutes</awlktm>
-          <avehda type="string">am_pk_period_drive_alone_vehicle_trips</avehda>
-          <atrtwa type="string">am_total_transit_time_walk</atrtwa>
-          <lsum1 type="string">logsum_hbw_am_income_1</lsum1>
-          <lsum2 type="string">logsum_hbw_am_income_2</lsum2>
-          <lsum3 type="string">logsum_hbw_am_income_3</lsum3>
-          <lsum4 type="string">logsum_hbw_am_income_4</lsum4>
-        </results>
-      </matrix_variable_map>
         <travel_model_base_directory type="string">e:\4K_V405\2018_base_year</travel_model_base_directory>
         <travel_model_input_file_writer type="string">psrc_parcel.travel_model_input_file_writer_emme4</travel_model_input_file_writer>
         <models type="selectable_list">
