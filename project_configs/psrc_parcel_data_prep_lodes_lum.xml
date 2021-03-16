@@ -366,7 +366,7 @@
           </yearset>
           <yearset type="dictionary">
             <year type="integer">2021</year>
-            <models_list type="list">["compute_job_capacity"]
+            <models_list type="list">["compute_job_capacity"]</models_list>
           </yearset>
         </models_in_year_category>
       </models_in_year>
