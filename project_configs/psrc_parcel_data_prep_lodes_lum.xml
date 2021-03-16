@@ -298,6 +298,27 @@
           </run>
         </structure>
       </model>
+      <model name="compute_job_capacity" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.models.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+            <argument name="model_name" parser_action="quote_string" type="string">Compute Job Capacity</argument>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">building</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(urbansim_parcel.building.number_of_non_home_based_jobs*1.05).round().astype(int32)</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">job_capacity</argument>
+            <argument name="dataset_filter" parser_action="quote_string" type="string">numpy.logical_not(urbansim_parcel.building.is_residential)</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
     </models>
   </model_manager>
   <scenario_manager>
@@ -306,7 +327,7 @@
       <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2019</firstyear>
-        <lastyear type="integer">2020</lastyear>
+        <lastyear type="integer">2021</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <creating_baseyear_cache_configuration type="class">
@@ -342,6 +363,10 @@
           <yearset type="dictionary">
             <year type="integer">2020</year>
             <models_list type="list">["compute_job_tract_model", "employment_relocation_model", "edu_sector_tract_model",  "employment_relocation_model", "public_sector_tract_model", "employment_relocation_model", {"non_home_based_employment_tract_location_choice_model": {"group_members":"non_home_based"}}, "distribute_unplaced_jobs_model"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2021</year>
+            <models_list type="list">["compute_job_capacity"]
           </yearset>
         </models_in_year_category>
       </models_in_year>
