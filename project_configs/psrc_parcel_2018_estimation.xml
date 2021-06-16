@@ -140,7 +140,22 @@
       <variable name="household_x_building.big_not_in_seattle" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons &gt; 3) * numpy.logical_not(urbansim_parcel.building.large_area_id ==6)</variable>
       <variable name="household_x_building.per_capita_income_x_size" source="expression" type="variable_definition" use="model variable">ln_bounded(urbansim.household.income)/psrc_parcel.household.persons * ln(psrc_parcel.building.sqft_per_unit)/psrc_parcel.household.persons</variable>
       <variable name="household_x_building.pers_lt_3_if_seattle" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons &lt; 3) * (urbansim_parcel.building.large_area_id==6)</variable>
+      <variable name="building.is_seattle" source="expression" type="variable_definition" use="model variable">urbansim_parcel.building.large_area_id==6</variable>
       <variable name="household_x_building.two_pers_x_not_sfr" source="expression" type="variable_definition" use="model variable">(psrc_parcel.household.persons == 2) * numpy.logical_not(urbansim.building.is_single_family_residential)</variable>
+      <variable name="building.percent_non_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.building.percent_non_white_wwd</variable>
+      <variable name="building.percent_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.building.percent_white_wwd</variable>
+      <variable name="household_x_building.white_x_non_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_white * psrc_parcel.building.percent_non_white_wwd</variable>
+      <variable name="household_x_building.white_x_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_white * psrc_parcel.building.percent_white_wwd</variable>
+      <variable name="household_x_building.hispanic_x_non_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_hispanic * psrc_parcel.building.percent_non_white_wwd</variable>
+      <variable name="household_x_building.black_x_non_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_black * psrc_parcel.building.percent_non_white_wwd</variable>
+      <variable name="household_x_building.black_x_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_black * psrc_parcel.building.percent_white_wwd</variable>
+      <variable name="household_x_building.asian_x_non_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_asian * psrc_parcel.building.percent_non_white_wwd</variable>
+      <variable name="household_x_building.asian_x_white_wwd" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_asian * psrc_parcel.building.percent_white_wwd</variable>
+      <variable name="household_x_building.white_x_mfr" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_white * urbansim.building.is_multi_family_residential</variable>
+      <variable name="household_x_building.black_x_mfr" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_black * urbansim.building.is_multi_family_residential</variable>
+      <!--<variable name="household_x_building.white_x_size" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_white * ln_shifted(psrc_parcel.building.sqft_per_unit)/psrc_parcel.household.persons</variable>-->
+      <variable name="household_x_building.white_x_size" source="expression" type="variable_definition" use="model variable">psrc_parcel.household.is_head_white * ln_shifted(psrc_parcel.building.sqft_per_unit)</variable>
+
       <variable name="parcel.lnsgcdacbd_pbsf" source="expression" type="variable_definition" use="model variable">ln_shifted(parcel.disaggregate(psrc.zone.generalized_cost_hbw_am_drive_alone_to_cbd) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32)))</variable>
       <variable name="parcel.lnsemp10wa_pbsf" source="expression" type="variable_definition" use="model variable">ln_shifted(parcel.disaggregate(urbansim_parcel.zone.employment_within_10_minutes_travel_time_hbw_am_walk) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32)))</variable>
       <variable name="parcel.hbwavgtmda_pbsf" source="expression" type="variable_definition" use="model variable">parcel.disaggregate(psrc.zone.trip_weighted_average_time_hbw_from_home_am_drive_alone) * (parcel.aggregate(urbansim_parcel.building.building_sqft)/(parcel.parcel_sqft).astype(float32))</variable>
@@ -1692,37 +1707,40 @@
       <model name="household_location_choice_model" type="model">
         <dependencies type="list">['household_relocation_model','set_inmigrants_model']</dependencies>
         <estimation_config name="Estimation Configuration" parser_action="skip">
-          <config_override config_name="models" name="Models to run before estimation" type="list">['household_relocation_model']</config_override>
+          <!--<config_override config_name="models" name="Models to run before estimation" type="list">['household_relocation_model']</config_override>-->
           <seed convert_blank_to_none="True" type="integer">1</seed>
         </estimation_config>
         <structure type="dictionary">
           <init type="dictionary">
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string"></argument>
             <!--  <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">(urbansim_parcel.building.large_area_id == GROUP)*0.65*urbansim_parcel.building.vacant_residential_units + (urbansim_parcel.building.large_area_id &lt;&gt; GROUP)*0.35/18.*urbansim_parcel.building.vacant_residential_units</argument>-->
-            <argument model_dependency_type="variable" name="estimation_weight_string" parser_action="quote_string" type="string">psrc_parcel.building.sampling_by_residence_large_area_GROUP*ln_shifted(urbansim_parcel.building.vacant_residential_units)</argument>
+            <!--<argument model_dependency_type="variable" name="estimation_weight_string" parser_action="quote_string" type="string">psrc_parcel.building.sampling_by_residence_large_area_GROUP*ln_shifted(urbansim_parcel.building.vacant_residential_units)</argument>-->
             <argument model_dependency_type="variable" name="simulation_weight_string" parser_action="quote_string" type="string">psrc_parcel.building.sampling_by_residence_large_area_GROUP*ln_shifted(urbansim_parcel.building.vacant_residential_units)</argument>
-            <!-- <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>-->
-            <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation_with_diagnose</argument>
+	    <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <!--<argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_wesml_mnl_estimation_with_diagnose</argument>-->
             <argument model_dependency_type="variable" name="submodel_string" parser_action="quote_string" type="string">inmigrant_code=household.is_inmigrant+1</argument>
             <argument name="run_config" type="dictionary">
               <key name="lottery_max_iterations" type="integer">7</key>
               <key name="sample_alternatives_by_group" type="boolean">True</key>
               <key model_dependency_type="variable" name="group_definition_for_sampling_alternatives" type="string">psrc_parcel.household.nonneg_large_area_id_lag5</key>
-              <key name="include_mnl_bias_correction_term" type="boolean">False</key>
+              <key name="include_mnl_bias_correction_term" type="boolean">True</key>
               <key name="accept_unavailability_of_choices" type="boolean">False</key>
             </argument>
             <argument name="estimate_config" type="dictionary">
               <!-- <key name="wesml_sampling_correction_variable" type="string" model_dependency_type="variable">psrc_parcel.building.wesml_sampling_correction_variable</key> -->
               <key model_dependency_type="variable" name="wesml_sampling_correction_variable" type="string">psrc_parcel.building.transit_shares</key>
-              <key name="sample_alternatives_by_group" type="boolean">True</key>
+              <key name="sample_alternatives_by_group" type="boolean">False</key>
               <key model_dependency_type="variable" name="group_definition_for_sampling_alternatives" type="string">psrc_parcel.household.nonneg_large_area_id_lag5</key>
               <key name="include_mnl_bias_correction_term" type="boolean">False</key>
             </argument>
           </init>
           <prepare_for_estimate type="dictionary">
-            <argument name="index_to_unplace" type="string">hrm_index</argument>
-            <argument name="portion_to_unplace" type="string">1.0</argument>
+	    <!--<argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string"></argument>
+	    <argument convert_blank_to_none="True" name="agents_for_estimation_table" parser_action="quote_string" type="string"></argument>-->
+            <!--<argument name="index_to_unplace" type="string">hrm_index</argument>
+            <argument name="portion_to_unplace" type="string">1.0</argument>-->
             <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_or(household.move==1, household.is_inmigrant==1)*(household.sampling_weight &gt; 0)</argument>
+	    <argument name="join_datasets" type="boolean">False</argument>
           </prepare_for_estimate>
         </structure>
         <specification inherit_parent_values="False" type="dictionary">
@@ -1731,19 +1749,26 @@
             <variable_list type="variable_list">
               <!-- <variable_spec name="household_x_building.cost_to_cbd_children"/>-->
               <!--  <variable_spec name="household_x_building.avg_network_distance"/>-->
-              <variable_spec name="household_x_building.avg_network_cost_low_income"></variable_spec>
+              <!-- HS <variable_spec name="household_x_building.avg_network_cost_low_income"></variable_spec>
               <variable_spec name="household_x_building.avg_network_cost_high_income"></variable_spec>
-              <variable_spec name="household_x_building.max_commute_logsum"></variable_spec>
+              <variable_spec name="household_x_building.max_commute_logsum"></variable_spec>-->
               <variable_spec name="household_x_building.c_same_area"></variable_spec>
-              <variable_spec name="household_x_building.big_not_in_seattle"></variable_spec>
+	      <variable_spec name="household_x_building.white_x_white_wwd"></variable_spec>
+	      <variable_spec name="household_x_building.black_x_white_wwd"></variable_spec>
+	      <variable_spec name="household_x_building.asian_x_white_wwd"></variable_spec>
+	      <!--<variable_spec name="household_x_building.hispanic_x_non_white"></variable_spec>-->
+	      <variable_spec name="building.percent_white_wwd"></variable_spec>
+               <!-- <variable_spec name="household_x_building.big_not_in_seattle"></variable_spec>-->
               <variable_spec name="household_x_building.owner_x_is_not_mfr"></variable_spec>
               <!--  <variable_spec name="household_x_building.b_same_area_type"/> -->
-              <!--  <variable_spec name="household_x_building.same_btype_if_sfr"/> -->
+              <!--<variable_spec name="household_x_building.same_btype_if_sfr"/>-->
               <variable_spec name="household_x_building.same_btype_if_mfr"></variable_spec>
               <!-- <variable_spec name="household_x_building.same_building_type"/>  -->
               <variable_spec name="building.multifamily_type"></variable_spec>
-              <variable_spec name="household_x_building.housing_range"></variable_spec>
-              <variable_spec name="building.iv_ln_price_residual"></variable_spec>
+	      <!--<variable_spec name="household_x_building.white_x_mfr"></variable_spec>
+	      <variable_spec name="household_x_building.black_x_mfr"></variable_spec>-->
+              <!--<variable_spec name="household_x_building.housing_range"></variable_spec>
+              <variable_spec name="building.iv_ln_price_residual"></variable_spec>-->
               <!-- <variable_spec name="household_x_building.kids_x_kids"/> -->
               <!--<variable_spec name="household_x_building.kids_x_has_good_publ_schools"/>-->
               <!--<variable_spec name="building.no_good_publ_schools"/>
@@ -1751,15 +1776,16 @@
               <!-- <variable_spec name="building.lnretailden_wwd"/>
               <variable_spec name="building.lnparkarea_wwd"/>
               <variable_spec name="building.park_wwd_bldg"/> -->
-              <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>
+              <!-- <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>-->
               <!--  <variable_spec name="household_x_building.income_x_size"/> -->
               <!--  <variable_spec name="household_x_building.inc_x_mfr"/> -->
               <!-- <variable_spec name="household_x_building.inc_x_condo"/>-->
-              <variable_spec name="household_x_building.one_pers_x_not_sfr"></variable_spec>
+              <!--<variable_spec name="household_x_building.one_pers_x_not_sfr"></variable_spec>-->
               <!-- <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
               <!-- <variable_spec name="household_x_building.big_not_in_seattle"/>-->
               <!--  <variable_spec name="household_x_building.disposable_inc"/> -->
-              <!-- <variable_spec name="building.sqft_per_unit"/> -->
+              <variable_spec name="building.ln_sqft_per_unit"/>
+	      <variable_spec name="household_x_building.white_x_size"></variable_spec>
               <!--<variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>-->
               <!--<variable_spec name="household_x_building.space_per_pers_gt1T"/>-->
               <!--<variable_spec name="household_x_building.owner_x_is_not_mfr"/>
@@ -1769,7 +1795,7 @@
               <!-- <variable_spec name="building.ln_resunit"/>-->
               <!-- <variable_spec name="building.schooldistr_totscore"/> -->
               <!-- <variable_spec name="household_x_building.npers_x_condo_ifgt2"></variable_spec>-->
-              <variable_spec name="household_x_building.single_x_lnretailden_wwd"></variable_spec> --&gt;
+              <!--<variable_spec name="household_x_building.single_x_lnretailden_wwd"></variable_spec> -->
               <!-- <variable_spec name="household_x_building.mnl_bias" fixed_value="1"/> -->
               <!-- Might be put in to address household size issues
                <variable_spec name="household_x_building.kids_x_ngood_publ_schools"/>
@@ -1781,14 +1807,22 @@
           <submodel hidden="Children" name="submodel" submodel_id="2" type="submodel">
             <description type="string">Inmigrants</description>
             <variable_list type="variable_list">
-              <variable_spec name="household_x_building.lnemp10wa_younger"></variable_spec>
+	      <variable_spec name="household_x_building.white_x_white_wwd"></variable_spec>
+	      <variable_spec name="household_x_building.black_x_white_wwd"></variable_spec>
+	      <variable_spec name="household_x_building.asian_x_white_wwd"></variable_spec>
+	      <!--<<variable_spec name="household_x_building.hispanic_x_non_white"></variable_spec>-->
+	      <variable_spec name="building.percent_white_wwd"></variable_spec>
+	      <variable_spec name="building.multifamily_type"></variable_spec>
+	      <variable_spec name="building.ln_sqft_per_unit"/>
+	      <variable_spec name="household_x_building.white_x_size"></variable_spec>
+	      <!--<variable_spec name="household_x_building.white_x_mfr"></variable_spec>
+	      <variable_spec name="household_x_building.black_x_mfr"></variable_spec>-->
+              <!--<variable_spec name="household_x_building.lnemp10wa_younger"></variable_spec>
               <variable_spec name="household_x_building.lngcdaemp_low_income"></variable_spec>
-              <variable_spec name="household_x_building.lngcdaemp_high_income"></variable_spec>
-              <!-- <variable_spec name="household_x_building.same_btype_if_sfr"/>  -->
+              <variable_spec name="household_x_building.lngcdaemp_high_income"></variable_spec>-->
               <!-- <variable_spec name="household_x_building.avg_network_cost"></variable_spec> -->
               <variable_spec name="household_x_building.housing_range"></variable_spec>
               <variable_spec name="building.iv_ln_price_residual"></variable_spec>
-              <variable_spec name="building.multifamily_type"></variable_spec>
               <!--  <variable_spec name="household_x_building.kids_x_kids"/>-->
               <!--  <variable_spec name="building.ln_price_per_unit"/> -->
               <!--<variable_spec name="building.lnempden_threshold"/>-->
@@ -1799,7 +1833,7 @@
               <!-- <variable_spec name="building.lnretailden_wwd"/>-->
               <!-- <variable_spec name="building.park_wwd"/>  -->
               <!--<variable_spec name="building.lnparkarea_wwd"/>-->
-              <variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>
+              <!--<variable_spec name="household_x_building.per_capita_income_x_size"></variable_spec>-->
               <!-- <variable_spec name="household_x_building.income_x_size"/> -->
               <!--<variable_spec name="household_x_building.inc_x_mfr"/>-->
               <!-- <variable_spec name="household_x_building.inc_x_condo"/> -->
@@ -1807,7 +1841,6 @@
               <!-- <variable_spec name="household_x_building.two_pers_x_not_sfr"/> -->
               <!-- <variable_spec name="household_x_building.disposable_inc"/>-->
               <!-- <variable_spec name="household_x_building.high_income_x_ln_sqft_per_unit"/>-->
-              <!--<variable_spec name="building.ln_sqft_per_unit"/>-->
               <!-- <variable_spec name="household_x_building.zero_workers_x_avg_work_logsum"/>-->
               <!--<variable_spec name="household_x_building.space_per_pers_gt1T"/>-->
               <variable_spec name="household_x_building.owner_x_is_not_mfr"></variable_spec>
@@ -1817,6 +1850,7 @@
               <!--<variable_spec name="household_x_building.single_x_lnretailden_wwd"></variable_spec>-->
               <!-- <variable_spec name="household_x_building.big_not_in_seattle"/> -->
               <variable_spec name="household_x_building.pers_lt_3_if_seattle"></variable_spec>
+	      <variable_spec name="building.is_seattle"></variable_spec>
               <!-- Might be put in to address household size issues 
               <variable_spec name="household_x_building.pers_gt_2_x_condo"/>
               <variable_spec name="household_x_building.kids_x_ngood_publ_schools"/>

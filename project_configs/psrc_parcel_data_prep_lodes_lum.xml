@@ -327,7 +327,7 @@
       <base_year type="integer">2018</base_year>
       <years_to_run config_name="years" type="tuple">
         <firstyear type="integer">2019</firstyear>
-        <lastyear type="integer">2021</lastyear>
+        <lastyear type="integer">2022</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <creating_baseyear_cache_configuration type="class">
@@ -367,6 +367,10 @@
           <yearset type="dictionary">
             <year type="integer">2021</year>
             <models_list type="list">["compute_job_capacity"]</models_list>
+          </yearset>
+          <yearset type="dictionary">
+            <year type="integer">2022</year>
+            <models_list type="list">["workplace_choice_model_for_resident"]</models_list>
           </yearset>
         </models_in_year_category>
       </models_in_year>
