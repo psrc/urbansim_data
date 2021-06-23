@@ -1,0 +1,48 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Configuration for the PSRC parcel sub-regional project</description>
+    <parent type="file">psrc_parcel_luv_STC_new_sectors.xml</parent>
+    <expression_library type="dictionary">
+    </expression_library>
+  </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="increase_HU_density" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.disaggregate(2.5*(parcel.tod_id == 1) + 2.0*(parcel.tod_id == 2) + 5.0*(parcel.tod_id == 4) + 2.0*(parcel.tod_id == 5) + 1.25*(parcel.tod_id == 6))*building.residential_units).astype(int32)</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.tod_id &gt; 0)</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="increase_existing_HU_density" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.disaggregate(2.5*(parcel.tod_id == 1) + 2.0*(parcel.tod_id == 2) + 5.0*(parcel.tod_id == 4) + 2.0*(parcel.tod_id == 5) + 1.25*(parcel.tod_id == 6))*building.residential_units).astype(int32)</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string">building.disaggregate(parcel.tod_id &gt;0)</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="increase_job_capacity" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.disaggregate(1.5*((parcel.tod_id == 1) + (parcel.tod_id == 2) + (parcel.tod_id == 4) + (parcel.tod_id == 5)) + 1.25*(parcel.tod_id == 6))*building.non_residential_sqft).astype(int32)</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string">(building.year_built == building.year_built.max())*building.disaggregate(parcel.tod_id &gt; 0)</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="increase_existing_job_capacity" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(building.disaggregate(1.5*((parcel.tod_id == 1) + (parcel.tod_id == 2) + (parcel.tod_id == 4) + (parcel.tod_id == 5)) + 1.25*(parcel.tod_id == 6))*building.non_residential_sqft).astype(int32)</argument>
+	    <argument name="dataset_filter" parser_action="quote_string" type="string">building.disaggregate(parcel.tod_id &gt;0)</argument>
+          </run>
+        </structure>
+      </model>
+  </model_manager>
+  <scenario_manager>
+  </scenario_manager>
+  <results_manager>
+    </results_manager>
+</opus_project>

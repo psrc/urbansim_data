@@ -1,0 +1,43 @@
+<opus_project>
+  <xml_version>2.0</xml_version>
+  <general>
+    <description type="string">Creates cache from sampled control totals</description>
+    <parent type="file">psrc_parcel_sampledCT_baseline.xml</parent>
+    <expression_library type="dictionary">
+        </expression_library>
+  </general>
+  <model_manager>
+    <models config_name="model_system" hidden="False" name="Models" setexpanded="True" type="dictionary">
+      <model name="create_control_totals_model" type="model">
+        <structure type="dictionary">
+          <run type="dictionary">
+            <argument name="ct_directory" parser_action="quote_string" type="string">N:/Uncertainty/BMforTM/run_val2018_tod_census_block_group/control_totals</argument>
+          </run>
+        </structure>
+      </model>
+    </models>
+  </model_manager>
+  <scenario_manager>
+    <scenario executable="True" name="run_soundcast_2040_sampled_controls" type="scenario">
+      <creating_baseyear_cache_configuration type="class">
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/MRuns/tod_run_32.aws04</argument>
+        </argument>
+      </creating_baseyear_cache_configuration>
+    </scenario>
+    <scenario executable="True" name="run_soundcast_2040" type="scenario">
+      <creating_baseyear_cache_configuration type="class">
+        <argument name="baseyear_cache" type="class">
+          <class_name hidden="True" type="string">BaseyearCacheConfiguration</class_name>
+          <class_module hidden="True" type="string">opus_core.configurations.baseyear_cache_configuration</class_module>
+          <argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">psrc_parcel/MRuns/tod_run_30.aws04</argument>
+          <!--<argument name="existing_cache_to_copy" parser_action="prefix_with_opus_data_path" type="directory">/Volumes/Model Data 2/Uncertainty/urbansim_data/MRuns/baseline/run_19.aws05</argument>-->
+        </argument>
+      </creating_baseyear_cache_configuration>
+    </scenario>
+  </scenario_manager>
+  <results_manager>
+    </results_manager>
+</opus_project>

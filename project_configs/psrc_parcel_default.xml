@@ -1919,7 +1919,693 @@
             <argument name="expand_person_set" type="string">False</argument>
           </run>
         </structure>
-      </model>            
+      </model>
+      <model name="home_school_for_oldest_child_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.home_school_model</class_module>
+            <class_name type="string">HomeSchoolModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">HomeSchoolModel</name>
+            <argument name="choice_set" type="string">[0,1]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"></argument>
+            <argument model_dependency_type="variable" name="choice_attribute_name" parser_action="quote_string" type="string">home_school</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument name="agents_index" type="string">hs_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"></argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, hs_index)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">is_oldest_student = (psrc_parcel.person.has_older_sibling_in_school==0) * (person.student==1)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">home_school_for_oldest_child_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">home_school_for_oldest_child_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">sfilter = (psrc_parcel.person.has_older_sibling_in_school==0) * numpy.logical_and(person.is_in_school, numpy.logical_or(person.stype == 2, person.stype == 6))</argument>
+            <!--<argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = numpy.logical_and(psrc_parcel.person.has_older_sibling, numpy.logical_and(person.is_in_school, numpy.logical_or(person.stype == 2, person.stype == 6))) </argument>-->
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="1" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec coefficient_name="constant" name="constant"></variable_spec>
+                <!-- <variable_spec name="person.lhhincome_imputed" coefficient_name="lhhincome"/>
+                 <variable_spec name="person.is_high_income" coefficient_name="is_high_income"/>
+                 <variable_spec name="person.is_low_income" coefficient_name="is_low_income"/>
+                <variable_spec name="person.age" coefficient_name="age"/>
+                <variable_spec name="person.is_male" coefficient_name="is_male"/>
+                <variable_spec name="person.lives_in_rural"/>
+                <variable_spec name="person.timetocbd"/>                               
+                <variable_spec name="person.has_older_sibl"/> 
+                <variable_spec name="person.npriv_schools"/>
+                <variable_spec name="person.zone_school_totscore"/>
+                <variable_spec name="person.no_good_publ_schools"/>
+                <variable_spec name="person.npubl_schools"/> 
+                <variable_spec name="person.hhchild_oldest" coefficient_name="children_if_oldest"/>          
+                <variable_spec name="person.older_sibl_home"/>                 
+                <variable_spec name="person.schooldistr_totscore"/> -->
+                <variable_spec coefficient_name="has_nonworkers" name="person.has_nonworkers"></variable_spec>
+                <variable_spec coefficient_name="children" name="person.hhchild"></variable_spec>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+      </model>
+      <model name="home_school_for_younger_children_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.home_school_model</class_module>
+            <class_name type="string">HomeSchoolModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">HomeSchoolModel</name>
+            <argument name="choice_set" type="string">[0,1]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" model_dependency_type="variable" name="submodel_string" type="string"></argument>
+            <argument model_dependency_type="variable" name="choice_attribute_name" parser_action="quote_string" type="string">home_school</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument name="agents_index" type="string">hs_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"></argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, hs_index)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">is_student_not_oldest = psrc_parcel.person.has_older_sibling_in_school * (person.student==1)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">home_school_for_younger_children_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">home_school_for_younger_children_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">sfilter = psrc_parcel.person.has_older_sibling_in_school * numpy.logical_and(person.is_in_school, numpy.logical_or(person.stype == 2, person.stype == 6))</argument>
+            <!--<argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = numpy.logical_and(psrc_parcel.person.has_older_sibling, numpy.logical_and(person.is_in_school, numpy.logical_or(person.stype == 2, person.stype == 6))) </argument>-->
+            <argument model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="1" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec coefficient_name="constant" name="constant"></variable_spec>
+                <!--  <variable_spec name="person.lhhincome_imputed" coefficient_name="lhhincome"/>
+                 <variable_spec name="person.is_high_income" coefficient_name="is_high_income"/>
+                 <variable_spec name="person.is_low_income" coefficient_name="is_low_income"/>
+                <variable_spec name="person.age" coefficient_name="age"/>
+                <variable_spec name="person.is_male" coefficient_name="is_male"/>
+                <variable_spec name="person.lives_in_rural"/>
+                <variable_spec name="person.timetocbd"/>
+                <variable_spec name="person.has_nonworkers" coefficient_name="has_nonworkers"/>                                
+                <variable_spec name="person.hhchild" coefficient_name="children"/>  
+                <variable_spec name="person.has_older_sibl"/> 
+                <variable_spec name="person.npriv_schools"/>
+                <variable_spec name="person.zone_school_totscore"/>
+                <variable_spec name="person.no_good_publ_schools"/>
+                <variable_spec name="person.npubl_schools"/>
+                <variable_spec name="person.hhchild_oldest" coefficient_name="children_if_oldest"/>  -->
+                <variable_spec name="person.older_sibl_home"></variable_spec>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+      </model>
+      <model name="public_private_school_for_oldest_child_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.school_type_choice_model</class_module>
+            <class_name type="string">SchoolTypeChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SchoolTypeChoiceModel</name>
+            <argument name="choice_set" type="string">[1,2]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"></argument>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">school_type</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, pp_index)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">is_oldest_student = (psrc_parcel.person.has_older_sibling_in_school==0) * (person.student &lt; 3) * (person.home_school&lt;=0) * (person.age &lt;= 18)</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">public_private_school_for_oldest_child_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">public_private_school_for_oldest_child_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">person</argument>
+            <argument name="agents_index" type="string">pp_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"></argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = (psrc_parcel.person.has_older_sibling_in_school==0) * psrc_parcel.person.is_in_private_or_public_k12_school</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="2" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec coefficient_name="constant" name="constant"></variable_spec>
+                <!--<variable_spec name="person.hhnonworkers" coefficient_name="nonworkers"/>                
+                <variable_spec name="person.has_older_sibl"/>
+                
+                <variable_spec name="person.faz_school_hasscore"/>
+                <variable_spec name="person.age_if_older_sibl_priv"/>
+                <variable_spec name="person.older_sibl_priv"/>  
+                <variable_spec name="person.age" coefficient_name="age"/>
+                <variable_spec name="person.is_male" coefficient_name="is_male"/>
+                <variable_spec name="person.lives_in_rural"/>
+                <variable_spec name="person.has_nonworkers" coefficient_name="has_nonworkers"/>               
+                <variable_spec name="person.is_high_income"/>
+                <variable_spec name="person.is_low_income" />
+                <variable_spec name="person.hhchild" coefficient_name="children"/> 
+                <variable_spec name="person.faz_school_totscore"/>                 
+                <variable_spec name="person.faz_school_mathscore"/> 
+                <variable_spec name="person.no_good_publ_s4000"/>
+                <variable_spec name="person.no_good_publ_s3000"/>
+                <variable_spec name="person.no_good_publ_s1000"/>
+                <variable_spec name="person.no_publ_s4000"/>
+                <variable_spec name="person.no_publ_s3000"/>
+                <variable_spec name="person.no_publ_s1000"/>
+                <variable_spec name="person.npriv_s1000"/>
+                <variable_spec name="person.npriv_s3000"/>
+                <variable_spec name="person.npubl_s4000"/>
+                <variable_spec name="person.npubl_s1000"/>
+                <variable_spec name="person.npubl_s3000"/>
+                <variable_spec name="person.ngoodpubl_s4000"/>
+                <variable_spec name="person.ngoodpubl_s1000"/>
+                <variable_spec name="person.npubl15min"/>
+                               
+                <variable_spec name="person.zone_school_totscore"/>   -->
+                <variable_spec name="person.schooldistr_readscore"></variable_spec>
+                <variable_spec coefficient_name="lhhincome" name="person.lhhincome_imputed"></variable_spec>
+                <variable_spec name="person.timetocbd"></variable_spec>
+                <variable_spec name="person.npriv_s3000"></variable_spec>
+                <!--   <variable_spec name="person.is_there_priv_s3000"/>
+               <variable_spec name="person.npriv_s4000"/>
+                 <variable_spec name="person.ngoodpubl_s3000"/> -->
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+      </model>
+      <model name="postprocess_public_private_school_for_oldest_child_model" type="model">
+        <dependencies type="list">['public_private_school_for_oldest_child_model']</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(person.school_type==2)* (psrc_parcel.person.has_older_sibling + (psrc_parcel.person.has_older_sibling==0))</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">is_in_private_k12_school</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+        <specification type="dictionary"></specification>
+      </model>
+      <model name="public_private_school_for_younger_children_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.school_type_choice_model</class_module>
+            <class_name type="string">SchoolTypeChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SchoolTypeChoiceModel</name>
+            <argument name="choice_set" type="string">[1,2]</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.random_choices</argument>
+            <argument convert_blank_to_none="True" field_description="test description" name="submodel_string" type="string"></argument>
+            <argument name="choice_attribute_name" parser_action="quote_string" type="string">person.school_type</argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients, pp_index)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">is_student_not_oldest = psrc_parcel.person.has_older_sibling_in_school * (person.student &lt; 3) * (person.home_school&lt;=0) * (person.age &lt;=18) </argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">public_private_school_for_younger_children_model_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">public_private_school_for_younger_children_model_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument name="agent_set" type="string">person</argument>
+            <argument name="agents_index" type="string">pp_index</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string"></argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agent_filter" parser_action="quote_string" type="string">sfilter = psrc_parcel.person.has_older_sibling_in_school * psrc_parcel.person.is_in_private_or_public_k12_school * (person.age &lt;=18) </argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_type_choice_model_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <equation equation_id="2" name="private" type="submodel_equation">
+              <variable_list type="variable_list">
+                <variable_spec coefficient_name="constant" name="constant"></variable_spec>
+                <!--<variable_spec name="person.hhnonworkers" coefficient_name="nonworkers"/>                
+                <variable_spec name="person.has_older_sibl"/>                
+                <variable_spec name="person.faz_school_hasscore"/>
+                <variable_spec name="person.age_if_older_sibl_priv"/>
+                <variable_spec name="person.age" coefficient_name="age"/>
+                <variable_spec name="person.is_male" coefficient_name="is_male"/>
+                <variable_spec name="person.lives_in_rural"/>
+                <variable_spec name="person.has_nonworkers" coefficient_name="has_nonworkers"/>               
+                <variable_spec name="person.is_high_income"/>
+                <variable_spec name="person.is_low_income" />
+                <variable_spec name="person.hhchild" coefficient_name="children"/> 
+                <variable_spec name="person.faz_school_totscore"/>                 
+                <variable_spec name="person.faz_school_mathscore"/> 
+                <variable_spec name="person.no_good_publ_s3000"/>
+                <variable_spec name="person.no_good_publ_s1000"/>
+                <variable_spec name="person.no_good_publ_s4000"/>
+                <variable_spec name="person.no_publ_s4000"/>
+                <variable_spec name="person.no_publ_s3000"/>
+                <variable_spec name="person.no_publ_s1000"/>
+                <variable_spec name="person.npriv_s1000"/>
+                <variable_spec name="person.npriv_s3000"/>
+                <variable_spec name="person.npriv_s4000"/>
+                <variable_spec name="person.npubl_s4000"/>
+                <variable_spec name="person.npubl_s1000"/>
+                <variable_spec name="person.npubl_s3000"/>
+                <variable_spec name="person.ngoodpubl_s4000"/>
+                <variable_spec name="person.ngoodpubl_s1000"/>
+                <variable_spec name="person.npubl15min"/>
+                               
+                <variable_spec name="person.zone_school_totscore"/>   
+                <variable_spec name="person.lhhincome_imputed" coefficient_name="lhhincome"/>   
+                <variable_spec name="person.timetocbd"/>
+               <variable_spec name="person.ngoodpubl_s3000"/>
+                -->
+                <variable_spec name="person.older_sibl_priv"></variable_spec>
+              </variable_list>
+            </equation>
+          </submodel>
+        </specification>
+      </model>
+      <model name="initiate_school_id_in_persons" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">(0 * person.age - 1).astype(int32)</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="school_choice_model_public_distance_2" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_2, intermediates=[building])</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+            <argument model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">is_student_in_public_school_2 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==2)</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="school_choice_model_public_distance_3" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_3, intermediates=[building])</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+            <argument model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">is_student_in_public_school_3 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==3)</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="school_choice_model_public_distance_4" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">person.disaggregate(psrc_parcel.parcel.nearest_public_school_of_category_4, intermediates=[building])</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+            <argument model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">is_student_in_public_school_4 = (person.student &lt; 3) * (person.school_type==1) * (psrc_parcel.person.age_category==4)</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="school_choice_model_private_for_oldest_child" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.school_choice_model</class_module>
+            <class_name type="string">SchoolChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SchoolChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">school</argument>
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">(school.public==0)*psrc_parcel.school.is_in_category_GROUP</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <!-- <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.lottery_choices</argument> -->
+            <argument name="choices" parser_action="quote_string" type="string">opus_core.upc.random_choices_from_index</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <!-- <argument name="sampler" parser_action="quote_string" type="string" convert_blank_to_none="True"></argument> -->
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string"></argument>
+            <argument hidden="True" name="debuglevel" type="string">debuglevel</argument>
+            <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="run_config" type="dictionary">
+              <key name="sample_size_locations" type="integer">100</key>
+              <key name="sample_alternatives_by_group" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="group_definition_for_sampling_alternatives" type="string">psrc_parcel.person.age_category</key>
+              <key name="compute_capacity_flag" type="boolean">False</key>
+              <key name="capacity_string" type="string">15*clip_to_zero(school.student_count - school.number_of_agents(person))</key>
+              <key name="lottery_max_iterations" type="integer">10</key>
+              <key name="number_of_units_string" type="string">number_of_students=school.number_of_agents(person)</key>
+            </argument>
+            <argument name="estimate_config" type="dictionary">
+              <!--  <key name="weights_for_estimation_string" type="string" convert_blank_to_none="True">school.student_count</key>-->
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string">school.student_count</key>
+              <key name="sample_size_locations" type="integer">100</key>
+              <key name="sample_alternatives_by_group" type="boolean">True</key>
+              <key convert_blank_to_none="True" name="group_definition_for_sampling_alternatives" type="string">psrc_parcel.person.age_category</key>
+              <!--<key name="agent_category_definition" type="list">['person.disaggregate(parcel.school_district_id, intermediates=[building, household])']</key>
+              <key name="choice_category_definition" type="list">['school.disaggregate(parcel.school_district_id)']</key>
+              <key name="agent_filter_attribute" type="string">person.disaggregate(parcel.school_district_id, intermediates=[building, household])&gt;0</key>-->
+            </argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(specification, coefficients)</output>
+            <argument convert_blank_to_none="True" model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_choice_model_private_for_oldest_child_specification</argument>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument name="coefficients_table" parser_action="quote_string" type="string">school_choice_model_private_for_oldest_child_coefficients</argument>
+            <argument name="cache_storage" type="string">base_cache_storage</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument name="specification" type="string">specification</argument>
+            <argument name="coefficients" type="string">coefficients</argument>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agents_filter" parser_action="quote_string" type="string">is_student_in_private_school = (person.student &lt; 3) * (person.school_type==2) * ((psrc_parcel.person.age_category==2) + (psrc_parcel.person.age_category==3) + (psrc_parcel.person.age_category==4)) * (psrc_parcel.person.has_older_sibling_own_age_category_in_private_school==0)</argument>
+            <argument convert_blank_to_none="True" name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </run>
+          <estimate type="dictionary">
+            <output name="output" type="string">(coefficients, dummy)</output>
+            <argument name="specification" type="string">specification</argument>
+            <argument name="agent_set" type="string">est_dataset</argument>
+            <argument name="agents_index" type="string">cm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="data_objects" type="string">datasets</argument>
+          </estimate>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(specification, cm_index, est_dataset)</output>
+            <argument convert_blank_to_none="True" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agents_filter" parser_action="quote_string" type="string">sfilter = numpy.logical_and(numpy.logical_and(person.stype == 2, psrc_parcel.person.is_in_private_school), psrc_parcel.person.has_older_sibling_own_age_category_in_private_school==0) * ((psrc_parcel.person.age_category==2) + (psrc_parcel.person.age_category==3) + (psrc_parcel.person.age_category==4))</argument>
+            <argument name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument name="estimation_storage" type="string">base_cache_storage</argument>
+            <argument name="households_for_estimation_table" parser_action="quote_string" type="string">households_for_estimation</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument name="specification_table" parser_action="quote_string" type="string">school_choice_model_private_specification</argument>
+          </prepare_for_estimate>
+        </structure>
+        <specification type="dictionary">
+          <submodel hidden="Children" name="private" submodel_id="-2" type="submodel">
+            <variable_list type="variable_list">
+              <!--  <variable_spec name="person.lhhincome_imputed" coefficient_name="lhhincome"/>-->
+              <!--  
+                <variable_spec name="person_x_school.high_income_x_wealthshare"/>               
+                <variable_spec name="person_x_school.income_x_wealthshare"/>   -->
+              <!-- <variable_spec name="person_x_school.walking_time_to_school"/>
+                                <variable_spec name="person_x_school.travel_distance_to_school"/> -->
+              <!--	<variable_spec name="school.povertyshare"/>
+                        <variable_spec name="person_x_school.income_x_povertyshare"/> -->
+              <variable_spec name="person_x_school.same_school_district"></variable_spec>
+              <variable_spec name="person_x_school.traveldist_if_out_distr"></variable_spec>
+              <variable_spec name="person_x_school.walktime_if_same_distr"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
+      <model name="school_choice_model_private_for_younger_siblings" type="model">
+        <dependencies type="list">['school_choice_model_private_for_oldest_child']</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">psrc_parcel.person.school_of_older_sibling_own_age_category_private</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+            <argument model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">is_student_in_private_school_younger = (person.student &lt; 3) * (person.school_type==2) * ((psrc_parcel.person.age_category==2) + (psrc_parcel.person.age_category==3) + (psrc_parcel.person.age_category==4)) * psrc_parcel.person.has_older_sibling_own_age_category_in_private_school</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model name="school_choice_model_preschool" type="model">
+        <dependencies type="list">[]</dependencies>
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">opus_core.simple_model</class_module>
+            <class_name type="string">SimpleModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name name="name" type="string">SimpleModel</name>
+          </init>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="dataset" type="string">person</argument>
+            <argument model_dependency_type="variable" name="expression" parser_action="quote_string" type="string">person.disaggregate(psrc_parcel.parcel.nearest_school_of_category_1, intermediates=[building])</argument>
+            <argument name="outcome_attribute" parser_action="quote_string" type="string">school_id</argument>
+            <!-- <argument name="dataset_filter" parser_action="quote_string" type="string" model_dependency_type="variable">is_student_in_preschool = (psrc_parcel.person.age_category==1) * person.disaggregate(urbansim_parcel.household.number_of_adults==urbansim_parcel.household.number_of_non_home_based_workers)</argument>-->
+            <argument model_dependency_type="variable" name="dataset_filter" parser_action="quote_string" type="string">is_student_in_preschool = (psrc_parcel.person.age_category==1) * numpy.logical_or(person.student==1, person.student==2)</argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+          </run>
+        </structure>
+      </model>
+      <model copyable="True" hidden="False" inherit_parent_values="False" name="college_location_model" type="model">
+        <structure type="dictionary">
+          <import name="import" type="dictionary">
+            <class_module type="string">psrc_parcel.models.person_location_choice_model</class_module>
+            <class_name type="string">PersonLocationChoiceModel</class_name>
+          </import>
+          <init type="dictionary">
+            <name hidden="True" name="name" type="string">PersonLocationChoiceModel</name>
+            <argument model_dependency_type="dataset" name="location_set" type="string">school</argument>
+            <argument name="sampler" parser_action="quote_string" type="string">opus_core.samplers.weighted_sampler</argument>
+            <argument name="utilities" parser_action="quote_string" type="string">opus_core.linear_utilities</argument>
+            <argument name="probabilities" parser_action="quote_string" type="string">opus_core.mnl_probabilities</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string"></argument>
+            <argument convert_blank_to_none="True" name="submodel_string" parser_action="quote_string" type="string"></argument>
+            <argument name="dataset_pool" type="string">dataset_pool</argument>
+            <argument name="model_name" parser_action="quote_string" type="string">College Location Model</argument>
+            <argument name="short_name" parser_action="quote_string" type="string">CollegeLM</argument>
+            <argument name="variable_package" parser_action="quote_string" type="string">urbansim</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="estimate_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_estimation_string" type="string">psrc_parcel.school.sampling_by_residence_large_area_GROUP * psrc_parcel.school.is_in_category_5</key>
+              <key name="sample_size_locations" type="integer">100</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="estimation_size_agents" type="float">1.0</key>
+              <key name="sample_alternatives_by_group" type="boolean">True</key>
+              <key model_dependency_type="variable" name="group_definition_for_sampling_alternatives" type="string">urbansim_parcel.person.large_area_id</key>
+            </argument>
+            <argument name="run_config" type="dictionary">
+              <key convert_blank_to_none="True" name="weights_for_simulation_string" type="string">psrc_parcel.school.sampling_by_residence_large_area_GROUP * psrc_parcel.school.is_in_category_5</key>
+              <key name="sample_size_locations" type="integer">100</key>
+              <key convert_blank_to_none="True" name="sample_proportion_locations" type="integer"></key>
+              <key name="compute_capacity_flag" type="boolean">True</key>
+              <!--  <key name="capacity_string" type="string" convert_blank_to_none="True">clip_to_zero(15*school.staff - school.number_of_agents(person))</key> -->
+              <key convert_blank_to_none="True" name="capacity_string" type="string">clip_to_zero(1.5* school.fte2010 - school.number_of_agents(person))</key>
+              <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">15*school.staff</key>  -->
+              <!--  <key name="number_of_units_string" type="string" convert_blank_to_none="True">1.15* school.fte2010</key> -->
+              <key convert_blank_to_none="True" name="number_of_units_string" type="string">school.fte2010</key>
+              <key convert_blank_to_none="True" name="number_of_agents_string" type="string">school.number_of_agents(person)</key>
+              <key name="lottery_max_iterations" type="integer">3</key>
+              <key name="sample_alternatives_by_group" type="boolean">True</key>
+              <key model_dependency_type="variable" name="group_definition_for_sampling_alternatives" type="string">urbansim_parcel.person.large_area_id</key>
+            </argument>
+          </init>
+          <prepare_for_run type="dictionary">
+            <name name="name" type="string">prepare_for_run</name>
+            <output name="output" type="string">(collcm_specification, collcm_coefficients)</output>
+            <argument name="coefficients_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="coefficients_table" parser_action="quote_string" type="string">college_location_model_coefficients</argument>
+            <argument name="specification_storage" type="string">base_cache_storage</argument>
+            <argument model_dependency_type="table" name="specification_table" parser_action="quote_string" type="string">college_location_model_specification</argument>
+          </prepare_for_run>
+          <run type="dictionary">
+            <argument model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">is_student_in_college_with_residence = (person.student &lt; 3) * (person.student &gt; 0) * (psrc_parcel.person.age_category==5) * (urbansim_parcel.person.building_id &gt; 0)</argument>
+            <argument name="chunk_specification" type="string">{'records_per_chunk':50000}</argument>
+            <argument name="coefficients" type="string">collcm_coefficients</argument>
+            <argument name="specification" type="string">collcm_specification</argument>
+            <argument name="maximum_runs" type="integer">5</argument>
+          </run>
+          <prepare_for_estimate type="dictionary">
+            <name name="name" type="string">prepare_for_estimate</name>
+            <output name="output" type="string">(collcm_specification, collcm_index, colagents)</output>
+            <argument model_dependency_type="dataset" name="agent_set" type="string">person</argument>
+            <argument convert_blank_to_none="True" name="agents_for_estimation_storage" type="string">base_cache_storage</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="table" name="agents_for_estimation_table" parser_action="quote_string" type="string">persons_for_estimation</argument>
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="agent_filter" parser_action="quote_string" type="string">is_student_in_college = ((person.stype == 4) + (person.stype == 5)) * (psrc_parcel.person.age_category==5)</argument>
+          </prepare_for_estimate>
+          <estimate type="dictionary">
+            <output name="output" type="string">(collcm_coefficients, dummy)</output>
+            <argument name="agent_set" type="string">colagents</argument>
+            <argument name="agents_index" type="string">collcm_index</argument>
+            <argument name="procedure" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>
+            <argument name="debuglevel" type="string">debuglevel</argument>
+            <argument name="specification" type="string">collcm_specification</argument>
+          </estimate>
+        </structure>
+        <specification inherit_parent_values="False" type="dictionary">
+          <submodel hidden="Children" name="submodel" submodel_id="-2" type="submodel">
+            <variable_list type="variable_list">
+              <variable_spec fixed_value="-5" name="person_x_school.ln_travel_distance_to_school"></variable_spec>
+              <variable_spec fixed_value="1" name="school.ln_staff"></variable_spec>
+            </variable_list>
+          </submodel>
+        </specification>
+      </model>
     </models>
     <estimation_config config_name="estimation_config" name="Estimation Configuration" type="configuration">
       <seed type="integer">1</seed>
