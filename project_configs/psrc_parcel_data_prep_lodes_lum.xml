@@ -283,41 +283,19 @@
           </run>
         </structure>
       </model>
-      <model copyable="True" hidden="False" name="work_at_home_choice_model_by_subarea2" type="model">
-        <structure type="dictionary">
-          <init type="dictionary">
-            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">job.home_based_status==1</argument>
-            <!--<argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_not(numpy.in1d(job.sector_id, [12, 13]))</argument>-->
-            <argument model_dependency_type="variable" name="match_number_of_jobs" type="boolean">False</argument>
-          </init>
-          <prepare_for_run type="dictionary">
-            <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">urbansim_parcel.person.is_worker</argument>
-          </prepare_for_run>
-          <run type="dictionary">
-            <!--<argument name="residence_id" type="list">['census_tract_id', 'tractcity_id']</argument>-->
-            <argument name="residence_id" parser_action="quote_string" type="string">census_tract_id</argument>
-            <argument name="modify_home_based_status" type="boolean">False</argument>
-          </run>
-        </structure>
-      </model>
       <model copyable="True" hidden="False" name="work_at_home_choice_model_by_subarea" type="model">
         <structure type="dictionary">
-          <import hidden="True" name="import" type="dictionary">
-            <class_module type="string">psrc_parcel.models.work_at_home_choice_model_by_zones</class_module>
-            <class_name>WorkAtHomeChoiceModelByZones</class_name>
-          </import>
           <init type="dictionary">
-            <name hidden="True" name="name" type="string">WorkAtHomeChoiceModelByZones</name>
-            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">job.home_based_status==1</argument>
-            <argument model_dependency_type="variable" name="match_number_of_jobs" type="boolean">True</argument>
-            <!--<argument convert_blank_to_none="True" name="choices" parser_action="quote_string" type="string"></argument>-->
+            <!--<argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">job.home_based_status==1</argument>-->
+            <argument convert_blank_to_none="True" model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">numpy.logical_not(numpy.in1d(job.sector_id, [12, 13]))</argument>
           </init>
-          <run type="dictionary">
-            <argument name="zones" type="string">census_tract</argument>
-          </run>
           <prepare_for_run type="dictionary">
             <argument model_dependency_type="variable" name="agents_filter" parser_action="quote_string" type="string">urbansim_parcel.person.is_worker</argument>
           </prepare_for_run>
+          <run type="dictionary">
+            <argument name="residence_id" parser_action="quote_string" type="string">census_tract_id</argument>
+            <argument name="modify_home_based_status" type="boolean">True</argument>
+          </run>
         </structure>
       </model>
       <model name="compute_job_capacity" type="model">
@@ -370,7 +348,6 @@
         <selectable name="assign_work_at_home_to_workers" type="selectable">True</selectable>
         <selectable name="compute_job_tract_model" type="selectable">True</selectable>
         <selectable name="work_at_home_choice_model_by_subarea" type="selectable">True</selectable>
-        <selectable name="work_at_home_choice_model_by_tract" type="selectable">False</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
         <selectable name="edu_sector_model" type="model_choice">True</selectable>
         <selectable name="employment_relocation_model" type="selectable">True</selectable>
@@ -414,7 +391,6 @@
           <selectable copyable="True" name="building" type="selectable">False</selectable>
           <selectable copyable="True" name="person" type="selectable">False</selectable>
           <selectable copyable="True" name="home_based_status" type="selectable">False</selectable>
-          <selectable copyable="True" name="census_tract" type="selectable">True</selectable>
         </datasets_to_preload>
       </advanced>
     </scenario>
