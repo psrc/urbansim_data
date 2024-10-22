@@ -32,19 +32,19 @@
             <argument model_dependency_type="dataset" name="geography_dataset" type="string">census_block_group</argument>
             <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
             <argument convert_blank_to_none="True" name="sampler" parser_action="quote_string" type="string"></argument>
-            <!--<argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>-->
-            <argument name="choices" parser_action="quote_string" type="string">urbansim.random_choices_from_index</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <!--<argument name="choices" parser_action="quote_string" type="string">urbansim.random_choices_from_index</argument>-->
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument model_dependency_type="dataset" name="location_set" type="string">building</argument>
-            <argument name="capacity_string" parser_action="quote_string" type="string">job_capacity</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">capacity_prelim</argument>
             <argument name="simulation_weight_string" parser_action="quote_string" type="string">clip_to_zero(psrc_parcel.building.total_non_home_based_job_space)</argument>
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.total_non_home_based_job_space &gt; 0</argument>
-            <argument name="compute_capacity_flag" type="boolean">False</argument>
+            <argument name="compute_capacity_flag" type="boolean">True</argument>
             <argument name="sample_size_locations" type="integer">200</argument>
             <key convert_blank_to_none="True" name="number_of_units_string" type="string"></key>
             <argument name="run_config" type="dictionary">
               <key convert_blank_to_none="True" name="agent_units_string" type="string"></key>
-              <key name="lottery_max_iterations" type="integer">10</key>
+              <key name="lottery_max_iterations" type="integer">5</key>
             </argument>
             <argument name="variable_package" parser_action="quote_string" type="string">psrc_parcel</argument>
           </init>
@@ -84,19 +84,19 @@
             <argument model_dependency_type="dataset" name="geography_dataset" type="string">census_tract</argument>
             <argument name="agents_grouping_attribute" parser_action="quote_string" type="string">job.home_based_status</argument>
             <argument convert_blank_to_none="True" name="sampler" parser_action="quote_string" type="string"></argument>
-            <!--<argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>-->
-            <argument name="choices" parser_action="quote_string" type="string">urbansim.random_choices_from_index</argument>
+            <argument name="choices" parser_action="quote_string" type="string">urbansim.lottery_choices</argument>
+            <!--<argument name="choices" parser_action="quote_string" type="string">urbansim.random_choices_from_index</argument>-->
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument model_dependency_type="dataset" name="location_set" type="string">building</argument>
-            <argument name="capacity_string" parser_action="quote_string" type="string">job_capacity</argument>
+            <argument name="capacity_string" parser_action="quote_string" type="string">capacity_prelim</argument>
             <argument name="simulation_weight_string" parser_action="quote_string" type="string">clip_to_zero(psrc_parcel.building.total_non_home_based_job_space)</argument>
             <argument convert_blank_to_none="True" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.total_non_home_based_job_space &gt; 0</argument>
-            <argument name="compute_capacity_flag" type="boolean">False</argument>
+            <argument name="compute_capacity_flag" type="boolean">True</argument>
             <argument name="sample_size_locations" type="integer">200</argument>
             <key convert_blank_to_none="True" name="number_of_units_string" type="string"></key>
             <argument name="run_config" type="dictionary">
               <key convert_blank_to_none="True" name="agent_units_string" type="string"></key>
-              <key name="lottery_max_iterations" type="integer">10</key>
+              <key name="lottery_max_iterations" type="integer">5</key>
             </argument>
             <argument name="variable_package" parser_action="quote_string" type="string">psrc_parcel</argument>
           </init>
