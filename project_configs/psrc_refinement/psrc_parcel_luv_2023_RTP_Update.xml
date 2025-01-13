@@ -52,7 +52,7 @@
           </import>
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProposalSamplingModelBySubareaForRefinement</name>
-            <argument model_dependency_type="dataset" name="subarea_name" parser_action="quote_string" type="string">city</argument>
+            <argument model_dependency_type="dataset" name="subarea_name" parser_action="quote_string" type="string">subreg</argument>
             <argument model_dependency_type="dataset" name="intermediates_to_realestate" parser_action="quote_string" type="string">parcel</argument>
             <argument model_dependency_type="dataset" name="proposal_set" type="string">development_project_proposal</argument>
             <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8)))</argument>
@@ -101,7 +101,7 @@
 	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.household_total_growth_luv</argument>-->
             <argument model_dependency_type="variable" name="target_attribute_name" parser_action="quote_string" type="string">psrc_parcel.parcel.residential_units</argument>
             <argument model_dependency_type="variable" name="ct_attribute_name" parser_action="quote_string" type="string">demand=1.01 * control_total.total_number_of_households</argument>
-            <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
+            <argument name="geo_id_name" parser_action="quote_string" type="string">subreg_id</argument>
             <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
             <argument name="compare_absolute_numbers" parser_action="quote_string" type="boolean">True</argument>
             <!-- <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
@@ -134,7 +134,7 @@
 	    <argument name="ct_attribute_name" parser_action="quote_string" type="string" model_dependency_type="variable">growth=1.01 * psrc_parcel.control_total.job_total_growth_luv</argument>-->
             <argument model_dependency_type="variable" name="target_attribute_name" parser_action="quote_string" type="string">psrc_parcel.parcel.job_capacity</argument>
             <argument model_dependency_type="variable" name="ct_attribute_name" parser_action="quote_string" type="string">demand=1.50 * control_total.total_number_of_jobs</argument>
-            <argument name="geo_id_name" parser_action="quote_string" type="string">city_id</argument>
+            <argument name="geo_id_name" parser_action="quote_string" type="string">subreg_id</argument>
             <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
             <argument name="compare_absolute_numbers" parser_action="quote_string" type="boolean">True</argument>
             <!-- <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
