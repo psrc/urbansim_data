@@ -114,7 +114,7 @@
           <variable name="empedu_p" type="string">(parcel.aggregate((job.sector_id==15) + (job.sector_id==19), intermediates=[building])).astype(int32)</variable>
           <variable name="empfoo_p" type="string">(parcel.aggregate(job.sector_id==14, intermediates=[building])).astype(int32)</variable>
           <variable name="empgov_p" type="string">(parcel.aggregate(job.sector_id==18, intermediates=[building])).astype(int32)</variable>
-          <variable name="empind_p" type="string">(parcel.aggregate((job.sector_id &gt; 2) * (job.sector_id &lt; 10) * (job.sector_id &lt;&gt; 7), intermediates=[building])).astype(int32)</variable>
+          <variable name="empind_p" type="string">(parcel.aggregate((job.sector_id &gt; 2) * (job.sector_id &lt; 10) * (job.sector_id  !=  7), intermediates=[building])).astype(int32)</variable>
           <variable name="empmed_p" type="string">(parcel.aggregate(job.sector_id==16, intermediates=[building])).astype(int32)</variable>
           <variable name="empofc_p" type="string">(parcel.aggregate((job.sector_id &gt; 9) * (job.sector_id &lt; 14), intermediates=[building])).astype(int32)</variable>
           <variable name="empret_p" type="string">(parcel.aggregate(job.sector_id==7, intermediates=[building])).astype(int32)</variable>

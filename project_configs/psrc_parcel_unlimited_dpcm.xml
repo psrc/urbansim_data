@@ -16,7 +16,7 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">DevelopmentProjectProposalSamplingModel</name>
             <argument name="proposal_set" type="string">development_project_proposal</argument>
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = development_project_proposal.disaggregate(numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8))</argument>
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = development_project_proposal.disaggregate(numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id != 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8))</argument>
           </init>
           <run type="dictionary">
             <argument name="n" type="integer">100</argument>
@@ -35,7 +35,7 @@
       <model copyable="True" name="expected_sales_unit_price_component_model" type="model">
       <structure type="dictionary">
       <prepare_for_run type="dictionary">
-      <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;3)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;6),(parcel.land_use_type_id&lt;&gt;15)))*(parcel.aggregate(building.job_capacity)&lt;500)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;250))</argument>
+      <argument name="parcel_filter_for_redevelopment" parser_action="quote_string" type="string">capacity_opportunity_non_gov=((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;3)*(parcel.aggregate(urbansim_parcel.building.is_governmental)==0)*(numpy.logical_or((safe_array_divide(psrc_parcel.parcel.max_developable_capacity, urbansim_parcel.parcel.building_sqft)&gt;6),(parcel.land_use_type_id != 15)))*(parcel.aggregate(building.job_capacity)&lt;500)*((safe_array_divide(urbansim_parcel.parcel.improvement_value,parcel.parcel_sqft))&lt;250))</argument>
       </prepare_for_run>
       </structure>
        </model>

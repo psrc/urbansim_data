@@ -403,7 +403,7 @@
          <structure type="dictionary">
           <init type="dictionary">
           <argument name="filter" parser_action="quote_string" type="string" convert_blank_to_none="True"></argument>
-         <!--  <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">(urbansim_parcel.building.large_area_id == GROUP)*0.65*urbansim_parcel.building.vacant_residential_units + (urbansim_parcel.building.large_area_id &lt;&gt; GROUP)*0.35/18.*urbansim_parcel.building.vacant_residential_units</argument>-->          
+         <!--  <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">(urbansim_parcel.building.large_area_id == GROUP)*0.65*urbansim_parcel.building.vacant_residential_units + (urbansim_parcel.building.large_area_id  !=  GROUP)*0.35/18.*urbansim_parcel.building.vacant_residential_units</argument>-->          
            <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.building.vacant_residential_units</argument>
            <argument name="simulation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.building.vacant_residential_units</argument>
           <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>

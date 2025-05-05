@@ -50,7 +50,7 @@
       <variable name="person.age13_1" source="expression" type="variable_definition" use="model variable">person.disaggregate(urbansim_parcel.household.persons_with_age_le_13&gt;0)</variable>
       <variable name="person_x_job.ln_travel_cost_home_to_work_children" source="expression" type="variable_definition" use="model variable">psrc_parcel.person_x_job.travel_cost_from_home_to_work</variable>
       <variable name="person_x_job_x_person.network_distance_from_home_to_work_fulltime" source="expression" type="variable_definition" use="model variable">psrc_parcel.person_x_job.network_distance_from_home_to_work*(person.employment_status==1)</variable>
-      <variable name="person_x_job_x_person.network_distance_from_home_to_work_parttime" source="expression" type="variable_definition" use="model variable">psrc_parcel.person_x_job.network_distance_from_home_to_work*(person.employment_status&lt;&gt;1)</variable>
+      <variable name="person_x_job_x_person.network_distance_from_home_to_work_parttime" source="expression" type="variable_definition" use="model variable">psrc_parcel.person_x_job.network_distance_from_home_to_work*(person.employment_status != 1)</variable>
       <variable name="person_x_job.network_distance_from_home_to_work_sq" source="expression" type="variable_definition" use="model variable">psrc_parcel.person_x_job.network_distance_from_home_to_work*psrc_parcel.person_x_job.network_distance_from_home_to_work</variable>
       <variable name="person_x_job.ln_am_total_transit_time_walk_from_home_to_work" source="expression" type="variable_definition" use="model variable">ln_shifted(psrc_parcel.person_x_job.am_total_transit_time_walk_from_home_to_work)</variable>
       <variable name="person_x_job.am_total_transit_time_walk_from_home_to_work" source="Python class" type="variable_definition" use="model variable">psrc_parcel.person_x_job.am_total_transit_time_walk_from_home_to_work</variable>
@@ -520,7 +520,7 @@
          <structure type="dictionary">
           <init type="dictionary">
           <argument name="filter" parser_action="quote_string" type="string" convert_blank_to_none="True"></argument>
-         <!--  <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">(urbansim_parcel.building.large_area_id == GROUP)*0.65*urbansim_parcel.building.vacant_residential_units + (urbansim_parcel.building.large_area_id &lt;&gt; GROUP)*0.35/18.*urbansim_parcel.building.vacant_residential_units</argument>-->          
+         <!--  <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">(urbansim_parcel.building.large_area_id == GROUP)*0.65*urbansim_parcel.building.vacant_residential_units + (urbansim_parcel.building.large_area_id  !=  GROUP)*0.35/18.*urbansim_parcel.building.vacant_residential_units</argument>-->          
            <argument name="estimation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.building.vacant_residential_units</argument>
            <argument name="simulation_weight_string" parser_action="quote_string" type="string" model_dependency_type="variable">urbansim_parcel.building.vacant_residential_units</argument>
           <argument name="estimation" parser_action="quote_string" type="string">opus_core.bhhh_mnl_estimation</argument>

@@ -190,7 +190,7 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
             <argument name="subarea_id_name" parser_action="quote_string" type="string">census_block_id</argument>
-            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.is_governmental * (building.building_type_id &lt;&gt; 18)</argument>
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.is_governmental * (building.building_type_id  !=  18)</argument>
             <argument model_dependency_type="variable" name="weights" parser_action="quote_string" type="string">building.non_residential_sqft / 1000.0 + 1 </argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="debuglevel" type="string">2</argument>
@@ -221,7 +221,7 @@
           <init type="dictionary">
             <name hidden="True" name="name" type="string">SubareaScalingAgentsModel</name>
             <argument name="subarea_id_name" parser_action="quote_string" type="string">census_tract_id</argument>
-            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.is_governmental * (building.building_type_id &lt;&gt; 18)</argument>
+            <argument model_dependency_type="variable" name="filter" parser_action="quote_string" type="string">urbansim_parcel.building.is_governmental * (building.building_type_id  !=  18)</argument>
             <argument model_dependency_type="variable" name="weights" parser_action="quote_string" type="string">building.non_residential_sqft / 1000.0 + 1 </argument>
             <argument hidden="True" name="dataset_pool" type="string">dataset_pool</argument>
             <argument name="debuglevel" type="string">2</argument>
