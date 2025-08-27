@@ -437,6 +437,7 @@
             <key name="lottery_max_iterations" type="integer">10</key>
             <key name="number_of_units_string" type="string">(job.home_based_status==0).astype(int32)</key>
             <key name="number_of_agents_string" type="string">job.number_of_agents(person)</key>
+            <key name="accept_unavailability_of_choices" type="boolean">True</key>
           </argument>
             <argument name="estimate_config" type="dictionary">
             <key name="estimation" type="string">opus_core.bhhh_mnl_estimation</key>
