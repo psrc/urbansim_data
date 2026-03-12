@@ -77,6 +77,13 @@
           </run>
         </structure>
       </model>
+      <model name="development_proposal_choice_model" type="model">
+        <structure type="dictionary">
+          <init type="dictionary">
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = ln_shifted(development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id &lt;&gt; 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8))))</argument>
+          </init>
+        </structure>
+      </model>	  
       <model name="cap_residential_development_model" type="model">
         <structure type="dictionary">
           <import name="import" type="dictionary">
@@ -2109,7 +2116,7 @@
       <models_in_year type="dictionary">
         <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
           <yearset type="dictionary">
-            <year type="integer">2014</year>
+            <year type="integer">2000</year>
             <models_list type="list">["increase_existing_HU_density", "increase_existing_job_capacity"]</models_list>
           </yearset>
           <yearset type="dictionary">
@@ -2381,10 +2388,10 @@
       </models_to_run>
       <models_in_year type="dictionary">
         <models_in_year_category key_name="year" key_value="models_list" type="category_with_special_keys">
-          <yearset type="dictionary">
+          <!-- <yearset type="dictionary">
             <year type="integer">2014</year>
             <models_list type="list">["increase_existing_HU_density", "increase_existing_job_capacity"]</models_list>
-          </yearset>
+          </yearset> -->
           <!-- <yearset type="dictionary">
             <year type="integer">2000</year>
             <models_list type="list">["real_estate_price_model", "expected_sales_unit_price_component_model_relaxed_redevelopment", "postprocess_expected_sales_unit_price_component_model", "delete_city_from_households", "delete_city_from_jobs", "assign_city_to_households", "assign_city_to_jobs", "household_transition_model_by_subarea", "set_inmigrants_model", "employment_transition_model_by_subarea", "job_person_consistency_keeper", "development_proposal_choice_model_luv_years", "building_construction_model", "increase_HU_density", "increase_job_capacity", "modify_workers_jobs_after_moving_households", "modify_workers_jobs_after_moving_jobs", "household_relocation_model_by_subarea", "household_location_choice_model_by_subarea", "employment_relocation_model_by_subarea", {"employment_location_choice_model_by_subarea": {"group_members":"non_home_based"}}, "governmental_employment_location_choice_model_by_subarea", "scaling_unplaced_jobs", "scaling_unplaced_households", "work_at_home_choice_model_by_subarea", "workplace_choice_model_for_resident", "scaling_unplaced_home_based_jobs", "delete_city_from_households", "delete_city_from_jobs"]</models_list>
@@ -2429,8 +2436,8 @@
       </models_in_year>
       <base_year type="integer">2014</base_year>
       <years_to_run config_name="years" type="tuple">
-        <firstyear type="integer">2014</firstyear>
-        <lastyear type="integer">2050</lastyear>
+        <firstyear type="integer">2015</firstyear>
+        <lastyear type="integer">2023</lastyear>
       </years_to_run>
       <seed convert_blank_to_none="True" type="integer">1</seed>
       <flush_variables type="boolean">True</flush_variables>
