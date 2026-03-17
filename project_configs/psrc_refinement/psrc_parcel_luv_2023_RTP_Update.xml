@@ -80,7 +80,7 @@
       <model name="development_proposal_choice_model" type="model">
         <structure type="dictionary">
           <init type="dictionary">
-            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = ln_shifted(development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id != 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8))))</argument>
+            <argument model_dependency_type="variable" name="weight_string" parser_action="quote_string" type="string">pricepsft = sqrt(development_project_proposal.disaggregate((numpy.clip(safe_array_divide(parcel.land_value, parcel.parcel_sqft)*(1.0*(parcel.land_use_type_id != 26) + 3.44*(parcel.land_use_type_id == 26)), 0, 1e8))))</argument>
           </init>
         </structure>
       </model>	  
