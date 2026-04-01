@@ -605,7 +605,8 @@
       <description type="string">2014 - 2023 backcast simulation with county-level control totals</description>
       <models_to_run config_name="models" type="selectable_list">
         <selectable name="real_estate_price_model" type="model_choice">True</selectable>
-		<selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+	<selectable name="expected_sales_unit_price_component_model" type="model_choice">True</selectable>
+	<selectable name="postprocess_expected_sales_unit_price_component_model" type="model_choice">True</selectable>
 		<selectable name="delete_subreg_from_households" type="model_choice">True</selectable>
         <selectable name="delete_subreg_from_jobs" type="model_choice">True</selectable>
         <selectable name="assign_subreg_to_households" type="model_choice">True</selectable>
