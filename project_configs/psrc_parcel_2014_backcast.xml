@@ -189,7 +189,7 @@
             <argument name="sync_dataset" type="string">person</argument>
             <argument name="reset_sync_dataset_attribute_value" type="string">{'job_id':-1}</argument>
             <argument model_dependency_type="variable" name="sampling_threshold" parser_action="quote_string" type="string">safe_array_divide(control_total.number_of_agents(household), control_total.total_number_of_households) &gt; 0.3</argument>
-            <argument name="sampling_hierarchy" type="string">['subreg_id']</argument>
+            <argument name="sampling_hierarchy" type="string">['subreg_id', 'region_id']</argument>
           </run>
         </structure>
       </model>
@@ -216,7 +216,7 @@
             <argument name="target_attribute_name" parser_action="quote_string" type="string">total_number_of_jobs</argument>
             <argument name="reset_dataset_attribute_value" type="string">{'building_id':-1}</argument>
             <argument model_dependency_type="variable" name="sampling_threshold" parser_action="quote_string" type="string">safe_array_divide(control_total.number_of_agents(job), control_total.total_number_of_jobs) &gt; 0.3</argument>
-            <argument name="sampling_hierarchy" type="string">['subreg_id']</argument>
+            <argument name="sampling_hierarchy" type="string">['subreg_id', 'region_id']</argument>
           </run>
         </structure>
       </model>
