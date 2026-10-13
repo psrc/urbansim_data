@@ -103,6 +103,7 @@
             <argument model_dependency_type="variable" name="target_attribute_name" parser_action="quote_string" type="string">psrc_parcel.parcel.residential_units</argument>
             <argument model_dependency_type="variable" name="ct_attribute_name" parser_action="quote_string" type="string">demand=1.01 * control_total.total_number_of_households</argument>
             <argument name="geo_id_name" parser_action="quote_string" type="string">subreg_id</argument>
+            <argument name="ct_geo_id_name" parser_action="quote_string" type="string">subreg_id</argument>
             <argument name="cap_attribute_name" parser_action="quote_string" type="string">residential_target_achieved</argument>
             <argument name="compare_absolute_numbers" parser_action="quote_string" type="boolean">True</argument>
             <!-- <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
@@ -136,6 +137,7 @@
             <argument model_dependency_type="variable" name="target_attribute_name" parser_action="quote_string" type="string">psrc_parcel.parcel.job_capacity</argument>
             <argument model_dependency_type="variable" name="ct_attribute_name" parser_action="quote_string" type="string">demand=1.50 * control_total.total_number_of_jobs</argument>
             <argument name="geo_id_name" parser_action="quote_string" type="string">subreg_id</argument>
+            <argument name="ct_geo_id_name" parser_action="quote_string" type="string">subreg_id</argument>
             <argument name="cap_attribute_name" parser_action="quote_string" type="string">nonresidential_target_achieved</argument>
             <argument name="compare_absolute_numbers" parser_action="quote_string" type="boolean">True</argument>
             <!-- <argument name="annual" parser_action="quote_string" type="boolean">True</argument>
